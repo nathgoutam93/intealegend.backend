@@ -1,0 +1,167 @@
+datasource db {
+    provider = "postgresql" // or your chosen provider
+    url      = env("DATABASE_URL")
+}
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+enum UserRole {
+    SELLER
+    BUYER
+    ADMIN
+    STAFF
+}
+
+model User {
+    id               Int      @id @default(autoincrement())
+    email            String   @unique
+    password         String
+    role             UserRole
+    verified         Boolean  @default(false)
+    // Unique identifier for sellers and buyers, generated at verification time
+    uniqueIdentifier String?  @unique
+
+    // Optional one-to-one relations to role-specific profiles
+    adminProfile  AdminProfile?
+    staffProfile  StaffProfile?
+    sellerProfile SellerProfile?
+    buyerProfile  BuyerProfile?
+
+    // Sessions for admin/staff (session-based authentication)
+    sessions Session[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model Session {
+    id           String   @id @default(cuid())
+    sessionToken String   @unique
+    userId       Int
+    user         User     @relation(fields: [userId], references: [id])
+    expires      DateTime
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+// Profile for Admins – extend with any additional admin-specific fields
+model AdminProfile {
+    id       Int    @id @default(autoincrement())
+    fullName String
+
+    // One-to-one relation to User; unique ensures one profile per user
+    user   User @relation(fields: [userId], references: [id])
+    userId Int  @unique
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+// Profile for Staff – extend with staff-specific fields and permissions as JSON for ABAC
+model StaffProfile {
+    id          Int    @id @default(autoincrement())
+    fullName    String
+    permissions Json? // Detailed permissions stored as JSON
+
+    // One-to-one relation to User
+    user   User @relation(fields: [userId], references: [id])
+    userId Int  @unique
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+// Profile for Sellers – contains business registration details
+model SellerProfile {
+    id Int @id @default(autoincrement())
+
+    // Step 1: Business Info
+    businessName String
+    businessType String
+    ownerName    String
+
+    // Step 2: Address Info
+    address  String
+    state    String
+    district String
+    pincode  String
+
+    // Step 3: Contact Info
+    phone                       String
+    email                       String
+    secondaryContactName        String?
+    secondaryContactDesignation String?
+    secondaryContactNumber      String?
+
+    // Step 4: Business Documents
+    panNumber      String
+    panCard        String? // File path or URL
+    gstNumber      String
+    gstCertificate String? // File path or URL
+    tmcoNumber     String?
+    fssaiNumber    String?
+    fssaiLicense   String? // File path or URL
+
+    // Step 5: Banking Info
+    bankAccountNumber String
+    bankIfscCode      String
+    cancelledCheque   String? // File path or URL
+
+    // Step 6: Brand & Logistics
+    transportName    String?
+    brandName        String?
+    brandLogo        String? // File path or URL
+    brandCertificate String? // File path or URL
+
+    // One-to-one relation to User
+    user   User @relation(fields: [userId], references: [id])
+    userId Int  @unique
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+// Profile for Buyers – B2B buyer profile with business details
+model BuyerProfile {
+    id Int @id @default(autoincrement())
+
+    // Step 1: Business Info
+    businessName String
+    businessType String
+    ownerName    String
+
+    // Step 2: Address Info
+    address  String
+    state    String
+    district String
+    pincode  String
+
+    // Step 3: Contact Info
+    phone                       String
+    email                       String
+    secondaryContactName        String?
+    secondaryContactDesignation String?
+    secondaryContactNumber      String?
+
+    // Step 4: Business Documents
+    panNumber      String
+    panCard        String? // File path or URL
+    gstNumber      String
+    gstCertificate String? // File path or URL
+    fssaiNumber    String?
+    fssaiLicense   String? // File path or URL
+
+    // Step 5: Banking Info
+    bankAccountNumber String
+    bankIfscCode      String
+
+    // One-to-one relation to User
+    user   User @relation(fields: [userId], references: [id])
+    userId Int  @unique
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
