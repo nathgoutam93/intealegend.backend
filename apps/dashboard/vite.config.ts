@@ -7,6 +7,7 @@ import commonjs from "vite-plugin-commonjs";
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: "./",
   plugins: [
     TanStackRouterVite({ target: "react", autoCodeSplitting: true }),
     react(),
