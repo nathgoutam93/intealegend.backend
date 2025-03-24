@@ -3,12 +3,14 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { PRISMA_TOKEN } from 'src/database/constants';
 import { PrismaClient, UserRole } from '@intealegend/database';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
   constructor(
     @Inject(PRISMA_TOKEN) private db: PrismaClient,
     private jwtService: JwtService,
+    private configService: ConfigService,
   ) {}
 
   async validateUser(identifier: string, password: string) {
@@ -65,7 +67,7 @@ export class AuthService {
 
     return {
       accessToken: this.jwtService.sign(payload, {
-        secret: process.env.JWT_SECRET,
+        secret: this.configService.get<string>('JWT_SECRET'),
       }),
       user,
     };
@@ -117,7 +119,7 @@ export class AuthService {
 
     return {
       accessToken: this.jwtService.sign(payload, {
-        secret: process.env.JWT_SECRET,
+        secret: this.configService.get<string>('JWT_SECRET'),
         expiresIn: '1d',
       }),
     };
