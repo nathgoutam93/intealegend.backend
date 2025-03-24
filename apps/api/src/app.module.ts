@@ -15,7 +15,7 @@ import { MailService } from './mail/mail.service';
 @Module({
   imports: [
     ServeStaticModule.forRoot({
-      renderPath: '/app',
+      serveRoot: '/app',
       rootPath: join(__dirname, '..', '..', 'dashboard', 'dist'),
     }),
     DatabaseModule,
