@@ -17,9 +17,9 @@ import { ProfilesModule } from './profiles/profiles.module';
       serveRoot: '/app',
       rootPath: join(__dirname, '..', '..', 'dashboard', 'dist'),
     }),
-    DatabaseModule,
     ConfigModule.forRoot({
       isGlobal: true,
+      envFilePath: join(__dirname, '..', '.env'),
     }),
     DatabaseModule,
     AuthModule,
