@@ -25,12 +25,12 @@ type media = { type: "image" | "video"; url: string; alt: string };
 const heroMedia: media[] = [
   {
     type: "video",
-    url: "/assets/videos/slider-1.mp4",
+    url: "https://videos.pexels.com/video-files/30762625/13158951_1920_1080_60fps.mp4",
     alt: "tea garden ",
   },
   {
     type: "video",
-    url: "/assets/videos/slider-2.webm",
+    url: "https://videos.pexels.com/video-files/1324942/1324942-uhd_2560_1440_24fps.mp4",
     alt: "Tea plantation landscape",
   },
 ];
@@ -198,7 +198,7 @@ export default function Home() {
 
       <main className="min-h-screen pt-16">
         {/* Hero Section */}
-        <section className="relative min-h-[90vh] bg-white overflow-hidden">
+        <section className="relative h-[100vh] md:min-h-[90vh] bg-white overflow-hidden">
           {/* Background Carousel */}
           {mounted && (
             <div className="absolute inset-0 z-0">
@@ -206,7 +206,7 @@ export default function Home() {
                 modules={[Autoplay, EffectFade]}
                 effect="fade"
                 autoplay={{
-                  delay: 3000,
+                  delay: 6000,
                   disableOnInteraction: false,
                 }}
                 speed={1000}
@@ -248,7 +248,7 @@ export default function Home() {
                 buyers. Experience secure bulk trading with quality assurance
                 and logistics support.
               </p>
-              <div className="flex justify-center gap-4">
+              <div className="mx-auto w-max grid grid-cols-1 md:grid-cols-2 gap-8">
                 <Link href={"/sell-online"}>
                   <button className="bg-green-700 text-white px-8 py-3 rounded-lg font-semibold flex items-center gap-2 hover:bg-green-800 transition shadow-lg shadow-green-700/10">
                     Start Selling <ArrowRight className="w-5 h-5" />
@@ -256,7 +256,7 @@ export default function Home() {
                 </Link>
                 <Link href={"/account/login"}>
                   <button className="bg-white/10 backdrop-blur-md text-white border-2 border-white/20 px-8 py-3 rounded-lg font-semibold flex items-center gap-2 hover:bg-white/20 transition shadow-lg shadow-black/5">
-                    Browse Teas
+                    Start Buying <ArrowRight className="w-5 h-5" />
                   </button>
                 </Link>
               </div>
@@ -264,10 +264,10 @@ export default function Home() {
           </div>
 
           {/* Stats */}
-          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 z-20">
+          <div className="invisible relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 z-20">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
               <div className="bg-white/10 backdrop-blur-md p-8 rounded-xl shadow-lg border border-white/20">
-                <p className="text-4xl font-bold text-white">1,000+</p>
+                <p className="text-4xl font-bold text-white">200+</p>
                 <p className="text-gray-200">Tea Manufacturers & Exporters</p>
               </div>
               <div className="bg-white/10 backdrop-blur-md p-8 rounded-xl shadow-lg border border-white/20">

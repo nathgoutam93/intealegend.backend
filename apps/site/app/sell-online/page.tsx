@@ -34,9 +34,10 @@ export default function SellOnline() {
             </div>
 
             {/* Two Column Layout */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+            <div className="grid grid-cols-1 gap-12 place-items-center  items-start">
               {/* Left Column - Stats */}
-              <div className="grid grid-cols-2 gap-8">
+              {/* <div className="hidden grid grid-cols-2 gap-8"> */}
+              <div className="hidden">
                 <div className="bg-white/10 backdrop-blur-md p-8 rounded-xl text-center">
                   <Users className="w-8 h-8 text-white mx-auto mb-4" />
                   <p className="text-3xl font-bold text-white">10,000+</p>
@@ -60,6 +61,7 @@ export default function SellOnline() {
               </div>
 
               {/* Right Column - Registration Form */}
+
               <SellerRegistrationForm />
             </div>
           </div>

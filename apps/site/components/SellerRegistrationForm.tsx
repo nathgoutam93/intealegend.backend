@@ -164,7 +164,7 @@ export default function SellerRegistrationForm() {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-xl p-8">
+    <div className="bg-white rounded-xl shadow-xl w-full max-w-2xl p-8">
       {/* Progress Indicators */}
       <div className="flex justify-between mb-8">
         {REGISTRATION_STEPS.map((s) => (
