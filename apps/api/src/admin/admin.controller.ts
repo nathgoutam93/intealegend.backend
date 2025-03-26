@@ -52,7 +52,7 @@ export class AdminController {
         };
       },
       verifyRegistration: async ({ body }) => {
-        const res = await this.adminService.verifyRegistration(body.userIds);
+        const res = await this.adminService.verifyRegistrations(body.userIds);
 
         return {
           status: 200,

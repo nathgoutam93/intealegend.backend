@@ -1,10 +1,15 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaClient } from '@intealegend/database';
 import { PRISMA_TOKEN } from 'src/database/constants';
+import { generateUniqueIdentifier } from 'src/utils/identifier';
+import { MailService } from 'src/mail/mail.service';
 
 @Injectable()
 export class AdminService {
-  constructor(@Inject(PRISMA_TOKEN) private db: PrismaClient) {}
+  constructor(
+    @Inject(PRISMA_TOKEN) private db: PrismaClient,
+    private mailService: MailService,
+  ) {}
 
   async getProfile(userId: string) {
     const profile = await this.db.adminProfile.findUnique({
@@ -242,15 +247,35 @@ export class AdminService {
     };
   }
 
-  async verifyRegistration(userIds: number[]) {
-    const result = await this.db.user.updateMany({
-      where: { id: { in: userIds } },
-      data: { verified: true },
-    });
+  async verifyRegistrations(userIds: number[]) {
+    const verifiedUsers = await Promise.all(
+      userIds.map(async (userId) => {
+        const uniqueIdentifier = await generateUniqueIdentifier();
+
+        const user = await this.db.user.update({
+          where: { id: userId },
+          data: {
+            verified: true,
+            uniqueIdentifier,
+          },
+          include: {
+            sellerProfile: true,
+            buyerProfile: true,
+          },
+        });
+
+        // Fire and forget email sending
+        this.mailService
+          .sendVerificationComplete(user.email, uniqueIdentifier)
+          .catch((e) => console.error('Error sending verification email:', e));
+
+        return user;
+      }),
+    );
 
     return {
       message: 'Users verified successfully',
-      verifiedUsers: result.count,
+      verifiedUsers: verifiedUsers.length,
     };
   }
 }

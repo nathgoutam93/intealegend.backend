@@ -1,15 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { PRISMA_TOKEN } from '../database/constants';
 import { PrismaClient, User, Prisma, UserRole } from '@intealegend/database';
-import { generateUniqueIdentifier } from '../utils/identifier';
-import { MailService } from '../mail/mail.service';
 
 @Injectable()
 export class UsersService {
-  constructor(
-    @Inject(PRISMA_TOKEN) private db: PrismaClient,
-    private mailService: MailService,
-  ) {}
+  constructor(@Inject(PRISMA_TOKEN) private db: PrismaClient) {}
 
   async findAll(params?: {
     limit?: number;
@@ -146,103 +141,5 @@ export class UsersService {
     });
 
     return true;
-  }
-
-  async getPendingRegistrations() {
-    return this.db.user
-      .findMany({
-        where: {
-          verified: false,
-          OR: [{ role: 'SELLER' }, { role: 'BUYER' }],
-        },
-        select: {
-          id: true,
-          email: true,
-          role: true,
-          verified: true,
-          createdAt: true,
-          sellerProfile: {
-            select: {
-              businessName: true,
-              businessType: true,
-              address: true,
-              state: true,
-              pincode: true,
-              phone: true,
-              gstNumber: true,
-              panNumber: true,
-              tmcoNumber: true,
-              cancelledCheque: true,
-              transportName: true,
-              brandName: true,
-              brandLogo: true,
-              brandCertificate: true,
-              bankAccountNumber: true,
-              bankIfscCode: true,
-            },
-          },
-          buyerProfile: {
-            select: {
-              businessName: true,
-              businessType: true,
-              address: true,
-              state: true,
-              pincode: true,
-              phone: true,
-              gstNumber: true,
-              panNumber: true,
-              bankAccountNumber: true,
-              bankIfscCode: true,
-            },
-          },
-        },
-        orderBy: {
-          createdAt: 'desc',
-        },
-      })
-      .then((users) =>
-        users.map((user) => ({
-          ...user,
-          profile:
-            user.role === 'SELLER'
-              ? { role: 'SELLER', ...user.sellerProfile }
-              : { role: 'BUYER', ...user.buyerProfile },
-          sellerProfile: undefined,
-          buyerProfile: undefined,
-          createdAt: user.createdAt.toISOString(),
-        })),
-      );
-  }
-
-  async verifyRegistrations(userIds: number[]) {
-    const verifiedUsers = await Promise.all(
-      userIds.map(async (userId) => {
-        const uniqueIdentifier = await generateUniqueIdentifier();
-
-        const user = await this.db.user.update({
-          where: { id: userId },
-          data: {
-            verified: true,
-            uniqueIdentifier,
-          },
-          include: {
-            sellerProfile: true,
-            buyerProfile: true,
-          },
-        });
-
-        // Fire and forget email sending
-        this.mailService
-          .sendVerificationComplete(user.email, uniqueIdentifier)
-          .catch((e) => console.error('Error sending verification email:', e));
-
-        return user;
-      }),
-    );
-
-    return {
-      message: 'Users verified successfully',
-      verifiedUsers: verifiedUsers.length,
-    };
   }
 }

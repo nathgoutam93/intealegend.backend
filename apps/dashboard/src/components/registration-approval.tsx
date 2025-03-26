@@ -36,7 +36,12 @@ export function RegistrationApprovalView() {
       toast.success("Users verified successfully");
       setSelectedUsers([]);
 
-      queryClient.invalidateQueries({ queryKey: ["pending-registrations"] });
+      queryClient.invalidateQueries({
+        queryKey: ["pending-registrations-buyers"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["pending-registrations-sellers"],
+      });
     },
     onError: (error) => {
       toast.error("Failed to verify users", {
