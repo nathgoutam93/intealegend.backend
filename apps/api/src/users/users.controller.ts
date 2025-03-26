@@ -130,33 +130,6 @@ export class UsersController {
           body: null,
         };
       },
-
-      //@ts-ignore
-      getPendingRegistrations: async () => {
-        try {
-          const users = await this.usersService.getPendingRegistrations();
-          return {
-            status: 200,
-            body: users,
-          };
-        } catch (error) {
-          return {
-            status: 500,
-            body: {
-              message: 'Failed to fetch pending registrations',
-              code: 'INTERNAL_SERVER_ERROR',
-              timestamp: new Date().toISOString(),
-            },
-          };
-        }
-      },
-
-      verifyRegistration: async ({ body }) => {
-        const result = await this.usersService.verifyRegistrations(
-          body.userIds,
-        );
-        return { status: 200, body: result };
-      },
     });
   }
 }

@@ -21,17 +21,18 @@ export const Route = createFileRoute("/dashboard")({
   },
   component: () => {
     const navigate = useNavigate();
-    const { data } = client.users.getPendingRegistrations.useQuery([
-      "pending-registrations",
-    ]);
-
-    const pendingCount = data?.body?.length || 0;
+    const { data, isLoading } = client.admin.stats.useQuery(["dash-stats"]);
+    console.log(data);
 
     const handleLogout = () => {
       localStorage.removeItem("accessToken");
       localStorage.removeItem("user");
       navigate({ to: "/login" });
     };
+
+    if (isLoading) return <div>loading...</div>;
+
+    if (!data || data.status !== 200) return <div>something went wrong</div>;
 
     return (
       <div className="p-8">
@@ -48,7 +49,39 @@ export const Route = createFileRoute("/dashboard")({
           </Button>
         </div>
 
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-3">
+          <Link to="/buyers" className="block">
+            <Card className="hover:bg-muted/50 transition-colors">
+              <CardContent className="flex items-center gap-4 p-6">
+                <div className="p-4 bg-primary/10 rounded-full">
+                  <Users className="w-8 h-8 text-primary" />
+                </div>
+                <div>
+                  <h2 className="text-2xl font-bold">
+                    {data.body.totalBuyers}
+                  </h2>
+                  <p className="text-muted-foreground">Total Verified Buyers</p>
+                </div>
+              </CardContent>
+            </Card>
+          </Link>
+          <Link to="/sellers" className="block">
+            <Card className="hover:bg-muted/50 transition-colors">
+              <CardContent className="flex items-center gap-4 p-6">
+                <div className="p-4 bg-primary/10 rounded-full">
+                  <Users className="w-8 h-8 text-primary" />
+                </div>
+                <div>
+                  <h2 className="text-2xl font-bold">
+                    {data.body.totalSellers}
+                  </h2>
+                  <p className="text-muted-foreground">
+                    Total Verified Sellers
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          </Link>
           <Link to="/registrations" className="block">
             <Card className="hover:bg-muted/50 transition-colors">
               <CardContent className="flex items-center gap-4 p-6">
@@ -56,7 +89,9 @@ export const Route = createFileRoute("/dashboard")({
                   <Users className="w-8 h-8 text-primary" />
                 </div>
                 <div>
-                  <h2 className="text-2xl font-bold">{pendingCount}</h2>
+                  <h2 className="text-2xl font-bold">
+                    {data.body.totalPendingVerifications}
+                  </h2>
                   <p className="text-muted-foreground">Pending Registrations</p>
                 </div>
               </CardContent>

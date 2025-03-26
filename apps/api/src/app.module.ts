@@ -10,6 +10,7 @@ import { DatabaseModule } from './database/database.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { ProfilesModule } from './profiles/profiles.module';
+import { AdminModule } from './admin/admin.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { ProfilesModule } from './profiles/profiles.module';
     }),
     DatabaseModule,
     AuthModule,
+    AdminModule,
     UsersModule,
     ProfilesModule,
   ],

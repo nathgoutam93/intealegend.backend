@@ -1,285 +1,500 @@
+import { UserSchema, PendingUserSchema, SellerProfileSchema, BuyerProfileSchema } from "./schemas";
 import z from "zod";
-declare const UserSchema: z.ZodObject<{
-    id: z.ZodNumber;
-    email: z.ZodString;
-    role: z.ZodEnum<["SELLER", "BUYER", "ADMIN", "STAFF"]>;
-    verified: z.ZodBoolean;
-    uniqueIdentifier: z.ZodNullable<z.ZodString>;
-    createdAt: z.ZodDate;
-    updatedAt: z.ZodDate;
-}, "strip", z.ZodTypeAny, {
-    id: number;
-    email: string;
-    role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
-    verified: boolean;
-    uniqueIdentifier: string | null;
-    createdAt: Date;
-    updatedAt: Date;
-}, {
-    id: number;
-    email: string;
-    role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
-    verified: boolean;
-    uniqueIdentifier: string | null;
-    createdAt: Date;
-    updatedAt: Date;
-}>;
-declare const StaffPermissionsSchema: z.ZodObject<{
-    users: z.ZodObject<{
-        read: z.ZodBoolean;
-        write: z.ZodBoolean;
-        delete: z.ZodBoolean;
-    }, "strip", z.ZodTypeAny, {
-        read: boolean;
-        write: boolean;
-        delete: boolean;
-    }, {
-        read: boolean;
-        write: boolean;
-        delete: boolean;
-    }>;
-    sellers: z.ZodObject<{
-        read: z.ZodBoolean;
-        write: z.ZodBoolean;
-        verify: z.ZodBoolean;
-    }, "strip", z.ZodTypeAny, {
-        read: boolean;
-        write: boolean;
-        verify: boolean;
-    }, {
-        read: boolean;
-        write: boolean;
-        verify: boolean;
-    }>;
-    buyers: z.ZodObject<{
-        read: z.ZodBoolean;
-        write: z.ZodBoolean;
-        verify: z.ZodBoolean;
-    }, "strip", z.ZodTypeAny, {
-        read: boolean;
-        write: boolean;
-        verify: boolean;
-    }, {
-        read: boolean;
-        write: boolean;
-        verify: boolean;
-    }>;
-    staff: z.ZodObject<{
-        read: z.ZodBoolean;
-        write: z.ZodBoolean;
-        delete: z.ZodBoolean;
-    }, "strip", z.ZodTypeAny, {
-        read: boolean;
-        write: boolean;
-        delete: boolean;
-    }, {
-        read: boolean;
-        write: boolean;
-        delete: boolean;
-    }>;
-}, "strip", z.ZodTypeAny, {
-    users: {
-        read: boolean;
-        write: boolean;
-        delete: boolean;
-    };
-    sellers: {
-        read: boolean;
-        write: boolean;
-        verify: boolean;
-    };
-    buyers: {
-        read: boolean;
-        write: boolean;
-        verify: boolean;
-    };
-    staff: {
-        read: boolean;
-        write: boolean;
-        delete: boolean;
-    };
-}, {
-    users: {
-        read: boolean;
-        write: boolean;
-        delete: boolean;
-    };
-    sellers: {
-        read: boolean;
-        write: boolean;
-        verify: boolean;
-    };
-    buyers: {
-        read: boolean;
-        write: boolean;
-        verify: boolean;
-    };
-    staff: {
-        read: boolean;
-        write: boolean;
-        delete: boolean;
-    };
-}>;
-declare const StaffProfileSchema: z.ZodObject<{
-    id: z.ZodNumber;
-    fullName: z.ZodString;
-    permissions: z.ZodObject<{
-        users: z.ZodObject<{
-            read: z.ZodBoolean;
-            write: z.ZodBoolean;
-            delete: z.ZodBoolean;
-        }, "strip", z.ZodTypeAny, {
-            read: boolean;
-            write: boolean;
-            delete: boolean;
-        }, {
-            read: boolean;
-            write: boolean;
-            delete: boolean;
-        }>;
-        sellers: z.ZodObject<{
-            read: z.ZodBoolean;
-            write: z.ZodBoolean;
-            verify: z.ZodBoolean;
-        }, "strip", z.ZodTypeAny, {
-            read: boolean;
-            write: boolean;
-            verify: boolean;
-        }, {
-            read: boolean;
-            write: boolean;
-            verify: boolean;
-        }>;
-        buyers: z.ZodObject<{
-            read: z.ZodBoolean;
-            write: z.ZodBoolean;
-            verify: z.ZodBoolean;
-        }, "strip", z.ZodTypeAny, {
-            read: boolean;
-            write: boolean;
-            verify: boolean;
-        }, {
-            read: boolean;
-            write: boolean;
-            verify: boolean;
-        }>;
-        staff: z.ZodObject<{
-            read: z.ZodBoolean;
-            write: z.ZodBoolean;
-            delete: z.ZodBoolean;
-        }, "strip", z.ZodTypeAny, {
-            read: boolean;
-            write: boolean;
-            delete: boolean;
-        }, {
-            read: boolean;
-            write: boolean;
-            delete: boolean;
-        }>;
-    }, "strip", z.ZodTypeAny, {
-        users: {
-            read: boolean;
-            write: boolean;
-            delete: boolean;
-        };
-        sellers: {
-            read: boolean;
-            write: boolean;
-            verify: boolean;
-        };
-        buyers: {
-            read: boolean;
-            write: boolean;
-            verify: boolean;
-        };
-        staff: {
-            read: boolean;
-            write: boolean;
-            delete: boolean;
-        };
-    }, {
-        users: {
-            read: boolean;
-            write: boolean;
-            delete: boolean;
-        };
-        sellers: {
-            read: boolean;
-            write: boolean;
-            verify: boolean;
-        };
-        buyers: {
-            read: boolean;
-            write: boolean;
-            verify: boolean;
-        };
-        staff: {
-            read: boolean;
-            write: boolean;
-            delete: boolean;
-        };
-    }>;
-    userId: z.ZodNumber;
-    createdAt: z.ZodDate;
-    updatedAt: z.ZodDate;
-}, "strip", z.ZodTypeAny, {
-    id: number;
-    createdAt: Date;
-    updatedAt: Date;
-    fullName: string;
-    userId: number;
-    permissions: {
-        users: {
-            read: boolean;
-            write: boolean;
-            delete: boolean;
-        };
-        sellers: {
-            read: boolean;
-            write: boolean;
-            verify: boolean;
-        };
-        buyers: {
-            read: boolean;
-            write: boolean;
-            verify: boolean;
-        };
-        staff: {
-            read: boolean;
-            write: boolean;
-            delete: boolean;
-        };
-    };
-}, {
-    id: number;
-    createdAt: Date;
-    updatedAt: Date;
-    fullName: string;
-    userId: number;
-    permissions: {
-        users: {
-            read: boolean;
-            write: boolean;
-            delete: boolean;
-        };
-        sellers: {
-            read: boolean;
-            write: boolean;
-            verify: boolean;
-        };
-        buyers: {
-            read: boolean;
-            write: boolean;
-            verify: boolean;
-        };
-        staff: {
-            read: boolean;
-            write: boolean;
-            delete: boolean;
-        };
-    };
-}>;
 export declare const contract: {
+    auth: {
+        login: {
+            method: "POST";
+            body: z.ZodObject<{
+                identifier: z.ZodString;
+                password: z.ZodString;
+            }, "strip", z.ZodTypeAny, {
+                password: string;
+                identifier: string;
+            }, {
+                password: string;
+                identifier: string;
+            }>;
+            path: "/api/auth/login";
+            responses: {
+                200: z.ZodObject<{
+                    accessToken: z.ZodString;
+                    user: z.ZodObject<{
+                        id: z.ZodNumber;
+                        email: z.ZodString;
+                        role: z.ZodEnum<["SELLER", "BUYER", "ADMIN", "STAFF"]>;
+                        verified: z.ZodBoolean;
+                        uniqueIdentifier: z.ZodNullable<z.ZodString>;
+                        createdAt: z.ZodDate;
+                        updatedAt: z.ZodDate;
+                    }, "strip", z.ZodTypeAny, {
+                        email: string;
+                        id: number;
+                        createdAt: Date;
+                        updatedAt: Date;
+                        role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                        verified: boolean;
+                        uniqueIdentifier: string | null;
+                    }, {
+                        email: string;
+                        id: number;
+                        createdAt: Date;
+                        updatedAt: Date;
+                        role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                        verified: boolean;
+                        uniqueIdentifier: string | null;
+                    }>;
+                }, "strip", z.ZodTypeAny, {
+                    accessToken: string;
+                    user: {
+                        email: string;
+                        id: number;
+                        createdAt: Date;
+                        updatedAt: Date;
+                        role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                        verified: boolean;
+                        uniqueIdentifier: string | null;
+                    };
+                }, {
+                    accessToken: string;
+                    user: {
+                        email: string;
+                        id: number;
+                        createdAt: Date;
+                        updatedAt: Date;
+                        role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                        verified: boolean;
+                        uniqueIdentifier: string | null;
+                    };
+                }>;
+                400: z.ZodObject<{
+                    message: z.ZodString;
+                    code: z.ZodString;
+                    timestamp: z.ZodString;
+                }, "strip", z.ZodTypeAny, {
+                    code: string;
+                    message: string;
+                    timestamp: string;
+                }, {
+                    code: string;
+                    message: string;
+                    timestamp: string;
+                }>;
+                401: z.ZodObject<{
+                    message: z.ZodString;
+                    code: z.ZodString;
+                    timestamp: z.ZodString;
+                }, "strip", z.ZodTypeAny, {
+                    code: string;
+                    message: string;
+                    timestamp: string;
+                }, {
+                    code: string;
+                    message: string;
+                    timestamp: string;
+                }>;
+            };
+        };
+        register: {
+            method: "POST";
+            body: z.ZodObject<{
+                email: z.ZodString;
+                password: z.ZodString;
+                role: z.ZodEnum<["SELLER", "BUYER"]>;
+                profile: z.ZodUnion<[z.ZodObject<Omit<{
+                    tmcoNumber: z.ZodNullable<z.ZodString>;
+                    cancelledCheque: z.ZodNullable<z.ZodString>;
+                    transportName: z.ZodNullable<z.ZodString>;
+                    brandName: z.ZodNullable<z.ZodString>;
+                    brandLogo: z.ZodNullable<z.ZodString>;
+                    brandCertificate: z.ZodNullable<z.ZodString>;
+                    userId: z.ZodNumber;
+                    createdAt: z.ZodDate;
+                    updatedAt: z.ZodDate;
+                    bankAccountNumber: z.ZodString;
+                    bankIfscCode: z.ZodString;
+                    panNumber: z.ZodString;
+                    panCard: z.ZodNullable<z.ZodString>;
+                    gstNumber: z.ZodString;
+                    gstCertificate: z.ZodNullable<z.ZodString>;
+                    fssaiNumber: z.ZodNullable<z.ZodString>;
+                    fssaiLicense: z.ZodNullable<z.ZodString>;
+                    phone: z.ZodString;
+                    email: z.ZodString;
+                    secondaryContactName: z.ZodNullable<z.ZodString>;
+                    secondaryContactDesignation: z.ZodNullable<z.ZodString>;
+                    secondaryContactNumber: z.ZodNullable<z.ZodString>;
+                    address: z.ZodString;
+                    state: z.ZodString;
+                    district: z.ZodString;
+                    pincode: z.ZodString;
+                    businessName: z.ZodString;
+                    businessType: z.ZodString;
+                    ownerName: z.ZodString;
+                    id: z.ZodNumber;
+                }, "id" | "userId" | "createdAt" | "updatedAt">, "strip", z.ZodTypeAny, {
+                    businessName: string;
+                    businessType: string;
+                    ownerName: string;
+                    address: string;
+                    state: string;
+                    district: string;
+                    pincode: string;
+                    phone: string;
+                    email: string;
+                    secondaryContactName: string | null;
+                    secondaryContactDesignation: string | null;
+                    secondaryContactNumber: string | null;
+                    panNumber: string;
+                    panCard: string | null;
+                    gstNumber: string;
+                    gstCertificate: string | null;
+                    fssaiNumber: string | null;
+                    fssaiLicense: string | null;
+                    bankAccountNumber: string;
+                    bankIfscCode: string;
+                    tmcoNumber: string | null;
+                    cancelledCheque: string | null;
+                    transportName: string | null;
+                    brandName: string | null;
+                    brandLogo: string | null;
+                    brandCertificate: string | null;
+                }, {
+                    businessName: string;
+                    businessType: string;
+                    ownerName: string;
+                    address: string;
+                    state: string;
+                    district: string;
+                    pincode: string;
+                    phone: string;
+                    email: string;
+                    secondaryContactName: string | null;
+                    secondaryContactDesignation: string | null;
+                    secondaryContactNumber: string | null;
+                    panNumber: string;
+                    panCard: string | null;
+                    gstNumber: string;
+                    gstCertificate: string | null;
+                    fssaiNumber: string | null;
+                    fssaiLicense: string | null;
+                    bankAccountNumber: string;
+                    bankIfscCode: string;
+                    tmcoNumber: string | null;
+                    cancelledCheque: string | null;
+                    transportName: string | null;
+                    brandName: string | null;
+                    brandLogo: string | null;
+                    brandCertificate: string | null;
+                }>, z.ZodObject<Omit<{
+                    userId: z.ZodNumber;
+                    createdAt: z.ZodDate;
+                    updatedAt: z.ZodDate;
+                    bankAccountNumber: z.ZodString;
+                    bankIfscCode: z.ZodString;
+                    panNumber: z.ZodString;
+                    panCard: z.ZodNullable<z.ZodString>;
+                    gstNumber: z.ZodString;
+                    gstCertificate: z.ZodNullable<z.ZodString>;
+                    fssaiNumber: z.ZodNullable<z.ZodString>;
+                    fssaiLicense: z.ZodNullable<z.ZodString>;
+                    phone: z.ZodString;
+                    email: z.ZodString;
+                    secondaryContactName: z.ZodNullable<z.ZodString>;
+                    secondaryContactDesignation: z.ZodNullable<z.ZodString>;
+                    secondaryContactNumber: z.ZodNullable<z.ZodString>;
+                    address: z.ZodString;
+                    state: z.ZodString;
+                    district: z.ZodString;
+                    pincode: z.ZodString;
+                    businessName: z.ZodString;
+                    businessType: z.ZodString;
+                    ownerName: z.ZodString;
+                    id: z.ZodNumber;
+                }, "id" | "userId" | "createdAt" | "updatedAt">, "strip", z.ZodTypeAny, {
+                    businessName: string;
+                    businessType: string;
+                    ownerName: string;
+                    address: string;
+                    state: string;
+                    district: string;
+                    pincode: string;
+                    phone: string;
+                    email: string;
+                    secondaryContactName: string | null;
+                    secondaryContactDesignation: string | null;
+                    secondaryContactNumber: string | null;
+                    panNumber: string;
+                    panCard: string | null;
+                    gstNumber: string;
+                    gstCertificate: string | null;
+                    fssaiNumber: string | null;
+                    fssaiLicense: string | null;
+                    bankAccountNumber: string;
+                    bankIfscCode: string;
+                }, {
+                    businessName: string;
+                    businessType: string;
+                    ownerName: string;
+                    address: string;
+                    state: string;
+                    district: string;
+                    pincode: string;
+                    phone: string;
+                    email: string;
+                    secondaryContactName: string | null;
+                    secondaryContactDesignation: string | null;
+                    secondaryContactNumber: string | null;
+                    panNumber: string;
+                    panCard: string | null;
+                    gstNumber: string;
+                    gstCertificate: string | null;
+                    fssaiNumber: string | null;
+                    fssaiLicense: string | null;
+                    bankAccountNumber: string;
+                    bankIfscCode: string;
+                }>]>;
+            }, "strip", z.ZodTypeAny, {
+                email: string;
+                role: "SELLER" | "BUYER";
+                profile: {
+                    businessName: string;
+                    businessType: string;
+                    ownerName: string;
+                    address: string;
+                    state: string;
+                    district: string;
+                    pincode: string;
+                    phone: string;
+                    email: string;
+                    secondaryContactName: string | null;
+                    secondaryContactDesignation: string | null;
+                    secondaryContactNumber: string | null;
+                    panNumber: string;
+                    panCard: string | null;
+                    gstNumber: string;
+                    gstCertificate: string | null;
+                    fssaiNumber: string | null;
+                    fssaiLicense: string | null;
+                    bankAccountNumber: string;
+                    bankIfscCode: string;
+                    tmcoNumber: string | null;
+                    cancelledCheque: string | null;
+                    transportName: string | null;
+                    brandName: string | null;
+                    brandLogo: string | null;
+                    brandCertificate: string | null;
+                } | {
+                    businessName: string;
+                    businessType: string;
+                    ownerName: string;
+                    address: string;
+                    state: string;
+                    district: string;
+                    pincode: string;
+                    phone: string;
+                    email: string;
+                    secondaryContactName: string | null;
+                    secondaryContactDesignation: string | null;
+                    secondaryContactNumber: string | null;
+                    panNumber: string;
+                    panCard: string | null;
+                    gstNumber: string;
+                    gstCertificate: string | null;
+                    fssaiNumber: string | null;
+                    fssaiLicense: string | null;
+                    bankAccountNumber: string;
+                    bankIfscCode: string;
+                };
+                password: string;
+            }, {
+                email: string;
+                role: "SELLER" | "BUYER";
+                profile: {
+                    businessName: string;
+                    businessType: string;
+                    ownerName: string;
+                    address: string;
+                    state: string;
+                    district: string;
+                    pincode: string;
+                    phone: string;
+                    email: string;
+                    secondaryContactName: string | null;
+                    secondaryContactDesignation: string | null;
+                    secondaryContactNumber: string | null;
+                    panNumber: string;
+                    panCard: string | null;
+                    gstNumber: string;
+                    gstCertificate: string | null;
+                    fssaiNumber: string | null;
+                    fssaiLicense: string | null;
+                    bankAccountNumber: string;
+                    bankIfscCode: string;
+                    tmcoNumber: string | null;
+                    cancelledCheque: string | null;
+                    transportName: string | null;
+                    brandName: string | null;
+                    brandLogo: string | null;
+                    brandCertificate: string | null;
+                } | {
+                    businessName: string;
+                    businessType: string;
+                    ownerName: string;
+                    address: string;
+                    state: string;
+                    district: string;
+                    pincode: string;
+                    phone: string;
+                    email: string;
+                    secondaryContactName: string | null;
+                    secondaryContactDesignation: string | null;
+                    secondaryContactNumber: string | null;
+                    panNumber: string;
+                    panCard: string | null;
+                    gstNumber: string;
+                    gstCertificate: string | null;
+                    fssaiNumber: string | null;
+                    fssaiLicense: string | null;
+                    bankAccountNumber: string;
+                    bankIfscCode: string;
+                };
+                password: string;
+            }>;
+            path: "/api/auth/register";
+            responses: {
+                201: z.ZodObject<{
+                    id: z.ZodNumber;
+                    email: z.ZodString;
+                    role: z.ZodEnum<["SELLER", "BUYER", "ADMIN", "STAFF"]>;
+                    verified: z.ZodBoolean;
+                    uniqueIdentifier: z.ZodNullable<z.ZodString>;
+                    createdAt: z.ZodDate;
+                    updatedAt: z.ZodDate;
+                }, "strip", z.ZodTypeAny, {
+                    email: string;
+                    id: number;
+                    createdAt: Date;
+                    updatedAt: Date;
+                    role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                    verified: boolean;
+                    uniqueIdentifier: string | null;
+                }, {
+                    email: string;
+                    id: number;
+                    createdAt: Date;
+                    updatedAt: Date;
+                    role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                    verified: boolean;
+                    uniqueIdentifier: string | null;
+                }>;
+                400: z.ZodObject<{
+                    message: z.ZodString;
+                    code: z.ZodString;
+                    timestamp: z.ZodString;
+                }, "strip", z.ZodTypeAny, {
+                    code: string;
+                    message: string;
+                    timestamp: string;
+                }, {
+                    code: string;
+                    message: string;
+                    timestamp: string;
+                }>;
+            };
+        };
+        adminLogin: {
+            method: "POST";
+            body: z.ZodObject<{
+                email: z.ZodString;
+                password: z.ZodString;
+            }, "strip", z.ZodTypeAny, {
+                email: string;
+                password: string;
+            }, {
+                email: string;
+                password: string;
+            }>;
+            path: "/api/auth/admin/login";
+            responses: {
+                200: z.ZodObject<{
+                    accessToken: z.ZodString;
+                    user: z.ZodObject<{
+                        id: z.ZodNumber;
+                        email: z.ZodString;
+                        role: z.ZodEnum<["SELLER", "BUYER", "ADMIN", "STAFF"]>;
+                        verified: z.ZodBoolean;
+                        uniqueIdentifier: z.ZodNullable<z.ZodString>;
+                        createdAt: z.ZodDate;
+                        updatedAt: z.ZodDate;
+                    }, "strip", z.ZodTypeAny, {
+                        email: string;
+                        id: number;
+                        createdAt: Date;
+                        updatedAt: Date;
+                        role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                        verified: boolean;
+                        uniqueIdentifier: string | null;
+                    }, {
+                        email: string;
+                        id: number;
+                        createdAt: Date;
+                        updatedAt: Date;
+                        role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                        verified: boolean;
+                        uniqueIdentifier: string | null;
+                    }>;
+                }, "strip", z.ZodTypeAny, {
+                    accessToken: string;
+                    user: {
+                        email: string;
+                        id: number;
+                        createdAt: Date;
+                        updatedAt: Date;
+                        role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                        verified: boolean;
+                        uniqueIdentifier: string | null;
+                    };
+                }, {
+                    accessToken: string;
+                    user: {
+                        email: string;
+                        id: number;
+                        createdAt: Date;
+                        updatedAt: Date;
+                        role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                        verified: boolean;
+                        uniqueIdentifier: string | null;
+                    };
+                }>;
+                400: z.ZodObject<{
+                    message: z.ZodString;
+                    code: z.ZodString;
+                    timestamp: z.ZodString;
+                }, "strip", z.ZodTypeAny, {
+                    code: string;
+                    message: string;
+                    timestamp: string;
+                }, {
+                    code: string;
+                    message: string;
+                    timestamp: string;
+                }>;
+                401: z.ZodObject<{
+                    message: z.ZodString;
+                    code: z.ZodString;
+                    timestamp: z.ZodString;
+                }, "strip", z.ZodTypeAny, {
+                    code: string;
+                    message: string;
+                    timestamp: string;
+                }, {
+                    code: string;
+                    message: string;
+                    timestamp: string;
+                }>;
+            };
+        };
+    };
     users: {
         findAll: {
             query: z.ZodObject<{
@@ -311,21 +526,21 @@ export declare const contract: {
                         createdAt: z.ZodDate;
                         updatedAt: z.ZodDate;
                     }, "strip", z.ZodTypeAny, {
-                        id: number;
                         email: string;
+                        id: number;
+                        createdAt: Date;
+                        updatedAt: Date;
                         role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
                         verified: boolean;
                         uniqueIdentifier: string | null;
-                        createdAt: Date;
-                        updatedAt: Date;
                     }, {
-                        id: number;
                         email: string;
+                        id: number;
+                        createdAt: Date;
+                        updatedAt: Date;
                         role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
                         verified: boolean;
                         uniqueIdentifier: string | null;
-                        createdAt: Date;
-                        updatedAt: Date;
                     }>, "many">;
                     total: z.ZodNumber;
                     limit: z.ZodNumber;
@@ -334,26 +549,26 @@ export declare const contract: {
                     limit: number;
                     offset: number;
                     data: {
-                        id: number;
                         email: string;
+                        id: number;
+                        createdAt: Date;
+                        updatedAt: Date;
                         role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
                         verified: boolean;
                         uniqueIdentifier: string | null;
-                        createdAt: Date;
-                        updatedAt: Date;
                     }[];
                     total: number;
                 }, {
                     limit: number;
                     offset: number;
                     data: {
-                        id: number;
                         email: string;
+                        id: number;
+                        createdAt: Date;
+                        updatedAt: Date;
                         role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
                         verified: boolean;
                         uniqueIdentifier: string | null;
-                        createdAt: Date;
-                        updatedAt: Date;
                     }[];
                     total: number;
                 }>;
@@ -362,303 +577,12 @@ export declare const contract: {
                     code: z.ZodString;
                     timestamp: z.ZodString;
                 }, "strip", z.ZodTypeAny, {
-                    message: string;
                     code: string;
+                    message: string;
                     timestamp: string;
                 }, {
-                    message: string;
                     code: string;
-                    timestamp: string;
-                }>;
-            };
-        };
-        getPendingRegistrations: {
-            method: "GET";
-            path: "/api/users/pending";
-            responses: {
-                200: z.ZodArray<z.ZodObject<{
-                    id: z.ZodNumber;
-                    email: z.ZodString;
-                    role: z.ZodEnum<["SELLER", "BUYER"]>;
-                    verified: z.ZodBoolean;
-                    createdAt: z.ZodString;
-                    profile: z.ZodDiscriminatedUnion<"role", [z.ZodObject<{
-                        tmcoNumber: z.ZodNullable<z.ZodString>;
-                        cancelledCheque: z.ZodNullable<z.ZodString>;
-                        transportName: z.ZodNullable<z.ZodString>;
-                        brandName: z.ZodNullable<z.ZodString>;
-                        brandLogo: z.ZodNullable<z.ZodString>;
-                        brandCertificate: z.ZodNullable<z.ZodString>;
-                        bankAccountNumber: z.ZodString;
-                        bankIfscCode: z.ZodString;
-                        panNumber: z.ZodString;
-                        panCard: z.ZodNullable<z.ZodString>;
-                        gstNumber: z.ZodString;
-                        gstCertificate: z.ZodNullable<z.ZodString>;
-                        fssaiNumber: z.ZodNullable<z.ZodString>;
-                        fssaiLicense: z.ZodNullable<z.ZodString>;
-                        phone: z.ZodString;
-                        email: z.ZodString;
-                        secondaryContactName: z.ZodNullable<z.ZodString>;
-                        secondaryContactDesignation: z.ZodNullable<z.ZodString>;
-                        secondaryContactNumber: z.ZodNullable<z.ZodString>;
-                        address: z.ZodString;
-                        state: z.ZodString;
-                        district: z.ZodString;
-                        pincode: z.ZodString;
-                        businessName: z.ZodString;
-                        businessType: z.ZodString;
-                        ownerName: z.ZodString;
-                        role: z.ZodLiteral<"SELLER">;
-                    }, "strip", z.ZodTypeAny, {
-                        email: string;
-                        role: "SELLER";
-                        businessName: string;
-                        businessType: string;
-                        ownerName: string;
-                        address: string;
-                        state: string;
-                        district: string;
-                        pincode: string;
-                        phone: string;
-                        secondaryContactName: string | null;
-                        secondaryContactDesignation: string | null;
-                        secondaryContactNumber: string | null;
-                        panNumber: string;
-                        panCard: string | null;
-                        gstNumber: string;
-                        gstCertificate: string | null;
-                        fssaiNumber: string | null;
-                        fssaiLicense: string | null;
-                        bankAccountNumber: string;
-                        bankIfscCode: string;
-                        tmcoNumber: string | null;
-                        cancelledCheque: string | null;
-                        transportName: string | null;
-                        brandName: string | null;
-                        brandLogo: string | null;
-                        brandCertificate: string | null;
-                    }, {
-                        email: string;
-                        role: "SELLER";
-                        businessName: string;
-                        businessType: string;
-                        ownerName: string;
-                        address: string;
-                        state: string;
-                        district: string;
-                        pincode: string;
-                        phone: string;
-                        secondaryContactName: string | null;
-                        secondaryContactDesignation: string | null;
-                        secondaryContactNumber: string | null;
-                        panNumber: string;
-                        panCard: string | null;
-                        gstNumber: string;
-                        gstCertificate: string | null;
-                        fssaiNumber: string | null;
-                        fssaiLicense: string | null;
-                        bankAccountNumber: string;
-                        bankIfscCode: string;
-                        tmcoNumber: string | null;
-                        cancelledCheque: string | null;
-                        transportName: string | null;
-                        brandName: string | null;
-                        brandLogo: string | null;
-                        brandCertificate: string | null;
-                    }>, z.ZodObject<{
-                        bankAccountNumber: z.ZodString;
-                        bankIfscCode: z.ZodString;
-                        panNumber: z.ZodString;
-                        panCard: z.ZodNullable<z.ZodString>;
-                        gstNumber: z.ZodString;
-                        gstCertificate: z.ZodNullable<z.ZodString>;
-                        fssaiNumber: z.ZodNullable<z.ZodString>;
-                        fssaiLicense: z.ZodNullable<z.ZodString>;
-                        phone: z.ZodString;
-                        email: z.ZodString;
-                        secondaryContactName: z.ZodNullable<z.ZodString>;
-                        secondaryContactDesignation: z.ZodNullable<z.ZodString>;
-                        secondaryContactNumber: z.ZodNullable<z.ZodString>;
-                        address: z.ZodString;
-                        state: z.ZodString;
-                        district: z.ZodString;
-                        pincode: z.ZodString;
-                        businessName: z.ZodString;
-                        businessType: z.ZodString;
-                        ownerName: z.ZodString;
-                        role: z.ZodLiteral<"BUYER">;
-                    }, "strip", z.ZodTypeAny, {
-                        email: string;
-                        role: "BUYER";
-                        businessName: string;
-                        businessType: string;
-                        ownerName: string;
-                        address: string;
-                        state: string;
-                        district: string;
-                        pincode: string;
-                        phone: string;
-                        secondaryContactName: string | null;
-                        secondaryContactDesignation: string | null;
-                        secondaryContactNumber: string | null;
-                        panNumber: string;
-                        panCard: string | null;
-                        gstNumber: string;
-                        gstCertificate: string | null;
-                        fssaiNumber: string | null;
-                        fssaiLicense: string | null;
-                        bankAccountNumber: string;
-                        bankIfscCode: string;
-                    }, {
-                        email: string;
-                        role: "BUYER";
-                        businessName: string;
-                        businessType: string;
-                        ownerName: string;
-                        address: string;
-                        state: string;
-                        district: string;
-                        pincode: string;
-                        phone: string;
-                        secondaryContactName: string | null;
-                        secondaryContactDesignation: string | null;
-                        secondaryContactNumber: string | null;
-                        panNumber: string;
-                        panCard: string | null;
-                        gstNumber: string;
-                        gstCertificate: string | null;
-                        fssaiNumber: string | null;
-                        fssaiLicense: string | null;
-                        bankAccountNumber: string;
-                        bankIfscCode: string;
-                    }>]>;
-                }, "strip", z.ZodTypeAny, {
-                    id: number;
-                    email: string;
-                    role: "SELLER" | "BUYER";
-                    verified: boolean;
-                    createdAt: string;
-                    profile: {
-                        email: string;
-                        role: "SELLER";
-                        businessName: string;
-                        businessType: string;
-                        ownerName: string;
-                        address: string;
-                        state: string;
-                        district: string;
-                        pincode: string;
-                        phone: string;
-                        secondaryContactName: string | null;
-                        secondaryContactDesignation: string | null;
-                        secondaryContactNumber: string | null;
-                        panNumber: string;
-                        panCard: string | null;
-                        gstNumber: string;
-                        gstCertificate: string | null;
-                        fssaiNumber: string | null;
-                        fssaiLicense: string | null;
-                        bankAccountNumber: string;
-                        bankIfscCode: string;
-                        tmcoNumber: string | null;
-                        cancelledCheque: string | null;
-                        transportName: string | null;
-                        brandName: string | null;
-                        brandLogo: string | null;
-                        brandCertificate: string | null;
-                    } | {
-                        email: string;
-                        role: "BUYER";
-                        businessName: string;
-                        businessType: string;
-                        ownerName: string;
-                        address: string;
-                        state: string;
-                        district: string;
-                        pincode: string;
-                        phone: string;
-                        secondaryContactName: string | null;
-                        secondaryContactDesignation: string | null;
-                        secondaryContactNumber: string | null;
-                        panNumber: string;
-                        panCard: string | null;
-                        gstNumber: string;
-                        gstCertificate: string | null;
-                        fssaiNumber: string | null;
-                        fssaiLicense: string | null;
-                        bankAccountNumber: string;
-                        bankIfscCode: string;
-                    };
-                }, {
-                    id: number;
-                    email: string;
-                    role: "SELLER" | "BUYER";
-                    verified: boolean;
-                    createdAt: string;
-                    profile: {
-                        email: string;
-                        role: "SELLER";
-                        businessName: string;
-                        businessType: string;
-                        ownerName: string;
-                        address: string;
-                        state: string;
-                        district: string;
-                        pincode: string;
-                        phone: string;
-                        secondaryContactName: string | null;
-                        secondaryContactDesignation: string | null;
-                        secondaryContactNumber: string | null;
-                        panNumber: string;
-                        panCard: string | null;
-                        gstNumber: string;
-                        gstCertificate: string | null;
-                        fssaiNumber: string | null;
-                        fssaiLicense: string | null;
-                        bankAccountNumber: string;
-                        bankIfscCode: string;
-                        tmcoNumber: string | null;
-                        cancelledCheque: string | null;
-                        transportName: string | null;
-                        brandName: string | null;
-                        brandLogo: string | null;
-                        brandCertificate: string | null;
-                    } | {
-                        email: string;
-                        role: "BUYER";
-                        businessName: string;
-                        businessType: string;
-                        ownerName: string;
-                        address: string;
-                        state: string;
-                        district: string;
-                        pincode: string;
-                        phone: string;
-                        secondaryContactName: string | null;
-                        secondaryContactDesignation: string | null;
-                        secondaryContactNumber: string | null;
-                        panNumber: string;
-                        panCard: string | null;
-                        gstNumber: string;
-                        gstCertificate: string | null;
-                        fssaiNumber: string | null;
-                        fssaiLicense: string | null;
-                        bankAccountNumber: string;
-                        bankIfscCode: string;
-                    };
-                }>, "many">;
-                500: z.ZodObject<{
-                    message: z.ZodString;
-                    code: z.ZodString;
-                    timestamp: z.ZodString;
-                }, "strip", z.ZodTypeAny, {
                     message: string;
-                    code: string;
-                    timestamp: string;
-                }, {
-                    message: string;
-                    code: string;
                     timestamp: string;
                 }>;
             };
@@ -683,33 +607,33 @@ export declare const contract: {
                     createdAt: z.ZodDate;
                     updatedAt: z.ZodDate;
                 }, "strip", z.ZodTypeAny, {
-                    id: number;
                     email: string;
+                    id: number;
+                    createdAt: Date;
+                    updatedAt: Date;
                     role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
                     verified: boolean;
                     uniqueIdentifier: string | null;
-                    createdAt: Date;
-                    updatedAt: Date;
                 }, {
-                    id: number;
                     email: string;
+                    id: number;
+                    createdAt: Date;
+                    updatedAt: Date;
                     role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
                     verified: boolean;
                     uniqueIdentifier: string | null;
-                    createdAt: Date;
-                    updatedAt: Date;
                 }>;
                 404: z.ZodObject<{
                     message: z.ZodString;
                     code: z.ZodString;
                     timestamp: z.ZodString;
                 }, "strip", z.ZodTypeAny, {
-                    message: string;
                     code: string;
+                    message: string;
                     timestamp: string;
                 }, {
-                    message: string;
                     code: string;
+                    message: string;
                     timestamp: string;
                 }>;
             };
@@ -740,33 +664,33 @@ export declare const contract: {
                     createdAt: z.ZodDate;
                     updatedAt: z.ZodDate;
                 }, "strip", z.ZodTypeAny, {
-                    id: number;
                     email: string;
+                    id: number;
+                    createdAt: Date;
+                    updatedAt: Date;
                     role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
                     verified: boolean;
                     uniqueIdentifier: string | null;
-                    createdAt: Date;
-                    updatedAt: Date;
                 }, {
-                    id: number;
                     email: string;
+                    id: number;
+                    createdAt: Date;
+                    updatedAt: Date;
                     role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
                     verified: boolean;
                     uniqueIdentifier: string | null;
-                    createdAt: Date;
-                    updatedAt: Date;
                 }>;
                 400: z.ZodObject<{
                     message: z.ZodString;
                     code: z.ZodString;
                     timestamp: z.ZodString;
                 }, "strip", z.ZodTypeAny, {
-                    message: string;
                     code: string;
+                    message: string;
                     timestamp: string;
                 }, {
-                    message: string;
                     code: string;
+                    message: string;
                     timestamp: string;
                 }>;
             };
@@ -810,33 +734,33 @@ export declare const contract: {
                     createdAt: z.ZodDate;
                     updatedAt: z.ZodDate;
                 }, "strip", z.ZodTypeAny, {
-                    id: number;
                     email: string;
+                    id: number;
+                    createdAt: Date;
+                    updatedAt: Date;
                     role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
                     verified: boolean;
                     uniqueIdentifier: string | null;
-                    createdAt: Date;
-                    updatedAt: Date;
                 }, {
-                    id: number;
                     email: string;
+                    id: number;
+                    createdAt: Date;
+                    updatedAt: Date;
                     role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
                     verified: boolean;
                     uniqueIdentifier: string | null;
-                    createdAt: Date;
-                    updatedAt: Date;
                 }>;
                 404: z.ZodObject<{
                     message: z.ZodString;
                     code: z.ZodString;
                     timestamp: z.ZodString;
                 }, "strip", z.ZodTypeAny, {
-                    message: string;
                     code: string;
+                    message: string;
                     timestamp: string;
                 }, {
-                    message: string;
                     code: string;
+                    message: string;
                     timestamp: string;
                 }>;
                 400: z.ZodObject<{
@@ -844,12 +768,12 @@ export declare const contract: {
                     code: z.ZodString;
                     timestamp: z.ZodString;
                 }, "strip", z.ZodTypeAny, {
-                    message: string;
                     code: string;
+                    message: string;
                     timestamp: string;
                 }, {
-                    message: string;
                     code: string;
+                    message: string;
                     timestamp: string;
                 }>;
             };
@@ -871,12 +795,12 @@ export declare const contract: {
                     code: z.ZodString;
                     timestamp: z.ZodString;
                 }, "strip", z.ZodTypeAny, {
-                    message: string;
                     code: string;
+                    message: string;
                     timestamp: string;
                 }, {
-                    message: string;
                     code: string;
+                    message: string;
                     timestamp: string;
                 }>;
             };
@@ -908,33 +832,33 @@ export declare const contract: {
                     createdAt: z.ZodDate;
                     updatedAt: z.ZodDate;
                 }, "strip", z.ZodTypeAny, {
-                    id: number;
                     email: string;
+                    id: number;
+                    createdAt: Date;
+                    updatedAt: Date;
                     role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
                     verified: boolean;
                     uniqueIdentifier: string | null;
-                    createdAt: Date;
-                    updatedAt: Date;
                 }, {
-                    id: number;
                     email: string;
+                    id: number;
+                    createdAt: Date;
+                    updatedAt: Date;
                     role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
                     verified: boolean;
                     uniqueIdentifier: string | null;
-                    createdAt: Date;
-                    updatedAt: Date;
                 }>;
                 404: z.ZodObject<{
                     message: z.ZodString;
                     code: z.ZodString;
                     timestamp: z.ZodString;
                 }, "strip", z.ZodTypeAny, {
-                    message: string;
                     code: string;
+                    message: string;
                     timestamp: string;
                 }, {
-                    message: string;
                     code: string;
+                    message: string;
                     timestamp: string;
                 }>;
                 400: z.ZodObject<{
@@ -942,36 +866,13 @@ export declare const contract: {
                     code: z.ZodString;
                     timestamp: z.ZodString;
                 }, "strip", z.ZodTypeAny, {
-                    message: string;
                     code: string;
+                    message: string;
                     timestamp: string;
                 }, {
-                    message: string;
                     code: string;
+                    message: string;
                     timestamp: string;
-                }>;
-            };
-        };
-        verifyRegistration: {
-            method: "POST";
-            body: z.ZodObject<{
-                userIds: z.ZodArray<z.ZodNumber, "many">;
-            }, "strip", z.ZodTypeAny, {
-                userIds: number[];
-            }, {
-                userIds: number[];
-            }>;
-            path: "/api/users/verify";
-            responses: {
-                200: z.ZodObject<{
-                    message: z.ZodString;
-                    verifiedUsers: z.ZodNumber;
-                }, "strip", z.ZodTypeAny, {
-                    message: string;
-                    verifiedUsers: number;
-                }, {
-                    message: string;
-                    verifiedUsers: number;
                 }>;
             };
         };
@@ -996,28 +897,28 @@ export declare const contract: {
                     updatedAt: z.ZodDate;
                 }, "strip", z.ZodTypeAny, {
                     id: number;
+                    userId: number;
                     createdAt: Date;
                     updatedAt: Date;
                     fullName: string;
-                    userId: number;
                 }, {
                     id: number;
+                    userId: number;
                     createdAt: Date;
                     updatedAt: Date;
                     fullName: string;
-                    userId: number;
                 }>;
                 404: z.ZodObject<{
                     message: z.ZodString;
                     code: z.ZodString;
                     timestamp: z.ZodString;
                 }, "strip", z.ZodTypeAny, {
-                    message: string;
                     code: string;
+                    message: string;
                     timestamp: string;
                 }, {
-                    message: string;
                     code: string;
+                    message: string;
                     timestamp: string;
                 }>;
             };
@@ -1028,11 +929,11 @@ export declare const contract: {
                 fullName: z.ZodString;
                 userId: z.ZodNumber;
             }, "strip", z.ZodTypeAny, {
-                fullName: string;
                 userId: number;
+                fullName: string;
             }, {
-                fullName: string;
                 userId: number;
+                fullName: string;
             }>;
             path: "/api/admin/profile";
             responses: {
@@ -1044,988 +945,1963 @@ export declare const contract: {
                     updatedAt: z.ZodDate;
                 }, "strip", z.ZodTypeAny, {
                     id: number;
+                    userId: number;
                     createdAt: Date;
                     updatedAt: Date;
                     fullName: string;
-                    userId: number;
                 }, {
                     id: number;
+                    userId: number;
                     createdAt: Date;
                     updatedAt: Date;
                     fullName: string;
-                    userId: number;
                 }>;
                 400: z.ZodObject<{
                     message: z.ZodString;
                     code: z.ZodString;
                     timestamp: z.ZodString;
                 }, "strip", z.ZodTypeAny, {
-                    message: string;
                     code: string;
+                    message: string;
                     timestamp: string;
                 }, {
-                    message: string;
                     code: string;
+                    message: string;
                     timestamp: string;
                 }>;
             };
         };
-    };
-    sellers: {
-        getProfile: {
-            pathParams: z.ZodObject<{
-                userId: z.ZodString;
+        stats: {
+            method: "GET";
+            path: "/api/admin/stats";
+            responses: {
+                200: z.ZodObject<{
+                    totalUsers: z.ZodNumber;
+                    totalSellers: z.ZodNumber;
+                    totalBuyers: z.ZodNumber;
+                    totalPendingVerifications: z.ZodNumber;
+                }, "strip", z.ZodTypeAny, {
+                    totalUsers: number;
+                    totalSellers: number;
+                    totalBuyers: number;
+                    totalPendingVerifications: number;
+                }, {
+                    totalUsers: number;
+                    totalSellers: number;
+                    totalBuyers: number;
+                    totalPendingVerifications: number;
+                }>;
+                401: z.ZodObject<{
+                    message: z.ZodString;
+                    code: z.ZodString;
+                    timestamp: z.ZodString;
+                }, "strip", z.ZodTypeAny, {
+                    code: string;
+                    message: string;
+                    timestamp: string;
+                }, {
+                    code: string;
+                    message: string;
+                    timestamp: string;
+                }>;
+                403: z.ZodObject<{
+                    message: z.ZodString;
+                    code: z.ZodString;
+                    timestamp: z.ZodString;
+                }, "strip", z.ZodTypeAny, {
+                    code: string;
+                    message: string;
+                    timestamp: string;
+                }, {
+                    code: string;
+                    message: string;
+                    timestamp: string;
+                }>;
+            };
+        };
+        listVerifiedUsers: {
+            query: z.ZodObject<{
+                role: z.ZodEnum<["SELLER", "BUYER"]>;
+                limit: z.ZodDefault<z.ZodOptional<z.ZodNumber>>;
+                offset: z.ZodDefault<z.ZodOptional<z.ZodNumber>>;
             }, "strip", z.ZodTypeAny, {
-                userId: string;
+                role: "SELLER" | "BUYER";
+                limit: number;
+                offset: number;
             }, {
-                userId: string;
+                role: "SELLER" | "BUYER";
+                limit?: number | undefined;
+                offset?: number | undefined;
             }>;
             method: "GET";
-            path: "/api/sellers/profile/:userId";
+            path: "/api/admin/users/verified";
             responses: {
                 200: z.ZodObject<{
-                    tmcoNumber: z.ZodNullable<z.ZodString>;
-                    cancelledCheque: z.ZodNullable<z.ZodString>;
-                    transportName: z.ZodNullable<z.ZodString>;
-                    brandName: z.ZodNullable<z.ZodString>;
-                    brandLogo: z.ZodNullable<z.ZodString>;
-                    brandCertificate: z.ZodNullable<z.ZodString>;
-                    userId: z.ZodNumber;
-                    createdAt: z.ZodDate;
-                    updatedAt: z.ZodDate;
-                    bankAccountNumber: z.ZodString;
-                    bankIfscCode: z.ZodString;
-                    panNumber: z.ZodString;
-                    panCard: z.ZodNullable<z.ZodString>;
-                    gstNumber: z.ZodString;
-                    gstCertificate: z.ZodNullable<z.ZodString>;
-                    fssaiNumber: z.ZodNullable<z.ZodString>;
-                    fssaiLicense: z.ZodNullable<z.ZodString>;
-                    phone: z.ZodString;
-                    email: z.ZodString;
-                    secondaryContactName: z.ZodNullable<z.ZodString>;
-                    secondaryContactDesignation: z.ZodNullable<z.ZodString>;
-                    secondaryContactNumber: z.ZodNullable<z.ZodString>;
-                    address: z.ZodString;
-                    state: z.ZodString;
-                    district: z.ZodString;
-                    pincode: z.ZodString;
-                    businessName: z.ZodString;
-                    businessType: z.ZodString;
-                    ownerName: z.ZodString;
-                    id: z.ZodNumber;
+                    data: z.ZodDiscriminatedUnion<"role", [z.ZodObject<{
+                        role: z.ZodLiteral<"SELLER">;
+                        users: z.ZodArray<z.ZodObject<z.objectUtil.extendShape<{
+                            id: z.ZodNumber;
+                            email: z.ZodString;
+                            role: z.ZodEnum<["SELLER", "BUYER", "ADMIN", "STAFF"]>;
+                            verified: z.ZodBoolean;
+                            uniqueIdentifier: z.ZodNullable<z.ZodString>;
+                            createdAt: z.ZodDate;
+                            updatedAt: z.ZodDate;
+                        }, {
+                            profile: z.ZodObject<{
+                                tmcoNumber: z.ZodNullable<z.ZodString>;
+                                cancelledCheque: z.ZodNullable<z.ZodString>;
+                                transportName: z.ZodNullable<z.ZodString>;
+                                brandName: z.ZodNullable<z.ZodString>;
+                                brandLogo: z.ZodNullable<z.ZodString>;
+                                brandCertificate: z.ZodNullable<z.ZodString>;
+                                userId: z.ZodNumber;
+                                createdAt: z.ZodDate;
+                                updatedAt: z.ZodDate;
+                                bankAccountNumber: z.ZodString;
+                                bankIfscCode: z.ZodString;
+                                panNumber: z.ZodString;
+                                panCard: z.ZodNullable<z.ZodString>;
+                                gstNumber: z.ZodString;
+                                gstCertificate: z.ZodNullable<z.ZodString>;
+                                fssaiNumber: z.ZodNullable<z.ZodString>;
+                                fssaiLicense: z.ZodNullable<z.ZodString>;
+                                phone: z.ZodString;
+                                email: z.ZodString;
+                                secondaryContactName: z.ZodNullable<z.ZodString>;
+                                secondaryContactDesignation: z.ZodNullable<z.ZodString>;
+                                secondaryContactNumber: z.ZodNullable<z.ZodString>;
+                                address: z.ZodString;
+                                state: z.ZodString;
+                                district: z.ZodString;
+                                pincode: z.ZodString;
+                                businessName: z.ZodString;
+                                businessType: z.ZodString;
+                                ownerName: z.ZodString;
+                                id: z.ZodNumber;
+                            }, "strip", z.ZodTypeAny, {
+                                businessName: string;
+                                businessType: string;
+                                ownerName: string;
+                                address: string;
+                                state: string;
+                                district: string;
+                                pincode: string;
+                                phone: string;
+                                email: string;
+                                secondaryContactName: string | null;
+                                secondaryContactDesignation: string | null;
+                                secondaryContactNumber: string | null;
+                                panNumber: string;
+                                panCard: string | null;
+                                gstNumber: string;
+                                gstCertificate: string | null;
+                                fssaiNumber: string | null;
+                                fssaiLicense: string | null;
+                                bankAccountNumber: string;
+                                bankIfscCode: string;
+                                id: number;
+                                tmcoNumber: string | null;
+                                cancelledCheque: string | null;
+                                transportName: string | null;
+                                brandName: string | null;
+                                brandLogo: string | null;
+                                brandCertificate: string | null;
+                                userId: number;
+                                createdAt: Date;
+                                updatedAt: Date;
+                            }, {
+                                businessName: string;
+                                businessType: string;
+                                ownerName: string;
+                                address: string;
+                                state: string;
+                                district: string;
+                                pincode: string;
+                                phone: string;
+                                email: string;
+                                secondaryContactName: string | null;
+                                secondaryContactDesignation: string | null;
+                                secondaryContactNumber: string | null;
+                                panNumber: string;
+                                panCard: string | null;
+                                gstNumber: string;
+                                gstCertificate: string | null;
+                                fssaiNumber: string | null;
+                                fssaiLicense: string | null;
+                                bankAccountNumber: string;
+                                bankIfscCode: string;
+                                id: number;
+                                tmcoNumber: string | null;
+                                cancelledCheque: string | null;
+                                transportName: string | null;
+                                brandName: string | null;
+                                brandLogo: string | null;
+                                brandCertificate: string | null;
+                                userId: number;
+                                createdAt: Date;
+                                updatedAt: Date;
+                            }>;
+                        }>, "strip", z.ZodTypeAny, {
+                            email: string;
+                            id: number;
+                            createdAt: Date;
+                            updatedAt: Date;
+                            role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                            verified: boolean;
+                            uniqueIdentifier: string | null;
+                            profile: {
+                                businessName: string;
+                                businessType: string;
+                                ownerName: string;
+                                address: string;
+                                state: string;
+                                district: string;
+                                pincode: string;
+                                phone: string;
+                                email: string;
+                                secondaryContactName: string | null;
+                                secondaryContactDesignation: string | null;
+                                secondaryContactNumber: string | null;
+                                panNumber: string;
+                                panCard: string | null;
+                                gstNumber: string;
+                                gstCertificate: string | null;
+                                fssaiNumber: string | null;
+                                fssaiLicense: string | null;
+                                bankAccountNumber: string;
+                                bankIfscCode: string;
+                                id: number;
+                                tmcoNumber: string | null;
+                                cancelledCheque: string | null;
+                                transportName: string | null;
+                                brandName: string | null;
+                                brandLogo: string | null;
+                                brandCertificate: string | null;
+                                userId: number;
+                                createdAt: Date;
+                                updatedAt: Date;
+                            };
+                        }, {
+                            email: string;
+                            id: number;
+                            createdAt: Date;
+                            updatedAt: Date;
+                            role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                            verified: boolean;
+                            uniqueIdentifier: string | null;
+                            profile: {
+                                businessName: string;
+                                businessType: string;
+                                ownerName: string;
+                                address: string;
+                                state: string;
+                                district: string;
+                                pincode: string;
+                                phone: string;
+                                email: string;
+                                secondaryContactName: string | null;
+                                secondaryContactDesignation: string | null;
+                                secondaryContactNumber: string | null;
+                                panNumber: string;
+                                panCard: string | null;
+                                gstNumber: string;
+                                gstCertificate: string | null;
+                                fssaiNumber: string | null;
+                                fssaiLicense: string | null;
+                                bankAccountNumber: string;
+                                bankIfscCode: string;
+                                id: number;
+                                tmcoNumber: string | null;
+                                cancelledCheque: string | null;
+                                transportName: string | null;
+                                brandName: string | null;
+                                brandLogo: string | null;
+                                brandCertificate: string | null;
+                                userId: number;
+                                createdAt: Date;
+                                updatedAt: Date;
+                            };
+                        }>, "many">;
+                    }, "strip", z.ZodTypeAny, {
+                        users: {
+                            email: string;
+                            id: number;
+                            createdAt: Date;
+                            updatedAt: Date;
+                            role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                            verified: boolean;
+                            uniqueIdentifier: string | null;
+                            profile: {
+                                businessName: string;
+                                businessType: string;
+                                ownerName: string;
+                                address: string;
+                                state: string;
+                                district: string;
+                                pincode: string;
+                                phone: string;
+                                email: string;
+                                secondaryContactName: string | null;
+                                secondaryContactDesignation: string | null;
+                                secondaryContactNumber: string | null;
+                                panNumber: string;
+                                panCard: string | null;
+                                gstNumber: string;
+                                gstCertificate: string | null;
+                                fssaiNumber: string | null;
+                                fssaiLicense: string | null;
+                                bankAccountNumber: string;
+                                bankIfscCode: string;
+                                id: number;
+                                tmcoNumber: string | null;
+                                cancelledCheque: string | null;
+                                transportName: string | null;
+                                brandName: string | null;
+                                brandLogo: string | null;
+                                brandCertificate: string | null;
+                                userId: number;
+                                createdAt: Date;
+                                updatedAt: Date;
+                            };
+                        }[];
+                        role: "SELLER";
+                    }, {
+                        users: {
+                            email: string;
+                            id: number;
+                            createdAt: Date;
+                            updatedAt: Date;
+                            role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                            verified: boolean;
+                            uniqueIdentifier: string | null;
+                            profile: {
+                                businessName: string;
+                                businessType: string;
+                                ownerName: string;
+                                address: string;
+                                state: string;
+                                district: string;
+                                pincode: string;
+                                phone: string;
+                                email: string;
+                                secondaryContactName: string | null;
+                                secondaryContactDesignation: string | null;
+                                secondaryContactNumber: string | null;
+                                panNumber: string;
+                                panCard: string | null;
+                                gstNumber: string;
+                                gstCertificate: string | null;
+                                fssaiNumber: string | null;
+                                fssaiLicense: string | null;
+                                bankAccountNumber: string;
+                                bankIfscCode: string;
+                                id: number;
+                                tmcoNumber: string | null;
+                                cancelledCheque: string | null;
+                                transportName: string | null;
+                                brandName: string | null;
+                                brandLogo: string | null;
+                                brandCertificate: string | null;
+                                userId: number;
+                                createdAt: Date;
+                                updatedAt: Date;
+                            };
+                        }[];
+                        role: "SELLER";
+                    }>, z.ZodObject<{
+                        role: z.ZodLiteral<"BUYER">;
+                        users: z.ZodArray<z.ZodObject<z.objectUtil.extendShape<{
+                            id: z.ZodNumber;
+                            email: z.ZodString;
+                            role: z.ZodEnum<["SELLER", "BUYER", "ADMIN", "STAFF"]>;
+                            verified: z.ZodBoolean;
+                            uniqueIdentifier: z.ZodNullable<z.ZodString>;
+                            createdAt: z.ZodDate;
+                            updatedAt: z.ZodDate;
+                        }, {
+                            profile: z.ZodObject<{
+                                userId: z.ZodNumber;
+                                createdAt: z.ZodDate;
+                                updatedAt: z.ZodDate;
+                                bankAccountNumber: z.ZodString;
+                                bankIfscCode: z.ZodString;
+                                panNumber: z.ZodString;
+                                panCard: z.ZodNullable<z.ZodString>;
+                                gstNumber: z.ZodString;
+                                gstCertificate: z.ZodNullable<z.ZodString>;
+                                fssaiNumber: z.ZodNullable<z.ZodString>;
+                                fssaiLicense: z.ZodNullable<z.ZodString>;
+                                phone: z.ZodString;
+                                email: z.ZodString;
+                                secondaryContactName: z.ZodNullable<z.ZodString>;
+                                secondaryContactDesignation: z.ZodNullable<z.ZodString>;
+                                secondaryContactNumber: z.ZodNullable<z.ZodString>;
+                                address: z.ZodString;
+                                state: z.ZodString;
+                                district: z.ZodString;
+                                pincode: z.ZodString;
+                                businessName: z.ZodString;
+                                businessType: z.ZodString;
+                                ownerName: z.ZodString;
+                                id: z.ZodNumber;
+                            }, "strip", z.ZodTypeAny, {
+                                businessName: string;
+                                businessType: string;
+                                ownerName: string;
+                                address: string;
+                                state: string;
+                                district: string;
+                                pincode: string;
+                                phone: string;
+                                email: string;
+                                secondaryContactName: string | null;
+                                secondaryContactDesignation: string | null;
+                                secondaryContactNumber: string | null;
+                                panNumber: string;
+                                panCard: string | null;
+                                gstNumber: string;
+                                gstCertificate: string | null;
+                                fssaiNumber: string | null;
+                                fssaiLicense: string | null;
+                                bankAccountNumber: string;
+                                bankIfscCode: string;
+                                id: number;
+                                userId: number;
+                                createdAt: Date;
+                                updatedAt: Date;
+                            }, {
+                                businessName: string;
+                                businessType: string;
+                                ownerName: string;
+                                address: string;
+                                state: string;
+                                district: string;
+                                pincode: string;
+                                phone: string;
+                                email: string;
+                                secondaryContactName: string | null;
+                                secondaryContactDesignation: string | null;
+                                secondaryContactNumber: string | null;
+                                panNumber: string;
+                                panCard: string | null;
+                                gstNumber: string;
+                                gstCertificate: string | null;
+                                fssaiNumber: string | null;
+                                fssaiLicense: string | null;
+                                bankAccountNumber: string;
+                                bankIfscCode: string;
+                                id: number;
+                                userId: number;
+                                createdAt: Date;
+                                updatedAt: Date;
+                            }>;
+                        }>, "strip", z.ZodTypeAny, {
+                            email: string;
+                            id: number;
+                            createdAt: Date;
+                            updatedAt: Date;
+                            role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                            verified: boolean;
+                            uniqueIdentifier: string | null;
+                            profile: {
+                                businessName: string;
+                                businessType: string;
+                                ownerName: string;
+                                address: string;
+                                state: string;
+                                district: string;
+                                pincode: string;
+                                phone: string;
+                                email: string;
+                                secondaryContactName: string | null;
+                                secondaryContactDesignation: string | null;
+                                secondaryContactNumber: string | null;
+                                panNumber: string;
+                                panCard: string | null;
+                                gstNumber: string;
+                                gstCertificate: string | null;
+                                fssaiNumber: string | null;
+                                fssaiLicense: string | null;
+                                bankAccountNumber: string;
+                                bankIfscCode: string;
+                                id: number;
+                                userId: number;
+                                createdAt: Date;
+                                updatedAt: Date;
+                            };
+                        }, {
+                            email: string;
+                            id: number;
+                            createdAt: Date;
+                            updatedAt: Date;
+                            role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                            verified: boolean;
+                            uniqueIdentifier: string | null;
+                            profile: {
+                                businessName: string;
+                                businessType: string;
+                                ownerName: string;
+                                address: string;
+                                state: string;
+                                district: string;
+                                pincode: string;
+                                phone: string;
+                                email: string;
+                                secondaryContactName: string | null;
+                                secondaryContactDesignation: string | null;
+                                secondaryContactNumber: string | null;
+                                panNumber: string;
+                                panCard: string | null;
+                                gstNumber: string;
+                                gstCertificate: string | null;
+                                fssaiNumber: string | null;
+                                fssaiLicense: string | null;
+                                bankAccountNumber: string;
+                                bankIfscCode: string;
+                                id: number;
+                                userId: number;
+                                createdAt: Date;
+                                updatedAt: Date;
+                            };
+                        }>, "many">;
+                    }, "strip", z.ZodTypeAny, {
+                        users: {
+                            email: string;
+                            id: number;
+                            createdAt: Date;
+                            updatedAt: Date;
+                            role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                            verified: boolean;
+                            uniqueIdentifier: string | null;
+                            profile: {
+                                businessName: string;
+                                businessType: string;
+                                ownerName: string;
+                                address: string;
+                                state: string;
+                                district: string;
+                                pincode: string;
+                                phone: string;
+                                email: string;
+                                secondaryContactName: string | null;
+                                secondaryContactDesignation: string | null;
+                                secondaryContactNumber: string | null;
+                                panNumber: string;
+                                panCard: string | null;
+                                gstNumber: string;
+                                gstCertificate: string | null;
+                                fssaiNumber: string | null;
+                                fssaiLicense: string | null;
+                                bankAccountNumber: string;
+                                bankIfscCode: string;
+                                id: number;
+                                userId: number;
+                                createdAt: Date;
+                                updatedAt: Date;
+                            };
+                        }[];
+                        role: "BUYER";
+                    }, {
+                        users: {
+                            email: string;
+                            id: number;
+                            createdAt: Date;
+                            updatedAt: Date;
+                            role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                            verified: boolean;
+                            uniqueIdentifier: string | null;
+                            profile: {
+                                businessName: string;
+                                businessType: string;
+                                ownerName: string;
+                                address: string;
+                                state: string;
+                                district: string;
+                                pincode: string;
+                                phone: string;
+                                email: string;
+                                secondaryContactName: string | null;
+                                secondaryContactDesignation: string | null;
+                                secondaryContactNumber: string | null;
+                                panNumber: string;
+                                panCard: string | null;
+                                gstNumber: string;
+                                gstCertificate: string | null;
+                                fssaiNumber: string | null;
+                                fssaiLicense: string | null;
+                                bankAccountNumber: string;
+                                bankIfscCode: string;
+                                id: number;
+                                userId: number;
+                                createdAt: Date;
+                                updatedAt: Date;
+                            };
+                        }[];
+                        role: "BUYER";
+                    }>]>;
+                    total: z.ZodNumber;
+                    limit: z.ZodNumber;
+                    offset: z.ZodNumber;
                 }, "strip", z.ZodTypeAny, {
-                    id: number;
-                    email: string;
-                    createdAt: Date;
-                    updatedAt: Date;
-                    userId: number;
-                    businessName: string;
-                    businessType: string;
-                    ownerName: string;
-                    address: string;
-                    state: string;
-                    district: string;
-                    pincode: string;
-                    phone: string;
-                    secondaryContactName: string | null;
-                    secondaryContactDesignation: string | null;
-                    secondaryContactNumber: string | null;
-                    panNumber: string;
-                    panCard: string | null;
-                    gstNumber: string;
-                    gstCertificate: string | null;
-                    fssaiNumber: string | null;
-                    fssaiLicense: string | null;
-                    bankAccountNumber: string;
-                    bankIfscCode: string;
-                    tmcoNumber: string | null;
-                    cancelledCheque: string | null;
-                    transportName: string | null;
-                    brandName: string | null;
-                    brandLogo: string | null;
-                    brandCertificate: string | null;
+                    limit: number;
+                    offset: number;
+                    data: {
+                        users: {
+                            email: string;
+                            id: number;
+                            createdAt: Date;
+                            updatedAt: Date;
+                            role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                            verified: boolean;
+                            uniqueIdentifier: string | null;
+                            profile: {
+                                businessName: string;
+                                businessType: string;
+                                ownerName: string;
+                                address: string;
+                                state: string;
+                                district: string;
+                                pincode: string;
+                                phone: string;
+                                email: string;
+                                secondaryContactName: string | null;
+                                secondaryContactDesignation: string | null;
+                                secondaryContactNumber: string | null;
+                                panNumber: string;
+                                panCard: string | null;
+                                gstNumber: string;
+                                gstCertificate: string | null;
+                                fssaiNumber: string | null;
+                                fssaiLicense: string | null;
+                                bankAccountNumber: string;
+                                bankIfscCode: string;
+                                id: number;
+                                tmcoNumber: string | null;
+                                cancelledCheque: string | null;
+                                transportName: string | null;
+                                brandName: string | null;
+                                brandLogo: string | null;
+                                brandCertificate: string | null;
+                                userId: number;
+                                createdAt: Date;
+                                updatedAt: Date;
+                            };
+                        }[];
+                        role: "SELLER";
+                    } | {
+                        users: {
+                            email: string;
+                            id: number;
+                            createdAt: Date;
+                            updatedAt: Date;
+                            role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                            verified: boolean;
+                            uniqueIdentifier: string | null;
+                            profile: {
+                                businessName: string;
+                                businessType: string;
+                                ownerName: string;
+                                address: string;
+                                state: string;
+                                district: string;
+                                pincode: string;
+                                phone: string;
+                                email: string;
+                                secondaryContactName: string | null;
+                                secondaryContactDesignation: string | null;
+                                secondaryContactNumber: string | null;
+                                panNumber: string;
+                                panCard: string | null;
+                                gstNumber: string;
+                                gstCertificate: string | null;
+                                fssaiNumber: string | null;
+                                fssaiLicense: string | null;
+                                bankAccountNumber: string;
+                                bankIfscCode: string;
+                                id: number;
+                                userId: number;
+                                createdAt: Date;
+                                updatedAt: Date;
+                            };
+                        }[];
+                        role: "BUYER";
+                    };
+                    total: number;
                 }, {
-                    id: number;
-                    email: string;
-                    createdAt: Date;
-                    updatedAt: Date;
-                    userId: number;
-                    businessName: string;
-                    businessType: string;
-                    ownerName: string;
-                    address: string;
-                    state: string;
-                    district: string;
-                    pincode: string;
-                    phone: string;
-                    secondaryContactName: string | null;
-                    secondaryContactDesignation: string | null;
-                    secondaryContactNumber: string | null;
-                    panNumber: string;
-                    panCard: string | null;
-                    gstNumber: string;
-                    gstCertificate: string | null;
-                    fssaiNumber: string | null;
-                    fssaiLicense: string | null;
-                    bankAccountNumber: string;
-                    bankIfscCode: string;
-                    tmcoNumber: string | null;
-                    cancelledCheque: string | null;
-                    transportName: string | null;
-                    brandName: string | null;
-                    brandLogo: string | null;
-                    brandCertificate: string | null;
+                    limit: number;
+                    offset: number;
+                    data: {
+                        users: {
+                            email: string;
+                            id: number;
+                            createdAt: Date;
+                            updatedAt: Date;
+                            role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                            verified: boolean;
+                            uniqueIdentifier: string | null;
+                            profile: {
+                                businessName: string;
+                                businessType: string;
+                                ownerName: string;
+                                address: string;
+                                state: string;
+                                district: string;
+                                pincode: string;
+                                phone: string;
+                                email: string;
+                                secondaryContactName: string | null;
+                                secondaryContactDesignation: string | null;
+                                secondaryContactNumber: string | null;
+                                panNumber: string;
+                                panCard: string | null;
+                                gstNumber: string;
+                                gstCertificate: string | null;
+                                fssaiNumber: string | null;
+                                fssaiLicense: string | null;
+                                bankAccountNumber: string;
+                                bankIfscCode: string;
+                                id: number;
+                                tmcoNumber: string | null;
+                                cancelledCheque: string | null;
+                                transportName: string | null;
+                                brandName: string | null;
+                                brandLogo: string | null;
+                                brandCertificate: string | null;
+                                userId: number;
+                                createdAt: Date;
+                                updatedAt: Date;
+                            };
+                        }[];
+                        role: "SELLER";
+                    } | {
+                        users: {
+                            email: string;
+                            id: number;
+                            createdAt: Date;
+                            updatedAt: Date;
+                            role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                            verified: boolean;
+                            uniqueIdentifier: string | null;
+                            profile: {
+                                businessName: string;
+                                businessType: string;
+                                ownerName: string;
+                                address: string;
+                                state: string;
+                                district: string;
+                                pincode: string;
+                                phone: string;
+                                email: string;
+                                secondaryContactName: string | null;
+                                secondaryContactDesignation: string | null;
+                                secondaryContactNumber: string | null;
+                                panNumber: string;
+                                panCard: string | null;
+                                gstNumber: string;
+                                gstCertificate: string | null;
+                                fssaiNumber: string | null;
+                                fssaiLicense: string | null;
+                                bankAccountNumber: string;
+                                bankIfscCode: string;
+                                id: number;
+                                userId: number;
+                                createdAt: Date;
+                                updatedAt: Date;
+                            };
+                        }[];
+                        role: "BUYER";
+                    };
+                    total: number;
                 }>;
-                404: z.ZodObject<{
+                401: z.ZodObject<{
                     message: z.ZodString;
                     code: z.ZodString;
                     timestamp: z.ZodString;
                 }, "strip", z.ZodTypeAny, {
-                    message: string;
                     code: string;
+                    message: string;
                     timestamp: string;
                 }, {
-                    message: string;
                     code: string;
+                    message: string;
                     timestamp: string;
                 }>;
-            };
-        };
-        createProfile: {
-            method: "POST";
-            body: z.ZodObject<Omit<{
-                tmcoNumber: z.ZodNullable<z.ZodString>;
-                cancelledCheque: z.ZodNullable<z.ZodString>;
-                transportName: z.ZodNullable<z.ZodString>;
-                brandName: z.ZodNullable<z.ZodString>;
-                brandLogo: z.ZodNullable<z.ZodString>;
-                brandCertificate: z.ZodNullable<z.ZodString>;
-                userId: z.ZodNumber;
-                createdAt: z.ZodDate;
-                updatedAt: z.ZodDate;
-                bankAccountNumber: z.ZodString;
-                bankIfscCode: z.ZodString;
-                panNumber: z.ZodString;
-                panCard: z.ZodNullable<z.ZodString>;
-                gstNumber: z.ZodString;
-                gstCertificate: z.ZodNullable<z.ZodString>;
-                fssaiNumber: z.ZodNullable<z.ZodString>;
-                fssaiLicense: z.ZodNullable<z.ZodString>;
-                phone: z.ZodString;
-                email: z.ZodString;
-                secondaryContactName: z.ZodNullable<z.ZodString>;
-                secondaryContactDesignation: z.ZodNullable<z.ZodString>;
-                secondaryContactNumber: z.ZodNullable<z.ZodString>;
-                address: z.ZodString;
-                state: z.ZodString;
-                district: z.ZodString;
-                pincode: z.ZodString;
-                businessName: z.ZodString;
-                businessType: z.ZodString;
-                ownerName: z.ZodString;
-                id: z.ZodNumber;
-            }, "id" | "createdAt" | "updatedAt">, "strip", z.ZodTypeAny, {
-                email: string;
-                userId: number;
-                businessName: string;
-                businessType: string;
-                ownerName: string;
-                address: string;
-                state: string;
-                district: string;
-                pincode: string;
-                phone: string;
-                secondaryContactName: string | null;
-                secondaryContactDesignation: string | null;
-                secondaryContactNumber: string | null;
-                panNumber: string;
-                panCard: string | null;
-                gstNumber: string;
-                gstCertificate: string | null;
-                fssaiNumber: string | null;
-                fssaiLicense: string | null;
-                bankAccountNumber: string;
-                bankIfscCode: string;
-                tmcoNumber: string | null;
-                cancelledCheque: string | null;
-                transportName: string | null;
-                brandName: string | null;
-                brandLogo: string | null;
-                brandCertificate: string | null;
-            }, {
-                email: string;
-                userId: number;
-                businessName: string;
-                businessType: string;
-                ownerName: string;
-                address: string;
-                state: string;
-                district: string;
-                pincode: string;
-                phone: string;
-                secondaryContactName: string | null;
-                secondaryContactDesignation: string | null;
-                secondaryContactNumber: string | null;
-                panNumber: string;
-                panCard: string | null;
-                gstNumber: string;
-                gstCertificate: string | null;
-                fssaiNumber: string | null;
-                fssaiLicense: string | null;
-                bankAccountNumber: string;
-                bankIfscCode: string;
-                tmcoNumber: string | null;
-                cancelledCheque: string | null;
-                transportName: string | null;
-                brandName: string | null;
-                brandLogo: string | null;
-                brandCertificate: string | null;
-            }>;
-            path: "/api/sellers/profile";
-            responses: {
-                201: z.ZodObject<{
-                    tmcoNumber: z.ZodNullable<z.ZodString>;
-                    cancelledCheque: z.ZodNullable<z.ZodString>;
-                    transportName: z.ZodNullable<z.ZodString>;
-                    brandName: z.ZodNullable<z.ZodString>;
-                    brandLogo: z.ZodNullable<z.ZodString>;
-                    brandCertificate: z.ZodNullable<z.ZodString>;
-                    userId: z.ZodNumber;
-                    createdAt: z.ZodDate;
-                    updatedAt: z.ZodDate;
-                    bankAccountNumber: z.ZodString;
-                    bankIfscCode: z.ZodString;
-                    panNumber: z.ZodString;
-                    panCard: z.ZodNullable<z.ZodString>;
-                    gstNumber: z.ZodString;
-                    gstCertificate: z.ZodNullable<z.ZodString>;
-                    fssaiNumber: z.ZodNullable<z.ZodString>;
-                    fssaiLicense: z.ZodNullable<z.ZodString>;
-                    phone: z.ZodString;
-                    email: z.ZodString;
-                    secondaryContactName: z.ZodNullable<z.ZodString>;
-                    secondaryContactDesignation: z.ZodNullable<z.ZodString>;
-                    secondaryContactNumber: z.ZodNullable<z.ZodString>;
-                    address: z.ZodString;
-                    state: z.ZodString;
-                    district: z.ZodString;
-                    pincode: z.ZodString;
-                    businessName: z.ZodString;
-                    businessType: z.ZodString;
-                    ownerName: z.ZodString;
-                    id: z.ZodNumber;
+                403: z.ZodObject<{
+                    message: z.ZodString;
+                    code: z.ZodString;
+                    timestamp: z.ZodString;
                 }, "strip", z.ZodTypeAny, {
-                    id: number;
-                    email: string;
-                    createdAt: Date;
-                    updatedAt: Date;
-                    userId: number;
-                    businessName: string;
-                    businessType: string;
-                    ownerName: string;
-                    address: string;
-                    state: string;
-                    district: string;
-                    pincode: string;
-                    phone: string;
-                    secondaryContactName: string | null;
-                    secondaryContactDesignation: string | null;
-                    secondaryContactNumber: string | null;
-                    panNumber: string;
-                    panCard: string | null;
-                    gstNumber: string;
-                    gstCertificate: string | null;
-                    fssaiNumber: string | null;
-                    fssaiLicense: string | null;
-                    bankAccountNumber: string;
-                    bankIfscCode: string;
-                    tmcoNumber: string | null;
-                    cancelledCheque: string | null;
-                    transportName: string | null;
-                    brandName: string | null;
-                    brandLogo: string | null;
-                    brandCertificate: string | null;
+                    code: string;
+                    message: string;
+                    timestamp: string;
                 }, {
-                    id: number;
-                    email: string;
-                    createdAt: Date;
-                    updatedAt: Date;
-                    userId: number;
-                    businessName: string;
-                    businessType: string;
-                    ownerName: string;
-                    address: string;
-                    state: string;
-                    district: string;
-                    pincode: string;
-                    phone: string;
-                    secondaryContactName: string | null;
-                    secondaryContactDesignation: string | null;
-                    secondaryContactNumber: string | null;
-                    panNumber: string;
-                    panCard: string | null;
-                    gstNumber: string;
-                    gstCertificate: string | null;
-                    fssaiNumber: string | null;
-                    fssaiLicense: string | null;
-                    bankAccountNumber: string;
-                    bankIfscCode: string;
-                    tmcoNumber: string | null;
-                    cancelledCheque: string | null;
-                    transportName: string | null;
-                    brandName: string | null;
-                    brandLogo: string | null;
-                    brandCertificate: string | null;
+                    code: string;
+                    message: string;
+                    timestamp: string;
                 }>;
                 400: z.ZodObject<{
                     message: z.ZodString;
                     code: z.ZodString;
                     timestamp: z.ZodString;
                 }, "strip", z.ZodTypeAny, {
-                    message: string;
                     code: string;
+                    message: string;
                     timestamp: string;
                 }, {
-                    message: string;
                     code: string;
+                    message: string;
                     timestamp: string;
                 }>;
             };
         };
-        updateProfile: {
-            pathParams: z.ZodObject<{
-                userId: z.ZodString;
+        listPendingVerifications: {
+            query: z.ZodObject<{
+                role: z.ZodEnum<["SELLER", "BUYER"]>;
+                limit: z.ZodDefault<z.ZodOptional<z.ZodNumber>>;
+                offset: z.ZodDefault<z.ZodOptional<z.ZodNumber>>;
             }, "strip", z.ZodTypeAny, {
-                userId: string;
+                role: "SELLER" | "BUYER";
+                limit: number;
+                offset: number;
             }, {
-                userId: string;
-            }>;
-            method: "PUT";
-            body: z.ZodObject<{
-                email: z.ZodOptional<z.ZodString>;
-                businessName: z.ZodOptional<z.ZodString>;
-                businessType: z.ZodOptional<z.ZodString>;
-                ownerName: z.ZodOptional<z.ZodString>;
-                address: z.ZodOptional<z.ZodString>;
-                state: z.ZodOptional<z.ZodString>;
-                district: z.ZodOptional<z.ZodString>;
-                pincode: z.ZodOptional<z.ZodString>;
-                phone: z.ZodOptional<z.ZodString>;
-                secondaryContactName: z.ZodOptional<z.ZodNullable<z.ZodString>>;
-                secondaryContactDesignation: z.ZodOptional<z.ZodNullable<z.ZodString>>;
-                secondaryContactNumber: z.ZodOptional<z.ZodNullable<z.ZodString>>;
-                panNumber: z.ZodOptional<z.ZodString>;
-                panCard: z.ZodOptional<z.ZodNullable<z.ZodString>>;
-                gstNumber: z.ZodOptional<z.ZodString>;
-                gstCertificate: z.ZodOptional<z.ZodNullable<z.ZodString>>;
-                fssaiNumber: z.ZodOptional<z.ZodNullable<z.ZodString>>;
-                fssaiLicense: z.ZodOptional<z.ZodNullable<z.ZodString>>;
-                bankAccountNumber: z.ZodOptional<z.ZodString>;
-                bankIfscCode: z.ZodOptional<z.ZodString>;
-                tmcoNumber: z.ZodOptional<z.ZodNullable<z.ZodString>>;
-                cancelledCheque: z.ZodOptional<z.ZodNullable<z.ZodString>>;
-                transportName: z.ZodOptional<z.ZodNullable<z.ZodString>>;
-                brandName: z.ZodOptional<z.ZodNullable<z.ZodString>>;
-                brandLogo: z.ZodOptional<z.ZodNullable<z.ZodString>>;
-                brandCertificate: z.ZodOptional<z.ZodNullable<z.ZodString>>;
-            }, "strip", z.ZodTypeAny, {
-                email?: string | undefined;
-                businessName?: string | undefined;
-                businessType?: string | undefined;
-                ownerName?: string | undefined;
-                address?: string | undefined;
-                state?: string | undefined;
-                district?: string | undefined;
-                pincode?: string | undefined;
-                phone?: string | undefined;
-                secondaryContactName?: string | null | undefined;
-                secondaryContactDesignation?: string | null | undefined;
-                secondaryContactNumber?: string | null | undefined;
-                panNumber?: string | undefined;
-                panCard?: string | null | undefined;
-                gstNumber?: string | undefined;
-                gstCertificate?: string | null | undefined;
-                fssaiNumber?: string | null | undefined;
-                fssaiLicense?: string | null | undefined;
-                bankAccountNumber?: string | undefined;
-                bankIfscCode?: string | undefined;
-                tmcoNumber?: string | null | undefined;
-                cancelledCheque?: string | null | undefined;
-                transportName?: string | null | undefined;
-                brandName?: string | null | undefined;
-                brandLogo?: string | null | undefined;
-                brandCertificate?: string | null | undefined;
-            }, {
-                email?: string | undefined;
-                businessName?: string | undefined;
-                businessType?: string | undefined;
-                ownerName?: string | undefined;
-                address?: string | undefined;
-                state?: string | undefined;
-                district?: string | undefined;
-                pincode?: string | undefined;
-                phone?: string | undefined;
-                secondaryContactName?: string | null | undefined;
-                secondaryContactDesignation?: string | null | undefined;
-                secondaryContactNumber?: string | null | undefined;
-                panNumber?: string | undefined;
-                panCard?: string | null | undefined;
-                gstNumber?: string | undefined;
-                gstCertificate?: string | null | undefined;
-                fssaiNumber?: string | null | undefined;
-                fssaiLicense?: string | null | undefined;
-                bankAccountNumber?: string | undefined;
-                bankIfscCode?: string | undefined;
-                tmcoNumber?: string | null | undefined;
-                cancelledCheque?: string | null | undefined;
-                transportName?: string | null | undefined;
-                brandName?: string | null | undefined;
-                brandLogo?: string | null | undefined;
-                brandCertificate?: string | null | undefined;
-            }>;
-            path: "/api/sellers/profile/:userId";
-            responses: {
-                200: z.ZodObject<{
-                    tmcoNumber: z.ZodNullable<z.ZodString>;
-                    cancelledCheque: z.ZodNullable<z.ZodString>;
-                    transportName: z.ZodNullable<z.ZodString>;
-                    brandName: z.ZodNullable<z.ZodString>;
-                    brandLogo: z.ZodNullable<z.ZodString>;
-                    brandCertificate: z.ZodNullable<z.ZodString>;
-                    userId: z.ZodNumber;
-                    createdAt: z.ZodDate;
-                    updatedAt: z.ZodDate;
-                    bankAccountNumber: z.ZodString;
-                    bankIfscCode: z.ZodString;
-                    panNumber: z.ZodString;
-                    panCard: z.ZodNullable<z.ZodString>;
-                    gstNumber: z.ZodString;
-                    gstCertificate: z.ZodNullable<z.ZodString>;
-                    fssaiNumber: z.ZodNullable<z.ZodString>;
-                    fssaiLicense: z.ZodNullable<z.ZodString>;
-                    phone: z.ZodString;
-                    email: z.ZodString;
-                    secondaryContactName: z.ZodNullable<z.ZodString>;
-                    secondaryContactDesignation: z.ZodNullable<z.ZodString>;
-                    secondaryContactNumber: z.ZodNullable<z.ZodString>;
-                    address: z.ZodString;
-                    state: z.ZodString;
-                    district: z.ZodString;
-                    pincode: z.ZodString;
-                    businessName: z.ZodString;
-                    businessType: z.ZodString;
-                    ownerName: z.ZodString;
-                    id: z.ZodNumber;
-                }, "strip", z.ZodTypeAny, {
-                    id: number;
-                    email: string;
-                    createdAt: Date;
-                    updatedAt: Date;
-                    userId: number;
-                    businessName: string;
-                    businessType: string;
-                    ownerName: string;
-                    address: string;
-                    state: string;
-                    district: string;
-                    pincode: string;
-                    phone: string;
-                    secondaryContactName: string | null;
-                    secondaryContactDesignation: string | null;
-                    secondaryContactNumber: string | null;
-                    panNumber: string;
-                    panCard: string | null;
-                    gstNumber: string;
-                    gstCertificate: string | null;
-                    fssaiNumber: string | null;
-                    fssaiLicense: string | null;
-                    bankAccountNumber: string;
-                    bankIfscCode: string;
-                    tmcoNumber: string | null;
-                    cancelledCheque: string | null;
-                    transportName: string | null;
-                    brandName: string | null;
-                    brandLogo: string | null;
-                    brandCertificate: string | null;
-                }, {
-                    id: number;
-                    email: string;
-                    createdAt: Date;
-                    updatedAt: Date;
-                    userId: number;
-                    businessName: string;
-                    businessType: string;
-                    ownerName: string;
-                    address: string;
-                    state: string;
-                    district: string;
-                    pincode: string;
-                    phone: string;
-                    secondaryContactName: string | null;
-                    secondaryContactDesignation: string | null;
-                    secondaryContactNumber: string | null;
-                    panNumber: string;
-                    panCard: string | null;
-                    gstNumber: string;
-                    gstCertificate: string | null;
-                    fssaiNumber: string | null;
-                    fssaiLicense: string | null;
-                    bankAccountNumber: string;
-                    bankIfscCode: string;
-                    tmcoNumber: string | null;
-                    cancelledCheque: string | null;
-                    transportName: string | null;
-                    brandName: string | null;
-                    brandLogo: string | null;
-                    brandCertificate: string | null;
-                }>;
-                404: z.ZodObject<{
-                    message: z.ZodString;
-                    code: z.ZodString;
-                    timestamp: z.ZodString;
-                }, "strip", z.ZodTypeAny, {
-                    message: string;
-                    code: string;
-                    timestamp: string;
-                }, {
-                    message: string;
-                    code: string;
-                    timestamp: string;
-                }>;
-            };
-        };
-    };
-    buyers: {
-        getProfile: {
-            pathParams: z.ZodObject<{
-                userId: z.ZodString;
-            }, "strip", z.ZodTypeAny, {
-                userId: string;
-            }, {
-                userId: string;
+                role: "SELLER" | "BUYER";
+                limit?: number | undefined;
+                offset?: number | undefined;
             }>;
             method: "GET";
-            path: "/api/buyers/profile/:userId";
+            path: "/api/admin/verifications/pending";
             responses: {
                 200: z.ZodObject<{
-                    userId: z.ZodNumber;
-                    createdAt: z.ZodDate;
-                    updatedAt: z.ZodDate;
-                    bankAccountNumber: z.ZodString;
-                    bankIfscCode: z.ZodString;
-                    panNumber: z.ZodString;
-                    panCard: z.ZodNullable<z.ZodString>;
-                    gstNumber: z.ZodString;
-                    gstCertificate: z.ZodNullable<z.ZodString>;
-                    fssaiNumber: z.ZodNullable<z.ZodString>;
-                    fssaiLicense: z.ZodNullable<z.ZodString>;
-                    phone: z.ZodString;
-                    email: z.ZodString;
-                    secondaryContactName: z.ZodNullable<z.ZodString>;
-                    secondaryContactDesignation: z.ZodNullable<z.ZodString>;
-                    secondaryContactNumber: z.ZodNullable<z.ZodString>;
-                    address: z.ZodString;
-                    state: z.ZodString;
-                    district: z.ZodString;
-                    pincode: z.ZodString;
-                    businessName: z.ZodString;
-                    businessType: z.ZodString;
-                    ownerName: z.ZodString;
-                    id: z.ZodNumber;
+                    data: z.ZodDiscriminatedUnion<"role", [z.ZodObject<{
+                        role: z.ZodLiteral<"SELLER">;
+                        users: z.ZodArray<z.ZodObject<{
+                            id: z.ZodNumber;
+                            email: z.ZodString;
+                            role: z.ZodEnum<["SELLER", "BUYER"]>;
+                            verified: z.ZodBoolean;
+                            createdAt: z.ZodString;
+                            profile: z.ZodDiscriminatedUnion<"role", [z.ZodObject<{
+                                tmcoNumber: z.ZodNullable<z.ZodString>;
+                                cancelledCheque: z.ZodNullable<z.ZodString>;
+                                transportName: z.ZodNullable<z.ZodString>;
+                                brandName: z.ZodNullable<z.ZodString>;
+                                brandLogo: z.ZodNullable<z.ZodString>;
+                                brandCertificate: z.ZodNullable<z.ZodString>;
+                                bankAccountNumber: z.ZodString;
+                                bankIfscCode: z.ZodString;
+                                panNumber: z.ZodString;
+                                panCard: z.ZodNullable<z.ZodString>;
+                                gstNumber: z.ZodString;
+                                gstCertificate: z.ZodNullable<z.ZodString>;
+                                fssaiNumber: z.ZodNullable<z.ZodString>;
+                                fssaiLicense: z.ZodNullable<z.ZodString>;
+                                phone: z.ZodString;
+                                email: z.ZodString;
+                                secondaryContactName: z.ZodNullable<z.ZodString>;
+                                secondaryContactDesignation: z.ZodNullable<z.ZodString>;
+                                secondaryContactNumber: z.ZodNullable<z.ZodString>;
+                                address: z.ZodString;
+                                state: z.ZodString;
+                                district: z.ZodString;
+                                pincode: z.ZodString;
+                                businessName: z.ZodString;
+                                businessType: z.ZodString;
+                                ownerName: z.ZodString;
+                                role: z.ZodLiteral<"SELLER">;
+                            }, "strip", z.ZodTypeAny, {
+                                businessName: string;
+                                businessType: string;
+                                ownerName: string;
+                                address: string;
+                                state: string;
+                                district: string;
+                                pincode: string;
+                                phone: string;
+                                email: string;
+                                secondaryContactName: string | null;
+                                secondaryContactDesignation: string | null;
+                                secondaryContactNumber: string | null;
+                                panNumber: string;
+                                panCard: string | null;
+                                gstNumber: string;
+                                gstCertificate: string | null;
+                                fssaiNumber: string | null;
+                                fssaiLicense: string | null;
+                                bankAccountNumber: string;
+                                bankIfscCode: string;
+                                tmcoNumber: string | null;
+                                cancelledCheque: string | null;
+                                transportName: string | null;
+                                brandName: string | null;
+                                brandLogo: string | null;
+                                brandCertificate: string | null;
+                                role: "SELLER";
+                            }, {
+                                businessName: string;
+                                businessType: string;
+                                ownerName: string;
+                                address: string;
+                                state: string;
+                                district: string;
+                                pincode: string;
+                                phone: string;
+                                email: string;
+                                secondaryContactName: string | null;
+                                secondaryContactDesignation: string | null;
+                                secondaryContactNumber: string | null;
+                                panNumber: string;
+                                panCard: string | null;
+                                gstNumber: string;
+                                gstCertificate: string | null;
+                                fssaiNumber: string | null;
+                                fssaiLicense: string | null;
+                                bankAccountNumber: string;
+                                bankIfscCode: string;
+                                tmcoNumber: string | null;
+                                cancelledCheque: string | null;
+                                transportName: string | null;
+                                brandName: string | null;
+                                brandLogo: string | null;
+                                brandCertificate: string | null;
+                                role: "SELLER";
+                            }>, z.ZodObject<{
+                                bankAccountNumber: z.ZodString;
+                                bankIfscCode: z.ZodString;
+                                panNumber: z.ZodString;
+                                panCard: z.ZodNullable<z.ZodString>;
+                                gstNumber: z.ZodString;
+                                gstCertificate: z.ZodNullable<z.ZodString>;
+                                fssaiNumber: z.ZodNullable<z.ZodString>;
+                                fssaiLicense: z.ZodNullable<z.ZodString>;
+                                phone: z.ZodString;
+                                email: z.ZodString;
+                                secondaryContactName: z.ZodNullable<z.ZodString>;
+                                secondaryContactDesignation: z.ZodNullable<z.ZodString>;
+                                secondaryContactNumber: z.ZodNullable<z.ZodString>;
+                                address: z.ZodString;
+                                state: z.ZodString;
+                                district: z.ZodString;
+                                pincode: z.ZodString;
+                                businessName: z.ZodString;
+                                businessType: z.ZodString;
+                                ownerName: z.ZodString;
+                                role: z.ZodLiteral<"BUYER">;
+                            }, "strip", z.ZodTypeAny, {
+                                businessName: string;
+                                businessType: string;
+                                ownerName: string;
+                                address: string;
+                                state: string;
+                                district: string;
+                                pincode: string;
+                                phone: string;
+                                email: string;
+                                secondaryContactName: string | null;
+                                secondaryContactDesignation: string | null;
+                                secondaryContactNumber: string | null;
+                                panNumber: string;
+                                panCard: string | null;
+                                gstNumber: string;
+                                gstCertificate: string | null;
+                                fssaiNumber: string | null;
+                                fssaiLicense: string | null;
+                                bankAccountNumber: string;
+                                bankIfscCode: string;
+                                role: "BUYER";
+                            }, {
+                                businessName: string;
+                                businessType: string;
+                                ownerName: string;
+                                address: string;
+                                state: string;
+                                district: string;
+                                pincode: string;
+                                phone: string;
+                                email: string;
+                                secondaryContactName: string | null;
+                                secondaryContactDesignation: string | null;
+                                secondaryContactNumber: string | null;
+                                panNumber: string;
+                                panCard: string | null;
+                                gstNumber: string;
+                                gstCertificate: string | null;
+                                fssaiNumber: string | null;
+                                fssaiLicense: string | null;
+                                bankAccountNumber: string;
+                                bankIfscCode: string;
+                                role: "BUYER";
+                            }>]>;
+                        }, "strip", z.ZodTypeAny, {
+                            email: string;
+                            id: number;
+                            createdAt: string;
+                            role: "SELLER" | "BUYER";
+                            verified: boolean;
+                            profile: {
+                                businessName: string;
+                                businessType: string;
+                                ownerName: string;
+                                address: string;
+                                state: string;
+                                district: string;
+                                pincode: string;
+                                phone: string;
+                                email: string;
+                                secondaryContactName: string | null;
+                                secondaryContactDesignation: string | null;
+                                secondaryContactNumber: string | null;
+                                panNumber: string;
+                                panCard: string | null;
+                                gstNumber: string;
+                                gstCertificate: string | null;
+                                fssaiNumber: string | null;
+                                fssaiLicense: string | null;
+                                bankAccountNumber: string;
+                                bankIfscCode: string;
+                                tmcoNumber: string | null;
+                                cancelledCheque: string | null;
+                                transportName: string | null;
+                                brandName: string | null;
+                                brandLogo: string | null;
+                                brandCertificate: string | null;
+                                role: "SELLER";
+                            } | {
+                                businessName: string;
+                                businessType: string;
+                                ownerName: string;
+                                address: string;
+                                state: string;
+                                district: string;
+                                pincode: string;
+                                phone: string;
+                                email: string;
+                                secondaryContactName: string | null;
+                                secondaryContactDesignation: string | null;
+                                secondaryContactNumber: string | null;
+                                panNumber: string;
+                                panCard: string | null;
+                                gstNumber: string;
+                                gstCertificate: string | null;
+                                fssaiNumber: string | null;
+                                fssaiLicense: string | null;
+                                bankAccountNumber: string;
+                                bankIfscCode: string;
+                                role: "BUYER";
+                            };
+                        }, {
+                            email: string;
+                            id: number;
+                            createdAt: string;
+                            role: "SELLER" | "BUYER";
+                            verified: boolean;
+                            profile: {
+                                businessName: string;
+                                businessType: string;
+                                ownerName: string;
+                                address: string;
+                                state: string;
+                                district: string;
+                                pincode: string;
+                                phone: string;
+                                email: string;
+                                secondaryContactName: string | null;
+                                secondaryContactDesignation: string | null;
+                                secondaryContactNumber: string | null;
+                                panNumber: string;
+                                panCard: string | null;
+                                gstNumber: string;
+                                gstCertificate: string | null;
+                                fssaiNumber: string | null;
+                                fssaiLicense: string | null;
+                                bankAccountNumber: string;
+                                bankIfscCode: string;
+                                tmcoNumber: string | null;
+                                cancelledCheque: string | null;
+                                transportName: string | null;
+                                brandName: string | null;
+                                brandLogo: string | null;
+                                brandCertificate: string | null;
+                                role: "SELLER";
+                            } | {
+                                businessName: string;
+                                businessType: string;
+                                ownerName: string;
+                                address: string;
+                                state: string;
+                                district: string;
+                                pincode: string;
+                                phone: string;
+                                email: string;
+                                secondaryContactName: string | null;
+                                secondaryContactDesignation: string | null;
+                                secondaryContactNumber: string | null;
+                                panNumber: string;
+                                panCard: string | null;
+                                gstNumber: string;
+                                gstCertificate: string | null;
+                                fssaiNumber: string | null;
+                                fssaiLicense: string | null;
+                                bankAccountNumber: string;
+                                bankIfscCode: string;
+                                role: "BUYER";
+                            };
+                        }>, "many">;
+                    }, "strip", z.ZodTypeAny, {
+                        users: {
+                            email: string;
+                            id: number;
+                            createdAt: string;
+                            role: "SELLER" | "BUYER";
+                            verified: boolean;
+                            profile: {
+                                businessName: string;
+                                businessType: string;
+                                ownerName: string;
+                                address: string;
+                                state: string;
+                                district: string;
+                                pincode: string;
+                                phone: string;
+                                email: string;
+                                secondaryContactName: string | null;
+                                secondaryContactDesignation: string | null;
+                                secondaryContactNumber: string | null;
+                                panNumber: string;
+                                panCard: string | null;
+                                gstNumber: string;
+                                gstCertificate: string | null;
+                                fssaiNumber: string | null;
+                                fssaiLicense: string | null;
+                                bankAccountNumber: string;
+                                bankIfscCode: string;
+                                tmcoNumber: string | null;
+                                cancelledCheque: string | null;
+                                transportName: string | null;
+                                brandName: string | null;
+                                brandLogo: string | null;
+                                brandCertificate: string | null;
+                                role: "SELLER";
+                            } | {
+                                businessName: string;
+                                businessType: string;
+                                ownerName: string;
+                                address: string;
+                                state: string;
+                                district: string;
+                                pincode: string;
+                                phone: string;
+                                email: string;
+                                secondaryContactName: string | null;
+                                secondaryContactDesignation: string | null;
+                                secondaryContactNumber: string | null;
+                                panNumber: string;
+                                panCard: string | null;
+                                gstNumber: string;
+                                gstCertificate: string | null;
+                                fssaiNumber: string | null;
+                                fssaiLicense: string | null;
+                                bankAccountNumber: string;
+                                bankIfscCode: string;
+                                role: "BUYER";
+                            };
+                        }[];
+                        role: "SELLER";
+                    }, {
+                        users: {
+                            email: string;
+                            id: number;
+                            createdAt: string;
+                            role: "SELLER" | "BUYER";
+                            verified: boolean;
+                            profile: {
+                                businessName: string;
+                                businessType: string;
+                                ownerName: string;
+                                address: string;
+                                state: string;
+                                district: string;
+                                pincode: string;
+                                phone: string;
+                                email: string;
+                                secondaryContactName: string | null;
+                                secondaryContactDesignation: string | null;
+                                secondaryContactNumber: string | null;
+                                panNumber: string;
+                                panCard: string | null;
+                                gstNumber: string;
+                                gstCertificate: string | null;
+                                fssaiNumber: string | null;
+                                fssaiLicense: string | null;
+                                bankAccountNumber: string;
+                                bankIfscCode: string;
+                                tmcoNumber: string | null;
+                                cancelledCheque: string | null;
+                                transportName: string | null;
+                                brandName: string | null;
+                                brandLogo: string | null;
+                                brandCertificate: string | null;
+                                role: "SELLER";
+                            } | {
+                                businessName: string;
+                                businessType: string;
+                                ownerName: string;
+                                address: string;
+                                state: string;
+                                district: string;
+                                pincode: string;
+                                phone: string;
+                                email: string;
+                                secondaryContactName: string | null;
+                                secondaryContactDesignation: string | null;
+                                secondaryContactNumber: string | null;
+                                panNumber: string;
+                                panCard: string | null;
+                                gstNumber: string;
+                                gstCertificate: string | null;
+                                fssaiNumber: string | null;
+                                fssaiLicense: string | null;
+                                bankAccountNumber: string;
+                                bankIfscCode: string;
+                                role: "BUYER";
+                            };
+                        }[];
+                        role: "SELLER";
+                    }>, z.ZodObject<{
+                        role: z.ZodLiteral<"BUYER">;
+                        users: z.ZodArray<z.ZodObject<{
+                            id: z.ZodNumber;
+                            email: z.ZodString;
+                            role: z.ZodEnum<["SELLER", "BUYER"]>;
+                            verified: z.ZodBoolean;
+                            createdAt: z.ZodString;
+                            profile: z.ZodDiscriminatedUnion<"role", [z.ZodObject<{
+                                tmcoNumber: z.ZodNullable<z.ZodString>;
+                                cancelledCheque: z.ZodNullable<z.ZodString>;
+                                transportName: z.ZodNullable<z.ZodString>;
+                                brandName: z.ZodNullable<z.ZodString>;
+                                brandLogo: z.ZodNullable<z.ZodString>;
+                                brandCertificate: z.ZodNullable<z.ZodString>;
+                                bankAccountNumber: z.ZodString;
+                                bankIfscCode: z.ZodString;
+                                panNumber: z.ZodString;
+                                panCard: z.ZodNullable<z.ZodString>;
+                                gstNumber: z.ZodString;
+                                gstCertificate: z.ZodNullable<z.ZodString>;
+                                fssaiNumber: z.ZodNullable<z.ZodString>;
+                                fssaiLicense: z.ZodNullable<z.ZodString>;
+                                phone: z.ZodString;
+                                email: z.ZodString;
+                                secondaryContactName: z.ZodNullable<z.ZodString>;
+                                secondaryContactDesignation: z.ZodNullable<z.ZodString>;
+                                secondaryContactNumber: z.ZodNullable<z.ZodString>;
+                                address: z.ZodString;
+                                state: z.ZodString;
+                                district: z.ZodString;
+                                pincode: z.ZodString;
+                                businessName: z.ZodString;
+                                businessType: z.ZodString;
+                                ownerName: z.ZodString;
+                                role: z.ZodLiteral<"SELLER">;
+                            }, "strip", z.ZodTypeAny, {
+                                businessName: string;
+                                businessType: string;
+                                ownerName: string;
+                                address: string;
+                                state: string;
+                                district: string;
+                                pincode: string;
+                                phone: string;
+                                email: string;
+                                secondaryContactName: string | null;
+                                secondaryContactDesignation: string | null;
+                                secondaryContactNumber: string | null;
+                                panNumber: string;
+                                panCard: string | null;
+                                gstNumber: string;
+                                gstCertificate: string | null;
+                                fssaiNumber: string | null;
+                                fssaiLicense: string | null;
+                                bankAccountNumber: string;
+                                bankIfscCode: string;
+                                tmcoNumber: string | null;
+                                cancelledCheque: string | null;
+                                transportName: string | null;
+                                brandName: string | null;
+                                brandLogo: string | null;
+                                brandCertificate: string | null;
+                                role: "SELLER";
+                            }, {
+                                businessName: string;
+                                businessType: string;
+                                ownerName: string;
+                                address: string;
+                                state: string;
+                                district: string;
+                                pincode: string;
+                                phone: string;
+                                email: string;
+                                secondaryContactName: string | null;
+                                secondaryContactDesignation: string | null;
+                                secondaryContactNumber: string | null;
+                                panNumber: string;
+                                panCard: string | null;
+                                gstNumber: string;
+                                gstCertificate: string | null;
+                                fssaiNumber: string | null;
+                                fssaiLicense: string | null;
+                                bankAccountNumber: string;
+                                bankIfscCode: string;
+                                tmcoNumber: string | null;
+                                cancelledCheque: string | null;
+                                transportName: string | null;
+                                brandName: string | null;
+                                brandLogo: string | null;
+                                brandCertificate: string | null;
+                                role: "SELLER";
+                            }>, z.ZodObject<{
+                                bankAccountNumber: z.ZodString;
+                                bankIfscCode: z.ZodString;
+                                panNumber: z.ZodString;
+                                panCard: z.ZodNullable<z.ZodString>;
+                                gstNumber: z.ZodString;
+                                gstCertificate: z.ZodNullable<z.ZodString>;
+                                fssaiNumber: z.ZodNullable<z.ZodString>;
+                                fssaiLicense: z.ZodNullable<z.ZodString>;
+                                phone: z.ZodString;
+                                email: z.ZodString;
+                                secondaryContactName: z.ZodNullable<z.ZodString>;
+                                secondaryContactDesignation: z.ZodNullable<z.ZodString>;
+                                secondaryContactNumber: z.ZodNullable<z.ZodString>;
+                                address: z.ZodString;
+                                state: z.ZodString;
+                                district: z.ZodString;
+                                pincode: z.ZodString;
+                                businessName: z.ZodString;
+                                businessType: z.ZodString;
+                                ownerName: z.ZodString;
+                                role: z.ZodLiteral<"BUYER">;
+                            }, "strip", z.ZodTypeAny, {
+                                businessName: string;
+                                businessType: string;
+                                ownerName: string;
+                                address: string;
+                                state: string;
+                                district: string;
+                                pincode: string;
+                                phone: string;
+                                email: string;
+                                secondaryContactName: string | null;
+                                secondaryContactDesignation: string | null;
+                                secondaryContactNumber: string | null;
+                                panNumber: string;
+                                panCard: string | null;
+                                gstNumber: string;
+                                gstCertificate: string | null;
+                                fssaiNumber: string | null;
+                                fssaiLicense: string | null;
+                                bankAccountNumber: string;
+                                bankIfscCode: string;
+                                role: "BUYER";
+                            }, {
+                                businessName: string;
+                                businessType: string;
+                                ownerName: string;
+                                address: string;
+                                state: string;
+                                district: string;
+                                pincode: string;
+                                phone: string;
+                                email: string;
+                                secondaryContactName: string | null;
+                                secondaryContactDesignation: string | null;
+                                secondaryContactNumber: string | null;
+                                panNumber: string;
+                                panCard: string | null;
+                                gstNumber: string;
+                                gstCertificate: string | null;
+                                fssaiNumber: string | null;
+                                fssaiLicense: string | null;
+                                bankAccountNumber: string;
+                                bankIfscCode: string;
+                                role: "BUYER";
+                            }>]>;
+                        }, "strip", z.ZodTypeAny, {
+                            email: string;
+                            id: number;
+                            createdAt: string;
+                            role: "SELLER" | "BUYER";
+                            verified: boolean;
+                            profile: {
+                                businessName: string;
+                                businessType: string;
+                                ownerName: string;
+                                address: string;
+                                state: string;
+                                district: string;
+                                pincode: string;
+                                phone: string;
+                                email: string;
+                                secondaryContactName: string | null;
+                                secondaryContactDesignation: string | null;
+                                secondaryContactNumber: string | null;
+                                panNumber: string;
+                                panCard: string | null;
+                                gstNumber: string;
+                                gstCertificate: string | null;
+                                fssaiNumber: string | null;
+                                fssaiLicense: string | null;
+                                bankAccountNumber: string;
+                                bankIfscCode: string;
+                                tmcoNumber: string | null;
+                                cancelledCheque: string | null;
+                                transportName: string | null;
+                                brandName: string | null;
+                                brandLogo: string | null;
+                                brandCertificate: string | null;
+                                role: "SELLER";
+                            } | {
+                                businessName: string;
+                                businessType: string;
+                                ownerName: string;
+                                address: string;
+                                state: string;
+                                district: string;
+                                pincode: string;
+                                phone: string;
+                                email: string;
+                                secondaryContactName: string | null;
+                                secondaryContactDesignation: string | null;
+                                secondaryContactNumber: string | null;
+                                panNumber: string;
+                                panCard: string | null;
+                                gstNumber: string;
+                                gstCertificate: string | null;
+                                fssaiNumber: string | null;
+                                fssaiLicense: string | null;
+                                bankAccountNumber: string;
+                                bankIfscCode: string;
+                                role: "BUYER";
+                            };
+                        }, {
+                            email: string;
+                            id: number;
+                            createdAt: string;
+                            role: "SELLER" | "BUYER";
+                            verified: boolean;
+                            profile: {
+                                businessName: string;
+                                businessType: string;
+                                ownerName: string;
+                                address: string;
+                                state: string;
+                                district: string;
+                                pincode: string;
+                                phone: string;
+                                email: string;
+                                secondaryContactName: string | null;
+                                secondaryContactDesignation: string | null;
+                                secondaryContactNumber: string | null;
+                                panNumber: string;
+                                panCard: string | null;
+                                gstNumber: string;
+                                gstCertificate: string | null;
+                                fssaiNumber: string | null;
+                                fssaiLicense: string | null;
+                                bankAccountNumber: string;
+                                bankIfscCode: string;
+                                tmcoNumber: string | null;
+                                cancelledCheque: string | null;
+                                transportName: string | null;
+                                brandName: string | null;
+                                brandLogo: string | null;
+                                brandCertificate: string | null;
+                                role: "SELLER";
+                            } | {
+                                businessName: string;
+                                businessType: string;
+                                ownerName: string;
+                                address: string;
+                                state: string;
+                                district: string;
+                                pincode: string;
+                                phone: string;
+                                email: string;
+                                secondaryContactName: string | null;
+                                secondaryContactDesignation: string | null;
+                                secondaryContactNumber: string | null;
+                                panNumber: string;
+                                panCard: string | null;
+                                gstNumber: string;
+                                gstCertificate: string | null;
+                                fssaiNumber: string | null;
+                                fssaiLicense: string | null;
+                                bankAccountNumber: string;
+                                bankIfscCode: string;
+                                role: "BUYER";
+                            };
+                        }>, "many">;
+                    }, "strip", z.ZodTypeAny, {
+                        users: {
+                            email: string;
+                            id: number;
+                            createdAt: string;
+                            role: "SELLER" | "BUYER";
+                            verified: boolean;
+                            profile: {
+                                businessName: string;
+                                businessType: string;
+                                ownerName: string;
+                                address: string;
+                                state: string;
+                                district: string;
+                                pincode: string;
+                                phone: string;
+                                email: string;
+                                secondaryContactName: string | null;
+                                secondaryContactDesignation: string | null;
+                                secondaryContactNumber: string | null;
+                                panNumber: string;
+                                panCard: string | null;
+                                gstNumber: string;
+                                gstCertificate: string | null;
+                                fssaiNumber: string | null;
+                                fssaiLicense: string | null;
+                                bankAccountNumber: string;
+                                bankIfscCode: string;
+                                tmcoNumber: string | null;
+                                cancelledCheque: string | null;
+                                transportName: string | null;
+                                brandName: string | null;
+                                brandLogo: string | null;
+                                brandCertificate: string | null;
+                                role: "SELLER";
+                            } | {
+                                businessName: string;
+                                businessType: string;
+                                ownerName: string;
+                                address: string;
+                                state: string;
+                                district: string;
+                                pincode: string;
+                                phone: string;
+                                email: string;
+                                secondaryContactName: string | null;
+                                secondaryContactDesignation: string | null;
+                                secondaryContactNumber: string | null;
+                                panNumber: string;
+                                panCard: string | null;
+                                gstNumber: string;
+                                gstCertificate: string | null;
+                                fssaiNumber: string | null;
+                                fssaiLicense: string | null;
+                                bankAccountNumber: string;
+                                bankIfscCode: string;
+                                role: "BUYER";
+                            };
+                        }[];
+                        role: "BUYER";
+                    }, {
+                        users: {
+                            email: string;
+                            id: number;
+                            createdAt: string;
+                            role: "SELLER" | "BUYER";
+                            verified: boolean;
+                            profile: {
+                                businessName: string;
+                                businessType: string;
+                                ownerName: string;
+                                address: string;
+                                state: string;
+                                district: string;
+                                pincode: string;
+                                phone: string;
+                                email: string;
+                                secondaryContactName: string | null;
+                                secondaryContactDesignation: string | null;
+                                secondaryContactNumber: string | null;
+                                panNumber: string;
+                                panCard: string | null;
+                                gstNumber: string;
+                                gstCertificate: string | null;
+                                fssaiNumber: string | null;
+                                fssaiLicense: string | null;
+                                bankAccountNumber: string;
+                                bankIfscCode: string;
+                                tmcoNumber: string | null;
+                                cancelledCheque: string | null;
+                                transportName: string | null;
+                                brandName: string | null;
+                                brandLogo: string | null;
+                                brandCertificate: string | null;
+                                role: "SELLER";
+                            } | {
+                                businessName: string;
+                                businessType: string;
+                                ownerName: string;
+                                address: string;
+                                state: string;
+                                district: string;
+                                pincode: string;
+                                phone: string;
+                                email: string;
+                                secondaryContactName: string | null;
+                                secondaryContactDesignation: string | null;
+                                secondaryContactNumber: string | null;
+                                panNumber: string;
+                                panCard: string | null;
+                                gstNumber: string;
+                                gstCertificate: string | null;
+                                fssaiNumber: string | null;
+                                fssaiLicense: string | null;
+                                bankAccountNumber: string;
+                                bankIfscCode: string;
+                                role: "BUYER";
+                            };
+                        }[];
+                        role: "BUYER";
+                    }>]>;
+                    total: z.ZodNumber;
+                    limit: z.ZodNumber;
+                    offset: z.ZodNumber;
                 }, "strip", z.ZodTypeAny, {
-                    id: number;
-                    email: string;
-                    createdAt: Date;
-                    updatedAt: Date;
-                    userId: number;
-                    businessName: string;
-                    businessType: string;
-                    ownerName: string;
-                    address: string;
-                    state: string;
-                    district: string;
-                    pincode: string;
-                    phone: string;
-                    secondaryContactName: string | null;
-                    secondaryContactDesignation: string | null;
-                    secondaryContactNumber: string | null;
-                    panNumber: string;
-                    panCard: string | null;
-                    gstNumber: string;
-                    gstCertificate: string | null;
-                    fssaiNumber: string | null;
-                    fssaiLicense: string | null;
-                    bankAccountNumber: string;
-                    bankIfscCode: string;
+                    limit: number;
+                    offset: number;
+                    data: {
+                        users: {
+                            email: string;
+                            id: number;
+                            createdAt: string;
+                            role: "SELLER" | "BUYER";
+                            verified: boolean;
+                            profile: {
+                                businessName: string;
+                                businessType: string;
+                                ownerName: string;
+                                address: string;
+                                state: string;
+                                district: string;
+                                pincode: string;
+                                phone: string;
+                                email: string;
+                                secondaryContactName: string | null;
+                                secondaryContactDesignation: string | null;
+                                secondaryContactNumber: string | null;
+                                panNumber: string;
+                                panCard: string | null;
+                                gstNumber: string;
+                                gstCertificate: string | null;
+                                fssaiNumber: string | null;
+                                fssaiLicense: string | null;
+                                bankAccountNumber: string;
+                                bankIfscCode: string;
+                                tmcoNumber: string | null;
+                                cancelledCheque: string | null;
+                                transportName: string | null;
+                                brandName: string | null;
+                                brandLogo: string | null;
+                                brandCertificate: string | null;
+                                role: "SELLER";
+                            } | {
+                                businessName: string;
+                                businessType: string;
+                                ownerName: string;
+                                address: string;
+                                state: string;
+                                district: string;
+                                pincode: string;
+                                phone: string;
+                                email: string;
+                                secondaryContactName: string | null;
+                                secondaryContactDesignation: string | null;
+                                secondaryContactNumber: string | null;
+                                panNumber: string;
+                                panCard: string | null;
+                                gstNumber: string;
+                                gstCertificate: string | null;
+                                fssaiNumber: string | null;
+                                fssaiLicense: string | null;
+                                bankAccountNumber: string;
+                                bankIfscCode: string;
+                                role: "BUYER";
+                            };
+                        }[];
+                        role: "SELLER";
+                    } | {
+                        users: {
+                            email: string;
+                            id: number;
+                            createdAt: string;
+                            role: "SELLER" | "BUYER";
+                            verified: boolean;
+                            profile: {
+                                businessName: string;
+                                businessType: string;
+                                ownerName: string;
+                                address: string;
+                                state: string;
+                                district: string;
+                                pincode: string;
+                                phone: string;
+                                email: string;
+                                secondaryContactName: string | null;
+                                secondaryContactDesignation: string | null;
+                                secondaryContactNumber: string | null;
+                                panNumber: string;
+                                panCard: string | null;
+                                gstNumber: string;
+                                gstCertificate: string | null;
+                                fssaiNumber: string | null;
+                                fssaiLicense: string | null;
+                                bankAccountNumber: string;
+                                bankIfscCode: string;
+                                tmcoNumber: string | null;
+                                cancelledCheque: string | null;
+                                transportName: string | null;
+                                brandName: string | null;
+                                brandLogo: string | null;
+                                brandCertificate: string | null;
+                                role: "SELLER";
+                            } | {
+                                businessName: string;
+                                businessType: string;
+                                ownerName: string;
+                                address: string;
+                                state: string;
+                                district: string;
+                                pincode: string;
+                                phone: string;
+                                email: string;
+                                secondaryContactName: string | null;
+                                secondaryContactDesignation: string | null;
+                                secondaryContactNumber: string | null;
+                                panNumber: string;
+                                panCard: string | null;
+                                gstNumber: string;
+                                gstCertificate: string | null;
+                                fssaiNumber: string | null;
+                                fssaiLicense: string | null;
+                                bankAccountNumber: string;
+                                bankIfscCode: string;
+                                role: "BUYER";
+                            };
+                        }[];
+                        role: "BUYER";
+                    };
+                    total: number;
                 }, {
-                    id: number;
-                    email: string;
-                    createdAt: Date;
-                    updatedAt: Date;
-                    userId: number;
-                    businessName: string;
-                    businessType: string;
-                    ownerName: string;
-                    address: string;
-                    state: string;
-                    district: string;
-                    pincode: string;
-                    phone: string;
-                    secondaryContactName: string | null;
-                    secondaryContactDesignation: string | null;
-                    secondaryContactNumber: string | null;
-                    panNumber: string;
-                    panCard: string | null;
-                    gstNumber: string;
-                    gstCertificate: string | null;
-                    fssaiNumber: string | null;
-                    fssaiLicense: string | null;
-                    bankAccountNumber: string;
-                    bankIfscCode: string;
+                    limit: number;
+                    offset: number;
+                    data: {
+                        users: {
+                            email: string;
+                            id: number;
+                            createdAt: string;
+                            role: "SELLER" | "BUYER";
+                            verified: boolean;
+                            profile: {
+                                businessName: string;
+                                businessType: string;
+                                ownerName: string;
+                                address: string;
+                                state: string;
+                                district: string;
+                                pincode: string;
+                                phone: string;
+                                email: string;
+                                secondaryContactName: string | null;
+                                secondaryContactDesignation: string | null;
+                                secondaryContactNumber: string | null;
+                                panNumber: string;
+                                panCard: string | null;
+                                gstNumber: string;
+                                gstCertificate: string | null;
+                                fssaiNumber: string | null;
+                                fssaiLicense: string | null;
+                                bankAccountNumber: string;
+                                bankIfscCode: string;
+                                tmcoNumber: string | null;
+                                cancelledCheque: string | null;
+                                transportName: string | null;
+                                brandName: string | null;
+                                brandLogo: string | null;
+                                brandCertificate: string | null;
+                                role: "SELLER";
+                            } | {
+                                businessName: string;
+                                businessType: string;
+                                ownerName: string;
+                                address: string;
+                                state: string;
+                                district: string;
+                                pincode: string;
+                                phone: string;
+                                email: string;
+                                secondaryContactName: string | null;
+                                secondaryContactDesignation: string | null;
+                                secondaryContactNumber: string | null;
+                                panNumber: string;
+                                panCard: string | null;
+                                gstNumber: string;
+                                gstCertificate: string | null;
+                                fssaiNumber: string | null;
+                                fssaiLicense: string | null;
+                                bankAccountNumber: string;
+                                bankIfscCode: string;
+                                role: "BUYER";
+                            };
+                        }[];
+                        role: "SELLER";
+                    } | {
+                        users: {
+                            email: string;
+                            id: number;
+                            createdAt: string;
+                            role: "SELLER" | "BUYER";
+                            verified: boolean;
+                            profile: {
+                                businessName: string;
+                                businessType: string;
+                                ownerName: string;
+                                address: string;
+                                state: string;
+                                district: string;
+                                pincode: string;
+                                phone: string;
+                                email: string;
+                                secondaryContactName: string | null;
+                                secondaryContactDesignation: string | null;
+                                secondaryContactNumber: string | null;
+                                panNumber: string;
+                                panCard: string | null;
+                                gstNumber: string;
+                                gstCertificate: string | null;
+                                fssaiNumber: string | null;
+                                fssaiLicense: string | null;
+                                bankAccountNumber: string;
+                                bankIfscCode: string;
+                                tmcoNumber: string | null;
+                                cancelledCheque: string | null;
+                                transportName: string | null;
+                                brandName: string | null;
+                                brandLogo: string | null;
+                                brandCertificate: string | null;
+                                role: "SELLER";
+                            } | {
+                                businessName: string;
+                                businessType: string;
+                                ownerName: string;
+                                address: string;
+                                state: string;
+                                district: string;
+                                pincode: string;
+                                phone: string;
+                                email: string;
+                                secondaryContactName: string | null;
+                                secondaryContactDesignation: string | null;
+                                secondaryContactNumber: string | null;
+                                panNumber: string;
+                                panCard: string | null;
+                                gstNumber: string;
+                                gstCertificate: string | null;
+                                fssaiNumber: string | null;
+                                fssaiLicense: string | null;
+                                bankAccountNumber: string;
+                                bankIfscCode: string;
+                                role: "BUYER";
+                            };
+                        }[];
+                        role: "BUYER";
+                    };
+                    total: number;
                 }>;
-                404: z.ZodObject<{
+                401: z.ZodObject<{
                     message: z.ZodString;
                     code: z.ZodString;
                     timestamp: z.ZodString;
                 }, "strip", z.ZodTypeAny, {
-                    message: string;
                     code: string;
+                    message: string;
                     timestamp: string;
                 }, {
-                    message: string;
                     code: string;
+                    message: string;
                     timestamp: string;
                 }>;
-            };
-        };
-        createProfile: {
-            method: "POST";
-            body: z.ZodObject<Omit<{
-                userId: z.ZodNumber;
-                createdAt: z.ZodDate;
-                updatedAt: z.ZodDate;
-                bankAccountNumber: z.ZodString;
-                bankIfscCode: z.ZodString;
-                panNumber: z.ZodString;
-                panCard: z.ZodNullable<z.ZodString>;
-                gstNumber: z.ZodString;
-                gstCertificate: z.ZodNullable<z.ZodString>;
-                fssaiNumber: z.ZodNullable<z.ZodString>;
-                fssaiLicense: z.ZodNullable<z.ZodString>;
-                phone: z.ZodString;
-                email: z.ZodString;
-                secondaryContactName: z.ZodNullable<z.ZodString>;
-                secondaryContactDesignation: z.ZodNullable<z.ZodString>;
-                secondaryContactNumber: z.ZodNullable<z.ZodString>;
-                address: z.ZodString;
-                state: z.ZodString;
-                district: z.ZodString;
-                pincode: z.ZodString;
-                businessName: z.ZodString;
-                businessType: z.ZodString;
-                ownerName: z.ZodString;
-                id: z.ZodNumber;
-            }, "id" | "createdAt" | "updatedAt">, "strip", z.ZodTypeAny, {
-                email: string;
-                userId: number;
-                businessName: string;
-                businessType: string;
-                ownerName: string;
-                address: string;
-                state: string;
-                district: string;
-                pincode: string;
-                phone: string;
-                secondaryContactName: string | null;
-                secondaryContactDesignation: string | null;
-                secondaryContactNumber: string | null;
-                panNumber: string;
-                panCard: string | null;
-                gstNumber: string;
-                gstCertificate: string | null;
-                fssaiNumber: string | null;
-                fssaiLicense: string | null;
-                bankAccountNumber: string;
-                bankIfscCode: string;
-            }, {
-                email: string;
-                userId: number;
-                businessName: string;
-                businessType: string;
-                ownerName: string;
-                address: string;
-                state: string;
-                district: string;
-                pincode: string;
-                phone: string;
-                secondaryContactName: string | null;
-                secondaryContactDesignation: string | null;
-                secondaryContactNumber: string | null;
-                panNumber: string;
-                panCard: string | null;
-                gstNumber: string;
-                gstCertificate: string | null;
-                fssaiNumber: string | null;
-                fssaiLicense: string | null;
-                bankAccountNumber: string;
-                bankIfscCode: string;
-            }>;
-            path: "/api/buyers/profile";
-            responses: {
-                201: z.ZodObject<{
-                    userId: z.ZodNumber;
-                    createdAt: z.ZodDate;
-                    updatedAt: z.ZodDate;
-                    bankAccountNumber: z.ZodString;
-                    bankIfscCode: z.ZodString;
-                    panNumber: z.ZodString;
-                    panCard: z.ZodNullable<z.ZodString>;
-                    gstNumber: z.ZodString;
-                    gstCertificate: z.ZodNullable<z.ZodString>;
-                    fssaiNumber: z.ZodNullable<z.ZodString>;
-                    fssaiLicense: z.ZodNullable<z.ZodString>;
-                    phone: z.ZodString;
-                    email: z.ZodString;
-                    secondaryContactName: z.ZodNullable<z.ZodString>;
-                    secondaryContactDesignation: z.ZodNullable<z.ZodString>;
-                    secondaryContactNumber: z.ZodNullable<z.ZodString>;
-                    address: z.ZodString;
-                    state: z.ZodString;
-                    district: z.ZodString;
-                    pincode: z.ZodString;
-                    businessName: z.ZodString;
-                    businessType: z.ZodString;
-                    ownerName: z.ZodString;
-                    id: z.ZodNumber;
+                403: z.ZodObject<{
+                    message: z.ZodString;
+                    code: z.ZodString;
+                    timestamp: z.ZodString;
                 }, "strip", z.ZodTypeAny, {
-                    id: number;
-                    email: string;
-                    createdAt: Date;
-                    updatedAt: Date;
-                    userId: number;
-                    businessName: string;
-                    businessType: string;
-                    ownerName: string;
-                    address: string;
-                    state: string;
-                    district: string;
-                    pincode: string;
-                    phone: string;
-                    secondaryContactName: string | null;
-                    secondaryContactDesignation: string | null;
-                    secondaryContactNumber: string | null;
-                    panNumber: string;
-                    panCard: string | null;
-                    gstNumber: string;
-                    gstCertificate: string | null;
-                    fssaiNumber: string | null;
-                    fssaiLicense: string | null;
-                    bankAccountNumber: string;
-                    bankIfscCode: string;
+                    code: string;
+                    message: string;
+                    timestamp: string;
                 }, {
-                    id: number;
-                    email: string;
-                    createdAt: Date;
-                    updatedAt: Date;
-                    userId: number;
-                    businessName: string;
-                    businessType: string;
-                    ownerName: string;
-                    address: string;
-                    state: string;
-                    district: string;
-                    pincode: string;
-                    phone: string;
-                    secondaryContactName: string | null;
-                    secondaryContactDesignation: string | null;
-                    secondaryContactNumber: string | null;
-                    panNumber: string;
-                    panCard: string | null;
-                    gstNumber: string;
-                    gstCertificate: string | null;
-                    fssaiNumber: string | null;
-                    fssaiLicense: string | null;
-                    bankAccountNumber: string;
-                    bankIfscCode: string;
+                    code: string;
+                    message: string;
+                    timestamp: string;
                 }>;
                 400: z.ZodObject<{
                     message: z.ZodString;
                     code: z.ZodString;
                     timestamp: z.ZodString;
                 }, "strip", z.ZodTypeAny, {
-                    message: string;
                     code: string;
+                    message: string;
                     timestamp: string;
                 }, {
-                    message: string;
                     code: string;
+                    message: string;
                     timestamp: string;
                 }>;
             };
         };
-        updateProfile: {
-            pathParams: z.ZodObject<{
-                userId: z.ZodString;
-            }, "strip", z.ZodTypeAny, {
-                userId: string;
-            }, {
-                userId: string;
-            }>;
-            method: "PUT";
+        verifyRegistration: {
+            method: "POST";
             body: z.ZodObject<{
-                email: z.ZodOptional<z.ZodString>;
-                businessName: z.ZodOptional<z.ZodString>;
-                businessType: z.ZodOptional<z.ZodString>;
-                ownerName: z.ZodOptional<z.ZodString>;
-                address: z.ZodOptional<z.ZodString>;
-                state: z.ZodOptional<z.ZodString>;
-                district: z.ZodOptional<z.ZodString>;
-                pincode: z.ZodOptional<z.ZodString>;
-                phone: z.ZodOptional<z.ZodString>;
-                secondaryContactName: z.ZodOptional<z.ZodNullable<z.ZodString>>;
-                secondaryContactDesignation: z.ZodOptional<z.ZodNullable<z.ZodString>>;
-                secondaryContactNumber: z.ZodOptional<z.ZodNullable<z.ZodString>>;
-                panNumber: z.ZodOptional<z.ZodString>;
-                panCard: z.ZodOptional<z.ZodNullable<z.ZodString>>;
-                gstNumber: z.ZodOptional<z.ZodString>;
-                gstCertificate: z.ZodOptional<z.ZodNullable<z.ZodString>>;
-                fssaiNumber: z.ZodOptional<z.ZodNullable<z.ZodString>>;
-                fssaiLicense: z.ZodOptional<z.ZodNullable<z.ZodString>>;
-                bankAccountNumber: z.ZodOptional<z.ZodString>;
-                bankIfscCode: z.ZodOptional<z.ZodString>;
+                userIds: z.ZodArray<z.ZodNumber, "many">;
             }, "strip", z.ZodTypeAny, {
-                email?: string | undefined;
-                businessName?: string | undefined;
-                businessType?: string | undefined;
-                ownerName?: string | undefined;
-                address?: string | undefined;
-                state?: string | undefined;
-                district?: string | undefined;
-                pincode?: string | undefined;
-                phone?: string | undefined;
-                secondaryContactName?: string | null | undefined;
-                secondaryContactDesignation?: string | null | undefined;
-                secondaryContactNumber?: string | null | undefined;
-                panNumber?: string | undefined;
-                panCard?: string | null | undefined;
-                gstNumber?: string | undefined;
-                gstCertificate?: string | null | undefined;
-                fssaiNumber?: string | null | undefined;
-                fssaiLicense?: string | null | undefined;
-                bankAccountNumber?: string | undefined;
-                bankIfscCode?: string | undefined;
+                userIds: number[];
             }, {
-                email?: string | undefined;
-                businessName?: string | undefined;
-                businessType?: string | undefined;
-                ownerName?: string | undefined;
-                address?: string | undefined;
-                state?: string | undefined;
-                district?: string | undefined;
-                pincode?: string | undefined;
-                phone?: string | undefined;
-                secondaryContactName?: string | null | undefined;
-                secondaryContactDesignation?: string | null | undefined;
-                secondaryContactNumber?: string | null | undefined;
-                panNumber?: string | undefined;
-                panCard?: string | null | undefined;
-                gstNumber?: string | undefined;
-                gstCertificate?: string | null | undefined;
-                fssaiNumber?: string | null | undefined;
-                fssaiLicense?: string | null | undefined;
-                bankAccountNumber?: string | undefined;
-                bankIfscCode?: string | undefined;
+                userIds: number[];
             }>;
-            path: "/api/buyers/profile/:userId";
+            path: "/api/admin/verify-users";
             responses: {
                 200: z.ZodObject<{
-                    userId: z.ZodNumber;
-                    createdAt: z.ZodDate;
-                    updatedAt: z.ZodDate;
-                    bankAccountNumber: z.ZodString;
-                    bankIfscCode: z.ZodString;
-                    panNumber: z.ZodString;
-                    panCard: z.ZodNullable<z.ZodString>;
-                    gstNumber: z.ZodString;
-                    gstCertificate: z.ZodNullable<z.ZodString>;
-                    fssaiNumber: z.ZodNullable<z.ZodString>;
-                    fssaiLicense: z.ZodNullable<z.ZodString>;
-                    phone: z.ZodString;
-                    email: z.ZodString;
-                    secondaryContactName: z.ZodNullable<z.ZodString>;
-                    secondaryContactDesignation: z.ZodNullable<z.ZodString>;
-                    secondaryContactNumber: z.ZodNullable<z.ZodString>;
-                    address: z.ZodString;
-                    state: z.ZodString;
-                    district: z.ZodString;
-                    pincode: z.ZodString;
-                    businessName: z.ZodString;
-                    businessType: z.ZodString;
-                    ownerName: z.ZodString;
-                    id: z.ZodNumber;
+                    message: z.ZodString;
+                    verifiedUsers: z.ZodNumber;
                 }, "strip", z.ZodTypeAny, {
-                    id: number;
-                    email: string;
-                    createdAt: Date;
-                    updatedAt: Date;
-                    userId: number;
-                    businessName: string;
-                    businessType: string;
-                    ownerName: string;
-                    address: string;
-                    state: string;
-                    district: string;
-                    pincode: string;
-                    phone: string;
-                    secondaryContactName: string | null;
-                    secondaryContactDesignation: string | null;
-                    secondaryContactNumber: string | null;
-                    panNumber: string;
-                    panCard: string | null;
-                    gstNumber: string;
-                    gstCertificate: string | null;
-                    fssaiNumber: string | null;
-                    fssaiLicense: string | null;
-                    bankAccountNumber: string;
-                    bankIfscCode: string;
+                    message: string;
+                    verifiedUsers: number;
                 }, {
-                    id: number;
-                    email: string;
-                    createdAt: Date;
-                    updatedAt: Date;
-                    userId: number;
-                    businessName: string;
-                    businessType: string;
-                    ownerName: string;
-                    address: string;
-                    state: string;
-                    district: string;
-                    pincode: string;
-                    phone: string;
-                    secondaryContactName: string | null;
-                    secondaryContactDesignation: string | null;
-                    secondaryContactNumber: string | null;
-                    panNumber: string;
-                    panCard: string | null;
-                    gstNumber: string;
-                    gstCertificate: string | null;
-                    fssaiNumber: string | null;
-                    fssaiLicense: string | null;
-                    bankAccountNumber: string;
-                    bankIfscCode: string;
+                    message: string;
+                    verifiedUsers: number;
                 }>;
-                404: z.ZodObject<{
+                401: z.ZodObject<{
                     message: z.ZodString;
                     code: z.ZodString;
                     timestamp: z.ZodString;
                 }, "strip", z.ZodTypeAny, {
-                    message: string;
                     code: string;
+                    message: string;
                     timestamp: string;
                 }, {
-                    message: string;
                     code: string;
+                    message: string;
+                    timestamp: string;
+                }>;
+                403: z.ZodObject<{
+                    message: z.ZodString;
+                    code: z.ZodString;
+                    timestamp: z.ZodString;
+                }, "strip", z.ZodTypeAny, {
+                    code: string;
+                    message: string;
+                    timestamp: string;
+                }, {
+                    code: string;
+                    message: string;
                     timestamp: string;
                 }>;
             };
@@ -2147,10 +3023,10 @@ export declare const contract: {
                     updatedAt: z.ZodDate;
                 }, "strip", z.ZodTypeAny, {
                     id: number;
+                    userId: number;
                     createdAt: Date;
                     updatedAt: Date;
                     fullName: string;
-                    userId: number;
                     permissions: {
                         users: {
                             read: boolean;
@@ -2175,10 +3051,10 @@ export declare const contract: {
                     };
                 }, {
                     id: number;
+                    userId: number;
                     createdAt: Date;
                     updatedAt: Date;
                     fullName: string;
-                    userId: number;
                     permissions: {
                         users: {
                             read: boolean;
@@ -2207,12 +3083,12 @@ export declare const contract: {
                     code: z.ZodString;
                     timestamp: z.ZodString;
                 }, "strip", z.ZodTypeAny, {
-                    message: string;
                     code: string;
+                    message: string;
                     timestamp: string;
                 }, {
-                    message: string;
                     code: string;
+                    message: string;
                     timestamp: string;
                 }>;
             };
@@ -2319,8 +3195,8 @@ export declare const contract: {
                     };
                 }>;
             }, "strip", z.ZodTypeAny, {
-                fullName: string;
                 userId: number;
+                fullName: string;
                 permissions: {
                     users: {
                         read: boolean;
@@ -2344,8 +3220,8 @@ export declare const contract: {
                     };
                 };
             }, {
-                fullName: string;
                 userId: number;
+                fullName: string;
                 permissions: {
                     users: {
                         read: boolean;
@@ -2475,10 +3351,10 @@ export declare const contract: {
                     updatedAt: z.ZodDate;
                 }, "strip", z.ZodTypeAny, {
                     id: number;
+                    userId: number;
                     createdAt: Date;
                     updatedAt: Date;
                     fullName: string;
-                    userId: number;
                     permissions: {
                         users: {
                             read: boolean;
@@ -2503,10 +3379,10 @@ export declare const contract: {
                     };
                 }, {
                     id: number;
+                    userId: number;
                     createdAt: Date;
                     updatedAt: Date;
                     fullName: string;
-                    userId: number;
                     permissions: {
                         users: {
                             read: boolean;
@@ -2535,12 +3411,12 @@ export declare const contract: {
                     code: z.ZodString;
                     timestamp: z.ZodString;
                 }, "strip", z.ZodTypeAny, {
-                    message: string;
                     code: string;
+                    message: string;
                     timestamp: string;
                 }, {
-                    message: string;
                     code: string;
+                    message: string;
                     timestamp: string;
                 }>;
             };
@@ -2807,10 +3683,10 @@ export declare const contract: {
                     updatedAt: z.ZodDate;
                 }, "strip", z.ZodTypeAny, {
                     id: number;
+                    userId: number;
                     createdAt: Date;
                     updatedAt: Date;
                     fullName: string;
-                    userId: number;
                     permissions: {
                         users: {
                             read: boolean;
@@ -2835,10 +3711,10 @@ export declare const contract: {
                     };
                 }, {
                     id: number;
+                    userId: number;
                     createdAt: Date;
                     updatedAt: Date;
                     fullName: string;
-                    userId: number;
                     permissions: {
                         users: {
                             read: boolean;
@@ -2867,12 +3743,12 @@ export declare const contract: {
                     code: z.ZodString;
                     timestamp: z.ZodString;
                 }, "strip", z.ZodTypeAny, {
-                    message: string;
                     code: string;
+                    message: string;
                     timestamp: string;
                 }, {
-                    message: string;
                     code: string;
+                    message: string;
                     timestamp: string;
                 }>;
             };
@@ -2894,117 +3770,30 @@ export declare const contract: {
                     code: z.ZodString;
                     timestamp: z.ZodString;
                 }, "strip", z.ZodTypeAny, {
-                    message: string;
                     code: string;
+                    message: string;
                     timestamp: string;
                 }, {
-                    message: string;
                     code: string;
+                    message: string;
                     timestamp: string;
                 }>;
             };
         };
     };
-    auth: {
-        login: {
-            method: "POST";
-            body: z.ZodObject<{
-                identifier: z.ZodString;
-                password: z.ZodString;
+    sellers: {
+        getProfile: {
+            pathParams: z.ZodObject<{
+                userId: z.ZodString;
             }, "strip", z.ZodTypeAny, {
-                password: string;
-                identifier: string;
+                userId: string;
             }, {
-                password: string;
-                identifier: string;
+                userId: string;
             }>;
-            path: "/api/auth/login";
+            method: "GET";
+            path: "/api/sellers/profile/:userId";
             responses: {
                 200: z.ZodObject<{
-                    accessToken: z.ZodString;
-                    user: z.ZodObject<{
-                        id: z.ZodNumber;
-                        email: z.ZodString;
-                        role: z.ZodEnum<["SELLER", "BUYER", "ADMIN", "STAFF"]>;
-                        verified: z.ZodBoolean;
-                        uniqueIdentifier: z.ZodNullable<z.ZodString>;
-                        createdAt: z.ZodDate;
-                        updatedAt: z.ZodDate;
-                    }, "strip", z.ZodTypeAny, {
-                        id: number;
-                        email: string;
-                        role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
-                        verified: boolean;
-                        uniqueIdentifier: string | null;
-                        createdAt: Date;
-                        updatedAt: Date;
-                    }, {
-                        id: number;
-                        email: string;
-                        role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
-                        verified: boolean;
-                        uniqueIdentifier: string | null;
-                        createdAt: Date;
-                        updatedAt: Date;
-                    }>;
-                }, "strip", z.ZodTypeAny, {
-                    accessToken: string;
-                    user: {
-                        id: number;
-                        email: string;
-                        role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
-                        verified: boolean;
-                        uniqueIdentifier: string | null;
-                        createdAt: Date;
-                        updatedAt: Date;
-                    };
-                }, {
-                    accessToken: string;
-                    user: {
-                        id: number;
-                        email: string;
-                        role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
-                        verified: boolean;
-                        uniqueIdentifier: string | null;
-                        createdAt: Date;
-                        updatedAt: Date;
-                    };
-                }>;
-                400: z.ZodObject<{
-                    message: z.ZodString;
-                    code: z.ZodString;
-                    timestamp: z.ZodString;
-                }, "strip", z.ZodTypeAny, {
-                    message: string;
-                    code: string;
-                    timestamp: string;
-                }, {
-                    message: string;
-                    code: string;
-                    timestamp: string;
-                }>;
-                401: z.ZodObject<{
-                    message: z.ZodString;
-                    code: z.ZodString;
-                    timestamp: z.ZodString;
-                }, "strip", z.ZodTypeAny, {
-                    message: string;
-                    code: string;
-                    timestamp: string;
-                }, {
-                    message: string;
-                    code: string;
-                    timestamp: string;
-                }>;
-            };
-        };
-        register: {
-            method: "POST";
-            body: z.ZodObject<{
-                email: z.ZodString;
-                password: z.ZodString;
-                role: z.ZodEnum<["SELLER", "BUYER"]>;
-                profile: z.ZodUnion<[z.ZodObject<Omit<{
                     tmcoNumber: z.ZodNullable<z.ZodString>;
                     cancelledCheque: z.ZodNullable<z.ZodString>;
                     transportName: z.ZodNullable<z.ZodString>;
@@ -3035,8 +3824,7 @@ export declare const contract: {
                     businessType: z.ZodString;
                     ownerName: z.ZodString;
                     id: z.ZodNumber;
-                }, "id" | "createdAt" | "updatedAt" | "userId">, "strip", z.ZodTypeAny, {
-                    email: string;
+                }, "strip", z.ZodTypeAny, {
                     businessName: string;
                     businessType: string;
                     ownerName: string;
@@ -3045,6 +3833,7 @@ export declare const contract: {
                     district: string;
                     pincode: string;
                     phone: string;
+                    email: string;
                     secondaryContactName: string | null;
                     secondaryContactDesignation: string | null;
                     secondaryContactNumber: string | null;
@@ -3056,14 +3845,17 @@ export declare const contract: {
                     fssaiLicense: string | null;
                     bankAccountNumber: string;
                     bankIfscCode: string;
+                    id: number;
                     tmcoNumber: string | null;
                     cancelledCheque: string | null;
                     transportName: string | null;
                     brandName: string | null;
                     brandLogo: string | null;
                     brandCertificate: string | null;
+                    userId: number;
+                    createdAt: Date;
+                    updatedAt: Date;
                 }, {
-                    email: string;
                     businessName: string;
                     businessType: string;
                     ownerName: string;
@@ -3072,6 +3864,7 @@ export declare const contract: {
                     district: string;
                     pincode: string;
                     phone: string;
+                    email: string;
                     secondaryContactName: string | null;
                     secondaryContactDesignation: string | null;
                     secondaryContactNumber: string | null;
@@ -3083,13 +3876,131 @@ export declare const contract: {
                     fssaiLicense: string | null;
                     bankAccountNumber: string;
                     bankIfscCode: string;
+                    id: number;
                     tmcoNumber: string | null;
                     cancelledCheque: string | null;
                     transportName: string | null;
                     brandName: string | null;
                     brandLogo: string | null;
                     brandCertificate: string | null;
-                }>, z.ZodObject<Omit<{
+                    userId: number;
+                    createdAt: Date;
+                    updatedAt: Date;
+                }>;
+                404: z.ZodObject<{
+                    message: z.ZodString;
+                    code: z.ZodString;
+                    timestamp: z.ZodString;
+                }, "strip", z.ZodTypeAny, {
+                    code: string;
+                    message: string;
+                    timestamp: string;
+                }, {
+                    code: string;
+                    message: string;
+                    timestamp: string;
+                }>;
+            };
+        };
+        createProfile: {
+            method: "POST";
+            body: z.ZodObject<Omit<{
+                tmcoNumber: z.ZodNullable<z.ZodString>;
+                cancelledCheque: z.ZodNullable<z.ZodString>;
+                transportName: z.ZodNullable<z.ZodString>;
+                brandName: z.ZodNullable<z.ZodString>;
+                brandLogo: z.ZodNullable<z.ZodString>;
+                brandCertificate: z.ZodNullable<z.ZodString>;
+                userId: z.ZodNumber;
+                createdAt: z.ZodDate;
+                updatedAt: z.ZodDate;
+                bankAccountNumber: z.ZodString;
+                bankIfscCode: z.ZodString;
+                panNumber: z.ZodString;
+                panCard: z.ZodNullable<z.ZodString>;
+                gstNumber: z.ZodString;
+                gstCertificate: z.ZodNullable<z.ZodString>;
+                fssaiNumber: z.ZodNullable<z.ZodString>;
+                fssaiLicense: z.ZodNullable<z.ZodString>;
+                phone: z.ZodString;
+                email: z.ZodString;
+                secondaryContactName: z.ZodNullable<z.ZodString>;
+                secondaryContactDesignation: z.ZodNullable<z.ZodString>;
+                secondaryContactNumber: z.ZodNullable<z.ZodString>;
+                address: z.ZodString;
+                state: z.ZodString;
+                district: z.ZodString;
+                pincode: z.ZodString;
+                businessName: z.ZodString;
+                businessType: z.ZodString;
+                ownerName: z.ZodString;
+                id: z.ZodNumber;
+            }, "id" | "createdAt" | "updatedAt">, "strip", z.ZodTypeAny, {
+                businessName: string;
+                businessType: string;
+                ownerName: string;
+                address: string;
+                state: string;
+                district: string;
+                pincode: string;
+                phone: string;
+                email: string;
+                secondaryContactName: string | null;
+                secondaryContactDesignation: string | null;
+                secondaryContactNumber: string | null;
+                panNumber: string;
+                panCard: string | null;
+                gstNumber: string;
+                gstCertificate: string | null;
+                fssaiNumber: string | null;
+                fssaiLicense: string | null;
+                bankAccountNumber: string;
+                bankIfscCode: string;
+                tmcoNumber: string | null;
+                cancelledCheque: string | null;
+                transportName: string | null;
+                brandName: string | null;
+                brandLogo: string | null;
+                brandCertificate: string | null;
+                userId: number;
+            }, {
+                businessName: string;
+                businessType: string;
+                ownerName: string;
+                address: string;
+                state: string;
+                district: string;
+                pincode: string;
+                phone: string;
+                email: string;
+                secondaryContactName: string | null;
+                secondaryContactDesignation: string | null;
+                secondaryContactNumber: string | null;
+                panNumber: string;
+                panCard: string | null;
+                gstNumber: string;
+                gstCertificate: string | null;
+                fssaiNumber: string | null;
+                fssaiLicense: string | null;
+                bankAccountNumber: string;
+                bankIfscCode: string;
+                tmcoNumber: string | null;
+                cancelledCheque: string | null;
+                transportName: string | null;
+                brandName: string | null;
+                brandLogo: string | null;
+                brandCertificate: string | null;
+                userId: number;
+            }>;
+            path: "/api/sellers/profile";
+            responses: {
+                201: z.ZodObject<{
+                    tmcoNumber: z.ZodNullable<z.ZodString>;
+                    cancelledCheque: z.ZodNullable<z.ZodString>;
+                    transportName: z.ZodNullable<z.ZodString>;
+                    brandName: z.ZodNullable<z.ZodString>;
+                    brandLogo: z.ZodNullable<z.ZodString>;
+                    brandCertificate: z.ZodNullable<z.ZodString>;
                     userId: z.ZodNumber;
                     createdAt: z.ZodDate;
                     updatedAt: z.ZodDate;
@@ -3114,180 +4025,66 @@ export declare const contract: {
                     businessType: z.ZodString;
                     ownerName: z.ZodString;
                     id: z.ZodNumber;
-                }, "id" | "createdAt" | "updatedAt" | "userId">, "strip", z.ZodTypeAny, {
-                    email: string;
-                    businessName: string;
-                    businessType: string;
-                    ownerName: string;
-                    address: string;
-                    state: string;
-                    district: string;
-                    pincode: string;
-                    phone: string;
-                    secondaryContactName: string | null;
-                    secondaryContactDesignation: string | null;
-                    secondaryContactNumber: string | null;
-                    panNumber: string;
-                    panCard: string | null;
-                    gstNumber: string;
-                    gstCertificate: string | null;
-                    fssaiNumber: string | null;
-                    fssaiLicense: string | null;
-                    bankAccountNumber: string;
-                    bankIfscCode: string;
-                }, {
-                    email: string;
-                    businessName: string;
-                    businessType: string;
-                    ownerName: string;
-                    address: string;
-                    state: string;
-                    district: string;
-                    pincode: string;
-                    phone: string;
-                    secondaryContactName: string | null;
-                    secondaryContactDesignation: string | null;
-                    secondaryContactNumber: string | null;
-                    panNumber: string;
-                    panCard: string | null;
-                    gstNumber: string;
-                    gstCertificate: string | null;
-                    fssaiNumber: string | null;
-                    fssaiLicense: string | null;
-                    bankAccountNumber: string;
-                    bankIfscCode: string;
-                }>]>;
-            }, "strip", z.ZodTypeAny, {
-                email: string;
-                role: "SELLER" | "BUYER";
-                profile: {
-                    email: string;
-                    businessName: string;
-                    businessType: string;
-                    ownerName: string;
-                    address: string;
-                    state: string;
-                    district: string;
-                    pincode: string;
-                    phone: string;
-                    secondaryContactName: string | null;
-                    secondaryContactDesignation: string | null;
-                    secondaryContactNumber: string | null;
-                    panNumber: string;
-                    panCard: string | null;
-                    gstNumber: string;
-                    gstCertificate: string | null;
-                    fssaiNumber: string | null;
-                    fssaiLicense: string | null;
-                    bankAccountNumber: string;
-                    bankIfscCode: string;
-                    tmcoNumber: string | null;
-                    cancelledCheque: string | null;
-                    transportName: string | null;
-                    brandName: string | null;
-                    brandLogo: string | null;
-                    brandCertificate: string | null;
-                } | {
-                    email: string;
-                    businessName: string;
-                    businessType: string;
-                    ownerName: string;
-                    address: string;
-                    state: string;
-                    district: string;
-                    pincode: string;
-                    phone: string;
-                    secondaryContactName: string | null;
-                    secondaryContactDesignation: string | null;
-                    secondaryContactNumber: string | null;
-                    panNumber: string;
-                    panCard: string | null;
-                    gstNumber: string;
-                    gstCertificate: string | null;
-                    fssaiNumber: string | null;
-                    fssaiLicense: string | null;
-                    bankAccountNumber: string;
-                    bankIfscCode: string;
-                };
-                password: string;
-            }, {
-                email: string;
-                role: "SELLER" | "BUYER";
-                profile: {
-                    email: string;
-                    businessName: string;
-                    businessType: string;
-                    ownerName: string;
-                    address: string;
-                    state: string;
-                    district: string;
-                    pincode: string;
-                    phone: string;
-                    secondaryContactName: string | null;
-                    secondaryContactDesignation: string | null;
-                    secondaryContactNumber: string | null;
-                    panNumber: string;
-                    panCard: string | null;
-                    gstNumber: string;
-                    gstCertificate: string | null;
-                    fssaiNumber: string | null;
-                    fssaiLicense: string | null;
-                    bankAccountNumber: string;
-                    bankIfscCode: string;
-                    tmcoNumber: string | null;
-                    cancelledCheque: string | null;
-                    transportName: string | null;
-                    brandName: string | null;
-                    brandLogo: string | null;
-                    brandCertificate: string | null;
-                } | {
-                    email: string;
-                    businessName: string;
-                    businessType: string;
-                    ownerName: string;
-                    address: string;
-                    state: string;
-                    district: string;
-                    pincode: string;
-                    phone: string;
-                    secondaryContactName: string | null;
-                    secondaryContactDesignation: string | null;
-                    secondaryContactNumber: string | null;
-                    panNumber: string;
-                    panCard: string | null;
-                    gstNumber: string;
-                    gstCertificate: string | null;
-                    fssaiNumber: string | null;
-                    fssaiLicense: string | null;
-                    bankAccountNumber: string;
-                    bankIfscCode: string;
-                };
-                password: string;
-            }>;
-            path: "/api/auth/register";
-            responses: {
-                201: z.ZodObject<{
-                    id: z.ZodNumber;
-                    email: z.ZodString;
-                    role: z.ZodEnum<["SELLER", "BUYER", "ADMIN", "STAFF"]>;
-                    verified: z.ZodBoolean;
-                    uniqueIdentifier: z.ZodNullable<z.ZodString>;
-                    createdAt: z.ZodDate;
-                    updatedAt: z.ZodDate;
                 }, "strip", z.ZodTypeAny, {
-                    id: number;
+                    businessName: string;
+                    businessType: string;
+                    ownerName: string;
+                    address: string;
+                    state: string;
+                    district: string;
+                    pincode: string;
+                    phone: string;
                     email: string;
-                    role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
-                    verified: boolean;
-                    uniqueIdentifier: string | null;
+                    secondaryContactName: string | null;
+                    secondaryContactDesignation: string | null;
+                    secondaryContactNumber: string | null;
+                    panNumber: string;
+                    panCard: string | null;
+                    gstNumber: string;
+                    gstCertificate: string | null;
+                    fssaiNumber: string | null;
+                    fssaiLicense: string | null;
+                    bankAccountNumber: string;
+                    bankIfscCode: string;
+                    id: number;
+                    tmcoNumber: string | null;
+                    cancelledCheque: string | null;
+                    transportName: string | null;
+                    brandName: string | null;
+                    brandLogo: string | null;
+                    brandCertificate: string | null;
+                    userId: number;
                     createdAt: Date;
                     updatedAt: Date;
                 }, {
-                    id: number;
+                    businessName: string;
+                    businessType: string;
+                    ownerName: string;
+                    address: string;
+                    state: string;
+                    district: string;
+                    pincode: string;
+                    phone: string;
                     email: string;
-                    role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
-                    verified: boolean;
-                    uniqueIdentifier: string | null;
+                    secondaryContactName: string | null;
+                    secondaryContactDesignation: string | null;
+                    secondaryContactNumber: string | null;
+                    panNumber: string;
+                    panCard: string | null;
+                    gstNumber: string;
+                    gstCertificate: string | null;
+                    fssaiNumber: string | null;
+                    fssaiLicense: string | null;
+                    bankAccountNumber: string;
+                    bankIfscCode: string;
+                    id: number;
+                    tmcoNumber: string | null;
+                    cancelledCheque: string | null;
+                    transportName: string | null;
+                    brandName: string | null;
+                    brandLogo: string | null;
+                    brandCertificate: string | null;
+                    userId: number;
                     createdAt: Date;
                     updatedAt: Date;
                 }>;
@@ -3296,104 +4093,649 @@ export declare const contract: {
                     code: z.ZodString;
                     timestamp: z.ZodString;
                 }, "strip", z.ZodTypeAny, {
-                    message: string;
                     code: string;
+                    message: string;
                     timestamp: string;
                 }, {
-                    message: string;
                     code: string;
+                    message: string;
                     timestamp: string;
                 }>;
             };
         };
-        adminLogin: {
-            method: "POST";
-            body: z.ZodObject<{
-                email: z.ZodString;
-                password: z.ZodString;
+        updateProfile: {
+            pathParams: z.ZodObject<{
+                userId: z.ZodString;
             }, "strip", z.ZodTypeAny, {
-                email: string;
-                password: string;
+                userId: string;
             }, {
-                email: string;
-                password: string;
+                userId: string;
             }>;
-            path: "/api/auth/admin/login";
+            method: "PUT";
+            body: z.ZodObject<{
+                businessName: z.ZodOptional<z.ZodString>;
+                businessType: z.ZodOptional<z.ZodString>;
+                ownerName: z.ZodOptional<z.ZodString>;
+                address: z.ZodOptional<z.ZodString>;
+                state: z.ZodOptional<z.ZodString>;
+                district: z.ZodOptional<z.ZodString>;
+                pincode: z.ZodOptional<z.ZodString>;
+                phone: z.ZodOptional<z.ZodString>;
+                email: z.ZodOptional<z.ZodString>;
+                secondaryContactName: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                secondaryContactDesignation: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                secondaryContactNumber: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                panNumber: z.ZodOptional<z.ZodString>;
+                panCard: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                gstNumber: z.ZodOptional<z.ZodString>;
+                gstCertificate: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                fssaiNumber: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                fssaiLicense: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                bankAccountNumber: z.ZodOptional<z.ZodString>;
+                bankIfscCode: z.ZodOptional<z.ZodString>;
+                tmcoNumber: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                cancelledCheque: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                transportName: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                brandName: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                brandLogo: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                brandCertificate: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            }, "strip", z.ZodTypeAny, {
+                businessName?: string | undefined;
+                businessType?: string | undefined;
+                ownerName?: string | undefined;
+                address?: string | undefined;
+                state?: string | undefined;
+                district?: string | undefined;
+                pincode?: string | undefined;
+                phone?: string | undefined;
+                email?: string | undefined;
+                secondaryContactName?: string | null | undefined;
+                secondaryContactDesignation?: string | null | undefined;
+                secondaryContactNumber?: string | null | undefined;
+                panNumber?: string | undefined;
+                panCard?: string | null | undefined;
+                gstNumber?: string | undefined;
+                gstCertificate?: string | null | undefined;
+                fssaiNumber?: string | null | undefined;
+                fssaiLicense?: string | null | undefined;
+                bankAccountNumber?: string | undefined;
+                bankIfscCode?: string | undefined;
+                tmcoNumber?: string | null | undefined;
+                cancelledCheque?: string | null | undefined;
+                transportName?: string | null | undefined;
+                brandName?: string | null | undefined;
+                brandLogo?: string | null | undefined;
+                brandCertificate?: string | null | undefined;
+            }, {
+                businessName?: string | undefined;
+                businessType?: string | undefined;
+                ownerName?: string | undefined;
+                address?: string | undefined;
+                state?: string | undefined;
+                district?: string | undefined;
+                pincode?: string | undefined;
+                phone?: string | undefined;
+                email?: string | undefined;
+                secondaryContactName?: string | null | undefined;
+                secondaryContactDesignation?: string | null | undefined;
+                secondaryContactNumber?: string | null | undefined;
+                panNumber?: string | undefined;
+                panCard?: string | null | undefined;
+                gstNumber?: string | undefined;
+                gstCertificate?: string | null | undefined;
+                fssaiNumber?: string | null | undefined;
+                fssaiLicense?: string | null | undefined;
+                bankAccountNumber?: string | undefined;
+                bankIfscCode?: string | undefined;
+                tmcoNumber?: string | null | undefined;
+                cancelledCheque?: string | null | undefined;
+                transportName?: string | null | undefined;
+                brandName?: string | null | undefined;
+                brandLogo?: string | null | undefined;
+                brandCertificate?: string | null | undefined;
+            }>;
+            path: "/api/sellers/profile/:userId";
             responses: {
                 200: z.ZodObject<{
-                    accessToken: z.ZodString;
-                    user: z.ZodObject<{
-                        id: z.ZodNumber;
-                        email: z.ZodString;
-                        role: z.ZodEnum<["SELLER", "BUYER", "ADMIN", "STAFF"]>;
-                        verified: z.ZodBoolean;
-                        uniqueIdentifier: z.ZodNullable<z.ZodString>;
-                        createdAt: z.ZodDate;
-                        updatedAt: z.ZodDate;
-                    }, "strip", z.ZodTypeAny, {
-                        id: number;
-                        email: string;
-                        role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
-                        verified: boolean;
-                        uniqueIdentifier: string | null;
-                        createdAt: Date;
-                        updatedAt: Date;
-                    }, {
-                        id: number;
-                        email: string;
-                        role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
-                        verified: boolean;
-                        uniqueIdentifier: string | null;
-                        createdAt: Date;
-                        updatedAt: Date;
-                    }>;
+                    tmcoNumber: z.ZodNullable<z.ZodString>;
+                    cancelledCheque: z.ZodNullable<z.ZodString>;
+                    transportName: z.ZodNullable<z.ZodString>;
+                    brandName: z.ZodNullable<z.ZodString>;
+                    brandLogo: z.ZodNullable<z.ZodString>;
+                    brandCertificate: z.ZodNullable<z.ZodString>;
+                    userId: z.ZodNumber;
+                    createdAt: z.ZodDate;
+                    updatedAt: z.ZodDate;
+                    bankAccountNumber: z.ZodString;
+                    bankIfscCode: z.ZodString;
+                    panNumber: z.ZodString;
+                    panCard: z.ZodNullable<z.ZodString>;
+                    gstNumber: z.ZodString;
+                    gstCertificate: z.ZodNullable<z.ZodString>;
+                    fssaiNumber: z.ZodNullable<z.ZodString>;
+                    fssaiLicense: z.ZodNullable<z.ZodString>;
+                    phone: z.ZodString;
+                    email: z.ZodString;
+                    secondaryContactName: z.ZodNullable<z.ZodString>;
+                    secondaryContactDesignation: z.ZodNullable<z.ZodString>;
+                    secondaryContactNumber: z.ZodNullable<z.ZodString>;
+                    address: z.ZodString;
+                    state: z.ZodString;
+                    district: z.ZodString;
+                    pincode: z.ZodString;
+                    businessName: z.ZodString;
+                    businessType: z.ZodString;
+                    ownerName: z.ZodString;
+                    id: z.ZodNumber;
                 }, "strip", z.ZodTypeAny, {
-                    accessToken: string;
-                    user: {
-                        id: number;
-                        email: string;
-                        role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
-                        verified: boolean;
-                        uniqueIdentifier: string | null;
-                        createdAt: Date;
-                        updatedAt: Date;
-                    };
+                    businessName: string;
+                    businessType: string;
+                    ownerName: string;
+                    address: string;
+                    state: string;
+                    district: string;
+                    pincode: string;
+                    phone: string;
+                    email: string;
+                    secondaryContactName: string | null;
+                    secondaryContactDesignation: string | null;
+                    secondaryContactNumber: string | null;
+                    panNumber: string;
+                    panCard: string | null;
+                    gstNumber: string;
+                    gstCertificate: string | null;
+                    fssaiNumber: string | null;
+                    fssaiLicense: string | null;
+                    bankAccountNumber: string;
+                    bankIfscCode: string;
+                    id: number;
+                    tmcoNumber: string | null;
+                    cancelledCheque: string | null;
+                    transportName: string | null;
+                    brandName: string | null;
+                    brandLogo: string | null;
+                    brandCertificate: string | null;
+                    userId: number;
+                    createdAt: Date;
+                    updatedAt: Date;
                 }, {
-                    accessToken: string;
-                    user: {
-                        id: number;
-                        email: string;
-                        role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
-                        verified: boolean;
-                        uniqueIdentifier: string | null;
-                        createdAt: Date;
-                        updatedAt: Date;
-                    };
+                    businessName: string;
+                    businessType: string;
+                    ownerName: string;
+                    address: string;
+                    state: string;
+                    district: string;
+                    pincode: string;
+                    phone: string;
+                    email: string;
+                    secondaryContactName: string | null;
+                    secondaryContactDesignation: string | null;
+                    secondaryContactNumber: string | null;
+                    panNumber: string;
+                    panCard: string | null;
+                    gstNumber: string;
+                    gstCertificate: string | null;
+                    fssaiNumber: string | null;
+                    fssaiLicense: string | null;
+                    bankAccountNumber: string;
+                    bankIfscCode: string;
+                    id: number;
+                    tmcoNumber: string | null;
+                    cancelledCheque: string | null;
+                    transportName: string | null;
+                    brandName: string | null;
+                    brandLogo: string | null;
+                    brandCertificate: string | null;
+                    userId: number;
+                    createdAt: Date;
+                    updatedAt: Date;
+                }>;
+                404: z.ZodObject<{
+                    message: z.ZodString;
+                    code: z.ZodString;
+                    timestamp: z.ZodString;
+                }, "strip", z.ZodTypeAny, {
+                    code: string;
+                    message: string;
+                    timestamp: string;
+                }, {
+                    code: string;
+                    message: string;
+                    timestamp: string;
+                }>;
+            };
+        };
+    };
+    buyers: {
+        getProfile: {
+            pathParams: z.ZodObject<{
+                userId: z.ZodString;
+            }, "strip", z.ZodTypeAny, {
+                userId: string;
+            }, {
+                userId: string;
+            }>;
+            method: "GET";
+            path: "/api/buyers/profile/:userId";
+            responses: {
+                200: z.ZodObject<{
+                    userId: z.ZodNumber;
+                    createdAt: z.ZodDate;
+                    updatedAt: z.ZodDate;
+                    bankAccountNumber: z.ZodString;
+                    bankIfscCode: z.ZodString;
+                    panNumber: z.ZodString;
+                    panCard: z.ZodNullable<z.ZodString>;
+                    gstNumber: z.ZodString;
+                    gstCertificate: z.ZodNullable<z.ZodString>;
+                    fssaiNumber: z.ZodNullable<z.ZodString>;
+                    fssaiLicense: z.ZodNullable<z.ZodString>;
+                    phone: z.ZodString;
+                    email: z.ZodString;
+                    secondaryContactName: z.ZodNullable<z.ZodString>;
+                    secondaryContactDesignation: z.ZodNullable<z.ZodString>;
+                    secondaryContactNumber: z.ZodNullable<z.ZodString>;
+                    address: z.ZodString;
+                    state: z.ZodString;
+                    district: z.ZodString;
+                    pincode: z.ZodString;
+                    businessName: z.ZodString;
+                    businessType: z.ZodString;
+                    ownerName: z.ZodString;
+                    id: z.ZodNumber;
+                }, "strip", z.ZodTypeAny, {
+                    businessName: string;
+                    businessType: string;
+                    ownerName: string;
+                    address: string;
+                    state: string;
+                    district: string;
+                    pincode: string;
+                    phone: string;
+                    email: string;
+                    secondaryContactName: string | null;
+                    secondaryContactDesignation: string | null;
+                    secondaryContactNumber: string | null;
+                    panNumber: string;
+                    panCard: string | null;
+                    gstNumber: string;
+                    gstCertificate: string | null;
+                    fssaiNumber: string | null;
+                    fssaiLicense: string | null;
+                    bankAccountNumber: string;
+                    bankIfscCode: string;
+                    id: number;
+                    userId: number;
+                    createdAt: Date;
+                    updatedAt: Date;
+                }, {
+                    businessName: string;
+                    businessType: string;
+                    ownerName: string;
+                    address: string;
+                    state: string;
+                    district: string;
+                    pincode: string;
+                    phone: string;
+                    email: string;
+                    secondaryContactName: string | null;
+                    secondaryContactDesignation: string | null;
+                    secondaryContactNumber: string | null;
+                    panNumber: string;
+                    panCard: string | null;
+                    gstNumber: string;
+                    gstCertificate: string | null;
+                    fssaiNumber: string | null;
+                    fssaiLicense: string | null;
+                    bankAccountNumber: string;
+                    bankIfscCode: string;
+                    id: number;
+                    userId: number;
+                    createdAt: Date;
+                    updatedAt: Date;
+                }>;
+                404: z.ZodObject<{
+                    message: z.ZodString;
+                    code: z.ZodString;
+                    timestamp: z.ZodString;
+                }, "strip", z.ZodTypeAny, {
+                    code: string;
+                    message: string;
+                    timestamp: string;
+                }, {
+                    code: string;
+                    message: string;
+                    timestamp: string;
+                }>;
+            };
+        };
+        createProfile: {
+            method: "POST";
+            body: z.ZodObject<Omit<{
+                userId: z.ZodNumber;
+                createdAt: z.ZodDate;
+                updatedAt: z.ZodDate;
+                bankAccountNumber: z.ZodString;
+                bankIfscCode: z.ZodString;
+                panNumber: z.ZodString;
+                panCard: z.ZodNullable<z.ZodString>;
+                gstNumber: z.ZodString;
+                gstCertificate: z.ZodNullable<z.ZodString>;
+                fssaiNumber: z.ZodNullable<z.ZodString>;
+                fssaiLicense: z.ZodNullable<z.ZodString>;
+                phone: z.ZodString;
+                email: z.ZodString;
+                secondaryContactName: z.ZodNullable<z.ZodString>;
+                secondaryContactDesignation: z.ZodNullable<z.ZodString>;
+                secondaryContactNumber: z.ZodNullable<z.ZodString>;
+                address: z.ZodString;
+                state: z.ZodString;
+                district: z.ZodString;
+                pincode: z.ZodString;
+                businessName: z.ZodString;
+                businessType: z.ZodString;
+                ownerName: z.ZodString;
+                id: z.ZodNumber;
+            }, "id" | "createdAt" | "updatedAt">, "strip", z.ZodTypeAny, {
+                businessName: string;
+                businessType: string;
+                ownerName: string;
+                address: string;
+                state: string;
+                district: string;
+                pincode: string;
+                phone: string;
+                email: string;
+                secondaryContactName: string | null;
+                secondaryContactDesignation: string | null;
+                secondaryContactNumber: string | null;
+                panNumber: string;
+                panCard: string | null;
+                gstNumber: string;
+                gstCertificate: string | null;
+                fssaiNumber: string | null;
+                fssaiLicense: string | null;
+                bankAccountNumber: string;
+                bankIfscCode: string;
+                userId: number;
+            }, {
+                businessName: string;
+                businessType: string;
+                ownerName: string;
+                address: string;
+                state: string;
+                district: string;
+                pincode: string;
+                phone: string;
+                email: string;
+                secondaryContactName: string | null;
+                secondaryContactDesignation: string | null;
+                secondaryContactNumber: string | null;
+                panNumber: string;
+                panCard: string | null;
+                gstNumber: string;
+                gstCertificate: string | null;
+                fssaiNumber: string | null;
+                fssaiLicense: string | null;
+                bankAccountNumber: string;
+                bankIfscCode: string;
+                userId: number;
+            }>;
+            path: "/api/buyers/profile";
+            responses: {
+                201: z.ZodObject<{
+                    userId: z.ZodNumber;
+                    createdAt: z.ZodDate;
+                    updatedAt: z.ZodDate;
+                    bankAccountNumber: z.ZodString;
+                    bankIfscCode: z.ZodString;
+                    panNumber: z.ZodString;
+                    panCard: z.ZodNullable<z.ZodString>;
+                    gstNumber: z.ZodString;
+                    gstCertificate: z.ZodNullable<z.ZodString>;
+                    fssaiNumber: z.ZodNullable<z.ZodString>;
+                    fssaiLicense: z.ZodNullable<z.ZodString>;
+                    phone: z.ZodString;
+                    email: z.ZodString;
+                    secondaryContactName: z.ZodNullable<z.ZodString>;
+                    secondaryContactDesignation: z.ZodNullable<z.ZodString>;
+                    secondaryContactNumber: z.ZodNullable<z.ZodString>;
+                    address: z.ZodString;
+                    state: z.ZodString;
+                    district: z.ZodString;
+                    pincode: z.ZodString;
+                    businessName: z.ZodString;
+                    businessType: z.ZodString;
+                    ownerName: z.ZodString;
+                    id: z.ZodNumber;
+                }, "strip", z.ZodTypeAny, {
+                    businessName: string;
+                    businessType: string;
+                    ownerName: string;
+                    address: string;
+                    state: string;
+                    district: string;
+                    pincode: string;
+                    phone: string;
+                    email: string;
+                    secondaryContactName: string | null;
+                    secondaryContactDesignation: string | null;
+                    secondaryContactNumber: string | null;
+                    panNumber: string;
+                    panCard: string | null;
+                    gstNumber: string;
+                    gstCertificate: string | null;
+                    fssaiNumber: string | null;
+                    fssaiLicense: string | null;
+                    bankAccountNumber: string;
+                    bankIfscCode: string;
+                    id: number;
+                    userId: number;
+                    createdAt: Date;
+                    updatedAt: Date;
+                }, {
+                    businessName: string;
+                    businessType: string;
+                    ownerName: string;
+                    address: string;
+                    state: string;
+                    district: string;
+                    pincode: string;
+                    phone: string;
+                    email: string;
+                    secondaryContactName: string | null;
+                    secondaryContactDesignation: string | null;
+                    secondaryContactNumber: string | null;
+                    panNumber: string;
+                    panCard: string | null;
+                    gstNumber: string;
+                    gstCertificate: string | null;
+                    fssaiNumber: string | null;
+                    fssaiLicense: string | null;
+                    bankAccountNumber: string;
+                    bankIfscCode: string;
+                    id: number;
+                    userId: number;
+                    createdAt: Date;
+                    updatedAt: Date;
                 }>;
                 400: z.ZodObject<{
                     message: z.ZodString;
                     code: z.ZodString;
                     timestamp: z.ZodString;
                 }, "strip", z.ZodTypeAny, {
-                    message: string;
                     code: string;
+                    message: string;
                     timestamp: string;
                 }, {
-                    message: string;
                     code: string;
+                    message: string;
                     timestamp: string;
                 }>;
-                401: z.ZodObject<{
+            };
+        };
+        updateProfile: {
+            pathParams: z.ZodObject<{
+                userId: z.ZodString;
+            }, "strip", z.ZodTypeAny, {
+                userId: string;
+            }, {
+                userId: string;
+            }>;
+            method: "PUT";
+            body: z.ZodObject<{
+                businessName: z.ZodOptional<z.ZodString>;
+                businessType: z.ZodOptional<z.ZodString>;
+                ownerName: z.ZodOptional<z.ZodString>;
+                address: z.ZodOptional<z.ZodString>;
+                state: z.ZodOptional<z.ZodString>;
+                district: z.ZodOptional<z.ZodString>;
+                pincode: z.ZodOptional<z.ZodString>;
+                phone: z.ZodOptional<z.ZodString>;
+                email: z.ZodOptional<z.ZodString>;
+                secondaryContactName: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                secondaryContactDesignation: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                secondaryContactNumber: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                panNumber: z.ZodOptional<z.ZodString>;
+                panCard: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                gstNumber: z.ZodOptional<z.ZodString>;
+                gstCertificate: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                fssaiNumber: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                fssaiLicense: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                bankAccountNumber: z.ZodOptional<z.ZodString>;
+                bankIfscCode: z.ZodOptional<z.ZodString>;
+            }, "strip", z.ZodTypeAny, {
+                businessName?: string | undefined;
+                businessType?: string | undefined;
+                ownerName?: string | undefined;
+                address?: string | undefined;
+                state?: string | undefined;
+                district?: string | undefined;
+                pincode?: string | undefined;
+                phone?: string | undefined;
+                email?: string | undefined;
+                secondaryContactName?: string | null | undefined;
+                secondaryContactDesignation?: string | null | undefined;
+                secondaryContactNumber?: string | null | undefined;
+                panNumber?: string | undefined;
+                panCard?: string | null | undefined;
+                gstNumber?: string | undefined;
+                gstCertificate?: string | null | undefined;
+                fssaiNumber?: string | null | undefined;
+                fssaiLicense?: string | null | undefined;
+                bankAccountNumber?: string | undefined;
+                bankIfscCode?: string | undefined;
+            }, {
+                businessName?: string | undefined;
+                businessType?: string | undefined;
+                ownerName?: string | undefined;
+                address?: string | undefined;
+                state?: string | undefined;
+                district?: string | undefined;
+                pincode?: string | undefined;
+                phone?: string | undefined;
+                email?: string | undefined;
+                secondaryContactName?: string | null | undefined;
+                secondaryContactDesignation?: string | null | undefined;
+                secondaryContactNumber?: string | null | undefined;
+                panNumber?: string | undefined;
+                panCard?: string | null | undefined;
+                gstNumber?: string | undefined;
+                gstCertificate?: string | null | undefined;
+                fssaiNumber?: string | null | undefined;
+                fssaiLicense?: string | null | undefined;
+                bankAccountNumber?: string | undefined;
+                bankIfscCode?: string | undefined;
+            }>;
+            path: "/api/buyers/profile/:userId";
+            responses: {
+                200: z.ZodObject<{
+                    userId: z.ZodNumber;
+                    createdAt: z.ZodDate;
+                    updatedAt: z.ZodDate;
+                    bankAccountNumber: z.ZodString;
+                    bankIfscCode: z.ZodString;
+                    panNumber: z.ZodString;
+                    panCard: z.ZodNullable<z.ZodString>;
+                    gstNumber: z.ZodString;
+                    gstCertificate: z.ZodNullable<z.ZodString>;
+                    fssaiNumber: z.ZodNullable<z.ZodString>;
+                    fssaiLicense: z.ZodNullable<z.ZodString>;
+                    phone: z.ZodString;
+                    email: z.ZodString;
+                    secondaryContactName: z.ZodNullable<z.ZodString>;
+                    secondaryContactDesignation: z.ZodNullable<z.ZodString>;
+                    secondaryContactNumber: z.ZodNullable<z.ZodString>;
+                    address: z.ZodString;
+                    state: z.ZodString;
+                    district: z.ZodString;
+                    pincode: z.ZodString;
+                    businessName: z.ZodString;
+                    businessType: z.ZodString;
+                    ownerName: z.ZodString;
+                    id: z.ZodNumber;
+                }, "strip", z.ZodTypeAny, {
+                    businessName: string;
+                    businessType: string;
+                    ownerName: string;
+                    address: string;
+                    state: string;
+                    district: string;
+                    pincode: string;
+                    phone: string;
+                    email: string;
+                    secondaryContactName: string | null;
+                    secondaryContactDesignation: string | null;
+                    secondaryContactNumber: string | null;
+                    panNumber: string;
+                    panCard: string | null;
+                    gstNumber: string;
+                    gstCertificate: string | null;
+                    fssaiNumber: string | null;
+                    fssaiLicense: string | null;
+                    bankAccountNumber: string;
+                    bankIfscCode: string;
+                    id: number;
+                    userId: number;
+                    createdAt: Date;
+                    updatedAt: Date;
+                }, {
+                    businessName: string;
+                    businessType: string;
+                    ownerName: string;
+                    address: string;
+                    state: string;
+                    district: string;
+                    pincode: string;
+                    phone: string;
+                    email: string;
+                    secondaryContactName: string | null;
+                    secondaryContactDesignation: string | null;
+                    secondaryContactNumber: string | null;
+                    panNumber: string;
+                    panCard: string | null;
+                    gstNumber: string;
+                    gstCertificate: string | null;
+                    fssaiNumber: string | null;
+                    fssaiLicense: string | null;
+                    bankAccountNumber: string;
+                    bankIfscCode: string;
+                    id: number;
+                    userId: number;
+                    createdAt: Date;
+                    updatedAt: Date;
+                }>;
+                404: z.ZodObject<{
                     message: z.ZodString;
                     code: z.ZodString;
                     timestamp: z.ZodString;
                 }, "strip", z.ZodTypeAny, {
-                    message: string;
                     code: string;
+                    message: string;
                     timestamp: string;
                 }, {
-                    message: string;
                     code: string;
+                    message: string;
                     timestamp: string;
                 }>;
             };
@@ -3402,7 +4744,6 @@ export declare const contract: {
 };
 export type Contract = typeof contract;
 export type User = z.infer<typeof UserSchema>;
-export type SafeUser = z.infer<typeof UserSchema>;
-export type StaffPermissions = z.infer<typeof StaffPermissionsSchema>;
-export type StaffProfile = z.infer<typeof StaffProfileSchema>;
-export {};
+export type PendingUser = z.infer<typeof PendingUserSchema>;
+export type SellerProfile = z.infer<typeof SellerProfileSchema>;
+export type BuyerProfile = z.infer<typeof BuyerProfileSchema>;

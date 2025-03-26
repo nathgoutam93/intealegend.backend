@@ -11,12 +11,20 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as SellersImport } from './routes/sellers'
 import { Route as RegistrationsImport } from './routes/registrations'
 import { Route as LoginImport } from './routes/login'
 import { Route as DashboardImport } from './routes/dashboard'
+import { Route as BuyersImport } from './routes/buyers'
 import { Route as IndexImport } from './routes/index'
 
 // Create/Update Routes
+
+const SellersRoute = SellersImport.update({
+  id: '/sellers',
+  path: '/sellers',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const RegistrationsRoute = RegistrationsImport.update({
   id: '/registrations',
@@ -36,6 +44,12 @@ const DashboardRoute = DashboardImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const BuyersRoute = BuyersImport.update({
+  id: '/buyers',
+  path: '/buyers',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
@@ -51,6 +65,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/buyers': {
+      id: '/buyers'
+      path: '/buyers'
+      fullPath: '/buyers'
+      preLoaderRoute: typeof BuyersImport
       parentRoute: typeof rootRoute
     }
     '/dashboard': {
@@ -74,6 +95,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RegistrationsImport
       parentRoute: typeof rootRoute
     }
+    '/sellers': {
+      id: '/sellers'
+      path: '/sellers'
+      fullPath: '/sellers'
+      preLoaderRoute: typeof SellersImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -81,47 +109,70 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/buyers': typeof BuyersRoute
   '/dashboard': typeof DashboardRoute
   '/login': typeof LoginRoute
   '/registrations': typeof RegistrationsRoute
+  '/sellers': typeof SellersRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/buyers': typeof BuyersRoute
   '/dashboard': typeof DashboardRoute
   '/login': typeof LoginRoute
   '/registrations': typeof RegistrationsRoute
+  '/sellers': typeof SellersRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/buyers': typeof BuyersRoute
   '/dashboard': typeof DashboardRoute
   '/login': typeof LoginRoute
   '/registrations': typeof RegistrationsRoute
+  '/sellers': typeof SellersRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/dashboard' | '/login' | '/registrations'
+  fullPaths:
+    | '/'
+    | '/buyers'
+    | '/dashboard'
+    | '/login'
+    | '/registrations'
+    | '/sellers'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard' | '/login' | '/registrations'
-  id: '__root__' | '/' | '/dashboard' | '/login' | '/registrations'
+  to: '/' | '/buyers' | '/dashboard' | '/login' | '/registrations' | '/sellers'
+  id:
+    | '__root__'
+    | '/'
+    | '/buyers'
+    | '/dashboard'
+    | '/login'
+    | '/registrations'
+    | '/sellers'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BuyersRoute: typeof BuyersRoute
   DashboardRoute: typeof DashboardRoute
   LoginRoute: typeof LoginRoute
   RegistrationsRoute: typeof RegistrationsRoute
+  SellersRoute: typeof SellersRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BuyersRoute: BuyersRoute,
   DashboardRoute: DashboardRoute,
   LoginRoute: LoginRoute,
   RegistrationsRoute: RegistrationsRoute,
+  SellersRoute: SellersRoute,
 }
 
 export const routeTree = rootRoute
@@ -135,13 +186,18 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/buyers",
         "/dashboard",
         "/login",
-        "/registrations"
+        "/registrations",
+        "/sellers"
       ]
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/buyers": {
+      "filePath": "buyers.tsx"
     },
     "/dashboard": {
       "filePath": "dashboard.tsx"
@@ -151,6 +207,9 @@ export const routeTree = rootRoute
     },
     "/registrations": {
       "filePath": "registrations.tsx"
+    },
+    "/sellers": {
+      "filePath": "sellers.tsx"
     }
   }
 }

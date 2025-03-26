@@ -18,13 +18,20 @@ export function RegistrationApprovalView() {
   const [selectedUsers, setSelectedUsers] = useState<number[]>([]);
   const [selectedUser, setSelectedUser] = useState<any>(null);
 
-  const { data, isLoading } = client.users.getPendingRegistrations.useQuery([
-    "pending-registrations",
-  ]);
+  const { data: buyers, isLoading: isBuyersLoading } =
+    client.admin.listPendingVerifications.useQuery(
+      ["pending-registrations-buyers"],
+      { query: { role: "BUYER" } }
+    );
+  const { data: sellers, isLoading: isSellersLoading } =
+    client.admin.listPendingVerifications.useQuery(
+      ["pending-registrations-sellers"],
+      { query: { role: "SELLER" } }
+    );
 
   const queryClient = new QueryClient();
 
-  const verifyMutation = client.users.verifyRegistration.useMutation({
+  const verifyMutation = client.admin.verifyRegistration.useMutation({
     onSuccess: () => {
       toast.success("Users verified successfully");
       setSelectedUsers([]);
@@ -43,20 +50,11 @@ export function RegistrationApprovalView() {
     await verifyMutation.mutateAsync({ body: { userIds: selectedUsers } });
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isBuyersLoading || isSellersLoading) return <div>Loading...</div>;
 
-  return (
-    <div className="p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Pending Registrations</h1>
-        <Button
-          onClick={handleVerify}
-          disabled={!selectedUsers.length || verifyMutation.isPending}
-        >
-          {verifyMutation.isPending ? "Verifying..." : "Verify Selected"}
-        </Button>
-      </div>
-
+  const renderTable = (data: typeof buyers, title: string) => (
+    <div className="mb-8">
+      <h2 className="text-xl font-semibold mb-4">{title}</h2>
       <Table>
         <TableHeader>
           <TableRow>
@@ -65,7 +63,9 @@ export function RegistrationApprovalView() {
                 type="checkbox"
                 onChange={(e) => {
                   if (e.target.checked) {
-                    setSelectedUsers(data?.body.map((user) => user.id) ?? []);
+                    setSelectedUsers(
+                      data?.body.data.users.map((user) => user.id) ?? []
+                    );
                   } else {
                     setSelectedUsers([]);
                   }
@@ -79,7 +79,7 @@ export function RegistrationApprovalView() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data?.body.map((user) => (
+          {data?.body.data.users.map((user) => (
             <TableRow
               key={user.id}
               className="cursor-pointer hover:bg-muted/50"
@@ -116,6 +116,25 @@ export function RegistrationApprovalView() {
           ))}
         </TableBody>
       </Table>
+    </div>
+  );
+
+  return (
+    <div className="p-6">
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold">Pending Registrations</h1>
+        <Button
+          onClick={handleVerify}
+          disabled={!selectedUsers.length || verifyMutation.isPending}
+        >
+          {verifyMutation.isPending ? "Verifying..." : "Verify Selected"}
+        </Button>
+      </div>
+
+      <div className="grid grid-cols-2 gap-8">
+        {renderTable(sellers, "Pending Seller Registrations")}
+        {renderTable(buyers, "Pending Buyer Registrations")}
+      </div>
 
       <UserDetailsModal
         user={selectedUser}
