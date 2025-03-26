@@ -107,7 +107,7 @@ export default function BuyerRegistrationForm() {
       toast.success(
         "Registration successful! Please check your email for verification."
       );
-      router.push("/auth/verify");
+      router.push("/account/verification-pending");
     },
     onError: (error: any) => {
       toast.error(error.message || "Registration failed. Please try again.");
