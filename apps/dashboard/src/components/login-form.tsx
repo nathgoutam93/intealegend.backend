@@ -25,7 +25,7 @@ export function LoginForm() {
       localStorage.setItem("user", JSON.stringify(response.body.user));
 
       toast.success("Login successful");
-      navigate({ to: "/dashboard" });
+      navigate({ to: "/app" });
     },
     onError: (error: any) => {
       toast.error("Login failed", {

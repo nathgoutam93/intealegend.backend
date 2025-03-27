@@ -1,18 +1,29 @@
-import App from "@/App";
 import { createFileRoute, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({
   beforeLoad: async () => {
     const token = localStorage.getItem("accessToken");
+
+    const hostname = window.location.hostname.toLowerCase();
+    const isApiSubdomain = hostname.startsWith("api.");
+
+    console.log({
+      currentHostname: hostname,
+      isApiSubdomain,
+      token: !!token,
+    });
+
     if (!token) {
+      const loginPath = isApiSubdomain ? "/login-admin" : "/login";
+      console.log("Redirecting to:", loginPath);
+
       throw redirect({
-        to: "/login",
-      });
-    } else {
-      throw redirect({
-        to: "/dashboard",
+        to: loginPath,
       });
     }
+
+    throw redirect({
+      to: "/app",
+    });
   },
-  component: App,
 });

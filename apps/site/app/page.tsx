@@ -19,8 +19,14 @@ import "swiper/css";
 import "swiper/css/effect-fade";
 import StickyHeader from "@/components/StickyHeader";
 import Footer from "@/components/Footer";
+import { env } from "process";
 
 type media = { type: "image" | "video"; url: string; alt: string };
+
+const SELLER_BASE_URL =
+  process.env.NODE_ENV === "production"
+    ? (process.env.NEXT_PUBLIC_SELLER_BASE_URL as string)
+    : "http://seller.localhost:5173";
 
 const heroMedia: media[] = [
   {
@@ -126,7 +132,7 @@ export default function Home() {
             </div>
           </div>
           <Link
-            href="/sell-online"
+            href={SELLER_BASE_URL}
             className="bg-green-700 text-white px-4 py-2 rounded-lg hover:bg-green-800 transition flex items-center gap-2"
           >
             <Store className="w-4 h-4" />

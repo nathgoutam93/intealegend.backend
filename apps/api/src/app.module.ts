@@ -15,7 +15,7 @@ import { AdminModule } from './admin/admin.module';
 @Module({
   imports: [
     ServeStaticModule.forRoot({
-      serveRoot: '/app',
+      // serveRoot: '/app',
       rootPath: join(__dirname, '..', '..', 'dashboard', 'dist'),
     }),
     ConfigModule.forRoot({

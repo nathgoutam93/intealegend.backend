@@ -8,4 +8,5 @@ export const Route = createRootRoute({
       <Toaster />
     </div>
   ),
+  notFoundComponent: () => <div>Not Found</div>,
 });
