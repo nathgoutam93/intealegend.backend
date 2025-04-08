@@ -2,56 +2,45 @@ import { initContract } from "@ts-rest/core";
 import {
   ErrorSchema,
   UserSchema,
-  PendingUserSchema,
-  AdminProfileSchema,
   SellerProfileSchema,
   BuyerProfileSchema,
-  DashboardStatsSchema,
+  AdminStatsSchema,
 } from "../schemas";
 import z from "zod";
 
 const c = initContract();
 
 export const adminRouter = c.router({
-  getProfile: {
-    method: "GET",
-    path: "/admin/profile/:userId",
-    pathParams: z.object({
-      userId: z.string(),
-    }),
-    responses: {
-      200: AdminProfileSchema,
-      404: ErrorSchema,
-    },
-  },
-  createProfile: {
-    method: "POST",
-    path: "/admin/profile",
-    body: z.object({
-      fullName: z.string(),
-      userId: z.number(),
-    }),
-    responses: {
-      201: AdminProfileSchema,
-      400: ErrorSchema,
-    },
-  },
   stats: {
     method: "GET",
     path: "/admin/stats",
     responses: {
-      200: DashboardStatsSchema,
+      200: AdminStatsSchema,
       401: ErrorSchema,
       403: ErrorSchema,
     },
   },
-  listVerifiedUsers: {
+  listUsers: {
     method: "GET",
-    path: "/admin/users/verified",
+    path: "/admin/users",
     query: z.object({
       role: z.enum(["SELLER", "BUYER"]),
-      limit: z.number().min(1).max(100).optional().default(10),
-      offset: z.number().min(0).optional().default(0),
+      verified: z
+        .string()
+        .transform((str) => str === "true")
+        .optional(),
+      limit: z
+        .string()
+        .transform((val) => parseInt(val))
+        .pipe(z.number().min(1).max(100))
+        .optional()
+        .default("10"),
+      offset: z
+        .string()
+        .transform((val) => parseInt(val))
+        .pipe(z.number().min(0))
+        .optional()
+        .default("0"),
     }),
     responses: {
       200: z.object({
@@ -78,38 +67,9 @@ export const adminRouter = c.router({
       400: ErrorSchema,
     },
   },
-  listPendingVerifications: {
-    method: "GET",
-    path: "/admin/verifications/pending",
-    query: z.object({
-      role: z.enum(["SELLER", "BUYER"]),
-      limit: z.number().min(1).max(100).optional().default(10),
-      offset: z.number().min(0).optional().default(0),
-    }),
-    responses: {
-      200: z.object({
-        data: z.discriminatedUnion("role", [
-          z.object({
-            role: z.literal("SELLER"),
-            users: PendingUserSchema.array(),
-          }),
-          z.object({
-            role: z.literal("BUYER"),
-            users: PendingUserSchema.array(),
-          }),
-        ]),
-        total: z.number(),
-        limit: z.number(),
-        offset: z.number(),
-      }),
-      401: ErrorSchema,
-      403: ErrorSchema,
-      400: ErrorSchema,
-    },
-  },
   verifyRegistration: {
     method: "POST",
-    path: "/admin/verify-users",
+    path: "/admin/users/verify",
     body: z.object({
       userIds: z.number().array(),
     }),

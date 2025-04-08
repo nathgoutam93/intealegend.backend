@@ -11,6 +11,8 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { ProfilesModule } from './profiles/profiles.module';
 import { AdminModule } from './admin/admin.module';
+import { SellerModule } from './seller/seller.module';
+import { BuyerModule } from './buyer/buyer.module';
 
 @Module({
   imports: [
@@ -24,9 +26,11 @@ import { AdminModule } from './admin/admin.module';
     }),
     DatabaseModule,
     AuthModule,
-    AdminModule,
     UsersModule,
+    AdminModule,
+    SellerModule,
     ProfilesModule,
+    BuyerModule,
   ],
   controllers: [AppController],
   providers: [AppService],

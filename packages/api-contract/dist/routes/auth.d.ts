@@ -16,6 +16,7 @@ export declare const authRouter: {
         responses: {
             200: z.ZodObject<{
                 accessToken: z.ZodString;
+                refreshToken: z.ZodString;
                 user: z.ZodObject<{
                     id: z.ZodNumber;
                     email: z.ZodString;
@@ -43,6 +44,7 @@ export declare const authRouter: {
                 }>;
             }, "strip", z.ZodTypeAny, {
                 accessToken: string;
+                refreshToken: string;
                 user: {
                     email: string;
                     id: number;
@@ -54,6 +56,7 @@ export declare const authRouter: {
                 };
             }, {
                 accessToken: string;
+                refreshToken: string;
                 user: {
                     email: string;
                     id: number;
@@ -416,6 +419,7 @@ export declare const authRouter: {
         responses: {
             200: z.ZodObject<{
                 accessToken: z.ZodString;
+                refreshToken: z.ZodString;
                 user: z.ZodObject<{
                     id: z.ZodNumber;
                     email: z.ZodString;
@@ -443,6 +447,7 @@ export declare const authRouter: {
                 }>;
             }, "strip", z.ZodTypeAny, {
                 accessToken: string;
+                refreshToken: string;
                 user: {
                     email: string;
                     id: number;
@@ -454,6 +459,7 @@ export declare const authRouter: {
                 };
             }, {
                 accessToken: string;
+                refreshToken: string;
                 user: {
                     email: string;
                     id: number;

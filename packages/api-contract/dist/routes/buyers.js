@@ -7,38 +7,23 @@ exports.buyersRouter = void 0;
 var core_1 = require("@ts-rest/core");
 var schemas_1 = require("../schemas");
 var zod_1 = __importDefault(require("zod"));
+var CartItemSchema = zod_1.default.object({
+    productId: zod_1.default.string(),
+    quantity: zod_1.default.number(),
+});
 var c = (0, core_1.initContract)();
 exports.buyersRouter = c.router({
     getProfile: {
         method: "GET",
-        path: "/buyers/profile/:userId",
-        pathParams: zod_1.default.object({
-            userId: zod_1.default.string(),
-        }),
+        path: "/buyer/profile",
         responses: {
             200: schemas_1.BuyerProfileSchema,
             404: schemas_1.ErrorSchema,
         },
     },
-    createProfile: {
-        method: "POST",
-        path: "/buyers/profile",
-        body: schemas_1.BuyerProfileSchema.omit({
-            id: true,
-            createdAt: true,
-            updatedAt: true,
-        }),
-        responses: {
-            201: schemas_1.BuyerProfileSchema,
-            400: schemas_1.ErrorSchema,
-        },
-    },
     updateProfile: {
         method: "PUT",
-        path: "/buyers/profile/:userId",
-        pathParams: zod_1.default.object({
-            userId: zod_1.default.string(),
-        }),
+        path: "/buyers/profile",
         body: schemas_1.BuyerProfileSchema.omit({
             id: true,
             userId: true,
@@ -47,6 +32,86 @@ exports.buyersRouter = c.router({
         }).partial(),
         responses: {
             200: schemas_1.BuyerProfileSchema,
+            404: schemas_1.ErrorSchema,
+        },
+    },
+    // Product related endpoints
+    getProducts: {
+        method: "GET",
+        path: "/products",
+        query: zod_1.default.object({
+            page: zod_1.default.number().optional(),
+            limit: zod_1.default.number().optional(),
+            search: zod_1.default.string().optional(),
+        }),
+        responses: {
+            200: zod_1.default.array(schemas_1.ProductSchema),
+            400: schemas_1.ErrorSchema,
+        },
+    },
+    // Cart related endpoints
+    getCart: {
+        method: "GET",
+        path: "/cart",
+        responses: {
+            200: zod_1.default.array(CartItemSchema),
+            404: schemas_1.ErrorSchema,
+        },
+    },
+    addToCart: {
+        method: "POST",
+        path: "/cart",
+        body: CartItemSchema,
+        responses: {
+            200: zod_1.default.array(CartItemSchema),
+            400: schemas_1.ErrorSchema,
+        },
+    },
+    updateCartItem: {
+        method: "PUT",
+        path: "/cart/:productId",
+        body: zod_1.default.object({
+            quantity: zod_1.default.number(),
+        }),
+        responses: {
+            200: zod_1.default.array(CartItemSchema),
+            404: schemas_1.ErrorSchema,
+        },
+    },
+    removeFromCart: {
+        method: "DELETE",
+        path: "/cart/:productId",
+        responses: {
+            200: zod_1.default.array(CartItemSchema),
+            404: schemas_1.ErrorSchema,
+        },
+    },
+    // Order related endpoints
+    placeOrder: {
+        method: "POST",
+        path: "/orders",
+        body: zod_1.default.object({
+            items: zod_1.default.array(CartItemSchema),
+            shippingAddress: zod_1.default.string(),
+        }),
+        responses: {
+            201: schemas_1.OrderSchema,
+            400: schemas_1.ErrorSchema,
+        },
+    },
+    getOrders: {
+        method: "GET",
+        path: "/orders",
+        responses: {
+            200: zod_1.default.array(schemas_1.OrderSchema),
+            404: schemas_1.ErrorSchema,
+        },
+    },
+    getOrderById: {
+        method: "GET",
+        path: "/orders/:orderId",
+        responses: {
+            200: schemas_1.OrderSchema,
             404: schemas_1.ErrorSchema,
         },
     },

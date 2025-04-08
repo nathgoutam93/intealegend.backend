@@ -9,5 +9,6 @@ export const ErrorSchema = z.object({
 
 export const LoginResponseSchema = z.object({
   accessToken: z.string(),
+  refreshToken: z.string(),
   user: UserSchema,
 });

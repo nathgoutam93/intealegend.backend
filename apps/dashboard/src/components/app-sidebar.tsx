@@ -1,7 +1,17 @@
 import * as React from "react";
-import { Command, Frame, LifeBuoy, Send, Store, User2 } from "lucide-react";
+import {
+  Command,
+  Frame,
+  LifeBuoy,
+  Send,
+  Store,
+  User2,
+  Package,
+  ShoppingCart,
+  Settings,
+} from "lucide-react";
+import { useAuthStore } from "@/stores/auth.store";
 
-// import { NavMain } from "@/components/nav-main";
 import { NavProjects } from "@/components/nav-projects";
 import { NavSecondary } from "@/components/nav-secondary";
 import { NavUser } from "@/components/nav-user";
@@ -14,40 +24,75 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { ReactNode } from "@tanstack/react-router";
 
-const data = {
-  projects: [
-    {
-      name: "Overview",
-      url: "/app",
-      icon: Frame,
-    },
-    {
-      name: "Sellers",
-      url: "/app/sellers",
-      icon: Store,
-    },
-    {
-      name: "Buyers",
-      url: "/app/buyers",
-      icon: User2,
-    },
-  ],
-  navSecondary: [
-    {
-      title: "Support",
-      url: "#",
-      icon: LifeBuoy,
-    },
-    {
-      title: "Feedback",
-      url: "#",
-      icon: Send,
-    },
-  ],
+const navigationConfig: {
+  [key: string]: { projects: { name: string; url: string; icon: ReactNode }[] };
+} = {
+  admin: {
+    projects: [
+      {
+        name: "Overview",
+        url: "/app",
+        icon: Frame,
+      },
+      {
+        name: "Sellers",
+        url: "/app/sellers",
+        icon: Store,
+      },
+      {
+        name: "Buyers",
+        url: "/app/buyers",
+        icon: User2,
+      },
+      {
+        name: "Settings",
+        url: "/app/settings",
+        icon: Settings,
+      },
+    ],
+  },
+  seller: {
+    projects: [
+      {
+        name: "Dashboard",
+        url: "/app",
+        icon: Frame,
+      },
+      {
+        name: "Products",
+        url: "/app/products",
+        icon: Package,
+      },
+      {
+        name: "Orders",
+        url: "/app/orders",
+        icon: ShoppingCart,
+      },
+    ],
+  },
 };
 
+const commonNavSecondary = [
+  {
+    title: "Support",
+    url: "#",
+    icon: LifeBuoy,
+  },
+  {
+    title: "Feedback",
+    url: "#",
+    icon: Send,
+  },
+];
+
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const user = useAuthStore((state) => state.user);
+  const role = user?.role || "buyer";
+
+  const navigation = navigationConfig[role.toLowerCase()];
+
   return (
     <Sidebar variant="inset" {...props}>
       <SidebarHeader>
@@ -60,7 +105,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 </div>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">Intealegend</span>
-                  <span className="truncate text-xs">Enterprise</span>
+                  <span className="truncate text-xs capitalize">{role}</span>
                 </div>
               </a>
             </SidebarMenuButton>
@@ -68,9 +113,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        {/* <NavMain items={data.navMain} /> */}
-        <NavProjects projects={data.projects} />
-        <NavSecondary items={data.navSecondary} className="mt-auto" />
+        <NavProjects projects={navigation.projects} />
+        <NavSecondary items={commonNavSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
         <NavUser />

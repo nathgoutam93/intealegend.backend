@@ -21,6 +21,11 @@ import { Route as AppLayoutAppIndexImport } from './routes/_app-layout/app/index
 import { Route as AppLayoutAppSellersImport } from './routes/_app-layout/app/sellers'
 import { Route as AppLayoutAppRegistrationsImport } from './routes/_app-layout/app/registrations'
 import { Route as AppLayoutAppBuyersImport } from './routes/_app-layout/app/buyers'
+import { Route as AppLayoutAppProductsIndexImport } from './routes/_app-layout/app/products/index'
+import { Route as AppLayoutAppOrdersIndexImport } from './routes/_app-layout/app/orders/index'
+import { Route as AppLayoutAppProductsNewImport } from './routes/_app-layout/app/products/new'
+import { Route as AppLayoutAppProductsProductIdImport } from './routes/_app-layout/app/products/$productId'
+import { Route as AppLayoutAppOrdersOrderIdImport } from './routes/_app-layout/app/orders/$orderId'
 
 // Create/Update Routes
 
@@ -80,6 +85,37 @@ const AppLayoutAppRegistrationsRoute = AppLayoutAppRegistrationsImport.update({
 const AppLayoutAppBuyersRoute = AppLayoutAppBuyersImport.update({
   id: '/app/buyers',
   path: '/app/buyers',
+  getParentRoute: () => AppLayoutRoute,
+} as any)
+
+const AppLayoutAppProductsIndexRoute = AppLayoutAppProductsIndexImport.update({
+  id: '/app/products/',
+  path: '/app/products/',
+  getParentRoute: () => AppLayoutRoute,
+} as any)
+
+const AppLayoutAppOrdersIndexRoute = AppLayoutAppOrdersIndexImport.update({
+  id: '/app/orders/',
+  path: '/app/orders/',
+  getParentRoute: () => AppLayoutRoute,
+} as any)
+
+const AppLayoutAppProductsNewRoute = AppLayoutAppProductsNewImport.update({
+  id: '/app/products/new',
+  path: '/app/products/new',
+  getParentRoute: () => AppLayoutRoute,
+} as any)
+
+const AppLayoutAppProductsProductIdRoute =
+  AppLayoutAppProductsProductIdImport.update({
+    id: '/app/products/$productId',
+    path: '/app/products/$productId',
+    getParentRoute: () => AppLayoutRoute,
+  } as any)
+
+const AppLayoutAppOrdersOrderIdRoute = AppLayoutAppOrdersOrderIdImport.update({
+  id: '/app/orders/$orderId',
+  path: '/app/orders/$orderId',
   getParentRoute: () => AppLayoutRoute,
 } as any)
 
@@ -157,6 +193,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppLayoutAppIndexImport
       parentRoute: typeof AppLayoutImport
     }
+    '/_app-layout/app/orders/$orderId': {
+      id: '/_app-layout/app/orders/$orderId'
+      path: '/app/orders/$orderId'
+      fullPath: '/app/orders/$orderId'
+      preLoaderRoute: typeof AppLayoutAppOrdersOrderIdImport
+      parentRoute: typeof AppLayoutImport
+    }
+    '/_app-layout/app/products/$productId': {
+      id: '/_app-layout/app/products/$productId'
+      path: '/app/products/$productId'
+      fullPath: '/app/products/$productId'
+      preLoaderRoute: typeof AppLayoutAppProductsProductIdImport
+      parentRoute: typeof AppLayoutImport
+    }
+    '/_app-layout/app/products/new': {
+      id: '/_app-layout/app/products/new'
+      path: '/app/products/new'
+      fullPath: '/app/products/new'
+      preLoaderRoute: typeof AppLayoutAppProductsNewImport
+      parentRoute: typeof AppLayoutImport
+    }
+    '/_app-layout/app/orders/': {
+      id: '/_app-layout/app/orders/'
+      path: '/app/orders'
+      fullPath: '/app/orders'
+      preLoaderRoute: typeof AppLayoutAppOrdersIndexImport
+      parentRoute: typeof AppLayoutImport
+    }
+    '/_app-layout/app/products/': {
+      id: '/_app-layout/app/products/'
+      path: '/app/products'
+      fullPath: '/app/products'
+      preLoaderRoute: typeof AppLayoutAppProductsIndexImport
+      parentRoute: typeof AppLayoutImport
+    }
   }
 }
 
@@ -167,6 +238,11 @@ interface AppLayoutRouteChildren {
   AppLayoutAppRegistrationsRoute: typeof AppLayoutAppRegistrationsRoute
   AppLayoutAppSellersRoute: typeof AppLayoutAppSellersRoute
   AppLayoutAppIndexRoute: typeof AppLayoutAppIndexRoute
+  AppLayoutAppOrdersOrderIdRoute: typeof AppLayoutAppOrdersOrderIdRoute
+  AppLayoutAppProductsProductIdRoute: typeof AppLayoutAppProductsProductIdRoute
+  AppLayoutAppProductsNewRoute: typeof AppLayoutAppProductsNewRoute
+  AppLayoutAppOrdersIndexRoute: typeof AppLayoutAppOrdersIndexRoute
+  AppLayoutAppProductsIndexRoute: typeof AppLayoutAppProductsIndexRoute
 }
 
 const AppLayoutRouteChildren: AppLayoutRouteChildren = {
@@ -174,6 +250,11 @@ const AppLayoutRouteChildren: AppLayoutRouteChildren = {
   AppLayoutAppRegistrationsRoute: AppLayoutAppRegistrationsRoute,
   AppLayoutAppSellersRoute: AppLayoutAppSellersRoute,
   AppLayoutAppIndexRoute: AppLayoutAppIndexRoute,
+  AppLayoutAppOrdersOrderIdRoute: AppLayoutAppOrdersOrderIdRoute,
+  AppLayoutAppProductsProductIdRoute: AppLayoutAppProductsProductIdRoute,
+  AppLayoutAppProductsNewRoute: AppLayoutAppProductsNewRoute,
+  AppLayoutAppOrdersIndexRoute: AppLayoutAppOrdersIndexRoute,
+  AppLayoutAppProductsIndexRoute: AppLayoutAppProductsIndexRoute,
 }
 
 const AppLayoutRouteWithChildren = AppLayoutRoute._addFileChildren(
@@ -191,6 +272,11 @@ export interface FileRoutesByFullPath {
   '/app/registrations': typeof AppLayoutAppRegistrationsRoute
   '/app/sellers': typeof AppLayoutAppSellersRoute
   '/app': typeof AppLayoutAppIndexRoute
+  '/app/orders/$orderId': typeof AppLayoutAppOrdersOrderIdRoute
+  '/app/products/$productId': typeof AppLayoutAppProductsProductIdRoute
+  '/app/products/new': typeof AppLayoutAppProductsNewRoute
+  '/app/orders': typeof AppLayoutAppOrdersIndexRoute
+  '/app/products': typeof AppLayoutAppProductsIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -204,6 +290,11 @@ export interface FileRoutesByTo {
   '/app/registrations': typeof AppLayoutAppRegistrationsRoute
   '/app/sellers': typeof AppLayoutAppSellersRoute
   '/app': typeof AppLayoutAppIndexRoute
+  '/app/orders/$orderId': typeof AppLayoutAppOrdersOrderIdRoute
+  '/app/products/$productId': typeof AppLayoutAppProductsProductIdRoute
+  '/app/products/new': typeof AppLayoutAppProductsNewRoute
+  '/app/orders': typeof AppLayoutAppOrdersIndexRoute
+  '/app/products': typeof AppLayoutAppProductsIndexRoute
 }
 
 export interface FileRoutesById {
@@ -218,6 +309,11 @@ export interface FileRoutesById {
   '/_app-layout/app/registrations': typeof AppLayoutAppRegistrationsRoute
   '/_app-layout/app/sellers': typeof AppLayoutAppSellersRoute
   '/_app-layout/app/': typeof AppLayoutAppIndexRoute
+  '/_app-layout/app/orders/$orderId': typeof AppLayoutAppOrdersOrderIdRoute
+  '/_app-layout/app/products/$productId': typeof AppLayoutAppProductsProductIdRoute
+  '/_app-layout/app/products/new': typeof AppLayoutAppProductsNewRoute
+  '/_app-layout/app/orders/': typeof AppLayoutAppOrdersIndexRoute
+  '/_app-layout/app/products/': typeof AppLayoutAppProductsIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -233,6 +329,11 @@ export interface FileRouteTypes {
     | '/app/registrations'
     | '/app/sellers'
     | '/app'
+    | '/app/orders/$orderId'
+    | '/app/products/$productId'
+    | '/app/products/new'
+    | '/app/orders'
+    | '/app/products'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -245,6 +346,11 @@ export interface FileRouteTypes {
     | '/app/registrations'
     | '/app/sellers'
     | '/app'
+    | '/app/orders/$orderId'
+    | '/app/products/$productId'
+    | '/app/products/new'
+    | '/app/orders'
+    | '/app/products'
   id:
     | '__root__'
     | '/'
@@ -257,6 +363,11 @@ export interface FileRouteTypes {
     | '/_app-layout/app/registrations'
     | '/_app-layout/app/sellers'
     | '/_app-layout/app/'
+    | '/_app-layout/app/orders/$orderId'
+    | '/_app-layout/app/products/$productId'
+    | '/_app-layout/app/products/new'
+    | '/_app-layout/app/orders/'
+    | '/_app-layout/app/products/'
   fileRoutesById: FileRoutesById
 }
 
@@ -305,7 +416,12 @@ export const routeTree = rootRoute
         "/_app-layout/app/buyers",
         "/_app-layout/app/registrations",
         "/_app-layout/app/sellers",
-        "/_app-layout/app/"
+        "/_app-layout/app/",
+        "/_app-layout/app/orders/$orderId",
+        "/_app-layout/app/products/$productId",
+        "/_app-layout/app/products/new",
+        "/_app-layout/app/orders/",
+        "/_app-layout/app/products/"
       ]
     },
     "/(auth)/login": {
@@ -334,6 +450,26 @@ export const routeTree = rootRoute
     },
     "/_app-layout/app/": {
       "filePath": "_app-layout/app/index.tsx",
+      "parent": "/_app-layout"
+    },
+    "/_app-layout/app/orders/$orderId": {
+      "filePath": "_app-layout/app/orders/$orderId.tsx",
+      "parent": "/_app-layout"
+    },
+    "/_app-layout/app/products/$productId": {
+      "filePath": "_app-layout/app/products/$productId.tsx",
+      "parent": "/_app-layout"
+    },
+    "/_app-layout/app/products/new": {
+      "filePath": "_app-layout/app/products/new.tsx",
+      "parent": "/_app-layout"
+    },
+    "/_app-layout/app/orders/": {
+      "filePath": "_app-layout/app/orders/index.tsx",
+      "parent": "/_app-layout"
+    },
+    "/_app-layout/app/products/": {
+      "filePath": "_app-layout/app/products/index.tsx",
       "parent": "/_app-layout"
     }
   }

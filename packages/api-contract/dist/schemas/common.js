@@ -13,5 +13,6 @@ exports.ErrorSchema = zod_1.default.object({
 });
 exports.LoginResponseSchema = zod_1.default.object({
     accessToken: zod_1.default.string(),
+    refreshToken: zod_1.default.string(),
     user: user_1.UserSchema,
 });

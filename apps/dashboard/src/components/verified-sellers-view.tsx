@@ -14,9 +14,9 @@ import { UserDetailsModal } from "./user-details-modal";
 export function VerifiedSellersView() {
   const [selectedUser, setSelectedUser] = useState<any>(null);
 
-  const { data: sellers, isLoading } = client.admin.listVerifiedUsers.useQuery(
+  const { data: sellers, isLoading } = client.admin.listUsers.useQuery(
     ["verified-sellers"],
-    { query: { role: "SELLER" } }
+    { query: { role: "SELLER", verified: true } }
   );
 
   if (isLoading) return <div>Loading...</div>;

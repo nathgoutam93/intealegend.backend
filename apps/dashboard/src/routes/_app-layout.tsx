@@ -1,11 +1,12 @@
 import { AppSidebar } from "@/components/app-sidebar";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { useAuthStore } from "@/stores/auth.store";
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_app-layout")({
   beforeLoad: async () => {
     // Check if user is authenticated
-    const token = localStorage.getItem("accessToken");
+    const token = useAuthStore.getState().accessToken;
     if (!token) {
       throw redirect({
         to: "/",

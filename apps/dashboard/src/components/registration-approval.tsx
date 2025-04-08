@@ -19,15 +19,13 @@ export function RegistrationApprovalView() {
   const [selectedUser, setSelectedUser] = useState<any>(null);
 
   const { data: buyers, isLoading: isBuyersLoading } =
-    client.admin.listPendingVerifications.useQuery(
-      ["pending-registrations-buyers"],
-      { query: { role: "BUYER" } }
-    );
+    client.admin.listUsers.useQuery(["pending-registrations-buyers"], {
+      query: { role: "BUYER", verified: false },
+    });
   const { data: sellers, isLoading: isSellersLoading } =
-    client.admin.listPendingVerifications.useQuery(
-      ["pending-registrations-sellers"],
-      { query: { role: "SELLER" } }
-    );
+    client.admin.listUsers.useQuery(["pending-registrations-sellers"], {
+      query: { role: "SELLER", verified: false },
+    });
 
   const queryClient = new QueryClient();
 

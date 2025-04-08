@@ -2,10 +2,7 @@ import { initContract } from "@ts-rest/core";
 import {
   ErrorSchema,
   UserSchema,
-  PendingUserSchema,
-  AdminProfileSchema,
   SellerProfileSchema,
-  DashboardStatsSchema,
   LoginResponseSchema,
   BuyerProfileSchema,
 } from "../schemas";

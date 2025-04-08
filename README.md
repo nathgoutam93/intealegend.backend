@@ -1,6 +1,7 @@
 Tech Stack Overview
+
 1. Backend (Nest.js API)
-Framework: Nest.js
+   Framework: Nest.js
 
 Database: PostgreSQL
 
@@ -31,7 +32,7 @@ ts-rest
 class-validator, class-transformer
 
 2. Buyer Frontend (Next.js)
-Framework: Next.js (with support for SSR & SSG)
+   Framework: Next.js (with support for SSR & SSG)
 
 UI Library: React (React & ReactDOM)
 
@@ -48,7 +49,7 @@ ts-rest (from your shared api-contract package)
 (Optional: TailwindCSS, styled-components, etc. for styling)
 
 3. Seller/Admin Dashboard (Vite)
-Framework: Vite (for fast development and optimized builds)
+   Framework: Vite (for fast development and optimized builds)
 
 UI Library: React (React & ReactDOM)
 
@@ -65,7 +66,7 @@ ts-rest (from your shared api-contract package)
 (Optional: Component libraries like Material-UI, Chakra UI, etc.)
 
 4. Shared API Contract (Workspace Package)
-Purpose: Centralize API types and contracts to ensure type consistency across all services
+   Purpose: Centralize API types and contracts to ensure type consistency across all services
 
 Library: ts-rest
 
@@ -80,12 +81,8 @@ ts-rest
 (Any additional shared types or utility libraries)
 
 5. Tooling & Monorepo Management
-Monorepo Manager: Turborepo
+   Monorepo Manager: Turborepo
 
-Package Manager: Yarn Workspaces or PNPM
+Package Manager: npm
 
 Linting & Formatting: ESLint & Prettier
-
-Git Hooks: Husky & lint-staged
-
-

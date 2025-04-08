@@ -10,6 +10,7 @@ import {
   PendingUserSchema,
   SellerProfileSchema,
   BuyerProfileSchema,
+  ProductSchema,
 } from "./schemas";
 import z from "zod";
 
@@ -34,3 +35,4 @@ export type User = z.infer<typeof UserSchema>;
 export type PendingUser = z.infer<typeof PendingUserSchema>;
 export type SellerProfile = z.infer<typeof SellerProfileSchema>;
 export type BuyerProfile = z.infer<typeof BuyerProfileSchema>;
+export type Product = z.infer<typeof ProductSchema>;

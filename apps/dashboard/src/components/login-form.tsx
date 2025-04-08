@@ -14,15 +14,16 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
+import { useAuthStore } from "@/stores/auth.store";
 
 export function LoginForm() {
   const navigate = useNavigate();
+  const setAuth = useAuthStore((state) => state.setAuth);
   const [isLoading, setIsLoading] = useState(false);
 
   const loginMutation = client.auth.adminLogin.useMutation({
     onSuccess: (response) => {
-      localStorage.setItem("accessToken", response.body.accessToken);
-      localStorage.setItem("user", JSON.stringify(response.body.user));
+      setAuth(response.body.accessToken, response.body.user);
 
       toast.success("Login successful");
       navigate({ to: "/app" });

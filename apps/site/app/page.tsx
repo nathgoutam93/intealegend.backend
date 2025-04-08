@@ -190,7 +190,7 @@ export default function Home() {
               </Link>
               <div className="border-t my-4"></div>
               <Link
-                href="/sell-online"
+                href={SELLER_BASE_URL}
                 className="flex items-center gap-3 p-3 bg-green-700 text-white rounded-lg hover:bg-green-800"
                 onClick={() => setIsMenuOpen(false)}
               >
@@ -255,7 +255,7 @@ export default function Home() {
                 and logistics support.
               </p>
               <div className="mx-auto w-max grid grid-cols-1 md:grid-cols-2 gap-8">
-                <Link href={"/sell-online"}>
+                <Link href={SELLER_BASE_URL}>
                   <button className="bg-green-700 text-white px-8 py-3 rounded-lg font-semibold flex items-center gap-2 hover:bg-green-800 transition shadow-lg shadow-green-700/10">
                     Start Selling <ArrowRight className="w-5 h-5" />
                   </button>

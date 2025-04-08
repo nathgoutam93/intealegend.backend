@@ -1,0 +1,122 @@
+import z from "zod";
+export declare const OrderItemSchema: z.ZodObject<{
+    id: z.ZodNumber;
+    orderId: z.ZodNumber;
+    productId: z.ZodNumber;
+    quantity: z.ZodNumber;
+    unitPrice: z.ZodNumber;
+    totalPrice: z.ZodNumber;
+    totalWeight: z.ZodNumber;
+    createdAt: z.ZodDate;
+    updatedAt: z.ZodDate;
+}, "strip", z.ZodTypeAny, {
+    id: number;
+    createdAt: Date;
+    updatedAt: Date;
+    orderId: number;
+    productId: number;
+    quantity: number;
+    unitPrice: number;
+    totalPrice: number;
+    totalWeight: number;
+}, {
+    id: number;
+    createdAt: Date;
+    updatedAt: Date;
+    orderId: number;
+    productId: number;
+    quantity: number;
+    unitPrice: number;
+    totalPrice: number;
+    totalWeight: number;
+}>;
+export declare const OrderSchema: z.ZodObject<{
+    id: z.ZodNumber;
+    buyerId: z.ZodNumber;
+    status: z.ZodDefault<z.ZodEnum<["PENDING", "ACCEPTED", "DESPATCHED", "ON_WAY", "DELIVERED", "CANCELLED"]>>;
+    totalAmount: z.ZodNumber;
+    estimatedWeight: z.ZodNumber;
+    deliveryCharges: z.ZodNullable<z.ZodNumber>;
+    gstAmount: z.ZodNumber;
+    otherCharges: z.ZodNullable<z.ZodNumber>;
+    roundOff: z.ZodNullable<z.ZodNumber>;
+    orderItems: z.ZodArray<z.ZodObject<{
+        id: z.ZodNumber;
+        orderId: z.ZodNumber;
+        productId: z.ZodNumber;
+        quantity: z.ZodNumber;
+        unitPrice: z.ZodNumber;
+        totalPrice: z.ZodNumber;
+        totalWeight: z.ZodNumber;
+        createdAt: z.ZodDate;
+        updatedAt: z.ZodDate;
+    }, "strip", z.ZodTypeAny, {
+        id: number;
+        createdAt: Date;
+        updatedAt: Date;
+        orderId: number;
+        productId: number;
+        quantity: number;
+        unitPrice: number;
+        totalPrice: number;
+        totalWeight: number;
+    }, {
+        id: number;
+        createdAt: Date;
+        updatedAt: Date;
+        orderId: number;
+        productId: number;
+        quantity: number;
+        unitPrice: number;
+        totalPrice: number;
+        totalWeight: number;
+    }>, "many">;
+    createdAt: z.ZodDate;
+    updatedAt: z.ZodDate;
+}, "strip", z.ZodTypeAny, {
+    status: "PENDING" | "ACCEPTED" | "DESPATCHED" | "ON_WAY" | "DELIVERED" | "CANCELLED";
+    id: number;
+    createdAt: Date;
+    updatedAt: Date;
+    orderItems: {
+        id: number;
+        createdAt: Date;
+        updatedAt: Date;
+        orderId: number;
+        productId: number;
+        quantity: number;
+        unitPrice: number;
+        totalPrice: number;
+        totalWeight: number;
+    }[];
+    buyerId: number;
+    totalAmount: number;
+    estimatedWeight: number;
+    deliveryCharges: number | null;
+    gstAmount: number;
+    otherCharges: number | null;
+    roundOff: number | null;
+}, {
+    id: number;
+    createdAt: Date;
+    updatedAt: Date;
+    orderItems: {
+        id: number;
+        createdAt: Date;
+        updatedAt: Date;
+        orderId: number;
+        productId: number;
+        quantity: number;
+        unitPrice: number;
+        totalPrice: number;
+        totalWeight: number;
+    }[];
+    buyerId: number;
+    totalAmount: number;
+    estimatedWeight: number;
+    deliveryCharges: number | null;
+    gstAmount: number;
+    otherCharges: number | null;
+    roundOff: number | null;
+    status?: "PENDING" | "ACCEPTED" | "DESPATCHED" | "ON_WAY" | "DELIVERED" | "CANCELLED" | undefined;
+}>;

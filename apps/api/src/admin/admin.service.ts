@@ -56,16 +56,18 @@ export class AdminService {
     };
   }
 
-  async listVerifiedUsers({
+  async listUsers({
     role,
+    verified,
     limit,
     offset,
   }: {
     role: 'SELLER' | 'BUYER';
+    verified?: boolean;
     limit: number;
     offset: number;
   }) {
-    const where = { verified: true, role };
+    const where = { verified, role };
 
     // Only fetch users that have their respective profiles to avoid null
     const [users, total] = await Promise.all([
@@ -141,110 +143,37 @@ export class AdminService {
       }),
     ]);
 
-    return {
-      data: {
-        role,
-        users: users.map((user) => ({
-          ...user,
-          profile:
-            role === 'SELLER'
-              ? user.sellerProfile! // Safe to use ! because we filtered null profiles
-              : user.buyerProfile!, // Safe to use ! because we filtered null profiles
-          sellerProfile: undefined,
-          buyerProfile: undefined,
-        })),
-      },
-      total,
-      limit,
-      offset,
-    };
-  }
-
-  async listPendingVerifications({
-    role,
-    limit,
-    offset,
-  }: {
-    role?: 'SELLER' | 'BUYER';
-    limit: number;
-    offset: number;
-  }) {
-    const where = { verified: false, role };
-
-    const [users, total] = await Promise.all([
-      this.db.user.findMany({
-        where,
-        select: {
-          id: true,
-          email: true,
-          role: true,
-          verified: true,
-          createdAt: true,
-          sellerProfile:
-            role === 'SELLER'
-              ? {
-                  select: {
-                    businessName: true,
-                    businessType: true,
-                    address: true,
-                    state: true,
-                    pincode: true,
-                    phone: true,
-                    gstNumber: true,
-                    panNumber: true,
-                    tmcoNumber: true,
-                    cancelledCheque: true,
-                    transportName: true,
-                    brandName: true,
-                    brandLogo: true,
-                    brandCertificate: true,
-                    bankAccountNumber: true,
-                    bankIfscCode: true,
-                  },
-                }
-              : false,
-          buyerProfile:
-            role === 'BUYER'
-              ? {
-                  select: {
-                    businessName: true,
-                    businessType: true,
-                    address: true,
-                    state: true,
-                    pincode: true,
-                    phone: true,
-                    gstNumber: true,
-                    panNumber: true,
-                    bankAccountNumber: true,
-                    bankIfscCode: true,
-                  },
-                }
-              : false,
+    if (role === 'SELLER') {
+      return {
+        data: {
+          role: 'SELLER' as const,
+          users: users.map((user) => ({
+            ...user,
+            profile: user.sellerProfile!,
+            sellerProfile: undefined,
+            buyerProfile: undefined,
+          })),
         },
-        take: limit,
-        skip: offset,
-        orderBy: {
-          createdAt: 'desc',
+        total,
+        limit,
+        offset,
+      };
+    } else {
+      return {
+        data: {
+          role: 'BUYER' as const,
+          users: users.map((user) => ({
+            ...user,
+            profile: user.buyerProfile!,
+            sellerProfile: undefined,
+            buyerProfile: undefined,
+          })),
         },
-      }),
-      this.db.user.count({ where }),
-    ]);
-
-    return {
-      data: {
-        role,
-        users: users.map((user) => ({
-          ...user,
-          profile: role === 'SELLER' ? user.sellerProfile : user.buyerProfile,
-          sellerProfile: undefined,
-          buyerProfile: undefined,
-          createdAt: user.createdAt.toISOString(),
-        })),
-      },
-      total,
-      limit,
-      offset,
-    };
+        total,
+        limit,
+        offset,
+      };
+    }
   }
 
   async verifyRegistrations(userIds: number[]) {

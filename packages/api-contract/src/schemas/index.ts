@@ -5,7 +5,10 @@ import {
   AdminProfileSchema,
   StaffProfileSchema,
 } from "./profile";
-import { DashboardStatsSchema } from "./admin";
+import { ProductSchema } from "./product";
+import { OrderItemSchema, OrderSchema } from "./order";
+import { AdminStatsSchema } from "./admin";
+import { SellerStatsSchema } from "./seller";
 import { ErrorSchema, LoginResponseSchema } from "./common";
 
 export {
@@ -17,5 +20,9 @@ export {
   SellerProfileSchema,
   AdminProfileSchema,
   StaffProfileSchema,
-  DashboardStatsSchema,
+  AdminStatsSchema,
+  SellerStatsSchema,
+  ProductSchema,
+  OrderItemSchema,
+  OrderSchema,
 };

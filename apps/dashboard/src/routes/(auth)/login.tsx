@@ -1,8 +1,15 @@
 import Footer from "@/components/footer";
 import StickyHeader from "@/components/sticky-header";
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-
+import {
+  createFileRoute,
+  Link,
+  notFound,
+  useNavigate,
+} from "@tanstack/react-router";
+import client from "@/api-client";
 import { useState } from "react";
+import { toast } from "sonner";
+import { useAuthStore } from "@/stores/auth.store";
 
 export const Route = createFileRoute("/(auth)/login")({
   beforeLoad: () => {
@@ -17,14 +24,40 @@ export const Route = createFileRoute("/(auth)/login")({
 });
 
 export default function RouteComponent() {
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const setAuth = useAuthStore((state) => state.setAuth);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const loginMutation = client.auth.login.useMutation({
+    onSuccess: (response) => {
+      // Update Zustand store instead of localStorage
+      setAuth(response.body.accessToken, response.body.user);
+
+      toast.success("Login successful");
+      navigate({ to: "/app" });
+    },
+    onError: (error: any) => {
+      toast.error("Login failed", {
+        description: error.message || "Invalid credentials",
+      });
+    },
+    onSettled: () => {
+      setIsLoading(false);
+    },
+  });
+
+  async function handleSubmit(event: React.FormEvent) {
+    event.preventDefault();
     setIsLoading(true);
-    // Add your login logic here
-    setIsLoading(false);
-  };
+
+    const formData = new FormData(event.target as HTMLFormElement);
+    const identifier = formData.get("identifier") as string;
+    const password = formData.get("password") as string;
+
+    await loginMutation.mutateAsync({
+      body: { identifier, password },
+    });
+  }
 
   return (
     <>
@@ -46,15 +79,15 @@ export default function RouteComponent() {
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
                   <label
-                    htmlFor="customerId"
+                    htmlFor="identifier"
                     className="block text-sm font-medium text-gray-700 mb-1"
                   >
                     Seller ID
                   </label>
                   <input
                     type="text"
-                    id="customerId"
-                    name="customerId"
+                    id="identifier"
+                    name="identifier"
                     required
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                     placeholder="Enter your Seller ID"

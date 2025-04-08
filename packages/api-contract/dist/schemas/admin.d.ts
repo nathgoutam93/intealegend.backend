@@ -1,5 +1,5 @@
 import z from "zod";
-export declare const DashboardStatsSchema: z.ZodObject<{
+export declare const AdminStatsSchema: z.ZodObject<{
     totalUsers: z.ZodNumber;
     totalSellers: z.ZodNumber;
     totalBuyers: z.ZodNumber;

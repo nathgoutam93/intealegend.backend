@@ -2,20 +2,66 @@
 
 import Footer from "@/components/Footer";
 import StickyHeader from "@/components/StickyHeader";
+import { client } from "@/lib/api-client";
+import { useAuthStore } from "@/store/auth.store";
 import { ChevronDown, CircleUser, LogIn, Menu, Store, X } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
 
 export default function LoginPage() {
+  const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    identifier: "",
+    password: "",
+  });
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsLoading(true);
-    // Add your login logic here
-    setIsLoading(false);
+  const setAuth = useAuthStore((state) => state.setAuth);
+
+  const loginMutation = client.auth.login.useMutation({
+    onSuccess: (response) => {
+      setAuth(response.body.accessToken, response.body.user);
+      toast.success("Login successful");
+      router.push("/explore");
+    },
+    onError: (error: any) => {
+      toast.error("Login failed", {
+        description: error.message || "Invalid credentials",
+      });
+    },
+    onSettled: () => {
+      setIsLoading(false);
+    },
+  });
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
+
+  async function handleSubmit(event: React.FormEvent) {
+    event.preventDefault();
+
+    if (!formData.identifier || !formData.password) {
+      toast.error("Please fill in all fields");
+      return;
+    }
+
+    setIsLoading(true);
+
+    await loginMutation.mutateAsync({
+      body: {
+        identifier: formData.identifier,
+        password: formData.password,
+      },
+    });
+  }
 
   return (
     <>
@@ -85,18 +131,21 @@ export default function LoginPage() {
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
                   <label
-                    htmlFor="customerId"
+                    htmlFor="identifier"
                     className="block text-sm font-medium text-gray-700 mb-1"
                   >
                     Customer ID
                   </label>
                   <input
                     type="text"
-                    id="customerId"
-                    name="customerId"
+                    id="identifier"
+                    name="identifier"
+                    value={formData.identifier}
+                    onChange={handleInputChange}
                     required
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                     placeholder="Enter your Customer ID"
+                    disabled={isLoading}
                   />
                 </div>
 
@@ -111,9 +160,12 @@ export default function LoginPage() {
                     type="password"
                     id="password"
                     name="password"
+                    value={formData.password}
+                    onChange={handleInputChange}
                     required
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                     placeholder="Enter your password"
+                    disabled={isLoading}
                   />
                 </div>
 
@@ -142,7 +194,7 @@ export default function LoginPage() {
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="w-full bg-green-700 text-white py-2 px-4 rounded-lg hover:bg-green-800 transition duration-200 flex items-center justify-center"
+                  className="w-full bg-green-700 text-white py-2 px-4 rounded-lg hover:bg-green-800 transition duration-200 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isLoading ? (
                     <div className="h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
