@@ -16,7 +16,7 @@ export function VerifiedSellersView() {
 
   const { data: sellers, isLoading } = client.admin.listUsers.useQuery(
     ["verified-sellers"],
-    { query: { role: "SELLER", verified: true } }
+    { query: { role: "SELLER", verified: "true" } }
   );
 
   if (isLoading) return <div>Loading...</div>;

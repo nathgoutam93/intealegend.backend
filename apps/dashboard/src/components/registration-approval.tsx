@@ -20,11 +20,11 @@ export function RegistrationApprovalView() {
 
   const { data: buyers, isLoading: isBuyersLoading } =
     client.admin.listUsers.useQuery(["pending-registrations-buyers"], {
-      query: { role: "BUYER", verified: false },
+      query: { role: "BUYER", verified: "false" },
     });
   const { data: sellers, isLoading: isSellersLoading } =
     client.admin.listUsers.useQuery(["pending-registrations-sellers"], {
-      query: { role: "SELLER", verified: false },
+      query: { role: "SELLER", verified: "false" },
     });
 
   const queryClient = new QueryClient();

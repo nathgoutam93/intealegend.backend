@@ -16,7 +16,7 @@ export function VerifiedBuyersView() {
 
   const { data: buyers, isLoading } = client.admin.listUsers.useQuery(
     ["verified-buyers"],
-    { query: { role: "BUYER", verified: true } }
+    { query: { role: "BUYER", verified: "true" } }
   );
 
   if (isLoading) return <div>Loading...</div>;
