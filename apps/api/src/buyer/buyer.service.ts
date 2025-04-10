@@ -27,8 +27,7 @@ export class BuyerService {
   }
 
   async getProducts(query: any) {
-    const { page = 1, limit = 10, search } = query;
-    const offset = (page - 1) * limit;
+    const { offset = 0, limit = 10, search } = query;
 
     const where = search
       ? {
@@ -41,8 +40,8 @@ export class BuyerService {
 
     return this.db.product.findMany({
       where,
-      take: limit,
-      skip: offset,
+      take: parseInt(limit),
+      skip: parseInt(offset),
       orderBy: {
         createdAt: 'desc',
       },

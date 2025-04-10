@@ -4,9 +4,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.buyersRouter = void 0;
+var zod_1 = __importDefault(require("zod"));
 var core_1 = require("@ts-rest/core");
 var schemas_1 = require("../schemas");
-var zod_1 = __importDefault(require("zod"));
 var CartItemSchema = zod_1.default.object({
     productId: zod_1.default.string(),
     quantity: zod_1.default.number(),
@@ -40,9 +40,15 @@ exports.buyersRouter = c.router({
         method: "GET",
         path: "/products",
         query: zod_1.default.object({
-            page: zod_1.default.number().optional(),
-            limit: zod_1.default.number().optional(),
+            offset: zod_1.default.string().optional().default("0"),
+            limit: zod_1.default.string().optional().default("10"),
             search: zod_1.default.string().optional(),
+            sortBy: zod_1.default.enum(["price", "createdAt", "name"]).optional(),
+            sortOrder: zod_1.default.enum(["asc", "desc"]).optional(),
+            minPrice: zod_1.default.string().optional(),
+            maxPrice: zod_1.default.string().optional(),
+            grade: zod_1.default.string().optional(),
+            origin: zod_1.default.string().optional(),
         }),
         responses: {
             200: zod_1.default.array(schemas_1.ProductSchema),

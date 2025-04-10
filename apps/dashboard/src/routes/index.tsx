@@ -1,8 +1,9 @@
+import { useAuthStore } from "@/stores/auth.store";
 import { createFileRoute, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({
   beforeLoad: async () => {
-    const token = localStorage.getItem("accessToken");
+    const token = useAuthStore.getState().accessToken;
 
     const hostname = window.location.hostname.toLowerCase();
     const isApiSubdomain = hostname.startsWith("api.");

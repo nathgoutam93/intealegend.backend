@@ -1,3 +1,4 @@
+import z from "zod";
 import { initContract } from "@ts-rest/core";
 import {
   ErrorSchema,
@@ -5,7 +6,6 @@ import {
   ProductSchema,
   OrderSchema,
 } from "../schemas";
-import z from "zod";
 
 const CartItemSchema = z.object({
   productId: z.string(),
@@ -43,9 +43,15 @@ export const buyersRouter = c.router({
     method: "GET",
     path: "/products",
     query: z.object({
-      page: z.number().optional(),
-      limit: z.number().optional(),
+      offset: z.string().optional().default("0"),
+      limit: z.string().optional().default("10"),
       search: z.string().optional(),
+      sortBy: z.enum(["price", "createdAt", "name"]).optional(),
+      sortOrder: z.enum(["asc", "desc"]).optional(),
+      minPrice: z.string().optional(),
+      maxPrice: z.string().optional(),
+      grade: z.string().optional(),
+      origin: z.string().optional(),
     }),
     responses: {
       200: z.array(ProductSchema),

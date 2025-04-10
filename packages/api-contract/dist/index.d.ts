@@ -3377,17 +3377,35 @@ export declare const contract: {
         };
         getProducts: {
             query: z.ZodObject<{
-                page: z.ZodOptional<z.ZodNumber>;
-                limit: z.ZodOptional<z.ZodNumber>;
+                offset: z.ZodDefault<z.ZodOptional<z.ZodString>>;
+                limit: z.ZodDefault<z.ZodOptional<z.ZodString>>;
                 search: z.ZodOptional<z.ZodString>;
+                sortBy: z.ZodOptional<z.ZodEnum<["price", "createdAt", "name"]>>;
+                sortOrder: z.ZodOptional<z.ZodEnum<["asc", "desc"]>>;
+                minPrice: z.ZodOptional<z.ZodString>;
+                maxPrice: z.ZodOptional<z.ZodString>;
+                grade: z.ZodOptional<z.ZodString>;
+                origin: z.ZodOptional<z.ZodString>;
             }, "strip", z.ZodTypeAny, {
+                limit: string;
+                offset: string;
                 search?: string | undefined;
-                limit?: number | undefined;
-                page?: number | undefined;
+                grade?: string | undefined;
+                origin?: string | undefined;
+                sortBy?: "createdAt" | "name" | "price" | undefined;
+                sortOrder?: "asc" | "desc" | undefined;
+                minPrice?: string | undefined;
+                maxPrice?: string | undefined;
             }, {
                 search?: string | undefined;
-                limit?: number | undefined;
-                page?: number | undefined;
+                grade?: string | undefined;
+                origin?: string | undefined;
+                limit?: string | undefined;
+                offset?: string | undefined;
+                sortBy?: "createdAt" | "name" | "price" | undefined;
+                sortOrder?: "asc" | "desc" | undefined;
+                minPrice?: string | undefined;
+                maxPrice?: string | undefined;
             }>;
             method: "GET";
             path: "/api/products";
