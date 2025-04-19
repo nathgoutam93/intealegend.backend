@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useForm } from "react-hook-form";
-import type { Product, BrandMark } from "@intealegend/api-contract";
+import type { Product } from "@intealegend/api-contract";
 import client from "@/api-client";
 import {
   Form,
@@ -20,7 +20,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useEffect, useState } from "react";
 
 export const Route = createFileRoute("/_app-layout/app/products/new")({
   component: NewProductPage,

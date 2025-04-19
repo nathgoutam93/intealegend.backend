@@ -35,11 +35,12 @@ function ProductDetailPage() {
   const updateProductMutation = client.sellers.updateProduct.useMutation();
 
   const handleUpdate = async (formData: FormData) => {
+    // @ts-ignore
     const updatedProduct: ProductInput = {
       name: formData.get("name") as string,
       description: formData.get("description") as string,
       grade: formData.get("grade") as string,
-      mark: formData.get("mark") as string,
+      mark: Number(formData.get("mark")),
       invoiceNo: formData.get("invoiceNo") as string,
       productionMonth: formData.get("productionMonth") as string,
       weightPerUnit: Number(formData.get("weightPerUnit")),
@@ -49,7 +50,7 @@ function ProductDetailPage() {
       location: formData.get("location") as string,
       origin: formData.get("origin") as string,
       pricePerUnit: Number(formData.get("pricePerUnit")),
-      score: formData.get("score") ? Number(formData.get("score")) : null,
+      score: formData.get("score") ? Number(formData.get("score")) : 0,
       mbp: formData.get("mbp") ? Number(formData.get("mbp")) : null,
       imageUrl: (formData.get("imageUrl") as string) || null,
     };
@@ -247,7 +248,7 @@ function ProductDetailPage() {
             <h3 className="font-semibold mb-2">Product Image</h3>
             <img
               src={product.imageUrl}
-              alt={product.name}
+              alt={product.name ?? ""}
               className="max-w-md rounded-lg"
             />
           </div>
