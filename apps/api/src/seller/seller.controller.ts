@@ -151,6 +151,46 @@ export class SellerController {
           body: order,
         };
       },
+      getBrandMarks: async () => {
+        const brandMarks = await this.sellerService.getBrandMarks(
+          req.seller.id,
+        );
+        return {
+          status: 200,
+          body: brandMarks,
+        };
+      },
+      createBrandMark: async ({ body }) => {
+        const brandMark = await this.sellerService.createBrandMark(
+          req.seller.id,
+          body,
+        );
+        return {
+          status: 201,
+          body: brandMark,
+        };
+      },
+      updateBrandMark: async ({ params: { id }, body }) => {
+        const brandMark = await this.sellerService.updateBrandMark(
+          parseInt(id),
+          req.seller.id,
+          body,
+        );
+        return {
+          status: 200,
+          body: brandMark,
+        };
+      },
+      getBrandMark: async ({ params: { id } }) => {
+        const brandMark = await this.sellerService.getBrandMark(
+          parseInt(id),
+          req.seller.id,
+        );
+        return {
+          status: 200,
+          body: brandMark,
+        };
+      },
     });
   }
 }

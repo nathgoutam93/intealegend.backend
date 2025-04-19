@@ -1,5 +1,9 @@
+import client from "@/api-client";
+import { useAuthStore } from "@/stores/auth.store";
+import { useNavigate } from "@tanstack/react-router";
 import { X } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
 
 interface SellerLoginModalProps {
   isOpen: boolean;
@@ -10,8 +14,40 @@ export default function SellerLoginModal({
   isOpen,
   onClose,
 }: SellerLoginModalProps) {
-  const [userid, setUserId] = useState("");
-  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const setAuth = useAuthStore((state) => state.setAuth);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const loginMutation = client.auth.login.useMutation({
+    onSuccess: (response) => {
+      // Update Zustand store instead of localStorage
+      setAuth(response.body.accessToken, response.body.user);
+
+      toast.success("Login successful");
+      navigate({ to: "/app" });
+    },
+    onError: (error: any) => {
+      toast.error("Login failed", {
+        description: error.message || "Invalid credentials",
+      });
+    },
+    onSettled: () => {
+      setIsLoading(false);
+    },
+  });
+
+  async function handleSubmit(event: React.FormEvent) {
+    event.preventDefault();
+    setIsLoading(true);
+
+    const formData = new FormData(event.target as HTMLFormElement);
+    const identifier = formData.get("identifier") as string;
+    const password = formData.get("password") as string;
+
+    await loginMutation.mutateAsync({
+      body: { identifier, password },
+    });
+  }
 
   if (!isOpen) return null;
 
@@ -24,36 +60,46 @@ export default function SellerLoginModal({
 
         <h2 className="text-2xl font-bold mb-6">Seller Login</h2>
 
-        <form className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="identifier"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               Seller Id
             </label>
             <input
-              type="email"
-              value={userid}
-              onChange={(e) => setUserId(e.target.value)}
+              id="identifier"
+              name="identifier"
               className="w-full px-3 py-2 border border-gray-300 rounded-md"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               Password
             </label>
             <input
               type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              id="password"
+              name="password"
               className="w-full px-3 py-2 border border-gray-300 rounded-md"
             />
           </div>
 
           <button
             type="submit"
+            disabled={isLoading}
             className="w-full bg-green-700 text-white py-2 rounded-md hover:bg-green-800 transition"
           >
-            Login
+            {isLoading ? (
+              <div className="mx-auto h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+            ) : (
+              "Login"
+            )}
           </button>
         </form>
       </div>

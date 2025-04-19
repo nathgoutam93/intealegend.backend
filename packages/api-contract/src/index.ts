@@ -13,6 +13,7 @@ import {
   ProductSchema,
 } from "./schemas";
 import z from "zod";
+import { BrandMarkSchema } from "./schemas/brandMark";
 
 const c = initContract();
 
@@ -36,3 +37,4 @@ export type PendingUser = z.infer<typeof PendingUserSchema>;
 export type SellerProfile = z.infer<typeof SellerProfileSchema>;
 export type BuyerProfile = z.infer<typeof BuyerProfileSchema>;
 export type Product = z.infer<typeof ProductSchema>;
+export type BrandMark = z.infer<typeof BrandMarkSchema>;

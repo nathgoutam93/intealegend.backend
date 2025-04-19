@@ -36,6 +36,7 @@ export declare const sellersRouter: {
                 ownerName: z.ZodString;
                 id: z.ZodNumber;
             }, "strip", z.ZodTypeAny, {
+                id: number;
                 businessName: string;
                 businessType: string;
                 ownerName: string;
@@ -56,7 +57,6 @@ export declare const sellersRouter: {
                 fssaiLicense: string | null;
                 bankAccountNumber: string;
                 bankIfscCode: string;
-                id: number;
                 tmcoNumber: string | null;
                 cancelledCheque: string | null;
                 transportName: string | null;
@@ -67,6 +67,7 @@ export declare const sellersRouter: {
                 createdAt: Date;
                 updatedAt: Date;
             }, {
+                id: number;
                 businessName: string;
                 businessType: string;
                 ownerName: string;
@@ -87,7 +88,6 @@ export declare const sellersRouter: {
                 fssaiLicense: string | null;
                 bankAccountNumber: string;
                 bankIfscCode: string;
-                id: number;
                 tmcoNumber: string | null;
                 cancelledCheque: string | null;
                 transportName: string | null;
@@ -231,6 +231,7 @@ export declare const sellersRouter: {
                 ownerName: z.ZodString;
                 id: z.ZodNumber;
             }, "strip", z.ZodTypeAny, {
+                id: number;
                 businessName: string;
                 businessType: string;
                 ownerName: string;
@@ -251,7 +252,6 @@ export declare const sellersRouter: {
                 fssaiLicense: string | null;
                 bankAccountNumber: string;
                 bankIfscCode: string;
-                id: number;
                 tmcoNumber: string | null;
                 cancelledCheque: string | null;
                 transportName: string | null;
@@ -262,6 +262,7 @@ export declare const sellersRouter: {
                 createdAt: Date;
                 updatedAt: Date;
             }, {
+                id: number;
                 businessName: string;
                 businessType: string;
                 ownerName: string;
@@ -282,7 +283,6 @@ export declare const sellersRouter: {
                 fssaiLicense: string | null;
                 bankAccountNumber: string;
                 bankIfscCode: string;
-                id: number;
                 tmcoNumber: string | null;
                 cancelledCheque: string | null;
                 transportName: string | null;
@@ -365,25 +365,25 @@ export declare const sellersRouter: {
             grade: z.ZodOptional<z.ZodString>;
             origin: z.ZodOptional<z.ZodString>;
         }, "strip", z.ZodTypeAny, {
-            limit: string;
             offset: string;
+            limit: string;
             search?: string | undefined;
-            grade?: string | undefined;
-            origin?: string | undefined;
-            sortBy?: "createdAt" | "name" | "price" | undefined;
+            sortBy?: "createdAt" | "price" | "name" | undefined;
             sortOrder?: "asc" | "desc" | undefined;
             minPrice?: string | undefined;
             maxPrice?: string | undefined;
+            grade?: string | undefined;
+            origin?: string | undefined;
         }, {
             search?: string | undefined;
-            grade?: string | undefined;
-            origin?: string | undefined;
-            limit?: string | undefined;
             offset?: string | undefined;
-            sortBy?: "createdAt" | "name" | "price" | undefined;
+            limit?: string | undefined;
+            sortBy?: "createdAt" | "price" | "name" | undefined;
             sortOrder?: "asc" | "desc" | undefined;
             minPrice?: string | undefined;
             maxPrice?: string | undefined;
+            grade?: string | undefined;
+            origin?: string | undefined;
         }>;
         method: "GET";
         path: "/seller/products";
@@ -391,11 +391,11 @@ export declare const sellersRouter: {
             200: z.ZodObject<{
                 data: z.ZodArray<z.ZodObject<{
                     id: z.ZodNumber;
-                    name: z.ZodString;
+                    name: z.ZodNullable<z.ZodString>;
                     description: z.ZodNullable<z.ZodString>;
                     imageUrl: z.ZodNullable<z.ZodString>;
+                    mark: z.ZodNumber;
                     grade: z.ZodString;
-                    mark: z.ZodString;
                     invoiceNo: z.ZodString;
                     weightPerUnit: z.ZodNumber;
                     sampleWeight: z.ZodNullable<z.ZodNumber>;
@@ -403,53 +403,135 @@ export declare const sellersRouter: {
                     location: z.ZodString;
                     origin: z.ZodString;
                     pricePerUnit: z.ZodNumber;
-                    score: z.ZodNullable<z.ZodNumber>;
                     mbp: z.ZodNullable<z.ZodNumber>;
+                    score: z.ZodNumber;
+                    appearanceScore: z.ZodNumber;
+                    liquorScore: z.ZodNumber;
+                    tasteScore: z.ZodNumber;
+                    infusionScore: z.ZodNumber;
+                    gradingScore: z.ZodNumber;
+                    volumeScore: z.ZodNumber;
+                    status: z.ZodEnum<["PENDING", "APPROVED", "REJECTED"]>;
+                    isLive: z.ZodBoolean;
                     sellerId: z.ZodNumber;
+                    brandMark: z.ZodObject<{
+                        id: z.ZodNumber;
+                        name: z.ZodString;
+                        logo: z.ZodNullable<z.ZodString>;
+                        certificate: z.ZodNullable<z.ZodString>;
+                        isDefault: z.ZodBoolean;
+                        status: z.ZodEnum<["PENDING", "APPROVED", "REJECTED"]>;
+                        verifiedAt: z.ZodNullable<z.ZodDate>;
+                        sellerId: z.ZodNumber;
+                        createdAt: z.ZodDate;
+                        updatedAt: z.ZodDate;
+                    }, "strip", z.ZodTypeAny, {
+                        status: "PENDING" | "APPROVED" | "REJECTED";
+                        id: number;
+                        createdAt: Date;
+                        updatedAt: Date;
+                        name: string;
+                        sellerId: number;
+                        logo: string | null;
+                        certificate: string | null;
+                        isDefault: boolean;
+                        verifiedAt: Date | null;
+                    }, {
+                        status: "PENDING" | "APPROVED" | "REJECTED";
+                        id: number;
+                        createdAt: Date;
+                        updatedAt: Date;
+                        name: string;
+                        sellerId: number;
+                        logo: string | null;
+                        certificate: string | null;
+                        isDefault: boolean;
+                        verifiedAt: Date | null;
+                    }>;
                     cartItems: z.ZodOptional<z.ZodArray<z.ZodAny, "many">>;
                     orderItems: z.ZodOptional<z.ZodArray<z.ZodAny, "many">>;
                     createdAt: z.ZodDate;
                     updatedAt: z.ZodDate;
                 }, "strip", z.ZodTypeAny, {
+                    description: string | null;
+                    status: "PENDING" | "APPROVED" | "REJECTED";
                     id: number;
                     createdAt: Date;
                     updatedAt: Date;
-                    name: string;
-                    description: string | null;
-                    imageUrl: string | null;
+                    name: string | null;
                     grade: string;
-                    mark: string;
+                    origin: string;
+                    imageUrl: string | null;
+                    mark: number;
                     invoiceNo: string;
                     weightPerUnit: number;
                     sampleWeight: number | null;
                     productionMonth: string;
                     location: string;
-                    origin: string;
                     pricePerUnit: number;
-                    score: number | null;
                     mbp: number | null;
+                    score: number;
+                    appearanceScore: number;
+                    liquorScore: number;
+                    tasteScore: number;
+                    infusionScore: number;
+                    gradingScore: number;
+                    volumeScore: number;
+                    isLive: boolean;
                     sellerId: number;
+                    brandMark: {
+                        status: "PENDING" | "APPROVED" | "REJECTED";
+                        id: number;
+                        createdAt: Date;
+                        updatedAt: Date;
+                        name: string;
+                        sellerId: number;
+                        logo: string | null;
+                        certificate: string | null;
+                        isDefault: boolean;
+                        verifiedAt: Date | null;
+                    };
                     cartItems?: any[] | undefined;
                     orderItems?: any[] | undefined;
                 }, {
+                    description: string | null;
+                    status: "PENDING" | "APPROVED" | "REJECTED";
                     id: number;
                     createdAt: Date;
                     updatedAt: Date;
-                    name: string;
-                    description: string | null;
-                    imageUrl: string | null;
+                    name: string | null;
                     grade: string;
-                    mark: string;
+                    origin: string;
+                    imageUrl: string | null;
+                    mark: number;
                     invoiceNo: string;
                     weightPerUnit: number;
                     sampleWeight: number | null;
                     productionMonth: string;
                     location: string;
-                    origin: string;
                     pricePerUnit: number;
-                    score: number | null;
                     mbp: number | null;
+                    score: number;
+                    appearanceScore: number;
+                    liquorScore: number;
+                    tasteScore: number;
+                    infusionScore: number;
+                    gradingScore: number;
+                    volumeScore: number;
+                    isLive: boolean;
                     sellerId: number;
+                    brandMark: {
+                        status: "PENDING" | "APPROVED" | "REJECTED";
+                        id: number;
+                        createdAt: Date;
+                        updatedAt: Date;
+                        name: string;
+                        sellerId: number;
+                        logo: string | null;
+                        certificate: string | null;
+                        isDefault: boolean;
+                        verifiedAt: Date | null;
+                    };
                     cartItems?: any[] | undefined;
                     orderItems?: any[] | undefined;
                 }>, "many">;
@@ -457,53 +539,93 @@ export declare const sellersRouter: {
                 offset: z.ZodNumber;
                 limit: z.ZodNumber;
             }, "strip", z.ZodTypeAny, {
-                limit: number;
                 offset: number;
+                limit: number;
                 data: {
+                    description: string | null;
+                    status: "PENDING" | "APPROVED" | "REJECTED";
                     id: number;
                     createdAt: Date;
                     updatedAt: Date;
-                    name: string;
-                    description: string | null;
-                    imageUrl: string | null;
+                    name: string | null;
                     grade: string;
-                    mark: string;
+                    origin: string;
+                    imageUrl: string | null;
+                    mark: number;
                     invoiceNo: string;
                     weightPerUnit: number;
                     sampleWeight: number | null;
                     productionMonth: string;
                     location: string;
-                    origin: string;
                     pricePerUnit: number;
-                    score: number | null;
                     mbp: number | null;
+                    score: number;
+                    appearanceScore: number;
+                    liquorScore: number;
+                    tasteScore: number;
+                    infusionScore: number;
+                    gradingScore: number;
+                    volumeScore: number;
+                    isLive: boolean;
                     sellerId: number;
+                    brandMark: {
+                        status: "PENDING" | "APPROVED" | "REJECTED";
+                        id: number;
+                        createdAt: Date;
+                        updatedAt: Date;
+                        name: string;
+                        sellerId: number;
+                        logo: string | null;
+                        certificate: string | null;
+                        isDefault: boolean;
+                        verifiedAt: Date | null;
+                    };
                     cartItems?: any[] | undefined;
                     orderItems?: any[] | undefined;
                 }[];
                 total: number;
             }, {
-                limit: number;
                 offset: number;
+                limit: number;
                 data: {
+                    description: string | null;
+                    status: "PENDING" | "APPROVED" | "REJECTED";
                     id: number;
                     createdAt: Date;
                     updatedAt: Date;
-                    name: string;
-                    description: string | null;
-                    imageUrl: string | null;
+                    name: string | null;
                     grade: string;
-                    mark: string;
+                    origin: string;
+                    imageUrl: string | null;
+                    mark: number;
                     invoiceNo: string;
                     weightPerUnit: number;
                     sampleWeight: number | null;
                     productionMonth: string;
                     location: string;
-                    origin: string;
                     pricePerUnit: number;
-                    score: number | null;
                     mbp: number | null;
+                    score: number;
+                    appearanceScore: number;
+                    liquorScore: number;
+                    tasteScore: number;
+                    infusionScore: number;
+                    gradingScore: number;
+                    volumeScore: number;
+                    isLive: boolean;
                     sellerId: number;
+                    brandMark: {
+                        status: "PENDING" | "APPROVED" | "REJECTED";
+                        id: number;
+                        createdAt: Date;
+                        updatedAt: Date;
+                        name: string;
+                        sellerId: number;
+                        logo: string | null;
+                        certificate: string | null;
+                        isDefault: boolean;
+                        verifiedAt: Date | null;
+                    };
                     cartItems?: any[] | undefined;
                     orderItems?: any[] | undefined;
                 }[];
@@ -528,11 +650,11 @@ export declare const sellersRouter: {
         method: "POST";
         body: z.ZodObject<Omit<{
             id: z.ZodNumber;
-            name: z.ZodString;
+            name: z.ZodNullable<z.ZodString>;
             description: z.ZodNullable<z.ZodString>;
             imageUrl: z.ZodNullable<z.ZodString>;
+            mark: z.ZodNumber;
             grade: z.ZodString;
-            mark: z.ZodString;
             invoiceNo: z.ZodString;
             weightPerUnit: z.ZodNumber;
             sampleWeight: z.ZodNullable<z.ZodNumber>;
@@ -540,45 +662,103 @@ export declare const sellersRouter: {
             location: z.ZodString;
             origin: z.ZodString;
             pricePerUnit: z.ZodNumber;
-            score: z.ZodNullable<z.ZodNumber>;
             mbp: z.ZodNullable<z.ZodNumber>;
+            score: z.ZodNumber;
+            appearanceScore: z.ZodNumber;
+            liquorScore: z.ZodNumber;
+            tasteScore: z.ZodNumber;
+            infusionScore: z.ZodNumber;
+            gradingScore: z.ZodNumber;
+            volumeScore: z.ZodNumber;
+            status: z.ZodEnum<["PENDING", "APPROVED", "REJECTED"]>;
+            isLive: z.ZodBoolean;
             sellerId: z.ZodNumber;
+            brandMark: z.ZodObject<{
+                id: z.ZodNumber;
+                name: z.ZodString;
+                logo: z.ZodNullable<z.ZodString>;
+                certificate: z.ZodNullable<z.ZodString>;
+                isDefault: z.ZodBoolean;
+                status: z.ZodEnum<["PENDING", "APPROVED", "REJECTED"]>;
+                verifiedAt: z.ZodNullable<z.ZodDate>;
+                sellerId: z.ZodNumber;
+                createdAt: z.ZodDate;
+                updatedAt: z.ZodDate;
+            }, "strip", z.ZodTypeAny, {
+                status: "PENDING" | "APPROVED" | "REJECTED";
+                id: number;
+                createdAt: Date;
+                updatedAt: Date;
+                name: string;
+                sellerId: number;
+                logo: string | null;
+                certificate: string | null;
+                isDefault: boolean;
+                verifiedAt: Date | null;
+            }, {
+                status: "PENDING" | "APPROVED" | "REJECTED";
+                id: number;
+                createdAt: Date;
+                updatedAt: Date;
+                name: string;
+                sellerId: number;
+                logo: string | null;
+                certificate: string | null;
+                isDefault: boolean;
+                verifiedAt: Date | null;
+            }>;
             cartItems: z.ZodOptional<z.ZodArray<z.ZodAny, "many">>;
             orderItems: z.ZodOptional<z.ZodArray<z.ZodAny, "many">>;
             createdAt: z.ZodDate;
             updatedAt: z.ZodDate;
-        }, "id" | "createdAt" | "updatedAt" | "sellerId">, "strip", z.ZodTypeAny, {
-            name: string;
+        }, "id" | "createdAt" | "updatedAt" | "sellerId" | "brandMark">, "strip", z.ZodTypeAny, {
             description: string | null;
-            imageUrl: string | null;
+            status: "PENDING" | "APPROVED" | "REJECTED";
+            name: string | null;
             grade: string;
-            mark: string;
+            origin: string;
+            imageUrl: string | null;
+            mark: number;
             invoiceNo: string;
             weightPerUnit: number;
             sampleWeight: number | null;
             productionMonth: string;
             location: string;
-            origin: string;
             pricePerUnit: number;
-            score: number | null;
             mbp: number | null;
+            score: number;
+            appearanceScore: number;
+            liquorScore: number;
+            tasteScore: number;
+            infusionScore: number;
+            gradingScore: number;
+            volumeScore: number;
+            isLive: boolean;
             cartItems?: any[] | undefined;
             orderItems?: any[] | undefined;
         }, {
-            name: string;
             description: string | null;
-            imageUrl: string | null;
+            status: "PENDING" | "APPROVED" | "REJECTED";
+            name: string | null;
             grade: string;
-            mark: string;
+            origin: string;
+            imageUrl: string | null;
+            mark: number;
             invoiceNo: string;
             weightPerUnit: number;
             sampleWeight: number | null;
             productionMonth: string;
             location: string;
-            origin: string;
             pricePerUnit: number;
-            score: number | null;
             mbp: number | null;
+            score: number;
+            appearanceScore: number;
+            liquorScore: number;
+            tasteScore: number;
+            infusionScore: number;
+            gradingScore: number;
+            volumeScore: number;
+            isLive: boolean;
             cartItems?: any[] | undefined;
             orderItems?: any[] | undefined;
         }>;
@@ -586,11 +766,11 @@ export declare const sellersRouter: {
         responses: {
             201: z.ZodObject<{
                 id: z.ZodNumber;
-                name: z.ZodString;
+                name: z.ZodNullable<z.ZodString>;
                 description: z.ZodNullable<z.ZodString>;
                 imageUrl: z.ZodNullable<z.ZodString>;
+                mark: z.ZodNumber;
                 grade: z.ZodString;
-                mark: z.ZodString;
                 invoiceNo: z.ZodString;
                 weightPerUnit: z.ZodNumber;
                 sampleWeight: z.ZodNullable<z.ZodNumber>;
@@ -598,53 +778,135 @@ export declare const sellersRouter: {
                 location: z.ZodString;
                 origin: z.ZodString;
                 pricePerUnit: z.ZodNumber;
-                score: z.ZodNullable<z.ZodNumber>;
                 mbp: z.ZodNullable<z.ZodNumber>;
+                score: z.ZodNumber;
+                appearanceScore: z.ZodNumber;
+                liquorScore: z.ZodNumber;
+                tasteScore: z.ZodNumber;
+                infusionScore: z.ZodNumber;
+                gradingScore: z.ZodNumber;
+                volumeScore: z.ZodNumber;
+                status: z.ZodEnum<["PENDING", "APPROVED", "REJECTED"]>;
+                isLive: z.ZodBoolean;
                 sellerId: z.ZodNumber;
+                brandMark: z.ZodObject<{
+                    id: z.ZodNumber;
+                    name: z.ZodString;
+                    logo: z.ZodNullable<z.ZodString>;
+                    certificate: z.ZodNullable<z.ZodString>;
+                    isDefault: z.ZodBoolean;
+                    status: z.ZodEnum<["PENDING", "APPROVED", "REJECTED"]>;
+                    verifiedAt: z.ZodNullable<z.ZodDate>;
+                    sellerId: z.ZodNumber;
+                    createdAt: z.ZodDate;
+                    updatedAt: z.ZodDate;
+                }, "strip", z.ZodTypeAny, {
+                    status: "PENDING" | "APPROVED" | "REJECTED";
+                    id: number;
+                    createdAt: Date;
+                    updatedAt: Date;
+                    name: string;
+                    sellerId: number;
+                    logo: string | null;
+                    certificate: string | null;
+                    isDefault: boolean;
+                    verifiedAt: Date | null;
+                }, {
+                    status: "PENDING" | "APPROVED" | "REJECTED";
+                    id: number;
+                    createdAt: Date;
+                    updatedAt: Date;
+                    name: string;
+                    sellerId: number;
+                    logo: string | null;
+                    certificate: string | null;
+                    isDefault: boolean;
+                    verifiedAt: Date | null;
+                }>;
                 cartItems: z.ZodOptional<z.ZodArray<z.ZodAny, "many">>;
                 orderItems: z.ZodOptional<z.ZodArray<z.ZodAny, "many">>;
                 createdAt: z.ZodDate;
                 updatedAt: z.ZodDate;
             }, "strip", z.ZodTypeAny, {
+                description: string | null;
+                status: "PENDING" | "APPROVED" | "REJECTED";
                 id: number;
                 createdAt: Date;
                 updatedAt: Date;
-                name: string;
-                description: string | null;
-                imageUrl: string | null;
+                name: string | null;
                 grade: string;
-                mark: string;
+                origin: string;
+                imageUrl: string | null;
+                mark: number;
                 invoiceNo: string;
                 weightPerUnit: number;
                 sampleWeight: number | null;
                 productionMonth: string;
                 location: string;
-                origin: string;
                 pricePerUnit: number;
-                score: number | null;
                 mbp: number | null;
+                score: number;
+                appearanceScore: number;
+                liquorScore: number;
+                tasteScore: number;
+                infusionScore: number;
+                gradingScore: number;
+                volumeScore: number;
+                isLive: boolean;
                 sellerId: number;
+                brandMark: {
+                    status: "PENDING" | "APPROVED" | "REJECTED";
+                    id: number;
+                    createdAt: Date;
+                    updatedAt: Date;
+                    name: string;
+                    sellerId: number;
+                    logo: string | null;
+                    certificate: string | null;
+                    isDefault: boolean;
+                    verifiedAt: Date | null;
+                };
                 cartItems?: any[] | undefined;
                 orderItems?: any[] | undefined;
             }, {
+                description: string | null;
+                status: "PENDING" | "APPROVED" | "REJECTED";
                 id: number;
                 createdAt: Date;
                 updatedAt: Date;
-                name: string;
-                description: string | null;
-                imageUrl: string | null;
+                name: string | null;
                 grade: string;
-                mark: string;
+                origin: string;
+                imageUrl: string | null;
+                mark: number;
                 invoiceNo: string;
                 weightPerUnit: number;
                 sampleWeight: number | null;
                 productionMonth: string;
                 location: string;
-                origin: string;
                 pricePerUnit: number;
-                score: number | null;
                 mbp: number | null;
+                score: number;
+                appearanceScore: number;
+                liquorScore: number;
+                tasteScore: number;
+                infusionScore: number;
+                gradingScore: number;
+                volumeScore: number;
+                isLive: boolean;
                 sellerId: number;
+                brandMark: {
+                    status: "PENDING" | "APPROVED" | "REJECTED";
+                    id: number;
+                    createdAt: Date;
+                    updatedAt: Date;
+                    name: string;
+                    sellerId: number;
+                    logo: string | null;
+                    certificate: string | null;
+                    isDefault: boolean;
+                    verifiedAt: Date | null;
+                };
                 cartItems?: any[] | undefined;
                 orderItems?: any[] | undefined;
             }>;
@@ -686,54 +948,136 @@ export declare const sellersRouter: {
         }>;
         method: "PATCH";
         body: z.ZodObject<{
-            name: z.ZodOptional<z.ZodString>;
             description: z.ZodOptional<z.ZodNullable<z.ZodString>>;
-            imageUrl: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            status: z.ZodOptional<z.ZodEnum<["PENDING", "APPROVED", "REJECTED"]>>;
+            name: z.ZodOptional<z.ZodNullable<z.ZodString>>;
             grade: z.ZodOptional<z.ZodString>;
-            mark: z.ZodOptional<z.ZodString>;
+            origin: z.ZodOptional<z.ZodString>;
+            imageUrl: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            mark: z.ZodOptional<z.ZodNumber>;
             invoiceNo: z.ZodOptional<z.ZodString>;
             weightPerUnit: z.ZodOptional<z.ZodNumber>;
             sampleWeight: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
             productionMonth: z.ZodOptional<z.ZodString>;
             location: z.ZodOptional<z.ZodString>;
-            origin: z.ZodOptional<z.ZodString>;
             pricePerUnit: z.ZodOptional<z.ZodNumber>;
-            score: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
             mbp: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+            score: z.ZodOptional<z.ZodNumber>;
+            appearanceScore: z.ZodOptional<z.ZodNumber>;
+            liquorScore: z.ZodOptional<z.ZodNumber>;
+            tasteScore: z.ZodOptional<z.ZodNumber>;
+            infusionScore: z.ZodOptional<z.ZodNumber>;
+            gradingScore: z.ZodOptional<z.ZodNumber>;
+            volumeScore: z.ZodOptional<z.ZodNumber>;
+            isLive: z.ZodOptional<z.ZodBoolean>;
+            brandMark: z.ZodOptional<z.ZodObject<{
+                id: z.ZodNumber;
+                name: z.ZodString;
+                logo: z.ZodNullable<z.ZodString>;
+                certificate: z.ZodNullable<z.ZodString>;
+                isDefault: z.ZodBoolean;
+                status: z.ZodEnum<["PENDING", "APPROVED", "REJECTED"]>;
+                verifiedAt: z.ZodNullable<z.ZodDate>;
+                sellerId: z.ZodNumber;
+                createdAt: z.ZodDate;
+                updatedAt: z.ZodDate;
+            }, "strip", z.ZodTypeAny, {
+                status: "PENDING" | "APPROVED" | "REJECTED";
+                id: number;
+                createdAt: Date;
+                updatedAt: Date;
+                name: string;
+                sellerId: number;
+                logo: string | null;
+                certificate: string | null;
+                isDefault: boolean;
+                verifiedAt: Date | null;
+            }, {
+                status: "PENDING" | "APPROVED" | "REJECTED";
+                id: number;
+                createdAt: Date;
+                updatedAt: Date;
+                name: string;
+                sellerId: number;
+                logo: string | null;
+                certificate: string | null;
+                isDefault: boolean;
+                verifiedAt: Date | null;
+            }>>;
             cartItems: z.ZodOptional<z.ZodOptional<z.ZodArray<z.ZodAny, "many">>>;
             orderItems: z.ZodOptional<z.ZodOptional<z.ZodArray<z.ZodAny, "many">>>;
         }, "strip", z.ZodTypeAny, {
-            name?: string | undefined;
             description?: string | null | undefined;
-            imageUrl?: string | null | undefined;
+            status?: "PENDING" | "APPROVED" | "REJECTED" | undefined;
+            name?: string | null | undefined;
             grade?: string | undefined;
-            mark?: string | undefined;
+            origin?: string | undefined;
+            imageUrl?: string | null | undefined;
+            mark?: number | undefined;
             invoiceNo?: string | undefined;
             weightPerUnit?: number | undefined;
             sampleWeight?: number | null | undefined;
             productionMonth?: string | undefined;
             location?: string | undefined;
-            origin?: string | undefined;
             pricePerUnit?: number | undefined;
-            score?: number | null | undefined;
             mbp?: number | null | undefined;
+            score?: number | undefined;
+            appearanceScore?: number | undefined;
+            liquorScore?: number | undefined;
+            tasteScore?: number | undefined;
+            infusionScore?: number | undefined;
+            gradingScore?: number | undefined;
+            volumeScore?: number | undefined;
+            isLive?: boolean | undefined;
+            brandMark?: {
+                status: "PENDING" | "APPROVED" | "REJECTED";
+                id: number;
+                createdAt: Date;
+                updatedAt: Date;
+                name: string;
+                sellerId: number;
+                logo: string | null;
+                certificate: string | null;
+                isDefault: boolean;
+                verifiedAt: Date | null;
+            } | undefined;
             cartItems?: any[] | undefined;
             orderItems?: any[] | undefined;
         }, {
-            name?: string | undefined;
             description?: string | null | undefined;
-            imageUrl?: string | null | undefined;
+            status?: "PENDING" | "APPROVED" | "REJECTED" | undefined;
+            name?: string | null | undefined;
             grade?: string | undefined;
-            mark?: string | undefined;
+            origin?: string | undefined;
+            imageUrl?: string | null | undefined;
+            mark?: number | undefined;
             invoiceNo?: string | undefined;
             weightPerUnit?: number | undefined;
             sampleWeight?: number | null | undefined;
             productionMonth?: string | undefined;
             location?: string | undefined;
-            origin?: string | undefined;
             pricePerUnit?: number | undefined;
-            score?: number | null | undefined;
             mbp?: number | null | undefined;
+            score?: number | undefined;
+            appearanceScore?: number | undefined;
+            liquorScore?: number | undefined;
+            tasteScore?: number | undefined;
+            infusionScore?: number | undefined;
+            gradingScore?: number | undefined;
+            volumeScore?: number | undefined;
+            isLive?: boolean | undefined;
+            brandMark?: {
+                status: "PENDING" | "APPROVED" | "REJECTED";
+                id: number;
+                createdAt: Date;
+                updatedAt: Date;
+                name: string;
+                sellerId: number;
+                logo: string | null;
+                certificate: string | null;
+                isDefault: boolean;
+                verifiedAt: Date | null;
+            } | undefined;
             cartItems?: any[] | undefined;
             orderItems?: any[] | undefined;
         }>;
@@ -741,11 +1085,11 @@ export declare const sellersRouter: {
         responses: {
             200: z.ZodObject<{
                 id: z.ZodNumber;
-                name: z.ZodString;
+                name: z.ZodNullable<z.ZodString>;
                 description: z.ZodNullable<z.ZodString>;
                 imageUrl: z.ZodNullable<z.ZodString>;
+                mark: z.ZodNumber;
                 grade: z.ZodString;
-                mark: z.ZodString;
                 invoiceNo: z.ZodString;
                 weightPerUnit: z.ZodNumber;
                 sampleWeight: z.ZodNullable<z.ZodNumber>;
@@ -753,53 +1097,135 @@ export declare const sellersRouter: {
                 location: z.ZodString;
                 origin: z.ZodString;
                 pricePerUnit: z.ZodNumber;
-                score: z.ZodNullable<z.ZodNumber>;
                 mbp: z.ZodNullable<z.ZodNumber>;
+                score: z.ZodNumber;
+                appearanceScore: z.ZodNumber;
+                liquorScore: z.ZodNumber;
+                tasteScore: z.ZodNumber;
+                infusionScore: z.ZodNumber;
+                gradingScore: z.ZodNumber;
+                volumeScore: z.ZodNumber;
+                status: z.ZodEnum<["PENDING", "APPROVED", "REJECTED"]>;
+                isLive: z.ZodBoolean;
                 sellerId: z.ZodNumber;
+                brandMark: z.ZodObject<{
+                    id: z.ZodNumber;
+                    name: z.ZodString;
+                    logo: z.ZodNullable<z.ZodString>;
+                    certificate: z.ZodNullable<z.ZodString>;
+                    isDefault: z.ZodBoolean;
+                    status: z.ZodEnum<["PENDING", "APPROVED", "REJECTED"]>;
+                    verifiedAt: z.ZodNullable<z.ZodDate>;
+                    sellerId: z.ZodNumber;
+                    createdAt: z.ZodDate;
+                    updatedAt: z.ZodDate;
+                }, "strip", z.ZodTypeAny, {
+                    status: "PENDING" | "APPROVED" | "REJECTED";
+                    id: number;
+                    createdAt: Date;
+                    updatedAt: Date;
+                    name: string;
+                    sellerId: number;
+                    logo: string | null;
+                    certificate: string | null;
+                    isDefault: boolean;
+                    verifiedAt: Date | null;
+                }, {
+                    status: "PENDING" | "APPROVED" | "REJECTED";
+                    id: number;
+                    createdAt: Date;
+                    updatedAt: Date;
+                    name: string;
+                    sellerId: number;
+                    logo: string | null;
+                    certificate: string | null;
+                    isDefault: boolean;
+                    verifiedAt: Date | null;
+                }>;
                 cartItems: z.ZodOptional<z.ZodArray<z.ZodAny, "many">>;
                 orderItems: z.ZodOptional<z.ZodArray<z.ZodAny, "many">>;
                 createdAt: z.ZodDate;
                 updatedAt: z.ZodDate;
             }, "strip", z.ZodTypeAny, {
+                description: string | null;
+                status: "PENDING" | "APPROVED" | "REJECTED";
                 id: number;
                 createdAt: Date;
                 updatedAt: Date;
-                name: string;
-                description: string | null;
-                imageUrl: string | null;
+                name: string | null;
                 grade: string;
-                mark: string;
+                origin: string;
+                imageUrl: string | null;
+                mark: number;
                 invoiceNo: string;
                 weightPerUnit: number;
                 sampleWeight: number | null;
                 productionMonth: string;
                 location: string;
-                origin: string;
                 pricePerUnit: number;
-                score: number | null;
                 mbp: number | null;
+                score: number;
+                appearanceScore: number;
+                liquorScore: number;
+                tasteScore: number;
+                infusionScore: number;
+                gradingScore: number;
+                volumeScore: number;
+                isLive: boolean;
                 sellerId: number;
+                brandMark: {
+                    status: "PENDING" | "APPROVED" | "REJECTED";
+                    id: number;
+                    createdAt: Date;
+                    updatedAt: Date;
+                    name: string;
+                    sellerId: number;
+                    logo: string | null;
+                    certificate: string | null;
+                    isDefault: boolean;
+                    verifiedAt: Date | null;
+                };
                 cartItems?: any[] | undefined;
                 orderItems?: any[] | undefined;
             }, {
+                description: string | null;
+                status: "PENDING" | "APPROVED" | "REJECTED";
                 id: number;
                 createdAt: Date;
                 updatedAt: Date;
-                name: string;
-                description: string | null;
-                imageUrl: string | null;
+                name: string | null;
                 grade: string;
-                mark: string;
+                origin: string;
+                imageUrl: string | null;
+                mark: number;
                 invoiceNo: string;
                 weightPerUnit: number;
                 sampleWeight: number | null;
                 productionMonth: string;
                 location: string;
-                origin: string;
                 pricePerUnit: number;
-                score: number | null;
                 mbp: number | null;
+                score: number;
+                appearanceScore: number;
+                liquorScore: number;
+                tasteScore: number;
+                infusionScore: number;
+                gradingScore: number;
+                volumeScore: number;
+                isLive: boolean;
                 sellerId: number;
+                brandMark: {
+                    status: "PENDING" | "APPROVED" | "REJECTED";
+                    id: number;
+                    createdAt: Date;
+                    updatedAt: Date;
+                    name: string;
+                    sellerId: number;
+                    logo: string | null;
+                    certificate: string | null;
+                    isDefault: boolean;
+                    verifiedAt: Date | null;
+                };
                 cartItems?: any[] | undefined;
                 orderItems?: any[] | undefined;
             }>;
@@ -844,11 +1270,11 @@ export declare const sellersRouter: {
         responses: {
             200: z.ZodObject<{
                 id: z.ZodNumber;
-                name: z.ZodString;
+                name: z.ZodNullable<z.ZodString>;
                 description: z.ZodNullable<z.ZodString>;
                 imageUrl: z.ZodNullable<z.ZodString>;
+                mark: z.ZodNumber;
                 grade: z.ZodString;
-                mark: z.ZodString;
                 invoiceNo: z.ZodString;
                 weightPerUnit: z.ZodNumber;
                 sampleWeight: z.ZodNullable<z.ZodNumber>;
@@ -856,53 +1282,135 @@ export declare const sellersRouter: {
                 location: z.ZodString;
                 origin: z.ZodString;
                 pricePerUnit: z.ZodNumber;
-                score: z.ZodNullable<z.ZodNumber>;
                 mbp: z.ZodNullable<z.ZodNumber>;
+                score: z.ZodNumber;
+                appearanceScore: z.ZodNumber;
+                liquorScore: z.ZodNumber;
+                tasteScore: z.ZodNumber;
+                infusionScore: z.ZodNumber;
+                gradingScore: z.ZodNumber;
+                volumeScore: z.ZodNumber;
+                status: z.ZodEnum<["PENDING", "APPROVED", "REJECTED"]>;
+                isLive: z.ZodBoolean;
                 sellerId: z.ZodNumber;
+                brandMark: z.ZodObject<{
+                    id: z.ZodNumber;
+                    name: z.ZodString;
+                    logo: z.ZodNullable<z.ZodString>;
+                    certificate: z.ZodNullable<z.ZodString>;
+                    isDefault: z.ZodBoolean;
+                    status: z.ZodEnum<["PENDING", "APPROVED", "REJECTED"]>;
+                    verifiedAt: z.ZodNullable<z.ZodDate>;
+                    sellerId: z.ZodNumber;
+                    createdAt: z.ZodDate;
+                    updatedAt: z.ZodDate;
+                }, "strip", z.ZodTypeAny, {
+                    status: "PENDING" | "APPROVED" | "REJECTED";
+                    id: number;
+                    createdAt: Date;
+                    updatedAt: Date;
+                    name: string;
+                    sellerId: number;
+                    logo: string | null;
+                    certificate: string | null;
+                    isDefault: boolean;
+                    verifiedAt: Date | null;
+                }, {
+                    status: "PENDING" | "APPROVED" | "REJECTED";
+                    id: number;
+                    createdAt: Date;
+                    updatedAt: Date;
+                    name: string;
+                    sellerId: number;
+                    logo: string | null;
+                    certificate: string | null;
+                    isDefault: boolean;
+                    verifiedAt: Date | null;
+                }>;
                 cartItems: z.ZodOptional<z.ZodArray<z.ZodAny, "many">>;
                 orderItems: z.ZodOptional<z.ZodArray<z.ZodAny, "many">>;
                 createdAt: z.ZodDate;
                 updatedAt: z.ZodDate;
             }, "strip", z.ZodTypeAny, {
+                description: string | null;
+                status: "PENDING" | "APPROVED" | "REJECTED";
                 id: number;
                 createdAt: Date;
                 updatedAt: Date;
-                name: string;
-                description: string | null;
-                imageUrl: string | null;
+                name: string | null;
                 grade: string;
-                mark: string;
+                origin: string;
+                imageUrl: string | null;
+                mark: number;
                 invoiceNo: string;
                 weightPerUnit: number;
                 sampleWeight: number | null;
                 productionMonth: string;
                 location: string;
-                origin: string;
                 pricePerUnit: number;
-                score: number | null;
                 mbp: number | null;
+                score: number;
+                appearanceScore: number;
+                liquorScore: number;
+                tasteScore: number;
+                infusionScore: number;
+                gradingScore: number;
+                volumeScore: number;
+                isLive: boolean;
                 sellerId: number;
+                brandMark: {
+                    status: "PENDING" | "APPROVED" | "REJECTED";
+                    id: number;
+                    createdAt: Date;
+                    updatedAt: Date;
+                    name: string;
+                    sellerId: number;
+                    logo: string | null;
+                    certificate: string | null;
+                    isDefault: boolean;
+                    verifiedAt: Date | null;
+                };
                 cartItems?: any[] | undefined;
                 orderItems?: any[] | undefined;
             }, {
+                description: string | null;
+                status: "PENDING" | "APPROVED" | "REJECTED";
                 id: number;
                 createdAt: Date;
                 updatedAt: Date;
-                name: string;
-                description: string | null;
-                imageUrl: string | null;
+                name: string | null;
                 grade: string;
-                mark: string;
+                origin: string;
+                imageUrl: string | null;
+                mark: number;
                 invoiceNo: string;
                 weightPerUnit: number;
                 sampleWeight: number | null;
                 productionMonth: string;
                 location: string;
-                origin: string;
                 pricePerUnit: number;
-                score: number | null;
                 mbp: number | null;
+                score: number;
+                appearanceScore: number;
+                liquorScore: number;
+                tasteScore: number;
+                infusionScore: number;
+                gradingScore: number;
+                volumeScore: number;
+                isLive: boolean;
                 sellerId: number;
+                brandMark: {
+                    status: "PENDING" | "APPROVED" | "REJECTED";
+                    id: number;
+                    createdAt: Date;
+                    updatedAt: Date;
+                    name: string;
+                    sellerId: number;
+                    logo: string | null;
+                    certificate: string | null;
+                    isDefault: boolean;
+                    verifiedAt: Date | null;
+                };
                 cartItems?: any[] | undefined;
                 orderItems?: any[] | undefined;
             }>;
@@ -944,8 +1452,8 @@ export declare const sellersRouter: {
             sortBy: z.ZodOptional<z.ZodEnum<["createdAt", "totalAmount"]>>;
             sortOrder: z.ZodOptional<z.ZodEnum<["asc", "desc"]>>;
         }, "strip", z.ZodTypeAny, {
-            limit: string;
             offset: string;
+            limit: string;
             status?: "PENDING" | "ACCEPTED" | "DESPATCHED" | "ON_WAY" | "DELIVERED" | "CANCELLED" | undefined;
             sortBy?: "createdAt" | "totalAmount" | undefined;
             sortOrder?: "asc" | "desc" | undefined;
@@ -953,8 +1461,8 @@ export declare const sellersRouter: {
             endDate?: string | undefined;
         }, {
             status?: "PENDING" | "ACCEPTED" | "DESPATCHED" | "ON_WAY" | "DELIVERED" | "CANCELLED" | undefined;
-            limit?: string | undefined;
             offset?: string | undefined;
+            limit?: string | undefined;
             sortBy?: "createdAt" | "totalAmount" | undefined;
             sortOrder?: "asc" | "desc" | undefined;
             startDate?: string | undefined;
@@ -1023,8 +1531,8 @@ export declare const sellersRouter: {
                         totalPrice: number;
                         totalWeight: number;
                     }[];
-                    buyerId: number;
                     totalAmount: number;
+                    buyerId: number;
                     estimatedWeight: number;
                     deliveryCharges: number | null;
                     gstAmount: number;
@@ -1045,8 +1553,8 @@ export declare const sellersRouter: {
                         totalPrice: number;
                         totalWeight: number;
                     }[];
-                    buyerId: number;
                     totalAmount: number;
+                    buyerId: number;
                     estimatedWeight: number;
                     deliveryCharges: number | null;
                     gstAmount: number;
@@ -1058,8 +1566,8 @@ export declare const sellersRouter: {
                 offset: z.ZodNumber;
                 limit: z.ZodNumber;
             }, "strip", z.ZodTypeAny, {
-                limit: number;
                 offset: number;
+                limit: number;
                 data: {
                     status: "PENDING" | "ACCEPTED" | "DESPATCHED" | "ON_WAY" | "DELIVERED" | "CANCELLED";
                     id: number;
@@ -1076,8 +1584,8 @@ export declare const sellersRouter: {
                         totalPrice: number;
                         totalWeight: number;
                     }[];
-                    buyerId: number;
                     totalAmount: number;
+                    buyerId: number;
                     estimatedWeight: number;
                     deliveryCharges: number | null;
                     gstAmount: number;
@@ -1086,8 +1594,8 @@ export declare const sellersRouter: {
                 }[];
                 total: number;
             }, {
-                limit: number;
                 offset: number;
+                limit: number;
                 data: {
                     id: number;
                     createdAt: Date;
@@ -1103,8 +1611,8 @@ export declare const sellersRouter: {
                         totalPrice: number;
                         totalWeight: number;
                     }[];
-                    buyerId: number;
                     totalAmount: number;
+                    buyerId: number;
                     estimatedWeight: number;
                     deliveryCharges: number | null;
                     gstAmount: number;
@@ -1206,8 +1714,8 @@ export declare const sellersRouter: {
                     totalPrice: number;
                     totalWeight: number;
                 }[];
-                buyerId: number;
                 totalAmount: number;
+                buyerId: number;
                 estimatedWeight: number;
                 deliveryCharges: number | null;
                 gstAmount: number;
@@ -1228,8 +1736,8 @@ export declare const sellersRouter: {
                     totalPrice: number;
                     totalWeight: number;
                 }[];
-                buyerId: number;
                 totalAmount: number;
+                buyerId: number;
                 estimatedWeight: number;
                 deliveryCharges: number | null;
                 gstAmount: number;
@@ -1335,8 +1843,8 @@ export declare const sellersRouter: {
                     totalPrice: number;
                     totalWeight: number;
                 }[];
-                buyerId: number;
                 totalAmount: number;
+                buyerId: number;
                 estimatedWeight: number;
                 deliveryCharges: number | null;
                 gstAmount: number;
@@ -1357,14 +1865,317 @@ export declare const sellersRouter: {
                     totalPrice: number;
                     totalWeight: number;
                 }[];
-                buyerId: number;
                 totalAmount: number;
+                buyerId: number;
                 estimatedWeight: number;
                 deliveryCharges: number | null;
                 gstAmount: number;
                 otherCharges: number | null;
                 roundOff: number | null;
                 status?: "PENDING" | "ACCEPTED" | "DESPATCHED" | "ON_WAY" | "DELIVERED" | "CANCELLED" | undefined;
+            }>;
+            401: z.ZodObject<{
+                message: z.ZodString;
+                code: z.ZodString;
+                timestamp: z.ZodString;
+            }, "strip", z.ZodTypeAny, {
+                code: string;
+                message: string;
+                timestamp: string;
+            }, {
+                code: string;
+                message: string;
+                timestamp: string;
+            }>;
+            404: z.ZodObject<{
+                message: z.ZodString;
+                code: z.ZodString;
+                timestamp: z.ZodString;
+            }, "strip", z.ZodTypeAny, {
+                code: string;
+                message: string;
+                timestamp: string;
+            }, {
+                code: string;
+                message: string;
+                timestamp: string;
+            }>;
+        };
+    };
+    getBrandMarks: {
+        method: "GET";
+        path: "/seller/brand-marks";
+        responses: {
+            200: z.ZodArray<z.ZodObject<{
+                id: z.ZodNumber;
+                name: z.ZodString;
+                logo: z.ZodNullable<z.ZodString>;
+                certificate: z.ZodNullable<z.ZodString>;
+                isDefault: z.ZodBoolean;
+                status: z.ZodEnum<["PENDING", "APPROVED", "REJECTED"]>;
+                verifiedAt: z.ZodNullable<z.ZodDate>;
+                sellerId: z.ZodNumber;
+                createdAt: z.ZodDate;
+                updatedAt: z.ZodDate;
+            }, "strip", z.ZodTypeAny, {
+                status: "PENDING" | "APPROVED" | "REJECTED";
+                id: number;
+                createdAt: Date;
+                updatedAt: Date;
+                name: string;
+                sellerId: number;
+                logo: string | null;
+                certificate: string | null;
+                isDefault: boolean;
+                verifiedAt: Date | null;
+            }, {
+                status: "PENDING" | "APPROVED" | "REJECTED";
+                id: number;
+                createdAt: Date;
+                updatedAt: Date;
+                name: string;
+                sellerId: number;
+                logo: string | null;
+                certificate: string | null;
+                isDefault: boolean;
+                verifiedAt: Date | null;
+            }>, "many">;
+            401: z.ZodObject<{
+                message: z.ZodString;
+                code: z.ZodString;
+                timestamp: z.ZodString;
+            }, "strip", z.ZodTypeAny, {
+                code: string;
+                message: string;
+                timestamp: string;
+            }, {
+                code: string;
+                message: string;
+                timestamp: string;
+            }>;
+        };
+    };
+    createBrandMark: {
+        method: "POST";
+        body: z.ZodObject<Omit<{
+            id: z.ZodNumber;
+            name: z.ZodString;
+            logo: z.ZodNullable<z.ZodString>;
+            certificate: z.ZodNullable<z.ZodString>;
+            isDefault: z.ZodBoolean;
+            status: z.ZodEnum<["PENDING", "APPROVED", "REJECTED"]>;
+            verifiedAt: z.ZodNullable<z.ZodDate>;
+            sellerId: z.ZodNumber;
+            createdAt: z.ZodDate;
+            updatedAt: z.ZodDate;
+        }, "status" | "id" | "createdAt" | "updatedAt" | "sellerId" | "verifiedAt">, "strip", z.ZodTypeAny, {
+            name: string;
+            logo: string | null;
+            certificate: string | null;
+            isDefault: boolean;
+        }, {
+            name: string;
+            logo: string | null;
+            certificate: string | null;
+            isDefault: boolean;
+        }>;
+        path: "/seller/brand-marks";
+        responses: {
+            201: z.ZodObject<{
+                id: z.ZodNumber;
+                name: z.ZodString;
+                logo: z.ZodNullable<z.ZodString>;
+                certificate: z.ZodNullable<z.ZodString>;
+                isDefault: z.ZodBoolean;
+                status: z.ZodEnum<["PENDING", "APPROVED", "REJECTED"]>;
+                verifiedAt: z.ZodNullable<z.ZodDate>;
+                sellerId: z.ZodNumber;
+                createdAt: z.ZodDate;
+                updatedAt: z.ZodDate;
+            }, "strip", z.ZodTypeAny, {
+                status: "PENDING" | "APPROVED" | "REJECTED";
+                id: number;
+                createdAt: Date;
+                updatedAt: Date;
+                name: string;
+                sellerId: number;
+                logo: string | null;
+                certificate: string | null;
+                isDefault: boolean;
+                verifiedAt: Date | null;
+            }, {
+                status: "PENDING" | "APPROVED" | "REJECTED";
+                id: number;
+                createdAt: Date;
+                updatedAt: Date;
+                name: string;
+                sellerId: number;
+                logo: string | null;
+                certificate: string | null;
+                isDefault: boolean;
+                verifiedAt: Date | null;
+            }>;
+            401: z.ZodObject<{
+                message: z.ZodString;
+                code: z.ZodString;
+                timestamp: z.ZodString;
+            }, "strip", z.ZodTypeAny, {
+                code: string;
+                message: string;
+                timestamp: string;
+            }, {
+                code: string;
+                message: string;
+                timestamp: string;
+            }>;
+            400: z.ZodObject<{
+                message: z.ZodString;
+                code: z.ZodString;
+                timestamp: z.ZodString;
+            }, "strip", z.ZodTypeAny, {
+                code: string;
+                message: string;
+                timestamp: string;
+            }, {
+                code: string;
+                message: string;
+                timestamp: string;
+            }>;
+        };
+    };
+    updateBrandMark: {
+        pathParams: z.ZodObject<{
+            id: z.ZodString;
+        }, "strip", z.ZodTypeAny, {
+            id: string;
+        }, {
+            id: string;
+        }>;
+        method: "PATCH";
+        body: z.ZodObject<{
+            name: z.ZodOptional<z.ZodString>;
+            logo: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            certificate: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            isDefault: z.ZodOptional<z.ZodBoolean>;
+        }, "strip", z.ZodTypeAny, {
+            name?: string | undefined;
+            logo?: string | null | undefined;
+            certificate?: string | null | undefined;
+            isDefault?: boolean | undefined;
+        }, {
+            name?: string | undefined;
+            logo?: string | null | undefined;
+            certificate?: string | null | undefined;
+            isDefault?: boolean | undefined;
+        }>;
+        path: "/seller/brand-marks/:id";
+        responses: {
+            200: z.ZodObject<{
+                id: z.ZodNumber;
+                name: z.ZodString;
+                logo: z.ZodNullable<z.ZodString>;
+                certificate: z.ZodNullable<z.ZodString>;
+                isDefault: z.ZodBoolean;
+                status: z.ZodEnum<["PENDING", "APPROVED", "REJECTED"]>;
+                verifiedAt: z.ZodNullable<z.ZodDate>;
+                sellerId: z.ZodNumber;
+                createdAt: z.ZodDate;
+                updatedAt: z.ZodDate;
+            }, "strip", z.ZodTypeAny, {
+                status: "PENDING" | "APPROVED" | "REJECTED";
+                id: number;
+                createdAt: Date;
+                updatedAt: Date;
+                name: string;
+                sellerId: number;
+                logo: string | null;
+                certificate: string | null;
+                isDefault: boolean;
+                verifiedAt: Date | null;
+            }, {
+                status: "PENDING" | "APPROVED" | "REJECTED";
+                id: number;
+                createdAt: Date;
+                updatedAt: Date;
+                name: string;
+                sellerId: number;
+                logo: string | null;
+                certificate: string | null;
+                isDefault: boolean;
+                verifiedAt: Date | null;
+            }>;
+            401: z.ZodObject<{
+                message: z.ZodString;
+                code: z.ZodString;
+                timestamp: z.ZodString;
+            }, "strip", z.ZodTypeAny, {
+                code: string;
+                message: string;
+                timestamp: string;
+            }, {
+                code: string;
+                message: string;
+                timestamp: string;
+            }>;
+            404: z.ZodObject<{
+                message: z.ZodString;
+                code: z.ZodString;
+                timestamp: z.ZodString;
+            }, "strip", z.ZodTypeAny, {
+                code: string;
+                message: string;
+                timestamp: string;
+            }, {
+                code: string;
+                message: string;
+                timestamp: string;
+            }>;
+        };
+    };
+    getBrandMark: {
+        pathParams: z.ZodObject<{
+            id: z.ZodString;
+        }, "strip", z.ZodTypeAny, {
+            id: string;
+        }, {
+            id: string;
+        }>;
+        method: "GET";
+        path: "/seller/brand-marks/:id";
+        responses: {
+            200: z.ZodObject<{
+                id: z.ZodNumber;
+                name: z.ZodString;
+                logo: z.ZodNullable<z.ZodString>;
+                certificate: z.ZodNullable<z.ZodString>;
+                isDefault: z.ZodBoolean;
+                status: z.ZodEnum<["PENDING", "APPROVED", "REJECTED"]>;
+                verifiedAt: z.ZodNullable<z.ZodDate>;
+                sellerId: z.ZodNumber;
+                createdAt: z.ZodDate;
+                updatedAt: z.ZodDate;
+            }, "strip", z.ZodTypeAny, {
+                status: "PENDING" | "APPROVED" | "REJECTED";
+                id: number;
+                createdAt: Date;
+                updatedAt: Date;
+                name: string;
+                sellerId: number;
+                logo: string | null;
+                certificate: string | null;
+                isDefault: boolean;
+                verifiedAt: Date | null;
+            }, {
+                status: "PENDING" | "APPROVED" | "REJECTED";
+                id: number;
+                createdAt: Date;
+                updatedAt: Date;
+                name: string;
+                sellerId: number;
+                logo: string | null;
+                certificate: string | null;
+                isDefault: boolean;
+                verifiedAt: Date | null;
             }>;
             401: z.ZodObject<{
                 message: z.ZodString;

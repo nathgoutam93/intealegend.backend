@@ -21,6 +21,7 @@ import { Route as AppLayoutAppIndexImport } from './routes/_app-layout/app/index
 import { Route as AppLayoutAppSellersImport } from './routes/_app-layout/app/sellers'
 import { Route as AppLayoutAppRegistrationsImport } from './routes/_app-layout/app/registrations'
 import { Route as AppLayoutAppBuyersImport } from './routes/_app-layout/app/buyers'
+import { Route as AppLayoutAppBrandsImport } from './routes/_app-layout/app/brands'
 import { Route as AppLayoutAppProductsIndexImport } from './routes/_app-layout/app/products/index'
 import { Route as AppLayoutAppOrdersIndexImport } from './routes/_app-layout/app/orders/index'
 import { Route as AppLayoutAppProductsNewImport } from './routes/_app-layout/app/products/new'
@@ -85,6 +86,12 @@ const AppLayoutAppRegistrationsRoute = AppLayoutAppRegistrationsImport.update({
 const AppLayoutAppBuyersRoute = AppLayoutAppBuyersImport.update({
   id: '/app/buyers',
   path: '/app/buyers',
+  getParentRoute: () => AppLayoutRoute,
+} as any)
+
+const AppLayoutAppBrandsRoute = AppLayoutAppBrandsImport.update({
+  id: '/app/brands',
+  path: '/app/brands',
   getParentRoute: () => AppLayoutRoute,
 } as any)
 
@@ -165,6 +172,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authVerificationImport
       parentRoute: typeof rootRoute
     }
+    '/_app-layout/app/brands': {
+      id: '/_app-layout/app/brands'
+      path: '/app/brands'
+      fullPath: '/app/brands'
+      preLoaderRoute: typeof AppLayoutAppBrandsImport
+      parentRoute: typeof AppLayoutImport
+    }
     '/_app-layout/app/buyers': {
       id: '/_app-layout/app/buyers'
       path: '/app/buyers'
@@ -234,6 +248,7 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface AppLayoutRouteChildren {
+  AppLayoutAppBrandsRoute: typeof AppLayoutAppBrandsRoute
   AppLayoutAppBuyersRoute: typeof AppLayoutAppBuyersRoute
   AppLayoutAppRegistrationsRoute: typeof AppLayoutAppRegistrationsRoute
   AppLayoutAppSellersRoute: typeof AppLayoutAppSellersRoute
@@ -246,6 +261,7 @@ interface AppLayoutRouteChildren {
 }
 
 const AppLayoutRouteChildren: AppLayoutRouteChildren = {
+  AppLayoutAppBrandsRoute: AppLayoutAppBrandsRoute,
   AppLayoutAppBuyersRoute: AppLayoutAppBuyersRoute,
   AppLayoutAppRegistrationsRoute: AppLayoutAppRegistrationsRoute,
   AppLayoutAppSellersRoute: AppLayoutAppSellersRoute,
@@ -268,6 +284,7 @@ export interface FileRoutesByFullPath {
   '/login-admin': typeof authLoginAdminRoute
   '/register': typeof authRegisterRoute
   '/verification': typeof authVerificationRoute
+  '/app/brands': typeof AppLayoutAppBrandsRoute
   '/app/buyers': typeof AppLayoutAppBuyersRoute
   '/app/registrations': typeof AppLayoutAppRegistrationsRoute
   '/app/sellers': typeof AppLayoutAppSellersRoute
@@ -286,6 +303,7 @@ export interface FileRoutesByTo {
   '/login-admin': typeof authLoginAdminRoute
   '/register': typeof authRegisterRoute
   '/verification': typeof authVerificationRoute
+  '/app/brands': typeof AppLayoutAppBrandsRoute
   '/app/buyers': typeof AppLayoutAppBuyersRoute
   '/app/registrations': typeof AppLayoutAppRegistrationsRoute
   '/app/sellers': typeof AppLayoutAppSellersRoute
@@ -305,6 +323,7 @@ export interface FileRoutesById {
   '/(auth)/login-admin': typeof authLoginAdminRoute
   '/(auth)/register': typeof authRegisterRoute
   '/(auth)/verification': typeof authVerificationRoute
+  '/_app-layout/app/brands': typeof AppLayoutAppBrandsRoute
   '/_app-layout/app/buyers': typeof AppLayoutAppBuyersRoute
   '/_app-layout/app/registrations': typeof AppLayoutAppRegistrationsRoute
   '/_app-layout/app/sellers': typeof AppLayoutAppSellersRoute
@@ -325,6 +344,7 @@ export interface FileRouteTypes {
     | '/login-admin'
     | '/register'
     | '/verification'
+    | '/app/brands'
     | '/app/buyers'
     | '/app/registrations'
     | '/app/sellers'
@@ -342,6 +362,7 @@ export interface FileRouteTypes {
     | '/login-admin'
     | '/register'
     | '/verification'
+    | '/app/brands'
     | '/app/buyers'
     | '/app/registrations'
     | '/app/sellers'
@@ -359,6 +380,7 @@ export interface FileRouteTypes {
     | '/(auth)/login-admin'
     | '/(auth)/register'
     | '/(auth)/verification'
+    | '/_app-layout/app/brands'
     | '/_app-layout/app/buyers'
     | '/_app-layout/app/registrations'
     | '/_app-layout/app/sellers'
@@ -413,6 +435,7 @@ export const routeTree = rootRoute
     "/_app-layout": {
       "filePath": "_app-layout.tsx",
       "children": [
+        "/_app-layout/app/brands",
         "/_app-layout/app/buyers",
         "/_app-layout/app/registrations",
         "/_app-layout/app/sellers",
@@ -435,6 +458,10 @@ export const routeTree = rootRoute
     },
     "/(auth)/verification": {
       "filePath": "(auth)/verification.tsx"
+    },
+    "/_app-layout/app/brands": {
+      "filePath": "_app-layout/app/brands.tsx",
+      "parent": "/_app-layout"
     },
     "/_app-layout/app/buyers": {
       "filePath": "_app-layout/app/buyers.tsx",

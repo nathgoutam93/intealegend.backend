@@ -7,6 +7,7 @@ exports.sellersRouter = void 0;
 var core_1 = require("@ts-rest/core");
 var schemas_1 = require("../schemas");
 var zod_1 = __importDefault(require("zod"));
+var brandMark_1 = require("../schemas/brandMark");
 var c = (0, core_1.initContract)();
 exports.sellersRouter = c.router({
     getProfile: {
@@ -70,6 +71,7 @@ exports.sellersRouter = c.router({
         body: schemas_1.ProductSchema.omit({
             id: true,
             sellerId: true,
+            brandMark: true,
             createdAt: true,
             updatedAt: true,
         }),
@@ -169,6 +171,63 @@ exports.sellersRouter = c.router({
         }),
         responses: {
             200: schemas_1.OrderSchema,
+            401: schemas_1.ErrorSchema,
+            404: schemas_1.ErrorSchema,
+        },
+    },
+    getBrandMarks: {
+        method: "GET",
+        path: "/seller/brand-marks",
+        responses: {
+            200: zod_1.default.array(brandMark_1.BrandMarkSchema),
+            401: schemas_1.ErrorSchema,
+        },
+    },
+    createBrandMark: {
+        method: "POST",
+        path: "/seller/brand-marks",
+        body: brandMark_1.BrandMarkSchema.omit({
+            id: true,
+            sellerId: true,
+            status: true,
+            verifiedAt: true,
+            createdAt: true,
+            updatedAt: true,
+        }),
+        responses: {
+            201: brandMark_1.BrandMarkSchema,
+            401: schemas_1.ErrorSchema,
+            400: schemas_1.ErrorSchema,
+        },
+    },
+    updateBrandMark: {
+        method: "PATCH",
+        path: "/seller/brand-marks/:id",
+        pathParams: zod_1.default.object({
+            id: zod_1.default.string(),
+        }),
+        body: brandMark_1.BrandMarkSchema.omit({
+            id: true,
+            sellerId: true,
+            status: true,
+            verifiedAt: true,
+            createdAt: true,
+            updatedAt: true,
+        }).partial(),
+        responses: {
+            200: brandMark_1.BrandMarkSchema,
+            401: schemas_1.ErrorSchema,
+            404: schemas_1.ErrorSchema,
+        },
+    },
+    getBrandMark: {
+        method: "GET",
+        path: "/seller/brand-marks/:id",
+        pathParams: zod_1.default.object({
+            id: zod_1.default.string(),
+        }),
+        responses: {
+            200: brandMark_1.BrandMarkSchema,
             401: schemas_1.ErrorSchema,
             404: schemas_1.ErrorSchema,
         },

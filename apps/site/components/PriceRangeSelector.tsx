@@ -64,7 +64,10 @@ export default function PriceRangeSelector({
   return (
     <div>
       {/* Preset Selector */}
-      <select className="input mb-2 w-full" onChange={handlePresetChange}>
+      <select
+        className="p-1.5 border rounded-md mb-2 w-full"
+        onChange={handlePresetChange}
+      >
         {presetOptions.map((opt) => (
           <option key={opt.label}>{opt.label}</option>
         ))}

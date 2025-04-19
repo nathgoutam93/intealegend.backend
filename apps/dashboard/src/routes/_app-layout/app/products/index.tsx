@@ -33,15 +33,18 @@ function ProductsPage() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Name</TableHead>
+              <TableHead>ID</TableHead>
               <TableHead>Mark</TableHead>
               <TableHead>Invoice No.</TableHead>
               <TableHead>Grade</TableHead>
-              <TableHead>Production</TableHead>
-              <TableHead>Location</TableHead>
-              <TableHead>Weight/Unit</TableHead>
+              <TableHead>Weight/Pkg</TableHead>
+              <TableHead>Sample Weight</TableHead>
               <TableHead>Score</TableHead>
+              <TableHead>MBP</TableHead>
               <TableHead className="text-right">Price/Unit (₹)</TableHead>
+              <TableHead>Location</TableHead>
+              <TableHead>Origin</TableHead>
+              <TableHead>Production</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -53,21 +56,34 @@ function ProductsPage() {
                   window.location.href = `/app/products/${product.id}`;
                 }}
               >
-                <TableCell className="font-medium">{product.name}</TableCell>
-                <TableCell>{product.mark}</TableCell>
+                <TableCell className="font-medium">
+                  <span>
+                    IIL{new Date(product.createdAt).getFullYear()}
+                    {new Date(product.createdAt)
+                      .getMonth()
+                      .toString()
+                      .padStart(2, "0")}
+                    {product.id.toString().padStart(6, "0")}
+                  </span>
+                </TableCell>
+                <TableCell>{product.brandMark.name}</TableCell>
                 <TableCell>{product.invoiceNo}</TableCell>
                 <TableCell>{product.grade}</TableCell>
-                <TableCell>
-                  {new Date(product.productionMonth).toLocaleDateString(
-                    "en-US",
-                    { month: "short", year: "numeric" }
-                  )}
-                </TableCell>
-                <TableCell>{product.location}</TableCell>
                 <TableCell>{product.weightPerUnit} kg</TableCell>
-                <TableCell>{product.score}</TableCell>
+                <TableCell>{product.sampleWeight} kg</TableCell>
+                <TableCell>{product.score.toFixed(1)}</TableCell>
+                <TableCell>{product.mbp}</TableCell>
                 <TableCell className="text-right">
                   {product.pricePerUnit.toLocaleString("en-IN")}
+                </TableCell>
+
+                <TableCell>{product.location}</TableCell>
+                <TableCell>{product.origin}</TableCell>
+                <TableCell>
+                  {new Date(product.productionMonth).toLocaleString("en-IN", {
+                    month: "short",
+                    year: "numeric",
+                  })}
                 </TableCell>
               </TableRow>
             ))}

@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useForm } from "react-hook-form";
-import type { Product } from "@intealegend/api-contract";
+import type { Product, BrandMark } from "@intealegend/api-contract";
 import client from "@/api-client";
 import {
   Form,
@@ -13,6 +13,14 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useEffect, useState } from "react";
 
 export const Route = createFileRoute("/_app-layout/app/products/new")({
   component: NewProductPage,
@@ -20,18 +28,32 @@ export const Route = createFileRoute("/_app-layout/app/products/new")({
 
 type ProductInput = Omit<
   Product,
-  "id" | "sellerId" | "createdAt" | "updatedAt" | "cartItems" | "orderItems"
->;
+  | "id"
+  | "sellerId"
+  | "createdAt"
+  | "updatedAt"
+  | "cartItems"
+  | "orderItems"
+  | "score"
+> & {
+  appearanceScore: number;
+  liquorScore: number;
+  tasteScore: number;
+  infusionScore: number;
+  gradingScore: number;
+  volumeScore: number;
+};
 
 function NewProductPage() {
   const navigate = useNavigate();
   const createProduct = client.sellers.createProduct.useMutation();
+  const { data: marks } = client.sellers.getBrandMarks.useQuery(["get-marks"]);
 
   const form = useForm<ProductInput>({
     defaultValues: {
       name: "",
       grade: "",
-      mark: "",
+      mark: marks?.body[0].id,
       invoiceNo: "",
       description: null,
       productionMonth: "",
@@ -40,16 +62,36 @@ function NewProductPage() {
       location: "",
       origin: "",
       pricePerUnit: 0,
-      score: null,
       mbp: null,
       imageUrl: null,
+      status: "PENDING",
+      isLive: false,
+      appearanceScore: 0,
+      liquorScore: 0,
+      tasteScore: 0,
+      infusionScore: 0,
+      gradingScore: 0,
+      volumeScore: 0,
     },
   });
 
   const onSubmit = async (data: ProductInput) => {
     try {
+      // Calculate total score from individual scores
+      const totalScore =
+        (data.appearanceScore +
+          data.liquorScore +
+          data.tasteScore +
+          data.infusionScore +
+          data.gradingScore +
+          data.volumeScore) /
+        6;
+
       const response = await createProduct.mutateAsync({
-        body: data,
+        body: {
+          ...data,
+          score: totalScore,
+        },
       });
       if (response.status === 201) {
         navigate({ to: "/app/products" });
@@ -58,6 +100,14 @@ function NewProductPage() {
       console.error(error);
     }
   };
+
+  const handleCreateNewMark = () => {
+    navigate({ to: "/app/brands" });
+  };
+
+  if (marks?.status !== 200) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="p-8 max-w-2xl mx-auto">
@@ -80,7 +130,7 @@ function NewProductPage() {
               <FormItem>
                 <FormLabel>Name</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input {...field} value={field.value ?? ""} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -108,13 +158,40 @@ function NewProductPage() {
           <div className="grid grid-cols-3 gap-4">
             <FormField
               control={form.control}
-              name="grade"
+              name="mark"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Grade</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
+                  <FormLabel>Brand Mark</FormLabel>
+                  <Select
+                    onValueChange={(value: string) => {
+                      if (value === "new") {
+                        handleCreateNewMark();
+                        return;
+                      }
+                      const selectedMark = marks?.body.find(
+                        (m) => m.id.toString() === value
+                      );
+                      if (selectedMark) {
+                        field.onChange(selectedMark.id);
+                        form.setValue("brandMark", selectedMark);
+                      }
+                    }}
+                    value={field.value?.toString()}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a mark" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {marks?.body.map((mark) => (
+                        <SelectItem key={mark.id} value={mark.id.toString()}>
+                          {mark.name}
+                        </SelectItem>
+                      ))}
+                      <SelectItem value="new">Create New Mark</SelectItem>
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
@@ -122,12 +199,12 @@ function NewProductPage() {
 
             <FormField
               control={form.control}
-              name="mark"
+              name="grade"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Mark</FormLabel>
+                  <FormLabel>Grade</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input {...field} value={field.value ?? ""} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -141,7 +218,7 @@ function NewProductPage() {
                 <FormItem>
                   <FormLabel>Production Month</FormLabel>
                   <FormControl>
-                    <Input type="month" {...field} />
+                    <Input type="month" {...field} value={field.value ?? ""} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -256,20 +333,121 @@ function NewProductPage() {
 
             <FormField
               control={form.control}
-              name="score"
+              name="appearanceScore"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Score</FormLabel>
+                  <FormLabel>Appearance Score</FormLabel>
                   <FormControl>
                     <Input
                       type="number"
+                      min={0}
+                      max={100}
                       {...field}
-                      value={field.value ?? ""}
-                      onChange={(e) =>
-                        field.onChange(
-                          e.target.value ? Number(e.target.value) : null
-                        )
-                      }
+                      onChange={(e) => field.onChange(Number(e.target.value))}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="liquorScore"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Liquor Score</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      min={0}
+                      max={100}
+                      {...field}
+                      onChange={(e) => field.onChange(Number(e.target.value))}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          <div className="grid grid-cols-3 gap-4">
+            <FormField
+              control={form.control}
+              name="tasteScore"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Taste Score</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      min={0}
+                      max={100}
+                      {...field}
+                      onChange={(e) => field.onChange(Number(e.target.value))}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="infusionScore"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Infusion Score</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      min={0}
+                      max={100}
+                      {...field}
+                      onChange={(e) => field.onChange(Number(e.target.value))}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="gradingScore"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Grading Score</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      min={0}
+                      max={100}
+                      {...field}
+                      onChange={(e) => field.onChange(Number(e.target.value))}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          <div className="grid grid-cols-3 gap-4">
+            <FormField
+              control={form.control}
+              name="volumeScore"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Volume Score</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      min={0}
+                      max={100}
+                      {...field}
+                      onChange={(e) => field.onChange(Number(e.target.value))}
                     />
                   </FormControl>
                   <FormMessage />

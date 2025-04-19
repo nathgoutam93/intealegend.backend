@@ -7,6 +7,7 @@ import {
   OrderSchema,
 } from "../schemas";
 import z from "zod";
+import { BrandMarkSchema } from "../schemas/brandMark";
 
 const c = initContract();
 
@@ -72,6 +73,7 @@ export const sellersRouter = c.router({
     body: ProductSchema.omit({
       id: true,
       sellerId: true,
+      brandMark: true,
       createdAt: true,
       updatedAt: true,
     }),
@@ -171,6 +173,63 @@ export const sellersRouter = c.router({
     }),
     responses: {
       200: OrderSchema,
+      401: ErrorSchema,
+      404: ErrorSchema,
+    },
+  },
+  getBrandMarks: {
+    method: "GET",
+    path: "/seller/brand-marks",
+    responses: {
+      200: z.array(BrandMarkSchema),
+      401: ErrorSchema,
+    },
+  },
+  createBrandMark: {
+    method: "POST",
+    path: "/seller/brand-marks",
+    body: BrandMarkSchema.omit({
+      id: true,
+      sellerId: true,
+      status: true,
+      verifiedAt: true,
+      createdAt: true,
+      updatedAt: true,
+    }),
+    responses: {
+      201: BrandMarkSchema,
+      401: ErrorSchema,
+      400: ErrorSchema,
+    },
+  },
+  updateBrandMark: {
+    method: "PATCH",
+    path: "/seller/brand-marks/:id",
+    pathParams: z.object({
+      id: z.string(),
+    }),
+    body: BrandMarkSchema.omit({
+      id: true,
+      sellerId: true,
+      status: true,
+      verifiedAt: true,
+      createdAt: true,
+      updatedAt: true,
+    }).partial(),
+    responses: {
+      200: BrandMarkSchema,
+      401: ErrorSchema,
+      404: ErrorSchema,
+    },
+  },
+  getBrandMark: {
+    method: "GET",
+    path: "/seller/brand-marks/:id",
+    pathParams: z.object({
+      id: z.string(),
+    }),
+    responses: {
+      200: BrandMarkSchema,
       401: ErrorSchema,
       404: ErrorSchema,
     },

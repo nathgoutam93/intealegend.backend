@@ -4,7 +4,6 @@ import * as bcrypt from 'bcrypt';
 import { PRISMA_TOKEN } from 'src/database/constants';
 import { PrismaClient, UserRole } from '@intealegend/database';
 import { ConfigService } from '@nestjs/config';
-import { create } from 'domain';
 
 @Injectable()
 export class AuthService {
@@ -80,41 +79,30 @@ export class AuthService {
     return user;
   }
 
-  async register(data: {
-    email: string;
-    password: string;
-    role: 'SELLER' | 'BUYER';
-    profile: any;
-  }) {
-    const hashedPassword = await bcrypt.hash(data.password, 10);
+  async refreshTokens(refreshToken: string) {
+    try {
+      const payload = await this.jwtService.verify(refreshToken, {
+        secret: this.configService.get<string>('JWT_REFRESH_SECRET'),
+      });
 
-    return this.db.$transaction(async (tx) => {
-      const user = await tx.user.create({
-        data: {
-          email: data.email,
-          password: hashedPassword,
-          role: data.role,
+      const user = await this.db.user.findUnique({
+        where: { id: payload.sub },
+        include: {
+          adminProfile: true,
+          staffProfile: true,
+          sellerProfile: true,
+          buyerProfile: true,
         },
       });
 
-      if (data.role === 'SELLER') {
-        await tx.sellerProfile.create({
-          data: {
-            ...data.profile,
-            userId: user.id,
-          },
-        });
-      } else {
-        await tx.buyerProfile.create({
-          data: {
-            ...data.profile,
-            userId: user.id,
-          },
-        });
+      if (!user) {
+        throw new UnauthorizedException('User not found');
       }
 
-      return user;
-    });
+      return this.generateTokens(user);
+    } catch {
+      throw new UnauthorizedException('Invalid refresh token');
+    }
   }
 
   async login(identifier: string, password: string) {
@@ -159,29 +147,48 @@ export class AuthService {
     };
   }
 
-  async refreshTokens(refreshToken: string) {
-    try {
-      const payload = await this.jwtService.verify(refreshToken, {
-        secret: this.configService.get<string>('JWT_REFRESH_SECRET'),
-      });
+  async register(data: {
+    email: string;
+    password: string;
+    role: 'SELLER' | 'BUYER';
+    profile: any;
+  }) {
+    const hashedPassword = await bcrypt.hash(data.password, 10);
 
-      const user = await this.db.user.findUnique({
-        where: { id: payload.sub },
-        include: {
-          adminProfile: true,
-          staffProfile: true,
-          sellerProfile: true,
-          buyerProfile: true,
+    return this.db.$transaction(async (tx) => {
+      const user = await tx.user.create({
+        data: {
+          email: data.email,
+          password: hashedPassword,
+          role: data.role,
         },
       });
 
-      if (!user) {
-        throw new UnauthorizedException('User not found');
+      if (data.role === 'SELLER') {
+        const seller = await tx.sellerProfile.create({
+          data: {
+            ...data.profile,
+            userId: user.id,
+          },
+        });
+
+        await tx.brandMark.create({
+          data: {
+            name: data.profile.brandName,
+            sellerId: seller.id,
+            isDefault: true,
+          },
+        });
+      } else {
+        await tx.buyerProfile.create({
+          data: {
+            ...data.profile,
+            userId: user.id,
+          },
+        });
       }
 
-      return this.generateTokens(user);
-    } catch {
-      throw new UnauthorizedException('Invalid refresh token');
-    }
+      return user;
+    });
   }
 }

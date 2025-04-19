@@ -38,14 +38,22 @@ export class BuyerService {
         }
       : {};
 
-    return this.db.product.findMany({
+    const products = await this.db.product.findMany({
       where,
       take: parseInt(limit),
       skip: parseInt(offset),
       orderBy: {
         createdAt: 'desc',
       },
+      include: {
+        brandMark: true,
+      },
     });
+
+    return products.map((product) => ({
+      ...product,
+      pricePerUnit: product.pricePerUnit.toNumber(),
+    }));
   }
 
   async getCart(user: any) {
@@ -170,16 +178,16 @@ export class BuyerService {
           );
         }
 
-        const unitPrice = product.pricePerUnit;
+        const unitPrice = product.pricePerUnit.toNumber();
         const totalWeight = item.quantity * product.weightPerUnit;
         const totalPrice = unitPrice * item.quantity;
 
         return {
           productId: product.id,
           quantity: item.quantity,
-          unitPrice,
+          unitPrice: unitPrice,
           totalWeight,
-          totalPrice,
+          totalPrice: totalPrice,
         };
       }),
     );
@@ -244,7 +252,19 @@ export class BuyerService {
       where: { buyerId: user.id },
     });
 
-    return order;
+    return {
+      ...order,
+      orderItems: order.orderItems.map((oi) => ({
+        ...oi,
+        unitPrice: oi.unitPrice.toNumber(),
+        totalPrice: oi.totalPrice.toNumber(),
+      })),
+      totalAmount: order.totalAmount.toNumber(),
+      deliveryCharges: order.deliveryCharges?.toNumber() ?? null,
+      gstAmount: order.gstAmount.toNumber(),
+      otherCharges: order.otherCharges?.toNumber() ?? null,
+      roundOff: order.roundOff?.toNumber() ?? null,
+    };
   }
 
   async getOrders(user: any) {
@@ -266,7 +286,19 @@ export class BuyerService {
       throw new NotFoundException('no orders found');
     }
 
-    return orders;
+    return orders.map((order) => ({
+      ...order,
+      orderItems: order.orderItems.map((oi) => ({
+        ...oi,
+        unitPrice: oi.unitPrice.toNumber(),
+        totalPrice: oi.totalPrice.toNumber(),
+      })),
+      totalAmount: order.totalAmount.toNumber(),
+      deliveryCharges: order.deliveryCharges?.toNumber() ?? null,
+      gstAmount: order.gstAmount.toNumber(),
+      otherCharges: order.otherCharges?.toNumber() ?? null,
+      roundOff: order.roundOff?.toNumber() ?? null,
+    }));
   }
 
   async getOrderById(user: any, orderId: number) {
@@ -288,6 +320,18 @@ export class BuyerService {
       throw new NotFoundException('order not found');
     }
 
-    return order;
+    return {
+      ...order,
+      orderItems: order.orderItems.map((oi) => ({
+        ...oi,
+        unitPrice: oi.unitPrice.toNumber(),
+        totalPrice: oi.totalPrice.toNumber(),
+      })),
+      totalAmount: order.totalAmount.toNumber(),
+      deliveryCharges: order.deliveryCharges?.toNumber() ?? null,
+      gstAmount: order.gstAmount.toNumber(),
+      otherCharges: order.otherCharges?.toNumber() ?? null,
+      roundOff: order.roundOff?.toNumber() ?? null,
+    };
   }
 }

@@ -22,11 +22,11 @@ import { useAuthStore } from "@/stores/auth.store";
 export function NavUser() {
   const navigate = useNavigate();
   const user = useAuthStore((store) => store.user);
+  const logout = useAuthStore((store) => store.clearAuth);
   const { isMobile } = useSidebar();
 
   const handleLogout = () => {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("user");
+    logout();
     navigate({ to: "/" });
   };
 

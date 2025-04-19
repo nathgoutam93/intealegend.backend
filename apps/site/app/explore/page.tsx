@@ -7,6 +7,10 @@ import { Slider } from "@/components/ui/slider";
 import ProductList from "@/modules/products";
 import { Input } from "@/components/ui/input";
 import PriceRangeSelector from "@/components/PriceRangeSelector";
+import { Header } from "@/components/Header";
+import { UserDropdown } from "@/components/UserDropdown";
+import { ShoppingCart } from "lucide-react";
+import { useCartStore } from "@/store/cartStore";
 
 type Filters = {
   search: string;
@@ -15,32 +19,6 @@ type Filters = {
   grade: string;
   origin: string;
 };
-
-function Header() {
-  return (
-    <header className="sticky top-0 z-50 bg-white shadow">
-      <div className="max-w-7xl mx-auto px-4 py-2 flex items-center justify-between">
-        {/* Logo */}
-        <div className="flex items-center space-x-4">
-          <img
-            src="/assets/images/logo.png"
-            alt="Logo"
-            className="h-8 w-auto"
-          />
-        </div>
-        {/* Search Bar */}
-        <div className="flex-1 mx-4">
-          <Input placeholder="Search products..." />
-        </div>
-        {/* Account and Cart */}
-        <div className="flex items-center space-x-4">
-          <button className="btn">Account</button>
-          <button className="btn">Cart</button>
-        </div>
-      </div>
-    </header>
-  );
-}
 
 function ExplorePage() {
   const router = useRouter();
@@ -99,18 +77,9 @@ function ExplorePage() {
   }, [filters, priceRange, router]);
 
   // Handle change for top bar (search and sort) filters.
-  const handleTopChange = (
+  const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    const { name, value } = e.target;
-    setFilters((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  // Handle change for sidebar text inputs (grade, origin).
-  const handleSideChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
     setFilters((prev) => ({
       ...prev,
@@ -133,91 +102,48 @@ function ExplorePage() {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      {/* Main section including aside filters and product list */}
-      <div className="flex flex-1 pt-4">
-        {/* Sidebar for Additional Filters */}
-        <aside className="w-64 p-4 border-r">
-          <h2 className="text-lg font-bold mb-4">Filters</h2>
-
-          {/* Grade Filter */}
-          <div className="mb-4">
-            <label htmlFor="grade" className="block text-sm font-medium">
-              Grade
-            </label>
-            <input
-              type="text"
-              id="grade"
-              name="grade"
-              value={filters.grade}
-              onChange={handleSideChange}
-              className="input mt-1 block w-full"
-              placeholder="Enter grade"
-            />
-          </div>
-
-          {/* Origin Filter */}
-          <div className="mb-4">
-            <label htmlFor="origin" className="block text-sm font-medium">
-              Origin
-            </label>
-            <input
-              type="text"
-              id="origin"
-              name="origin"
-              value={filters.origin}
-              onChange={handleSideChange}
-              className="input mt-1 block w-full"
-              placeholder="Enter origin"
-            />
-          </div>
-
-          {/* Price Range Filter with Slider and Inputs */}
-          <div className="mb-4">
-            <label className="block text-sm font-medium mb-1">
-              Price Range (₹)
-            </label>
-            <PriceRangeSelector
-              value={[
-                priceRange[0],
-                priceRange[1] === defaultMax ? null : priceRange[1],
-              ]}
-              onChange={(range) =>
-                setPriceRange([
-                  range[0],
-                  range[1] === null ? defaultMax : range[1],
-                ])
-              }
-            />
-          </div>
-
-          <Button onClick={resetFilters}>Reset Filters</Button>
-        </aside>
-
-        {/* Main Content with Product List */}
-        <main className="flex-1 p-4">
-          {/* Top Bar with Search and Sort Filters (for products) */}
-          <div className="flex items-center justify-between p-4 border-b">
-            <div className="flex-1">
-              <input
-                type="text"
-                name="search"
-                placeholder="Search products..."
-                value={filters.search}
-                onChange={handleTopChange}
-                className="input w-full"
-              />
-            </div>
-            <div className="flex space-x-4 ml-4">
+      <div className="flex-1 pt-4">
+        <div className="mx-auto px-4">
+          {/* Filters Section */}
+          <div className="bg-white p-4 rounded-lg shadow mb-4">
+            <div className="grid grid-cols-8 gap-4">
+              <div className="col-span-2">
+                <Input
+                  type="text"
+                  name="search"
+                  value={filters.search}
+                  onChange={handleChange}
+                  placeholder="Search products..."
+                  className="w-full"
+                />
+              </div>
               <div>
-                <label htmlFor="sortBy" className="sr-only">
-                  Sort By
-                </label>
+                <Input
+                  type="text"
+                  name="grade"
+                  value={filters.grade}
+                  onChange={handleChange}
+                  placeholder="Grade"
+                  className="w-full"
+                />
+              </div>
+              <div>
+                <Input
+                  type="text"
+                  name="origin"
+                  value={filters.origin}
+                  onChange={handleChange}
+                  placeholder="Origin"
+                  className="w-full"
+                />
+              </div>
+
+              <div>
                 <select
-                  id="sortBy"
                   name="sortBy"
                   value={filters.sortBy}
-                  onChange={handleTopChange}
-                  className="input"
+                  onChange={handleChange}
+                  className="w-full p-2 border rounded"
                 >
                   <option value="">Sort By</option>
                   <option value="price">Price</option>
@@ -226,36 +152,53 @@ function ExplorePage() {
                 </select>
               </div>
               <div>
-                <label htmlFor="sortOrder" className="sr-only">
-                  Sort Order
-                </label>
                 <select
-                  id="sortOrder"
                   name="sortOrder"
                   value={filters.sortOrder}
-                  onChange={handleTopChange}
-                  className="input"
+                  onChange={handleChange}
+                  className="w-full p-2 border rounded"
                 >
                   <option value="">Order</option>
                   <option value="asc">Ascending</option>
                   <option value="desc">Descending</option>
                 </select>
               </div>
+
+              <PriceRangeSelector
+                value={[
+                  priceRange[0],
+                  priceRange[1] === defaultMax ? null : priceRange[1],
+                ]}
+                onChange={(range) =>
+                  setPriceRange([
+                    range[0],
+                    range[1] === null ? defaultMax : range[1],
+                  ])
+                }
+              />
+              <Button onClick={resetFilters} variant="outline">
+                Reset Filters
+              </Button>
             </div>
           </div>
 
-          <ProductList
-            search={filters.search}
-            grade={filters.grade}
-            origin={filters.origin}
-            sortBy={filters.sortBy}
-            sortOrder={filters.sortOrder}
-            minPrice={priceRange[0].toString()}
-            maxPrice={priceRange[1].toString()}
-            offset="0"
-            limit="10"
-          />
-        </main>
+          {/* Main Content */}
+          <div className="flex gap-4">
+            <div className="flex-1 min-w-0 overflow-hidden">
+              <ProductList
+                search={filters.search}
+                grade={filters.grade}
+                origin={filters.origin}
+                sortBy={filters.sortBy}
+                sortOrder={filters.sortOrder}
+                minPrice={priceRange[0].toString()}
+                maxPrice={priceRange[1].toString()}
+                offset="0"
+                limit="10"
+              />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -23,6 +23,18 @@ enum OrderStatus {
     CANCELLED
 }
 
+enum ProductStatus {
+    PENDING
+    APPROVED
+    REJECTED
+}
+
+enum BrandMarkStatus {
+    PENDING
+    APPROVED
+    REJECTED
+}
+
 model User {
     id               Int      @id @default(autoincrement())
     email            String   @unique
@@ -133,6 +145,8 @@ model SellerProfile {
     updatedAt DateTime @updatedAt
 
     products Product[]
+
+    BrandMarks BrandMark[]
 }
 
 // Profile for Buyers – B2B buyer profile with business details
@@ -180,14 +194,32 @@ model BuyerProfile {
     cartItems CartItem[]
 }
 
+model BrandMark {
+    id          Int             @id @default(autoincrement())
+    name        String          @unique
+    logo        String? // File path or URL
+    certificate String? // File path or URL
+    isDefault   Boolean         @default(false) // New field to mark default brand
+    status      BrandMarkStatus @default(PENDING) // New enum for approval status
+    verifiedAt  DateTime? // Renamed from 'verified'
+
+    sellerId Int
+    seller   SellerProfile @relation(fields: [sellerId], references: [id])
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    products Product[]
+}
+
 model Product {
     id          Int     @id @default(autoincrement())
-    name        String
+    name        String?
     description String?
     imageUrl    String?
 
+    mark      Int
     grade     String
-    mark      String
     invoiceNo String
 
     weightPerUnit Float // Weight of a single package/unit
@@ -197,12 +229,24 @@ model Product {
     location        String
     origin          String
 
-    pricePerUnit Float // Price for a single package/unit
-    score        Float?
-    mbp          Float?
+    pricePerUnit Decimal // Price for a single package/unit
+    mbp          Float? // Minimum Buying pkg
+
+    score           Float
+    appearanceScore Float
+    liquorScore     Float
+    tasteScore      Float
+    infusionScore   Float
+    gradingScore    Float
+    volumeScore     Float
+
+    status ProductStatus @default(PENDING)
+    isLive Boolean       @default(false)
 
     seller   SellerProfile @relation(fields: [sellerId], references: [id])
     sellerId Int
+
+    brandMark BrandMark @relation(fields: [mark], references: [id])
 
     cartItems  CartItem[]
     orderItems OrderItem[]
@@ -231,12 +275,12 @@ model Order {
     buyerId Int
 
     status          OrderStatus @default(PENDING)
-    totalAmount     Float
+    totalAmount     Decimal
     estimatedWeight Float
-    deliveryCharges Float?
-    gstAmount       Float
-    otherCharges    Float?
-    roundOff        Float?
+    deliveryCharges Decimal?
+    gstAmount       Decimal
+    otherCharges    Decimal?
+    roundOff        Decimal?
 
     orderItems OrderItem[]
 
@@ -253,8 +297,8 @@ model OrderItem {
     productId Int
 
     quantity    Int // Number of packages ordered
-    unitPrice   Float // Price per package at time of order
-    totalPrice  Float // quantity * unitPrice
+    unitPrice   Decimal // Price per package at time of order
+    totalPrice  Decimal // quantity * unitPrice
     totalWeight Float // quantity * product.weightPerUnit
 
     createdAt DateTime @default(now())

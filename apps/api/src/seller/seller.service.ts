@@ -60,7 +60,7 @@ export class SellerService {
     return {
       totalProducts: stats[0],
       totalOrders: stats[1],
-      totalSales: stats[2]._sum.totalPrice || 0,
+      totalSales: stats[2]._sum.totalPrice?.toNumber() || 0,
     };
   }
 
@@ -70,13 +70,16 @@ export class SellerService {
         id: productId,
         sellerId,
       },
+      include: {
+        brandMark: true,
+      },
     });
 
     if (!product) {
       throw new NotFoundException('seller profile not found');
     }
 
-    return product;
+    return { ...product, pricePerUnit: product.pricePerUnit.toNumber() };
   }
 
   async getProducts({
@@ -124,12 +127,18 @@ export class SellerService {
         },
         take: limit,
         skip: offset,
+        include: {
+          brandMark: true,
+        },
       }),
       this.db.product.count({ where }),
     ]);
 
     return {
-      data: products,
+      data: products.map((p) => ({
+        ...p,
+        pricePerUnit: p.pricePerUnit.toNumber(),
+      })),
       total,
       limit,
       offset,
@@ -137,22 +146,38 @@ export class SellerService {
   }
 
   async createProduct(sellerId: number, data: any) {
-    return this.db.product.create({
+    const product = await this.db.product.create({
       data: {
         sellerId,
         ...data,
       },
+      include: {
+        brandMark: true,
+      },
     });
+
+    return {
+      ...product,
+      pricePerUnit: product.pricePerUnit.toNumber(),
+    };
   }
 
   async updateProduct(productId: number, sellerId: number, data: any) {
-    return this.db.product.update({
+    const updatedProduct = await this.db.product.update({
       where: {
         id: productId,
         sellerId,
       },
       data,
+      include: {
+        brandMark: true,
+      },
     });
+
+    return {
+      ...updatedProduct,
+      pricePerUnit: updatedProduct.pricePerUnit.toNumber(),
+    };
   }
 
   async getOrders({
@@ -213,7 +238,19 @@ export class SellerService {
     ]);
 
     return {
-      data: orders,
+      data: orders.map((o) => ({
+        ...o,
+        orderItems: o.orderItems.map((oi) => ({
+          ...oi,
+          unitPrice: oi.unitPrice.toNumber(),
+          totalPrice: oi.totalPrice.toNumber(),
+        })),
+        totalAmount: o.totalAmount.toNumber(),
+        deliveryCharges: o.deliveryCharges?.toNumber() ?? null,
+        gstAmount: o.gstAmount.toNumber(),
+        otherCharges: o.otherCharges?.toNumber() ?? null,
+        roundOff: o.roundOff?.toNumber() ?? null,
+      })),
       total,
       limit,
       offset,
@@ -246,7 +283,19 @@ export class SellerService {
       throw new NotFoundException('order not found');
     }
 
-    return order;
+    return {
+      ...order,
+      orderItems: order.orderItems.map((oi) => ({
+        ...oi,
+        unitPrice: oi.unitPrice.toNumber(),
+        totalPrice: oi.totalPrice.toNumber(),
+      })),
+      totalAmount: order.totalAmount.toNumber(),
+      deliveryCharges: order.deliveryCharges?.toNumber() ?? null,
+      gstAmount: order.gstAmount.toNumber(),
+      otherCharges: order.otherCharges?.toNumber() ?? null,
+      roundOff: order.roundOff?.toNumber() ?? null,
+    };
   }
 
   async updateOrderStatus(
@@ -273,6 +322,72 @@ export class SellerService {
       },
     });
 
-    return order;
+    return {
+      ...order,
+      orderItems: order.orderItems.map((oi) => ({
+        ...oi,
+        unitPrice: oi.unitPrice.toNumber(),
+        totalPrice: oi.totalPrice.toNumber(),
+      })),
+      totalAmount: order.totalAmount.toNumber(),
+      deliveryCharges: order.deliveryCharges?.toNumber() ?? null,
+      gstAmount: order.gstAmount.toNumber(),
+      otherCharges: order.otherCharges?.toNumber() ?? null,
+      roundOff: order.roundOff?.toNumber() ?? null,
+    };
+  }
+
+  async getBrandMarks(sellerId: number) {
+    return this.db.brandMark.findMany({
+      where: {
+        sellerId,
+      },
+    });
+  }
+
+  async createBrandMark(sellerId: number, data: any) {
+    if (data.isDefault) {
+      await this.db.brandMark.updateMany({
+        where: {
+          sellerId,
+        },
+        data: {
+          isDefault: false,
+        },
+      });
+    }
+
+    return this.db.brandMark.create({
+      data: {
+        sellerId,
+        status: 'PENDING',
+        ...data,
+      },
+    });
+  }
+
+  async updateBrandMark(brandMarkId: number, sellerId: number, data: any) {
+    return this.db.brandMark.update({
+      where: {
+        id: brandMarkId,
+        sellerId,
+      },
+      data,
+    });
+  }
+
+  async getBrandMark(brandMarkId: number, sellerId: number) {
+    const brandMark = await this.db.brandMark.findFirst({
+      where: {
+        id: brandMarkId,
+        sellerId,
+      },
+    });
+
+    if (!brandMark) {
+      throw new NotFoundException('brand mark not found');
+    }
+
+    return brandMark;
   }
 }
