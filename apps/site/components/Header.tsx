@@ -38,11 +38,14 @@ export function Header({
           </Link>
         </div>
         <div className="flex items-center space-x-4">
-          <Link href={"/explore"}>Live Products</Link>
-          <Link href={"/orders"}>Orders</Link>
+          <Link href={"/explore"} className="text-sm">
+            Live Products
+          </Link>
+          <Link href={"/orders"} className="text-sm">
+            My Orders
+          </Link>
           <Button
-            variant="ghost"
-            size="icon"
+            variant={"secondary"}
             onClick={() => (window.location.href = "/cart")}
             className="relative"
           >
@@ -52,6 +55,7 @@ export function Header({
                 {cartItemCount}
               </span>
             )}
+            <span className="text-sm">Cart</span>
           </Button>
           <UserDropdown />
         </div>

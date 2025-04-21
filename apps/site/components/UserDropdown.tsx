@@ -15,10 +15,10 @@ export function UserDropdown() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <div className="flex items-center">
-          <Button variant="ghost" size="icon">
-            <User className="h-5 w-5" />
+          <Button variant={"secondary"}>
+            <User className="h-5 w-5" size={18} />
+            <span className="text-sm">Account</span>
           </Button>
-          <span className="text-sm">Account</span>
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
