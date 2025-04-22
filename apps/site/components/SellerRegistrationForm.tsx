@@ -12,16 +12,21 @@ import { toast } from "sonner";
 const REGISTRATION_STEPS = [
   {
     id: 1,
+    title: "Brand Information",
+    fields: ["brandName", "brandLogo", "brandCertificate"],
+  },
+  {
+    id: 2,
     title: "Business Information",
     fields: ["businessName", "businessType", "ownerName"],
   },
   {
-    id: 2,
+    id: 3,
     title: "Address Information",
     fields: ["address", "state", "district", "pincode"],
   },
   {
-    id: 3,
+    id: 4,
     title: "Contact Information",
     fields: [
       "phone",
@@ -32,7 +37,7 @@ const REGISTRATION_STEPS = [
     ],
   },
   {
-    id: 4,
+    id: 5,
     title: "Business Documents",
     fields: [
       "panNumber",
@@ -45,17 +50,17 @@ const REGISTRATION_STEPS = [
     ],
   },
   {
-    id: 5,
+    id: 6,
     title: "Banking Information",
     fields: ["bankAccountNumber", "bankIfscCode", "cancelledCheque"],
   },
   {
-    id: 6,
-    title: "Brand & Logistics",
-    fields: ["transportName", "brandName", "brandLogo", "brandCertificate"],
+    id: 7,
+    title: "Logistics",
+    fields: ["transportName"],
   },
   {
-    id: 7,
+    id: 8,
     title: "Set Password",
     fields: ["password", "confirmPassword"],
   },
@@ -532,19 +537,6 @@ export default function SellerRegistrationForm() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Transport Partner Name
-                  </label>
-                  <input
-                    type="text"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                    value={formData.transportName}
-                    onChange={(e) =>
-                      handleInputChange("transportName", e.target.value)
-                    }
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
                     Brand Name
                   </label>
                   <input
@@ -587,6 +579,20 @@ export default function SellerRegistrationForm() {
                       }
                     }}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Transport Partner Name
+                  </label>
+                  <input
+                    type="text"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                    value={formData.transportName}
+                    onChange={(e) =>
+                      handleInputChange("transportName", e.target.value)
+                    }
                   />
                 </div>
               </div>

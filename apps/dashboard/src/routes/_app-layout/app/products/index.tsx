@@ -37,11 +37,11 @@ function ProductsPage() {
               <TableHead>Mark</TableHead>
               <TableHead>Invoice No.</TableHead>
               <TableHead>Grade</TableHead>
-              <TableHead>Weight/Pkg</TableHead>
-              <TableHead>Sample Weight</TableHead>
+              <TableHead>Wt/Pkg</TableHead>
+              <TableHead>Sample Wt.</TableHead>
               <TableHead>Score</TableHead>
               <TableHead>MBP</TableHead>
-              <TableHead className="text-right">Price/Unit (₹)</TableHead>
+              <TableHead className="text-right">Price/Kg (₹)</TableHead>
               <TableHead>Location</TableHead>
               <TableHead>Origin</TableHead>
               <TableHead>Production</TableHead>

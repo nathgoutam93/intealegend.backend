@@ -39,7 +39,7 @@ export function Header({
         </div>
         <div className="flex items-center space-x-4">
           <Link href={"/explore"} className="text-sm">
-            Live Products
+            Live Now
           </Link>
           <Link href={"/orders"} className="text-sm">
             My Orders

@@ -37,7 +37,7 @@ enum BrandMarkStatus {
 
 model User {
     id               Int      @id @default(autoincrement())
-    email            String   @unique
+    email            String
     password         String
     role             UserRole
     verified         Boolean  @default(false)

@@ -5,7 +5,8 @@ import { Minus, Plus, Trash2 } from "lucide-react";
 
 export function CartSummary() {
   const { items, removeItem, updateQuantity, calculateTotals } = useCartStore();
-  const { subtotal, totalWeight, totalAmount } = calculateTotals();
+  const { subtotal, totalWeight, totalAmount, totalWeightWithSample } =
+    calculateTotals();
 
   const handleQuantityChange = (item: CartItem, newQuantity: number) => {
     if (newQuantity >= 1) {
@@ -25,7 +26,7 @@ export function CartSummary() {
                 <div className="text-sm text-gray-500">
                   <div>Grade: {item.grade}</div>
                   <div>Price/kg: ₹{item.pricePerKg}</div>
-                  <div>Weight/kg: {item.weightPerKg}kg</div>
+                  <div>Weight/Pkg: {item.weightPerPkg}kg</div>
                 </div>
               </div>
               <Button
@@ -67,9 +68,14 @@ export function CartSummary() {
               </div>
               <div className="text-right">
                 <div className="text-sm text-gray-500">
-                  {item.totalWeight}kg
+                  <div>Net Weight: {item.totalWeight}kg</div>
+                  <div>
+                    Total Weight (with sample): {item.totalWeightWithSample}kg
+                  </div>
                 </div>
-                <div className="font-medium">₹{item.totalPrice.toFixed(2)}</div>
+                <div className="font-medium">
+                  ₹{(item.totalPrice || 0).toFixed(2)}
+                </div>
               </div>
             </div>
           </div>
@@ -85,8 +91,12 @@ export function CartSummary() {
             <span>₹{subtotal.toFixed(2)}</span>
           </div>
           <div className="flex justify-between">
-            <span>Total Weight</span>
+            <span>Net Weight</span>
             <span>{totalWeight}kg</span>
+          </div>
+          <div className="flex justify-between">
+            <span>Total Weight (with sample)</span>
+            <span>{totalWeightWithSample}kg</span>
           </div>
           <div className="flex justify-between">
             <span>Shipping</span>

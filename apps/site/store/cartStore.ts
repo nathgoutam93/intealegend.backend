@@ -6,10 +6,13 @@ export interface CartItem {
   mark: string;
   grade: string;
   pricePerKg: number;
-  weightPerKg: number;
+  weightPerPkg: number;
+  sampleWeight: number | null;
   quantity: number;
   totalPrice: number;
   totalWeight: number;
+  totalWeightWithSample: number;
+  mbp?: number;
 }
 
 interface CartState {
@@ -18,12 +21,15 @@ interface CartState {
   otherCharges: number;
   gst: number;
   roundOff: number;
-  addItem: (item: Omit<CartItem, "totalPrice" | "totalWeight">) => void;
+  addItem: (
+    item: Omit<CartItem, "totalPrice" | "totalWeight" | "totalWeightWithSample">
+  ) => void;
   removeItem: (id: string) => void;
   updateQuantity: (id: string, quantity: number) => void;
   calculateTotals: () => {
     subtotal: number;
     totalWeight: number;
+    totalWeightWithSample: number;
     totalAmount: number;
   };
 }
@@ -38,10 +44,20 @@ export const useCartStore = create<CartState>()(
       roundOff: 0,
 
       addItem: (item) => {
-        const totalPrice = item.pricePerKg * item.quantity;
-        const totalWeight = item.weightPerKg * item.quantity;
+        const totalWeight = item.weightPerPkg * item.quantity;
+        const totalWeightWithSample = totalWeight + (item.sampleWeight || 0);
+        const totalPrice = totalWeight * item.pricePerKg;
         set((state) => ({
-          items: [...state.items, { ...item, totalPrice, totalWeight }],
+          items: [
+            ...state.items,
+            {
+              ...item,
+              totalPrice,
+              totalWeight,
+              totalWeightWithSample,
+              mbp: item.mbp,
+            },
+          ],
         }));
       },
 
@@ -55,9 +71,19 @@ export const useCartStore = create<CartState>()(
         set((state) => ({
           items: state.items.map((item) => {
             if (item.id === id) {
-              const totalPrice = item.pricePerKg * quantity;
-              const totalWeight = item.weightPerKg * quantity;
-              return { ...item, quantity, totalPrice, totalWeight };
+              const mbp = item.mbp || 1;
+              const newQuantity = Math.max(quantity, mbp);
+              const totalWeight = item.weightPerPkg * newQuantity;
+              const totalWeightWithSample =
+                totalWeight + (item.sampleWeight || 0);
+              const totalPrice = totalWeight * item.pricePerKg;
+              return {
+                ...item,
+                quantity: newQuantity,
+                totalPrice,
+                totalWeight,
+                totalWeightWithSample,
+              };
             }
             return item;
           }),
@@ -74,13 +100,17 @@ export const useCartStore = create<CartState>()(
           (sum, item) => sum + item.totalWeight,
           0
         );
+        const totalWeightWithSample = state.items.reduce(
+          (sum, item) => sum + item.totalWeightWithSample,
+          0
+        );
         const totalAmount =
           subtotal +
           state.shipping +
           state.otherCharges +
           state.gst +
           state.roundOff;
-        return { subtotal, totalWeight, totalAmount };
+        return { subtotal, totalWeight, totalWeightWithSample, totalAmount };
       },
     }),
     {

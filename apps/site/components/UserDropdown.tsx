@@ -7,10 +7,20 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useAuthStore } from "@/store/auth.store";
 
 import { User } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export function UserDropdown() {
+  const router = useRouter();
+  const clearAuth = useAuthStore((state) => state.clearAuth);
+
+  const logout = () => {
+    clearAuth();
+    router.replace("/");
+  };
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -22,15 +32,10 @@ export function UserDropdown() {
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => (window.location.href = "/profile")}>
-          Profile
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => (window.location.href = "/statement")}>
-          Statement
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => (window.location.href = "/support")}>
-          Support
-        </DropdownMenuItem>
+        <DropdownMenuItem>Profile</DropdownMenuItem>
+        <DropdownMenuItem>Statement</DropdownMenuItem>
+        <DropdownMenuItem>Support</DropdownMenuItem>
+        <DropdownMenuItem onClick={logout}>Log Out</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

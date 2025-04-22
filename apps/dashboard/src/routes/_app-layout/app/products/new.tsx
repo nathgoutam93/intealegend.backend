@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+// import { Textarea } from "@/components/ui/textarea";
 import { useForm } from "react-hook-form";
 import type { Product } from "@intealegend/api-contract";
 import client from "@/api-client";
@@ -52,7 +52,7 @@ function NewProductPage() {
     defaultValues: {
       name: "",
       grade: "",
-      mark: marks?.body[0].id,
+      mark: marks?.body.find((m) => m.isDefault)?.id,
       invoiceNo: "",
       description: null,
       productionMonth: "",
@@ -100,9 +100,9 @@ function NewProductPage() {
     }
   };
 
-  const handleCreateNewMark = () => {
-    navigate({ to: "/app/brands" });
-  };
+  // const handleCreateNewMark = () => {
+  //   navigate({ to: "/app/brands" });
+  // };
 
   if (marks?.status !== 200) {
     return <div>Loading...</div>;
@@ -112,17 +112,17 @@ function NewProductPage() {
     <div className="p-8 max-w-2xl mx-auto">
       <div className="flex justify-between mb-6">
         <h1 className="text-2xl font-bold">Add New Product</h1>
-        <Button
+        {/* <Button
           variant="outline"
           onClick={() => navigate({ to: "/app/products" })}
         >
           Cancel
-        </Button>
+        </Button> */}
       </div>
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <FormField
+          {/* <FormField
             control={form.control}
             name="name"
             render={({ field }) => (
@@ -152,7 +152,7 @@ function NewProductPage() {
                 <FormMessage />
               </FormItem>
             )}
-          />
+          /> */}
 
           <div className="grid grid-cols-3 gap-4">
             <FormField
@@ -163,10 +163,10 @@ function NewProductPage() {
                   <FormLabel>Brand Mark</FormLabel>
                   <Select
                     onValueChange={(value: string) => {
-                      if (value === "new") {
-                        handleCreateNewMark();
-                        return;
-                      }
+                      // if (value === "new") {
+                      //   handleCreateNewMark();
+                      //   return;
+                      // }
                       const selectedMark = marks?.body.find(
                         (m) => m.id.toString() === value
                       );
@@ -183,12 +183,16 @@ function NewProductPage() {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {marks?.body.map((mark) => (
-                        <SelectItem key={mark.id} value={mark.id.toString()}>
-                          {mark.name}
-                        </SelectItem>
-                      ))}
-                      <SelectItem value="new">Create New Mark</SelectItem>
+                      {marks?.body.map((mark) => {
+                        if (!mark.isDefault) return null;
+
+                        return (
+                          <SelectItem key={mark.id} value={mark.id.toString()}>
+                            {mark.name}
+                          </SelectItem>
+                        );
+                      })}
+                      {/* <SelectItem value="new">Create New Mark</SelectItem> */}
                     </SelectContent>
                   </Select>
                   <FormMessage />
@@ -245,7 +249,7 @@ function NewProductPage() {
               name="weightPerUnit"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Weight Per Unit</FormLabel>
+                  <FormLabel>Weight Per Package (Kg)</FormLabel>
                   <FormControl>
                     <Input
                       type="number"
@@ -262,7 +266,7 @@ function NewProductPage() {
               name="sampleWeight"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Sample Weight</FormLabel>
+                  <FormLabel>Sample Weight (Kg)</FormLabel>
                   <FormControl>
                     <Input
                       type="number"
@@ -311,24 +315,8 @@ function NewProductPage() {
             />
           </div>
 
-          <div className="grid grid-cols-3 gap-4">
-            <FormField
-              control={form.control}
-              name="pricePerUnit"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Price Per Unit</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="number"
-                      {...field}
-                      onChange={(e) => field.onChange(Number(e.target.value))}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          {/* <div className="grid grid-cols-3 gap-4">
+            
 
             <FormField
               control={form.control}
@@ -369,9 +357,7 @@ function NewProductPage() {
                 </FormItem>
               )}
             />
-          </div>
 
-          <div className="grid grid-cols-3 gap-4">
             <FormField
               control={form.control}
               name="tasteScore"
@@ -431,9 +417,7 @@ function NewProductPage() {
                 </FormItem>
               )}
             />
-          </div>
-
-          <div className="grid grid-cols-3 gap-4">
+            
             <FormField
               control={form.control}
               name="volumeScore"
@@ -445,6 +429,26 @@ function NewProductPage() {
                       type="number"
                       min={0}
                       max={100}
+                      {...field}
+                      onChange={(e) => field.onChange(Number(e.target.value))}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div> */}
+
+          <div className="grid grid-cols-3 gap-4">
+            <FormField
+              control={form.control}
+              name="pricePerUnit"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Price Per Kg</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="number"
                       {...field}
                       onChange={(e) => field.onChange(Number(e.target.value))}
                     />
@@ -478,7 +482,7 @@ function NewProductPage() {
             />
           </div>
 
-          <FormField
+          {/* <FormField
             control={form.control}
             name="imageUrl"
             render={({ field }) => (
@@ -494,7 +498,7 @@ function NewProductPage() {
                 <FormMessage />
               </FormItem>
             )}
-          />
+          /> */}
 
           <div className="flex justify-end space-x-4">
             <Button

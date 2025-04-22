@@ -15,8 +15,6 @@ import { useCartStore } from "@/store/cartStore";
 
 type Props = {
   search: string;
-  grade: string;
-  origin: string;
   sortBy: string;
   sortOrder: string;
   minPrice: string;
@@ -27,8 +25,6 @@ type Props = {
 
 function ProductList({
   search,
-  grade,
-  origin,
   sortBy,
   sortOrder,
   minPrice,
@@ -40,8 +36,6 @@ function ProductList({
     "products",
     {
       search,
-      grade,
-      origin,
       sortBy,
       sortOrder,
       minPrice,
@@ -54,13 +48,16 @@ function ProductList({
   const addToCart = useCartStore((state) => state.addItem);
 
   const handleAddToCart = (product: any) => {
+    const mbp = product.mbp || 1; // Default to 1 if MBP is not present
     addToCart({
       id: product.id.toString(),
       mark: product.brandMark.name,
       grade: product.grade,
       pricePerKg: product.pricePerUnit,
-      weightPerKg: product.weightPerUnit,
-      quantity: 1,
+      weightPerPkg: product.weightPerUnit,
+      sampleWeight: product.sampleWeight,
+      quantity: mbp,
+      mbp: mbp,
     });
   };
 
@@ -69,9 +66,6 @@ function ProductList({
 
   return (
     <div className="">
-      <div className="flex justify-between mb-6">
-        <h1 className="text-2xl font-bold">Live Now</h1>
-      </div>
       <div className="border rounded-lg">
         <Table>
           <TableHeader>
@@ -80,15 +74,15 @@ function ProductList({
               <TableHead>Mark</TableHead>
               <TableHead>Inv No.</TableHead>
               <TableHead>Grade</TableHead>
-              <TableHead>Wt/Pkg</TableHead>
+              <TableHead>Wt/pkg</TableHead>
               <TableHead>Sample Wt</TableHead>
               <TableHead>Score</TableHead>
               <TableHead>MBP</TableHead>
-              <TableHead className="text-right">Price/Pkg (₹)</TableHead>
+              <TableHead className="text-right">Price/kg (₹)</TableHead>
+              <TableHead className="text-right"></TableHead>
               <TableHead>Location</TableHead>
               <TableHead>Origin</TableHead>
               <TableHead>Production</TableHead>
-              <TableHead className="text-right">Action</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -96,9 +90,6 @@ function ProductList({
               <TableRow
                 key={product.id}
                 className="cursor-pointer hover:bg-muted/50"
-                onClick={() => {
-                  window.location.href = `/app/products/${product.id}`;
-                }}
               >
                 <TableCell className="font-medium">
                   <span>
@@ -120,14 +111,6 @@ function ProductList({
                 <TableCell className="text-right">
                   {product.pricePerUnit.toLocaleString("en-IN")}
                 </TableCell>
-                <TableCell>{product.location}</TableCell>
-                <TableCell>{product.origin}</TableCell>
-                <TableCell>
-                  {new Date(product.productionMonth).toLocaleString("en-IN", {
-                    month: "short",
-                    year: "numeric",
-                  })}
-                </TableCell>
                 <TableCell className="text-right">
                   <Button
                     variant="outline"
@@ -139,6 +122,14 @@ function ProductList({
                   >
                     Add to Cart
                   </Button>
+                </TableCell>
+                <TableCell>{product.location}</TableCell>
+                <TableCell>{product.origin}</TableCell>
+                <TableCell>
+                  {new Date(product.productionMonth).toLocaleString("en-IN", {
+                    month: "short",
+                    year: "numeric",
+                  })}
                 </TableCell>
               </TableRow>
             ))}

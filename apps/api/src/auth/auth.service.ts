@@ -50,8 +50,8 @@ export class AuthService {
 
     // If not found, try email
     if (!user) {
-      user = await this.db.user.findUnique({
-        where: { email: identifier },
+      user = await this.db.user.findFirst({
+        where: { email: identifier, role: UserRole.ADMIN },
         include: {
           adminProfile: true,
           staffProfile: true,
