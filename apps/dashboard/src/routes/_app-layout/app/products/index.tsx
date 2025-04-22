@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { Link } from "@tanstack/react-router";
 import client from "@/api-client";
@@ -16,6 +16,8 @@ export const Route = createFileRoute("/_app-layout/app/products/")({
 });
 
 function ProductsPage() {
+  const navigate = useNavigate();
+
   const { data, isLoading } = client.sellers.getProducts.useQuery(["products"]);
 
   if (isLoading) return <div>Loading...</div>;
@@ -55,7 +57,10 @@ function ProductsPage() {
                 key={product.id}
                 className="cursor-pointer hover:bg-muted/50"
                 onClick={() => {
-                  window.location.href = `/app/products/${product.id}`;
+                  navigate({
+                    to: "/app/products/$productId",
+                    params: { productId: product.id.toString() },
+                  });
                 }}
               >
                 <TableCell className="font-medium">

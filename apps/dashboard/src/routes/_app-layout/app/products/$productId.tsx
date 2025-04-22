@@ -6,7 +6,7 @@ import {
 } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+// import { Textarea } from "@/components/ui/textarea";
 import client from "@/api-client";
 import type { Product } from "@intealegend/api-contract";
 import {
@@ -188,7 +188,7 @@ function ProductDetailPage() {
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-2">
-                    Amount to {inventoryAction}
+                    Package to {inventoryAction}
                   </label>
                   <Input
                     type="number"
@@ -228,26 +228,6 @@ function ProductDetailPage() {
         }}
         className="space-y-6"
       >
-        <div>
-          <h3 className="font-semibold">Name</h3>
-          <Input
-            name="name"
-            defaultValue={product.name || ""}
-            readOnly={!isEditing}
-            className={!isEditing ? "bg-muted" : ""}
-          />
-        </div>
-
-        <div className="space-y-2">
-          <h3 className="font-semibold">Description</h3>
-          <Textarea
-            name="description"
-            defaultValue={product.description || ""}
-            readOnly={!isEditing}
-            className={!isEditing ? "bg-muted" : ""}
-          />
-        </div>
-
         <div className="grid grid-cols-3 gap-4">
           <div>
             <h3 className="font-semibold">Grade</h3>
@@ -291,7 +271,7 @@ function ProductDetailPage() {
 
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <h3 className="font-semibold">Weight Per Unit</h3>
+            <h3 className="font-semibold">Weight Per Pkg (Kg)</h3>
             <Input
               name="weightPerUnit"
               type="number"
@@ -301,7 +281,7 @@ function ProductDetailPage() {
             />
           </div>
           <div>
-            <h3 className="font-semibold">Sample Weight</h3>
+            <h3 className="font-semibold">Sample Weight (Kg)</h3>
             <Input
               name="sampleWeight"
               type="number"
@@ -333,7 +313,7 @@ function ProductDetailPage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-2 gap-4">
           <div>
             <h3 className="font-semibold">Price Per Unit</h3>
             <Input
@@ -345,35 +325,11 @@ function ProductDetailPage() {
             />
           </div>
           <div>
-            <h3 className="font-semibold">Score</h3>
-            <Input
-              name="score"
-              type="number"
-              defaultValue={product.score || ""}
-              readOnly={!isEditing}
-              className={!isEditing ? "bg-muted" : ""}
-            />
-          </div>
-          <div>
             <h3 className="font-semibold">MBP</h3>
             <Input
               name="mbp"
               type="number"
               defaultValue={product.mbp || ""}
-              readOnly={!isEditing}
-              className={!isEditing ? "bg-muted" : ""}
-            />
-          </div>
-        </div>
-
-        <div className="grid grid-cols-3 gap-4">
-          <div>
-            <h3 className="font-semibold">Available Quantity</h3>
-            <Input
-              name="quantity"
-              type="number"
-              min={0}
-              defaultValue={product.quantity}
               readOnly={!isEditing}
               className={!isEditing ? "bg-muted" : ""}
             />
