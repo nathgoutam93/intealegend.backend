@@ -1,10 +1,22 @@
 import { useState } from "react";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import {
+  createFileRoute,
+  useNavigate,
+  useRouter,
+} from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import client from "@/api-client";
 import type { Product } from "@intealegend/api-contract";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const Route = createFileRoute("/_app-layout/app/products/$productId")({
   component: ProductDetailPage,
@@ -16,9 +28,18 @@ type ProductInput = Omit<
 >;
 
 function ProductDetailPage() {
+  const router = useRouter();
+
   const { productId } = Route.useParams();
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
+  const [inventoryDialogOpen, setInventoryDialogOpen] = useState(false);
+  const [inventoryAction, setInventoryAction] = useState<"add" | "remove">(
+    "add"
+  );
+  const [inventoryAmount, setInventoryAmount] = useState(0);
+
+  const queryClient = useQueryClient();
 
   const { data, isLoading } = client.sellers.getProduct.useQuery(
     ["product", productId],
@@ -32,7 +53,12 @@ function ProductDetailPage() {
     }
   );
 
-  const updateProductMutation = client.sellers.updateProduct.useMutation();
+  const updateProductMutation = client.sellers.updateProduct.useMutation({
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["product", productId] });
+      router.invalidate();
+    },
+  });
 
   const handleUpdate = async (formData: FormData) => {
     // @ts-ignore
@@ -53,6 +79,7 @@ function ProductDetailPage() {
       score: formData.get("score") ? Number(formData.get("score")) : 0,
       mbp: formData.get("mbp") ? Number(formData.get("mbp")) : null,
       imageUrl: (formData.get("imageUrl") as string) || null,
+      quantity: data?.body.quantity || 0,
     };
 
     try {
@@ -60,6 +87,34 @@ function ProductDetailPage() {
         params: { id: productId },
         body: updatedProduct,
       });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleInventoryUpdate = async () => {
+    if (!data?.body) return;
+
+    const currentQuantity = data.body.quantity;
+    const newQuantity =
+      inventoryAction === "add"
+        ? currentQuantity + inventoryAmount
+        : currentQuantity - inventoryAmount;
+
+    if (newQuantity < 0) {
+      alert("Cannot have negative inventory");
+      return;
+    }
+
+    try {
+      await updateProductMutation.mutateAsync({
+        params: { id: productId },
+        body: {
+          quantity: newQuantity,
+        },
+      });
+      setInventoryDialogOpen(false);
+      setInventoryAmount(0);
     } catch (error) {
       console.error(error);
     }
@@ -94,6 +149,74 @@ function ProductDetailPage() {
               <Button onClick={() => setIsEditing(true)}>Edit</Button>
             </>
           )}
+        </div>
+      </div>
+
+      <div className="mb-6 p-4 border rounded-lg">
+        <div className="flex justify-between items-center">
+          <div>
+            <h3 className="font-semibold">Current Inventory</h3>
+            <p className="text-2xl font-bold">{product.quantity} units</p>
+          </div>
+          <Dialog
+            open={inventoryDialogOpen}
+            onOpenChange={setInventoryDialogOpen}
+          >
+            <DialogTrigger asChild>
+              <Button variant="outline">Update Inventory</Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Update Inventory</DialogTitle>
+              </DialogHeader>
+              <div className="space-y-4">
+                <div className="flex space-x-4">
+                  <Button
+                    variant={inventoryAction === "add" ? "default" : "outline"}
+                    onClick={() => setInventoryAction("add")}
+                  >
+                    Add to Inventory
+                  </Button>
+                  <Button
+                    variant={
+                      inventoryAction === "remove" ? "default" : "outline"
+                    }
+                    onClick={() => setInventoryAction("remove")}
+                  >
+                    Remove from Inventory
+                  </Button>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-2">
+                    Amount to {inventoryAction}
+                  </label>
+                  <Input
+                    type="number"
+                    min={0}
+                    value={inventoryAmount || ""}
+                    onChange={(e) => setInventoryAmount(Number(e.target.value))}
+                  />
+                </div>
+                <div className="flex justify-end space-x-2">
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      setInventoryDialogOpen(false);
+                      setInventoryAmount(0);
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    onClick={handleInventoryUpdate}
+                    disabled={inventoryAmount <= 0}
+                  >
+                    {inventoryAction === "add" ? "Add" : "Remove"}
+                  </Button>
+                </div>
+              </div>
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
 
@@ -237,6 +360,20 @@ function ProductDetailPage() {
               name="mbp"
               type="number"
               defaultValue={product.mbp || ""}
+              readOnly={!isEditing}
+              className={!isEditing ? "bg-muted" : ""}
+            />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-3 gap-4">
+          <div>
+            <h3 className="font-semibold">Available Quantity</h3>
+            <Input
+              name="quantity"
+              type="number"
+              min={0}
+              defaultValue={product.quantity}
               readOnly={!isEditing}
               className={!isEditing ? "bg-muted" : ""}
             />

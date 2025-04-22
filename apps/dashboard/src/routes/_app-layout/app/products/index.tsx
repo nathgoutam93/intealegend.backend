@@ -39,9 +39,11 @@ function ProductsPage() {
               <TableHead>Grade</TableHead>
               <TableHead>Wt/Pkg</TableHead>
               <TableHead>Sample Wt.</TableHead>
-              <TableHead>Score</TableHead>
               <TableHead>MBP</TableHead>
+              <TableHead>Pkgs</TableHead>
+              <TableHead>Total Wt.</TableHead>
               <TableHead className="text-right">Price/Kg (₹)</TableHead>
+              <TableHead className="text-right">Status</TableHead>
               <TableHead>Location</TableHead>
               <TableHead>Origin</TableHead>
               <TableHead>Production</TableHead>
@@ -71,12 +73,17 @@ function ProductsPage() {
                 <TableCell>{product.grade}</TableCell>
                 <TableCell>{product.weightPerUnit} kg</TableCell>
                 <TableCell>{product.sampleWeight} kg</TableCell>
-                <TableCell>{product.score.toFixed(1)}</TableCell>
                 <TableCell>{product.mbp}</TableCell>
+                <TableCell>{product.quantity}</TableCell>
+                <TableCell>
+                  {product.quantity * product.weightPerUnit} kg
+                </TableCell>
                 <TableCell className="text-right">
                   {product.pricePerUnit.toLocaleString("en-IN")}
                 </TableCell>
-
+                <TableCell>
+                  {product.isLive ? "Live" : product.status}
+                </TableCell>
                 <TableCell>{product.location}</TableCell>
                 <TableCell>{product.origin}</TableCell>
                 <TableCell>

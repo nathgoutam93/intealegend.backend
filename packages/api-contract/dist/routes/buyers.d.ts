@@ -304,6 +304,7 @@ export declare const buyersRouter: {
                 origin: z.ZodString;
                 pricePerUnit: z.ZodNumber;
                 mbp: z.ZodNullable<z.ZodNumber>;
+                quantity: z.ZodNumber;
                 score: z.ZodNumber;
                 appearanceScore: z.ZodNumber;
                 liquorScore: z.ZodNumber;
@@ -371,6 +372,7 @@ export declare const buyersRouter: {
                 origin: string;
                 pricePerUnit: number;
                 mbp: number | null;
+                quantity: number;
                 score: number;
                 appearanceScore: number;
                 liquorScore: number;
@@ -412,6 +414,7 @@ export declare const buyersRouter: {
                 origin: string;
                 pricePerUnit: number;
                 mbp: number | null;
+                quantity: number;
                 score: number;
                 appearanceScore: number;
                 liquorScore: number;
@@ -458,11 +461,11 @@ export declare const buyersRouter: {
                 productId: z.ZodString;
                 quantity: z.ZodNumber;
             }, "strip", z.ZodTypeAny, {
-                productId: string;
                 quantity: number;
+                productId: string;
             }, {
-                productId: string;
                 quantity: number;
+                productId: string;
             }>, "many">;
             404: z.ZodObject<{
                 message: z.ZodString;
@@ -485,11 +488,11 @@ export declare const buyersRouter: {
             productId: z.ZodString;
             quantity: z.ZodNumber;
         }, "strip", z.ZodTypeAny, {
-            productId: string;
             quantity: number;
+            productId: string;
         }, {
-            productId: string;
             quantity: number;
+            productId: string;
         }>;
         path: "/cart";
         responses: {
@@ -497,11 +500,11 @@ export declare const buyersRouter: {
                 productId: z.ZodString;
                 quantity: z.ZodNumber;
             }, "strip", z.ZodTypeAny, {
-                productId: string;
                 quantity: number;
+                productId: string;
             }, {
-                productId: string;
                 quantity: number;
+                productId: string;
             }>, "many">;
             400: z.ZodObject<{
                 message: z.ZodString;
@@ -533,11 +536,11 @@ export declare const buyersRouter: {
                 productId: z.ZodString;
                 quantity: z.ZodNumber;
             }, "strip", z.ZodTypeAny, {
-                productId: string;
                 quantity: number;
+                productId: string;
             }, {
-                productId: string;
                 quantity: number;
+                productId: string;
             }>, "many">;
             404: z.ZodObject<{
                 message: z.ZodString;
@@ -562,11 +565,11 @@ export declare const buyersRouter: {
                 productId: z.ZodString;
                 quantity: z.ZodNumber;
             }, "strip", z.ZodTypeAny, {
-                productId: string;
                 quantity: number;
+                productId: string;
             }, {
-                productId: string;
                 quantity: number;
+                productId: string;
             }>, "many">;
             404: z.ZodObject<{
                 message: z.ZodString;
@@ -590,23 +593,23 @@ export declare const buyersRouter: {
                 productId: z.ZodString;
                 quantity: z.ZodNumber;
             }, "strip", z.ZodTypeAny, {
-                productId: string;
                 quantity: number;
+                productId: string;
             }, {
-                productId: string;
                 quantity: number;
+                productId: string;
             }>, "many">;
             shippingAddress: z.ZodString;
         }, "strip", z.ZodTypeAny, {
             items: {
-                productId: string;
                 quantity: number;
+                productId: string;
             }[];
             shippingAddress: string;
         }, {
             items: {
-                productId: string;
                 quantity: number;
+                productId: string;
             }[];
             shippingAddress: string;
         }>;
@@ -636,9 +639,9 @@ export declare const buyersRouter: {
                     id: number;
                     createdAt: Date;
                     updatedAt: Date;
+                    quantity: number;
                     orderId: number;
                     productId: number;
-                    quantity: number;
                     unitPrice: number;
                     totalPrice: number;
                     totalWeight: number;
@@ -646,9 +649,9 @@ export declare const buyersRouter: {
                     id: number;
                     createdAt: Date;
                     updatedAt: Date;
+                    quantity: number;
                     orderId: number;
                     productId: number;
-                    quantity: number;
                     unitPrice: number;
                     totalPrice: number;
                     totalWeight: number;
@@ -664,9 +667,9 @@ export declare const buyersRouter: {
                     id: number;
                     createdAt: Date;
                     updatedAt: Date;
+                    quantity: number;
                     orderId: number;
                     productId: number;
-                    quantity: number;
                     unitPrice: number;
                     totalPrice: number;
                     totalWeight: number;
@@ -686,9 +689,9 @@ export declare const buyersRouter: {
                     id: number;
                     createdAt: Date;
                     updatedAt: Date;
+                    quantity: number;
                     orderId: number;
                     productId: number;
-                    quantity: number;
                     unitPrice: number;
                     totalPrice: number;
                     totalWeight: number;
@@ -745,9 +748,9 @@ export declare const buyersRouter: {
                     id: number;
                     createdAt: Date;
                     updatedAt: Date;
+                    quantity: number;
                     orderId: number;
                     productId: number;
-                    quantity: number;
                     unitPrice: number;
                     totalPrice: number;
                     totalWeight: number;
@@ -755,9 +758,9 @@ export declare const buyersRouter: {
                     id: number;
                     createdAt: Date;
                     updatedAt: Date;
+                    quantity: number;
                     orderId: number;
                     productId: number;
-                    quantity: number;
                     unitPrice: number;
                     totalPrice: number;
                     totalWeight: number;
@@ -773,9 +776,9 @@ export declare const buyersRouter: {
                     id: number;
                     createdAt: Date;
                     updatedAt: Date;
+                    quantity: number;
                     orderId: number;
                     productId: number;
-                    quantity: number;
                     unitPrice: number;
                     totalPrice: number;
                     totalWeight: number;
@@ -795,9 +798,9 @@ export declare const buyersRouter: {
                     id: number;
                     createdAt: Date;
                     updatedAt: Date;
+                    quantity: number;
                     orderId: number;
                     productId: number;
-                    quantity: number;
                     unitPrice: number;
                     totalPrice: number;
                     totalWeight: number;
@@ -854,9 +857,9 @@ export declare const buyersRouter: {
                     id: number;
                     createdAt: Date;
                     updatedAt: Date;
+                    quantity: number;
                     orderId: number;
                     productId: number;
-                    quantity: number;
                     unitPrice: number;
                     totalPrice: number;
                     totalWeight: number;
@@ -864,9 +867,9 @@ export declare const buyersRouter: {
                     id: number;
                     createdAt: Date;
                     updatedAt: Date;
+                    quantity: number;
                     orderId: number;
                     productId: number;
-                    quantity: number;
                     unitPrice: number;
                     totalPrice: number;
                     totalWeight: number;
@@ -882,9 +885,9 @@ export declare const buyersRouter: {
                     id: number;
                     createdAt: Date;
                     updatedAt: Date;
+                    quantity: number;
                     orderId: number;
                     productId: number;
-                    quantity: number;
                     unitPrice: number;
                     totalPrice: number;
                     totalWeight: number;
@@ -904,9 +907,9 @@ export declare const buyersRouter: {
                     id: number;
                     createdAt: Date;
                     updatedAt: Date;
+                    quantity: number;
                     orderId: number;
                     productId: number;
-                    quantity: number;
                     unitPrice: number;
                     totalPrice: number;
                     totalWeight: number;

@@ -71,6 +71,7 @@ function NewProductPage() {
       infusionScore: 0,
       gradingScore: 0,
       volumeScore: 0,
+      quantity: 0,
     },
   });
 
@@ -254,7 +255,12 @@ function NewProductPage() {
                     <Input
                       type="number"
                       {...field}
-                      onChange={(e) => field.onChange(Number(e.target.value))}
+                      value={field.value || ""}
+                      onChange={(e) =>
+                        field.onChange(
+                          e.target.value === "" ? 0 : Number(e.target.value)
+                        )
+                      }
                     />
                   </FormControl>
                   <FormMessage />
@@ -274,7 +280,7 @@ function NewProductPage() {
                       value={field.value ?? ""}
                       onChange={(e) =>
                         field.onChange(
-                          e.target.value ? Number(e.target.value) : null
+                          e.target.value === "" ? null : Number(e.target.value)
                         )
                       }
                     />
@@ -450,7 +456,12 @@ function NewProductPage() {
                     <Input
                       type="number"
                       {...field}
-                      onChange={(e) => field.onChange(Number(e.target.value))}
+                      value={field.value || ""}
+                      onChange={(e) =>
+                        field.onChange(
+                          e.target.value === "" ? 0 : Number(e.target.value)
+                        )
+                      }
                     />
                   </FormControl>
                   <FormMessage />
@@ -471,7 +482,33 @@ function NewProductPage() {
                       value={field.value ?? ""}
                       onChange={(e) =>
                         field.onChange(
-                          e.target.value ? Number(e.target.value) : null
+                          e.target.value === "" ? null : Number(e.target.value)
+                        )
+                      }
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          <div className="grid grid-cols-3 gap-4">
+            <FormField
+              control={form.control}
+              name="quantity"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Available Quantity</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      min={0}
+                      {...field}
+                      value={field.value || ""}
+                      onChange={(e) =>
+                        field.onChange(
+                          e.target.value === "" ? 0 : Number(e.target.value)
                         )
                       }
                     />

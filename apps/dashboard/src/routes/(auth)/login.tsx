@@ -70,7 +70,7 @@ export default function RouteComponent() {
               <h2 className="text-2xl font-semibold text-gray-700">
                 Welcome Back
               </h2>
-              <p className="text-gray-600 mt-2">
+              <p className="hidden text-gray-600 mt-2">
                 Login to access your B2B trading account
               </p>
             </div>

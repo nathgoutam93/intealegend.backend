@@ -232,6 +232,9 @@ model Product {
     pricePerUnit Decimal // Price for a single package/unit
     mbp          Float? // Minimum Buying pkg
 
+    // Simple inventory tracking
+    quantity Int @default(0) // Total available quantity
+
     score           Float
     appearanceScore Float
     liquorScore     Float

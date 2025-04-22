@@ -23,6 +23,9 @@ export const ProductSchema = z.object({
   pricePerUnit: z.number(),
   mbp: z.number().nullable(),
 
+  // Simple inventory tracking
+  quantity: z.number().int(),
+
   score: z.number(),
   appearanceScore: z.number(),
   liquorScore: z.number(),

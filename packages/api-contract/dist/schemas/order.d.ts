@@ -13,9 +13,9 @@ export declare const OrderItemSchema: z.ZodObject<{
     id: number;
     createdAt: Date;
     updatedAt: Date;
+    quantity: number;
     orderId: number;
     productId: number;
-    quantity: number;
     unitPrice: number;
     totalPrice: number;
     totalWeight: number;
@@ -23,9 +23,9 @@ export declare const OrderItemSchema: z.ZodObject<{
     id: number;
     createdAt: Date;
     updatedAt: Date;
+    quantity: number;
     orderId: number;
     productId: number;
-    quantity: number;
     unitPrice: number;
     totalPrice: number;
     totalWeight: number;
@@ -54,9 +54,9 @@ export declare const OrderSchema: z.ZodObject<{
         id: number;
         createdAt: Date;
         updatedAt: Date;
+        quantity: number;
         orderId: number;
         productId: number;
-        quantity: number;
         unitPrice: number;
         totalPrice: number;
         totalWeight: number;
@@ -64,9 +64,9 @@ export declare const OrderSchema: z.ZodObject<{
         id: number;
         createdAt: Date;
         updatedAt: Date;
+        quantity: number;
         orderId: number;
         productId: number;
-        quantity: number;
         unitPrice: number;
         totalPrice: number;
         totalWeight: number;
@@ -82,9 +82,9 @@ export declare const OrderSchema: z.ZodObject<{
         id: number;
         createdAt: Date;
         updatedAt: Date;
+        quantity: number;
         orderId: number;
         productId: number;
-        quantity: number;
         unitPrice: number;
         totalPrice: number;
         totalWeight: number;
@@ -104,9 +104,9 @@ export declare const OrderSchema: z.ZodObject<{
         id: number;
         createdAt: Date;
         updatedAt: Date;
+        quantity: number;
         orderId: number;
         productId: number;
-        quantity: number;
         unitPrice: number;
         totalPrice: number;
         totalWeight: number;

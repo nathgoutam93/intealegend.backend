@@ -404,6 +404,7 @@ export declare const sellersRouter: {
                     origin: z.ZodString;
                     pricePerUnit: z.ZodNumber;
                     mbp: z.ZodNullable<z.ZodNumber>;
+                    quantity: z.ZodNumber;
                     score: z.ZodNumber;
                     appearanceScore: z.ZodNumber;
                     liquorScore: z.ZodNumber;
@@ -471,6 +472,7 @@ export declare const sellersRouter: {
                     origin: string;
                     pricePerUnit: number;
                     mbp: number | null;
+                    quantity: number;
                     score: number;
                     appearanceScore: number;
                     liquorScore: number;
@@ -512,6 +514,7 @@ export declare const sellersRouter: {
                     origin: string;
                     pricePerUnit: number;
                     mbp: number | null;
+                    quantity: number;
                     score: number;
                     appearanceScore: number;
                     liquorScore: number;
@@ -560,6 +563,7 @@ export declare const sellersRouter: {
                     origin: string;
                     pricePerUnit: number;
                     mbp: number | null;
+                    quantity: number;
                     score: number;
                     appearanceScore: number;
                     liquorScore: number;
@@ -606,6 +610,7 @@ export declare const sellersRouter: {
                     origin: string;
                     pricePerUnit: number;
                     mbp: number | null;
+                    quantity: number;
                     score: number;
                     appearanceScore: number;
                     liquorScore: number;
@@ -663,6 +668,7 @@ export declare const sellersRouter: {
             origin: z.ZodString;
             pricePerUnit: z.ZodNumber;
             mbp: z.ZodNullable<z.ZodNumber>;
+            quantity: z.ZodNumber;
             score: z.ZodNumber;
             appearanceScore: z.ZodNumber;
             liquorScore: z.ZodNumber;
@@ -726,6 +732,7 @@ export declare const sellersRouter: {
             origin: string;
             pricePerUnit: number;
             mbp: number | null;
+            quantity: number;
             score: number;
             appearanceScore: number;
             liquorScore: number;
@@ -751,6 +758,7 @@ export declare const sellersRouter: {
             origin: string;
             pricePerUnit: number;
             mbp: number | null;
+            quantity: number;
             score: number;
             appearanceScore: number;
             liquorScore: number;
@@ -779,6 +787,7 @@ export declare const sellersRouter: {
                 origin: z.ZodString;
                 pricePerUnit: z.ZodNumber;
                 mbp: z.ZodNullable<z.ZodNumber>;
+                quantity: z.ZodNumber;
                 score: z.ZodNumber;
                 appearanceScore: z.ZodNumber;
                 liquorScore: z.ZodNumber;
@@ -846,6 +855,7 @@ export declare const sellersRouter: {
                 origin: string;
                 pricePerUnit: number;
                 mbp: number | null;
+                quantity: number;
                 score: number;
                 appearanceScore: number;
                 liquorScore: number;
@@ -887,6 +897,7 @@ export declare const sellersRouter: {
                 origin: string;
                 pricePerUnit: number;
                 mbp: number | null;
+                quantity: number;
                 score: number;
                 appearanceScore: number;
                 liquorScore: number;
@@ -962,6 +973,7 @@ export declare const sellersRouter: {
             origin: z.ZodOptional<z.ZodString>;
             pricePerUnit: z.ZodOptional<z.ZodNumber>;
             mbp: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+            quantity: z.ZodOptional<z.ZodNumber>;
             score: z.ZodOptional<z.ZodNumber>;
             appearanceScore: z.ZodOptional<z.ZodNumber>;
             liquorScore: z.ZodOptional<z.ZodNumber>;
@@ -1021,6 +1033,7 @@ export declare const sellersRouter: {
             origin?: string | undefined;
             pricePerUnit?: number | undefined;
             mbp?: number | null | undefined;
+            quantity?: number | undefined;
             score?: number | undefined;
             appearanceScore?: number | undefined;
             liquorScore?: number | undefined;
@@ -1058,6 +1071,7 @@ export declare const sellersRouter: {
             origin?: string | undefined;
             pricePerUnit?: number | undefined;
             mbp?: number | null | undefined;
+            quantity?: number | undefined;
             score?: number | undefined;
             appearanceScore?: number | undefined;
             liquorScore?: number | undefined;
@@ -1098,6 +1112,7 @@ export declare const sellersRouter: {
                 origin: z.ZodString;
                 pricePerUnit: z.ZodNumber;
                 mbp: z.ZodNullable<z.ZodNumber>;
+                quantity: z.ZodNumber;
                 score: z.ZodNumber;
                 appearanceScore: z.ZodNumber;
                 liquorScore: z.ZodNumber;
@@ -1165,6 +1180,7 @@ export declare const sellersRouter: {
                 origin: string;
                 pricePerUnit: number;
                 mbp: number | null;
+                quantity: number;
                 score: number;
                 appearanceScore: number;
                 liquorScore: number;
@@ -1206,6 +1222,7 @@ export declare const sellersRouter: {
                 origin: string;
                 pricePerUnit: number;
                 mbp: number | null;
+                quantity: number;
                 score: number;
                 appearanceScore: number;
                 liquorScore: number;
@@ -1283,6 +1300,7 @@ export declare const sellersRouter: {
                 origin: z.ZodString;
                 pricePerUnit: z.ZodNumber;
                 mbp: z.ZodNullable<z.ZodNumber>;
+                quantity: z.ZodNumber;
                 score: z.ZodNumber;
                 appearanceScore: z.ZodNumber;
                 liquorScore: z.ZodNumber;
@@ -1350,6 +1368,7 @@ export declare const sellersRouter: {
                 origin: string;
                 pricePerUnit: number;
                 mbp: number | null;
+                quantity: number;
                 score: number;
                 appearanceScore: number;
                 liquorScore: number;
@@ -1391,6 +1410,7 @@ export declare const sellersRouter: {
                 origin: string;
                 pricePerUnit: number;
                 mbp: number | null;
+                quantity: number;
                 score: number;
                 appearanceScore: number;
                 liquorScore: number;
@@ -1496,9 +1516,9 @@ export declare const sellersRouter: {
                         id: number;
                         createdAt: Date;
                         updatedAt: Date;
+                        quantity: number;
                         orderId: number;
                         productId: number;
-                        quantity: number;
                         unitPrice: number;
                         totalPrice: number;
                         totalWeight: number;
@@ -1506,9 +1526,9 @@ export declare const sellersRouter: {
                         id: number;
                         createdAt: Date;
                         updatedAt: Date;
+                        quantity: number;
                         orderId: number;
                         productId: number;
-                        quantity: number;
                         unitPrice: number;
                         totalPrice: number;
                         totalWeight: number;
@@ -1524,9 +1544,9 @@ export declare const sellersRouter: {
                         id: number;
                         createdAt: Date;
                         updatedAt: Date;
+                        quantity: number;
                         orderId: number;
                         productId: number;
-                        quantity: number;
                         unitPrice: number;
                         totalPrice: number;
                         totalWeight: number;
@@ -1546,9 +1566,9 @@ export declare const sellersRouter: {
                         id: number;
                         createdAt: Date;
                         updatedAt: Date;
+                        quantity: number;
                         orderId: number;
                         productId: number;
-                        quantity: number;
                         unitPrice: number;
                         totalPrice: number;
                         totalWeight: number;
@@ -1577,9 +1597,9 @@ export declare const sellersRouter: {
                         id: number;
                         createdAt: Date;
                         updatedAt: Date;
+                        quantity: number;
                         orderId: number;
                         productId: number;
-                        quantity: number;
                         unitPrice: number;
                         totalPrice: number;
                         totalWeight: number;
@@ -1604,9 +1624,9 @@ export declare const sellersRouter: {
                         id: number;
                         createdAt: Date;
                         updatedAt: Date;
+                        quantity: number;
                         orderId: number;
                         productId: number;
-                        quantity: number;
                         unitPrice: number;
                         totalPrice: number;
                         totalWeight: number;
@@ -1679,9 +1699,9 @@ export declare const sellersRouter: {
                     id: number;
                     createdAt: Date;
                     updatedAt: Date;
+                    quantity: number;
                     orderId: number;
                     productId: number;
-                    quantity: number;
                     unitPrice: number;
                     totalPrice: number;
                     totalWeight: number;
@@ -1689,9 +1709,9 @@ export declare const sellersRouter: {
                     id: number;
                     createdAt: Date;
                     updatedAt: Date;
+                    quantity: number;
                     orderId: number;
                     productId: number;
-                    quantity: number;
                     unitPrice: number;
                     totalPrice: number;
                     totalWeight: number;
@@ -1707,9 +1727,9 @@ export declare const sellersRouter: {
                     id: number;
                     createdAt: Date;
                     updatedAt: Date;
+                    quantity: number;
                     orderId: number;
                     productId: number;
-                    quantity: number;
                     unitPrice: number;
                     totalPrice: number;
                     totalWeight: number;
@@ -1729,9 +1749,9 @@ export declare const sellersRouter: {
                     id: number;
                     createdAt: Date;
                     updatedAt: Date;
+                    quantity: number;
                     orderId: number;
                     productId: number;
-                    quantity: number;
                     unitPrice: number;
                     totalPrice: number;
                     totalWeight: number;
@@ -1808,9 +1828,9 @@ export declare const sellersRouter: {
                     id: number;
                     createdAt: Date;
                     updatedAt: Date;
+                    quantity: number;
                     orderId: number;
                     productId: number;
-                    quantity: number;
                     unitPrice: number;
                     totalPrice: number;
                     totalWeight: number;
@@ -1818,9 +1838,9 @@ export declare const sellersRouter: {
                     id: number;
                     createdAt: Date;
                     updatedAt: Date;
+                    quantity: number;
                     orderId: number;
                     productId: number;
-                    quantity: number;
                     unitPrice: number;
                     totalPrice: number;
                     totalWeight: number;
@@ -1836,9 +1856,9 @@ export declare const sellersRouter: {
                     id: number;
                     createdAt: Date;
                     updatedAt: Date;
+                    quantity: number;
                     orderId: number;
                     productId: number;
-                    quantity: number;
                     unitPrice: number;
                     totalPrice: number;
                     totalWeight: number;
@@ -1858,9 +1878,9 @@ export declare const sellersRouter: {
                     id: number;
                     createdAt: Date;
                     updatedAt: Date;
+                    quantity: number;
                     orderId: number;
                     productId: number;
-                    quantity: number;
                     unitPrice: number;
                     totalPrice: number;
                     totalWeight: number;
