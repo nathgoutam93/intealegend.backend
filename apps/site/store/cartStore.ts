@@ -11,6 +11,7 @@ export interface CartItem {
   totalPrice: number;
   totalWeight: number;
   mbp?: number;
+  maxAvailableWeight?: number;
 }
 
 interface CartState {
@@ -46,6 +47,15 @@ export const useCartStore = create<CartState>()(
             // If item exists, update its quantity
             const newQuantity = existingItem.quantity + item.quantity;
             const totalWeight = item.weightPerPkg * newQuantity;
+
+            // Check if new total weight exceeds the limit
+            if (totalWeight > existingItem.maxAvailableWeight!) {
+              alert(
+                "Cannot add more quantity - maximum available weight reached"
+              );
+              return state;
+            }
+
             const totalPrice = totalWeight * item.pricePerKg;
 
             return {
@@ -73,6 +83,7 @@ export const useCartStore = create<CartState>()(
                   totalPrice,
                   totalWeight,
                   mbp: item.mbp,
+                  maxAvailableWeight: item.maxAvailableWeight,
                 },
               ],
             };
@@ -87,23 +98,38 @@ export const useCartStore = create<CartState>()(
       },
 
       updateQuantity: (id, quantity) => {
-        set((state) => ({
-          items: state.items.map((item) => {
-            if (item.id === id) {
-              const mbp = item.mbp || 1;
-              const newQuantity = Math.max(quantity, mbp);
-              const totalWeight = item.weightPerPkg * newQuantity;
-              const totalPrice = totalWeight * item.pricePerKg;
-              return {
-                ...item,
-                quantity: newQuantity,
-                totalPrice,
-                totalWeight,
-              };
-            }
-            return item;
-          }),
-        }));
+        set((state) => {
+          const item = state.items.find((i) => i.id === id);
+          if (!item) return state;
+
+          const newQuantity = Math.max(quantity, item.mbp || 1);
+          const newTotalWeight = item.weightPerPkg * newQuantity;
+
+          // Prevent exceeding available weight
+          const maxAllowedWeight = item.maxAvailableWeight || Infinity;
+          if (newTotalWeight > maxAllowedWeight) {
+            alert(
+              "Cannot add more quantity - maximum available weight reached"
+            );
+            return state;
+          }
+
+          return {
+            items: state.items.map((i) => {
+              if (i.id === id) {
+                const totalWeight = item.weightPerPkg * newQuantity;
+                const totalPrice = totalWeight * item.pricePerKg;
+                return {
+                  ...i,
+                  quantity: newQuantity,
+                  totalPrice,
+                  totalWeight,
+                };
+              }
+              return i;
+            }),
+          };
+        });
       },
 
       calculateTotals: () => {

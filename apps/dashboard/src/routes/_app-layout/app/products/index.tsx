@@ -212,7 +212,9 @@ function ProductsPage() {
                 <TableCell>{product.mbp}</TableCell>
                 <TableCell>{product.quantity}</TableCell>
                 <TableCell>
-                  {product.quantity * product.weightPerUnit} kg
+                  {product.quantity * product.weightPerUnit -
+                    Number(product.sampleWeight)}{" "}
+                  kg
                 </TableCell>
                 <TableCell className="text-right">
                   {product.pricePerUnit.toLocaleString("en-IN")}

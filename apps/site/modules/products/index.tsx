@@ -89,6 +89,16 @@ function ProductList({}: Props) {
 
   const handleAddToCart = (product: any) => {
     const mbp = product.mbp || 1;
+    const maxAvailableWeight = (product.quantity * product.weightPerUnit) - Number(product.sampleWeight);
+    
+    const existingCartItem = useCartStore.getState().items.find(item => item.id === product.id.toString());
+    const currentCartWeight = existingCartItem?.totalWeight || 0;
+    
+    if (currentCartWeight >= maxAvailableWeight) {
+      alert("Cannot add more of this item - maximum available weight reached");
+      return;
+    }
+    
     addToCart({
       id: product.id.toString(),
       mark: product.brandMark.name,
@@ -97,6 +107,7 @@ function ProductList({}: Props) {
       weightPerPkg: product.weightPerUnit,
       quantity: mbp,
       mbp: mbp,
+      maxAvailableWeight: maxAvailableWeight,
     });
   };
 
@@ -213,7 +224,7 @@ function ProductList({}: Props) {
                 <TableCell>{product.mbp}</TableCell>
                 <TableCell>{product.quantity}</TableCell>
                 <TableCell>
-                  {product.quantity * product.weightPerUnit} kg
+                  {(product.quantity * product.weightPerUnit) - Number(product.sampleWeight)} kg
                 </TableCell>
                 <TableCell className="text-right">
                   {product.pricePerUnit.toLocaleString("en-IN")}
