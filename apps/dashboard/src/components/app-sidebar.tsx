@@ -8,7 +8,6 @@ import {
   User2,
   Package,
   ShoppingCart,
-  Settings,
 } from "lucide-react";
 import { useAuthStore } from "@/stores/auth.store";
 

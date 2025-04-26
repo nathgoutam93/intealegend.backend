@@ -77,20 +77,9 @@ function NewProductPage() {
 
   const onSubmit = async (data: ProductInput) => {
     try {
-      // Calculate total score from individual scores
-      const totalScore =
-        (data.appearanceScore +
-          data.liquorScore +
-          data.tasteScore +
-          data.infusionScore +
-          data.gradingScore +
-          data.volumeScore) /
-        6;
-
       const response = await createProduct.mutateAsync({
         body: {
           ...data,
-          score: totalScore,
         },
       });
       if (response.status === 201) {
