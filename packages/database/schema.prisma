@@ -235,7 +235,6 @@ model Product {
     // Simple inventory tracking
     quantity Int @default(0) // Total available quantity
 
-    score           Float
     appearanceScore Float
     liquorScore     Float
     tasteScore      Float

@@ -24,7 +24,6 @@ exports.ProductSchema = zod_1.default.object({
     mbp: zod_1.default.number().nullable(),
     // Simple inventory tracking
     quantity: zod_1.default.number().int(),
-    score: zod_1.default.number(),
     appearanceScore: zod_1.default.number(),
     liquorScore: zod_1.default.number(),
     tasteScore: zod_1.default.number(),

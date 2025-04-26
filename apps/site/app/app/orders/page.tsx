@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Header } from "@/components/Header";
+import Link from "next/link";
 export default function OrdersPage() {
   return (
     <div className="min-h-screen flex flex-col">
@@ -13,8 +14,8 @@ export default function OrdersPage() {
             <p className="text-gray-500 mb-6">
               You haven't placed any orders yet.
             </p>
-            <Button onClick={() => (window.location.href = "/explore")}>
-              Start Buying
+            <Button asChild>
+              <Link href={"/app/explore"}>Start Buying</Link>
             </Button>
           </div>
         </div>

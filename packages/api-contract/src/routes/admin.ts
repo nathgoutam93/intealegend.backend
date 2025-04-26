@@ -5,6 +5,7 @@ import {
   SellerProfileSchema,
   BuyerProfileSchema,
   AdminStatsSchema,
+  ProductSchema,
 } from "../schemas";
 import z from "zod";
 
@@ -80,6 +81,57 @@ export const adminRouter = c.router({
       }),
       401: ErrorSchema,
       403: ErrorSchema,
+    },
+  },
+  getProducts: {
+    method: "GET",
+    path: "/admin/products",
+    query: z.object({
+      offset: z.string().optional().default("0"),
+      limit: z.string().optional().default("10"),
+      search: z.string().optional(),
+      sortBy: z.enum(["price", "createdAt", "name"]).optional(),
+      sortOrder: z.enum(["asc", "desc"]).optional(),
+      status: z.enum(["published", "draft"]).optional(),
+    }),
+    responses: {
+      200: z.object({
+        data: z.array(ProductSchema),
+        total: z.number(),
+        offset: z.number(),
+        limit: z.number(),
+      }),
+      401: ErrorSchema,
+    },
+  },
+  updateProduct: {
+    method: "PATCH",
+    path: "/admin/products/:id",
+    pathParams: z.object({
+      id: z.string(),
+    }),
+    body: ProductSchema.omit({
+      id: true,
+      sellerId: true,
+      createdAt: true,
+      updatedAt: true,
+    }).partial(),
+    responses: {
+      200: ProductSchema,
+      401: ErrorSchema,
+      404: ErrorSchema,
+    },
+  },
+  getProduct: {
+    method: "GET",
+    path: "/admin/products/:id",
+    pathParams: z.object({
+      id: z.string(),
+    }),
+    responses: {
+      200: ProductSchema,
+      401: ErrorSchema,
+      404: ErrorSchema,
     },
   },
 });

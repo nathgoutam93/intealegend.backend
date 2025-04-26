@@ -4,11 +4,11 @@ import {
   ChartBar,
   ClipboardList,
   Clock2,
+  Notebook,
   Package,
   Package2,
   ShieldCheck,
   ShieldUser,
-  Store,
 } from "lucide-react";
 import client from "@/api-client";
 import { useAuthStore } from "@/stores/auth.store";
@@ -35,8 +35,8 @@ const SellerDash = () => {
     <div className="p-8 space-y-8">
       {/* Sales Section */}
       <div>
-        <h2 className="text-xl font-semibold mb-4">Sales</h2>
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-2">
+        <h2 className="text-xl font-semibold mb-4">Orders</h2>
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <Link to="/app/orders" className="block">
             <Card className="hover:bg-muted/50 transition-colors">
               <CardContent className="flex items-center gap-4 p-6">
@@ -71,7 +71,7 @@ const SellerDash = () => {
       {/* Products Section */}
       <div>
         <h2 className="text-xl font-semibold mb-4">Products</h2>
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-2">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <Link to="/app/products" className="block">
             <Card className="hover:bg-muted/50 transition-colors">
               <CardContent className="flex items-center gap-4 p-6">
@@ -80,7 +80,7 @@ const SellerDash = () => {
                 </div>
                 <div>
                   <h2 className="text-2xl font-bold">
-                    {data.body.totalProducts}
+                    {data.body.products.listed}
                   </h2>
                   <p className="text-muted-foreground">Listed Products</p>
                 </div>
@@ -94,7 +94,9 @@ const SellerDash = () => {
                   <Package2 className="w-8 h-8 text-primary" />
                 </div>
                 <div>
-                  <h2 className="text-2xl font-bold">0</h2>
+                  <h2 className="text-2xl font-bold">
+                    {data.body.products.total - data.body.products.listed}
+                  </h2>
                   <p className="text-muted-foreground">Products in Draft</p>
                 </div>
               </CardContent>
@@ -111,71 +113,21 @@ const AdminDash = () => {
   if (isLoading) return <div>loading...</div>;
   if (!data || data.status !== 200) return <div>something went wrong</div>;
 
-  // Dummy data for cards
-  const dummyData = {
-    sales: {
-      totalSales: "₹0.00",
-      pendingOrders: 0,
-    },
-    products: {
-      liveProducts: 1,
-      draftProducts: 0,
-    },
-    brands: {
-      verifiedBrands: 1,
-      pendingBrands: 1,
-    },
-  };
-
   return (
     <div className="p-8 space-y-8">
-      <div className="flex justify-end">
+      <div className="flex justify-end gap-4">
+        <Button className="gap-2">
+          <Notebook /> <span>Deal Book</span>
+        </Button>
         <Button className="gap-2">
           <ClipboardList /> <span>Market Report</span>
         </Button>
       </div>
 
-      {/* Sales Section */}
-      <div>
-        <h2 className="text-xl font-semibold mb-4">Sales</h2>
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-2">
-          <Link to="/app/orders" className="block">
-            <Card className="hover:bg-muted/50 transition-colors">
-              <CardContent className="flex items-center gap-4 p-6">
-                <div className="p-4 bg-primary/10 rounded-full">
-                  <ChartBar className="w-8 h-8 text-primary" />
-                </div>
-                <div>
-                  <h2 className="text-2xl font-bold">
-                    {dummyData.sales.totalSales}
-                  </h2>
-                  <p className="text-muted-foreground">Total Sales</p>
-                </div>
-              </CardContent>
-            </Card>
-          </Link>
-          <Link to="/app/orders" className="block">
-            <Card className="hover:bg-muted/50 transition-colors">
-              <CardContent className="flex items-center gap-4 p-6">
-                <div className="p-4 bg-primary/10 rounded-full">
-                  <Clock2 className="w-8 h-8 text-primary" />
-                </div>
-                <div>
-                  <h2 className="text-2xl font-bold">
-                    {dummyData.sales.pendingOrders}
-                  </h2>
-                  <p className="text-muted-foreground">Pending Orders</p>
-                </div>
-              </CardContent>
-            </Card>
-          </Link>
-        </div>
-      </div>
-
       {/* Products Section */}
       <div>
         <h2 className="text-xl font-semibold mb-4">Products</h2>
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-2">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <Link to="/app/products" className="block">
             <Card className="hover:bg-muted/50 transition-colors">
               <CardContent className="flex items-center gap-4 p-6">
@@ -184,7 +136,7 @@ const AdminDash = () => {
                 </div>
                 <div>
                   <h2 className="text-2xl font-bold">
-                    {dummyData.products.liveProducts}
+                    {data.body.products.listed}
                   </h2>
                   <p className="text-muted-foreground">Live Products</p>
                 </div>
@@ -199,9 +151,46 @@ const AdminDash = () => {
                 </div>
                 <div>
                   <h2 className="text-2xl font-bold">
-                    {dummyData.products.draftProducts}
+                    {data.body.products.pending}
                   </h2>
                   <p className="text-muted-foreground">Products in Draft</p>
+                </div>
+              </CardContent>
+            </Card>
+          </Link>
+        </div>
+      </div>
+
+      {/* Sales Section */}
+      <div>
+        <h2 className="text-xl font-semibold mb-4">Orders</h2>
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          {/* <Link to="/app/orders" className="block">
+            <Card className="hover:bg-muted/50 transition-colors">
+              <CardContent className="flex items-center gap-4 p-6">
+                <div className="p-4 bg-primary/10 rounded-full">
+                  <ChartBar className="w-8 h-8 text-primary" />
+                </div>
+                <div>
+                  <h2 className="text-2xl font-bold">
+                    {dummyData.sales.totalSales}
+                  </h2>
+                  <p className="text-muted-foreground">Total Sales</p>
+                </div>
+              </CardContent>
+            </Card>
+          </Link> */}
+          <Link to="/app/orders" className="block">
+            <Card className="hover:bg-muted/50 transition-colors">
+              <CardContent className="flex items-center gap-4 p-6">
+                <div className="p-4 bg-primary/10 rounded-full">
+                  <Clock2 className="w-8 h-8 text-primary" />
+                </div>
+                <div>
+                  <h2 className="text-2xl font-bold">
+                    {data.body.orders.pending}
+                  </h2>
+                  <p className="text-muted-foreground">Pending Orders</p>
                 </div>
               </CardContent>
             </Card>
@@ -212,7 +201,7 @@ const AdminDash = () => {
       {/* Users Section */}
       <div>
         <h2 className="text-xl font-semibold mb-4">Users</h2>
-        <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-3">
+        <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-3">
           <Link to="/app/sellers" className="block">
             <Card className="hover:bg-muted/50 transition-colors">
               <CardContent className="flex items-center gap-4 p-6">
@@ -221,7 +210,7 @@ const AdminDash = () => {
                 </div>
                 <div>
                   <h2 className="text-2xl font-bold">
-                    {data.body.totalSellers}
+                    {data.body.users.seller}
                   </h2>
                   <p className="text-muted-foreground">Verified Sellers</p>
                 </div>
@@ -236,7 +225,7 @@ const AdminDash = () => {
                 </div>
                 <div>
                   <h2 className="text-2xl font-bold">
-                    {data.body.totalBuyers}
+                    {data.body.users.buyer}
                   </h2>
                   <p className="text-muted-foreground">Verified Buyers</p>
                 </div>
@@ -251,7 +240,7 @@ const AdminDash = () => {
                 </div>
                 <div>
                   <h2 className="text-2xl font-bold">
-                    {data.body.totalPendingVerifications}
+                    {data.body.users.pending}
                   </h2>
                   <p className="text-muted-foreground">Pending Registrations</p>
                 </div>
@@ -262,9 +251,9 @@ const AdminDash = () => {
       </div>
 
       {/* Brands Section */}
-      <div>
+      {/* <div>
         <h2 className="text-xl font-semibold mb-4">Brands</h2>
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-2">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <Link to="/app/brands" className="block">
             <Card className="hover:bg-muted/50 transition-colors">
               <CardContent className="flex items-center gap-4 p-6">
@@ -296,7 +285,7 @@ const AdminDash = () => {
             </Card>
           </Link>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

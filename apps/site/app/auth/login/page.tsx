@@ -25,7 +25,7 @@ export default function LoginPage() {
     onSuccess: (response) => {
       setAuth(response.body.accessToken, response.body.user);
       toast.success("Login successful");
-      router.push("/explore");
+      router.push("/app/explore");
     },
     onError: (error: any) => {
       toast.error("Login failed", {

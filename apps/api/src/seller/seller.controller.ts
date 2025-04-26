@@ -58,29 +58,16 @@ export class SellerController {
         };
       },
       getProducts: async ({
-        query: {
-          limit,
-          offset,
-          search,
-          grade,
-          origin,
-          sortBy,
-          sortOrder,
-          minPrice,
-          maxPrice,
-        },
+        query: { limit, offset, search, sortBy, sortOrder, status },
       }) => {
         const products = await this.sellerService.getProducts({
           sellerId: req.seller.id,
           limit: limit ? parseInt(limit) : undefined,
           offset: offset ? parseInt(offset) : undefined,
           search,
-          grade,
-          origin,
           sortBy,
           sortOrder: sortOrder as 'asc' | 'desc',
-          minPrice: minPrice ? parseFloat(minPrice) : undefined,
-          maxPrice: maxPrice ? parseFloat(maxPrice) : undefined,
+          status,
         });
 
         return {

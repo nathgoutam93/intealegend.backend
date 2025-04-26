@@ -26,7 +26,6 @@ export const ProductSchema = z.object({
   // Simple inventory tracking
   quantity: z.number().int(),
 
-  score: z.number(),
   appearanceScore: z.number(),
   liquorScore: z.number(),
   tasteScore: z.number(),

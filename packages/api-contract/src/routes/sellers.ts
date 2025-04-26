@@ -52,10 +52,7 @@ export const sellersRouter = c.router({
       search: z.string().optional(),
       sortBy: z.enum(["price", "createdAt", "name"]).optional(),
       sortOrder: z.enum(["asc", "desc"]).optional(),
-      minPrice: z.string().optional(),
-      maxPrice: z.string().optional(),
-      grade: z.string().optional(),
-      origin: z.string().optional(),
+      status: z.enum(["published", "draft"]).optional(),
     }),
     responses: {
       200: z.object({

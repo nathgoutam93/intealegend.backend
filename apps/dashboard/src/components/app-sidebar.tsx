@@ -46,11 +46,11 @@ const navigationConfig: {
         url: "/app/buyers",
         icon: User2,
       },
-      {
-        name: "Settings",
-        url: "/app/settings",
-        icon: Settings,
-      },
+      // {
+      //   name: "Settings",
+      //   url: "/app/settings",
+      //   icon: Settings,
+      // },
     ],
   },
   seller: {

@@ -1,5 +1,5 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { PrismaClient } from '@intealegend/database';
+import { PrismaClient, Prisma } from '@intealegend/database';
 import { PRISMA_TOKEN } from 'src/database/constants';
 import { generateUniqueIdentifier } from 'src/utils/identifier';
 import { MailService } from 'src/mail/mail.service';
@@ -40,19 +40,60 @@ export class AdminService {
   }
 
   async getStats() {
-    const [totalUsers, totalSellers, totalBuyers, totalPendingVerifications] =
-      await Promise.all([
-        this.db.user.count(),
-        this.db.user.count({ where: { role: 'SELLER', verified: true } }),
-        this.db.user.count({ where: { role: 'BUYER', verified: true } }),
-        this.db.user.count({ where: { verified: false } }),
-      ]);
-
-    return {
+    const [
       totalUsers,
       totalSellers,
       totalBuyers,
-      totalPendingVerifications,
+      pendingUsers,
+      totalProducts,
+      totalListed,
+      pendingProducts,
+      totalOrders,
+      pendingOrders,
+    ] = await Promise.all([
+      this.db.user.count(),
+      this.db.user.count({ where: { role: 'SELLER', verified: true } }),
+      this.db.user.count({ where: { role: 'BUYER', verified: true } }),
+      this.db.user.count({ where: { verified: false } }),
+      this.db.product.count(),
+      this.db.product.count({
+        where: {
+          isLive: true,
+        },
+      }),
+      this.db.product.count({
+        where: {
+          status: 'PENDING',
+        },
+      }),
+      this.db.order.count({
+        where: {
+          status: 'DELIVERED',
+        },
+      }),
+      this.db.order.count({
+        where: {
+          status: 'PENDING',
+        },
+      }),
+    ]);
+
+    return {
+      users: {
+        total: totalUsers,
+        seller: totalSellers,
+        buyer: totalBuyers,
+        pending: pendingUsers,
+      },
+      products: {
+        total: totalProducts,
+        listed: totalListed,
+        pending: pendingProducts,
+      },
+      orders: {
+        total: totalOrders,
+        pending: pendingOrders,
+      },
     };
   }
 
@@ -205,6 +246,90 @@ export class AdminService {
     return {
       message: 'Users verified successfully',
       verifiedUsers: verifiedUsers.length,
+    };
+  }
+
+  async updateProduct(id: number, data: any) {
+    const product = await this.db.product.update({
+      where: { id },
+      data,
+      include: {
+        brandMark: true,
+      },
+    });
+
+    return {
+      ...product,
+      pricePerUnit: product.pricePerUnit.toNumber(),
+    };
+  }
+
+  async getProduct(id: number) {
+    const product = await this.db.product.findUnique({
+      where: { id },
+      include: {
+        brandMark: true,
+      },
+    });
+
+    if (!product) {
+      throw new Error('Product not found');
+    }
+
+    return {
+      ...product,
+      pricePerUnit: product.pricePerUnit.toNumber(),
+    };
+  }
+
+  async getProducts(query: {
+    limit?: number;
+    offset?: number;
+    search?: string;
+    sortBy?: 'price' | 'createdAt' | 'name';
+    sortOrder?: 'asc' | 'desc';
+    status?: 'draft' | 'published';
+  }) {
+    const { limit = 10, offset = 0, search, sortBy, sortOrder, status } = query;
+
+    const where: Prisma.ProductWhereInput = {
+      ...(search && {
+        OR: [
+          {
+            brandMark: {
+              name: { contains: search, mode: Prisma.QueryMode.insensitive },
+            },
+          },
+        ],
+      }),
+      ...(status && { isLive: status === 'published' }),
+    };
+
+    let orderBy = sortBy ? { price: 'pricePerUnit' }[sortBy] : undefined;
+
+    const [products, total] = await this.db.$transaction([
+      this.db.product.findMany({
+        where,
+        orderBy: {
+          [orderBy]: sortOrder,
+        },
+        take: limit,
+        skip: offset,
+        include: {
+          brandMark: true,
+        },
+      }),
+      this.db.product.count({ where }),
+    ]);
+
+    return {
+      data: products.map((p) => ({
+        ...p,
+        pricePerUnit: p.pricePerUnit.toNumber(),
+      })),
+      total,
+      limit,
+      offset,
     };
   }
 }

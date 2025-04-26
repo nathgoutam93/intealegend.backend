@@ -1,18 +1,32 @@
 import { useCartStore, CartItem } from "@/store/cartStore";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Minus, Plus, Trash2 } from "lucide-react";
+import { Minus, Plus, Trash2, Info } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export function CartSummary() {
   const { items, removeItem, updateQuantity, calculateTotals } = useCartStore();
-  const { subtotal, totalWeight, totalAmount, totalWeightWithSample } =
-    calculateTotals();
+  const { subtotal, totalWeight, totalAmount } = calculateTotals();
 
   const handleQuantityChange = (item: CartItem, newQuantity: number) => {
     if (newQuantity >= 1) {
       updateQuantity(item.id, newQuantity);
     }
   };
+
+  // Calculate shipping based on weight (20 INR per kg, min 200 INR, max 600 INR)
+  const shipping = Math.min(Math.max(totalWeight * 20, 200), 600);
+
+  // Calculate GST (5% of subtotal)
+  const gst = subtotal * 0.05;
+
+  // Calculate total amount
+  const finalTotal = subtotal + shipping + gst;
 
   return (
     <div className="flex gap-6">
@@ -69,9 +83,6 @@ export function CartSummary() {
               <div className="text-right">
                 <div className="text-sm text-gray-500">
                   <div>Net Weight: {item.totalWeight}kg</div>
-                  <div>
-                    Total Weight (with sample): {item.totalWeightWithSample}kg
-                  </div>
                 </div>
                 <div className="font-medium">
                   ₹{(item.totalPrice || 0).toFixed(2)}
@@ -87,37 +98,41 @@ export function CartSummary() {
         <div className="bg-gray-50 rounded-lg p-4 space-y-2 text-sm sticky top-4">
           <h2 className="text-lg font-semibold mb-4">Order Summary</h2>
           <div className="flex justify-between">
-            <span>Subtotal</span>
-            <span>₹{subtotal.toFixed(2)}</span>
+            <span>Total Packages</span>
+            <span>{items.reduce((sum, item) => sum + item.quantity, 0)}</span>
           </div>
           <div className="flex justify-between">
             <span>Net Weight</span>
             <span>{totalWeight}kg</span>
           </div>
           <div className="flex justify-between">
-            <span>Total Weight (with sample)</span>
-            <span>{totalWeightWithSample}kg</span>
+            <span>Subtotal</span>
+            <span>₹{subtotal.toFixed(2)}</span>
+          </div>
+          <div className="flex justify-between items-center">
+            <div className="flex items-center gap-1">
+              <span>Shipping (₹20/kg)</span>
+              <TooltipProvider delayDuration={200}>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <Info className="h-4 w-4 text-gray-400" />
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Minimum ₹200, Maximum ₹600</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
+            <span>₹{shipping.toFixed(2)}</span>
           </div>
           <div className="flex justify-between">
-            <span>Shipping</span>
-            <span>₹0.00</span>
-          </div>
-          <div className="flex justify-between">
-            <span>Other Charges</span>
-            <span>₹0.00</span>
-          </div>
-          <div className="flex justify-between">
-            <span>GST</span>
-            <span>₹0.00</span>
-          </div>
-          <div className="flex justify-between">
-            <span>Round Off</span>
-            <span>₹0.00</span>
+            <span>GST (5%)</span>
+            <span>₹{gst.toFixed(2)}</span>
           </div>
           <div className="border-t pt-2 mt-2 font-semibold">
             <div className="flex justify-between">
               <span>Total Amount</span>
-              <span>₹{totalAmount.toFixed(2)}</span>
+              <span>₹{finalTotal.toFixed(2)}</span>
             </div>
           </div>
           <div className="pt-4">

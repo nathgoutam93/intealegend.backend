@@ -5,7 +5,7 @@ const Footer = () => {
   return (
     <footer className="bg-gray-900 text-gray-300">
       <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
           <div>
             <Image
               src={"/assets/images/logo.png"}
@@ -24,11 +24,6 @@ const Footer = () => {
               <li>
                 <Link href="/" className="hover:text-white">
                   Home
-                </Link>
-              </li>
-              <li>
-                <Link href="/products" className="hover:text-white">
-                  Products
                 </Link>
               </li>
               <li>
@@ -59,6 +54,37 @@ const Footer = () => {
               <li>
                 <Link href="/account/seller" className="hover:text-white">
                   Become a Seller
+                </Link>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="text-lg font-semibold mb-4">FAQ</h4>
+            <ul className="space-y-2">
+              <li>
+                <Link href="#" className="hover:text-white">
+                  Tea Info
+                </Link>
+              </li>
+              <li>
+                <Link href="#" className="hover:text-white">
+                  Tea & Health
+                </Link>
+                <li></li>
+              </li>
+              <li>
+                <Link href="#" className="hover:text-white">
+                  Terms Of Use
+                </Link>
+              </li>
+              <li>
+                <Link href="#" className="hover:text-white">
+                  Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link href="#" className="hover:text-white">
+                  Shipping & Returns
                 </Link>
               </li>
             </ul>

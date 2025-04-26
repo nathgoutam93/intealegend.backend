@@ -80,4 +80,55 @@ exports.adminRouter = c.router({
             403: schemas_1.ErrorSchema,
         },
     },
+    getProducts: {
+        method: "GET",
+        path: "/admin/products",
+        query: zod_1.default.object({
+            offset: zod_1.default.string().optional().default("0"),
+            limit: zod_1.default.string().optional().default("10"),
+            search: zod_1.default.string().optional(),
+            sortBy: zod_1.default.enum(["price", "createdAt", "name"]).optional(),
+            sortOrder: zod_1.default.enum(["asc", "desc"]).optional(),
+            status: zod_1.default.enum(["published", "draft"]).optional(),
+        }),
+        responses: {
+            200: zod_1.default.object({
+                data: zod_1.default.array(schemas_1.ProductSchema),
+                total: zod_1.default.number(),
+                offset: zod_1.default.number(),
+                limit: zod_1.default.number(),
+            }),
+            401: schemas_1.ErrorSchema,
+        },
+    },
+    updateProduct: {
+        method: "PATCH",
+        path: "/admin/products/:id",
+        pathParams: zod_1.default.object({
+            id: zod_1.default.string(),
+        }),
+        body: schemas_1.ProductSchema.omit({
+            id: true,
+            sellerId: true,
+            createdAt: true,
+            updatedAt: true,
+        }).partial(),
+        responses: {
+            200: schemas_1.ProductSchema,
+            401: schemas_1.ErrorSchema,
+            404: schemas_1.ErrorSchema,
+        },
+    },
+    getProduct: {
+        method: "GET",
+        path: "/admin/products/:id",
+        pathParams: zod_1.default.object({
+            id: zod_1.default.string(),
+        }),
+        responses: {
+            200: schemas_1.ProductSchema,
+            401: schemas_1.ErrorSchema,
+            404: schemas_1.ErrorSchema,
+        },
+    },
 });

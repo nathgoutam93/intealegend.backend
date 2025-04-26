@@ -38,6 +38,12 @@ export class SellerService {
           sellerId: id,
         },
       }),
+      this.db.product.count({
+        where: {
+          sellerId: id,
+          isLive: true,
+        },
+      }),
       this.db.orderItem.count({
         where: {
           product: {
@@ -58,16 +64,19 @@ export class SellerService {
     ]);
 
     return {
-      totalProducts: stats[0],
-      totalOrders: stats[1],
-      totalSales: stats[2]._sum.totalPrice?.toNumber() || 0,
+      products: {
+        total: stats[0],
+        listed: stats[1],
+      },
+      totalOrders: stats[2],
+      totalSales: stats[3]._sum.totalPrice?.toNumber() || 0,
     };
   }
 
-  async getProduct(productId: number, sellerId: number) {
+  async getProduct(id: number, sellerId: number) {
     const product = await this.db.product.findFirst({
       where: {
-        id: productId,
+        id,
         sellerId,
       },
       include: {
@@ -76,54 +85,55 @@ export class SellerService {
     });
 
     if (!product) {
-      throw new NotFoundException('seller profile not found');
+      throw new NotFoundException('product not found');
     }
 
-    return { ...product, pricePerUnit: product.pricePerUnit.toNumber() };
+    return {
+      ...product,
+      pricePerUnit: product.pricePerUnit.toNumber(),
+    };
   }
 
-  async getProducts({
-    sellerId,
-    limit = 10,
-    offset = 0,
-    search,
-    grade,
-    origin,
-    sortBy = 'createdAt',
-    sortOrder = 'desc',
-    minPrice,
-    maxPrice,
-  }: {
+  async getProducts(query: {
     sellerId: number;
     limit?: number;
     offset?: number;
     search?: string;
-    grade?: string;
-    origin?: string;
-    sortBy?: string;
+    sortBy?: 'price' | 'createdAt' | 'name';
     sortOrder?: 'asc' | 'desc';
-    minPrice?: number;
-    maxPrice?: number;
+    status?: 'draft' | 'published';
   }) {
+    const {
+      sellerId,
+      limit = 10,
+      offset = 0,
+      search,
+      sortBy,
+      sortOrder,
+      status,
+    } = query;
+
     const where: Prisma.ProductWhereInput = {
       sellerId,
       ...(search && {
         OR: [
-          { name: { contains: search, mode: 'insensitive' } },
-          { description: { contains: search, mode: 'insensitive' } },
+          {
+            brandMark: {
+              name: { contains: search, mode: Prisma.QueryMode.insensitive },
+            },
+          },
         ],
       }),
-      ...(grade && { grade }),
-      ...(origin && { origin }),
-      ...(minPrice && { price: { gte: minPrice } }),
-      ...(maxPrice && { price: { lte: maxPrice } }),
+      ...(status && { isLive: status === 'published' }),
     };
+
+    let orderBy = sortBy ? { price: 'pricePerUnit' }[sortBy] : undefined;
 
     const [products, total] = await this.db.$transaction([
       this.db.product.findMany({
         where,
         orderBy: {
-          [sortBy]: sortOrder,
+          [orderBy]: sortOrder,
         },
         take: limit,
         skip: offset,

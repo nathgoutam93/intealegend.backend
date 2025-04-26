@@ -2,10 +2,11 @@
 
 import { Button } from "@/components/ui/button";
 import { UserDropdown } from "@/components/UserDropdown";
-import { ShoppingCart, ArrowLeft } from "lucide-react";
+import { ShoppingCart, ArrowLeft, User } from "lucide-react";
 import { useCartStore } from "@/store/cartStore";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 interface HeaderProps {
   showBackButton?: boolean;
@@ -14,9 +15,10 @@ interface HeaderProps {
 
 export function Header({
   showBackButton = false,
-  backUrl = "/explore",
+  backUrl = "/app/explore",
 }: HeaderProps) {
   const router = useRouter();
+  const pathname = usePathname();
   const { items } = useCartStore();
   const cartItemCount = items.length;
 
@@ -38,26 +40,49 @@ export function Header({
           </Link>
         </div>
         <div className="flex items-center space-x-4">
-          <Link href={"/explore"} className="text-sm">
+          <Link
+            href={"/app/explore"}
+            className={cn(
+              "text-sm",
+              pathname === "/app/explore" && "border-b-2 border-red-500"
+            )}
+          >
             Live Now
           </Link>
-          <Link href={"/orders"} className="text-sm">
+          <Link
+            href={"/app/orders"}
+            className={cn(
+              "text-sm",
+              pathname === "/app/orders" && "border-b-2 border-red-500"
+            )}
+          >
             My Orders
           </Link>
-          <Button
-            variant={"secondary"}
-            onClick={() => (window.location.href = "/cart")}
-            className="relative"
+          <Link
+            href={"/app/cart"}
+            className={cn(
+              "relative flex",
+              pathname === "/app/cart" && "border-b-2 border-red-500"
+            )}
           >
             <ShoppingCart className="h-5 w-5" />
             {cartItemCount > 0 && (
-              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+              <span className="absolute -top-2 -right-2 bg-black text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
                 {cartItemCount}
               </span>
             )}
             <span className="text-sm">Cart</span>
-          </Button>
-          <UserDropdown />
+          </Link>
+          <Link
+            href={"/app/account"}
+            className={cn(
+              "relative flex",
+              pathname.includes("/app/account") && "border-b-2 border-red-500"
+            )}
+          >
+            <User className="h-5 w-5" size={18} />
+            <span className="text-sm">Account</span>
+          </Link>
         </div>
       </div>
     </header>

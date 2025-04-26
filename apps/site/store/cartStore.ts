@@ -7,11 +7,9 @@ export interface CartItem {
   grade: string;
   pricePerKg: number;
   weightPerPkg: number;
-  sampleWeight: number | null;
   quantity: number;
   totalPrice: number;
   totalWeight: number;
-  totalWeightWithSample: number;
   mbp?: number;
 }
 
@@ -21,15 +19,12 @@ interface CartState {
   otherCharges: number;
   gst: number;
   roundOff: number;
-  addItem: (
-    item: Omit<CartItem, "totalPrice" | "totalWeight" | "totalWeightWithSample">
-  ) => void;
+  addItem: (item: Omit<CartItem, "totalPrice" | "totalWeight">) => void;
   removeItem: (id: string) => void;
   updateQuantity: (id: string, quantity: number) => void;
   calculateTotals: () => {
     subtotal: number;
     totalWeight: number;
-    totalWeightWithSample: number;
     totalAmount: number;
   };
 }
@@ -44,21 +39,45 @@ export const useCartStore = create<CartState>()(
       roundOff: 0,
 
       addItem: (item) => {
-        const totalWeight = item.weightPerPkg * item.quantity;
-        const totalWeightWithSample = totalWeight + (item.sampleWeight || 0);
-        const totalPrice = totalWeight * item.pricePerKg;
-        set((state) => ({
-          items: [
-            ...state.items,
-            {
-              ...item,
-              totalPrice,
-              totalWeight,
-              totalWeightWithSample,
-              mbp: item.mbp,
-            },
-          ],
-        }));
+        set((state) => {
+          const existingItem = state.items.find((i) => i.id === item.id);
+
+          if (existingItem) {
+            // If item exists, update its quantity
+            const newQuantity = existingItem.quantity + item.quantity;
+            const totalWeight = item.weightPerPkg * newQuantity;
+            const totalPrice = totalWeight * item.pricePerKg;
+
+            return {
+              items: state.items.map((i) =>
+                i.id === item.id
+                  ? {
+                      ...i,
+                      quantity: newQuantity,
+                      totalWeight,
+                      totalPrice,
+                    }
+                  : i
+              ),
+            };
+          } else {
+            // If item doesn't exist, add it as new
+            const totalWeight = item.weightPerPkg * item.quantity;
+            const totalPrice = totalWeight * item.pricePerKg;
+
+            return {
+              items: [
+                ...state.items,
+                {
+                  ...item,
+                  totalPrice,
+                  totalWeight,
+                  mbp: item.mbp,
+                },
+              ],
+            };
+          }
+        });
       },
 
       removeItem: (id) => {
@@ -74,15 +93,12 @@ export const useCartStore = create<CartState>()(
               const mbp = item.mbp || 1;
               const newQuantity = Math.max(quantity, mbp);
               const totalWeight = item.weightPerPkg * newQuantity;
-              const totalWeightWithSample =
-                totalWeight + (item.sampleWeight || 0);
               const totalPrice = totalWeight * item.pricePerKg;
               return {
                 ...item,
                 quantity: newQuantity,
                 totalPrice,
                 totalWeight,
-                totalWeightWithSample,
               };
             }
             return item;
@@ -100,17 +116,14 @@ export const useCartStore = create<CartState>()(
           (sum, item) => sum + item.totalWeight,
           0
         );
-        const totalWeightWithSample = state.items.reduce(
-          (sum, item) => sum + item.totalWeightWithSample,
-          0
-        );
+
+        // Calculate shipping based on weight (20 INR per kg, min 200 INR, max 600 INR)
+        const shipping = Math.min(Math.max(totalWeight * 20, 200), 600);
+
         const totalAmount =
-          subtotal +
-          state.shipping +
-          state.otherCharges +
-          state.gst +
-          state.roundOff;
-        return { subtotal, totalWeight, totalWeightWithSample, totalAmount };
+          subtotal + shipping + state.otherCharges + state.gst + state.roundOff;
+
+        return { subtotal, totalWeight, totalAmount };
       },
     }),
     {

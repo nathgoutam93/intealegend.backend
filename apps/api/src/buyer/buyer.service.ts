@@ -1,5 +1,5 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { OrderStatus, PrismaClient } from '@intealegend/database';
+import { OrderStatus, Prisma, PrismaClient } from '@intealegend/database';
 import { PRISMA_TOKEN } from 'src/database/constants';
 
 @Injectable()
@@ -26,34 +26,54 @@ export class BuyerService {
     });
   }
 
-  async getProducts(query: any) {
-    const { offset = 0, limit = 10, search } = query;
+  async getProducts(query: {
+    limit?: number;
+    offset?: number;
+    search?: string;
+    sortBy?: 'price' | 'createdAt' | 'name';
+    sortOrder?: 'asc' | 'desc';
+  }) {
+    const { offset = 0, limit = 10, sortBy, sortOrder, search } = query;
 
-    const where = search
-      ? {
-          OR: [
-            { name: { contains: search } },
-            { description: { contains: search } },
-          ],
-        }
-      : {};
+    const where: Prisma.ProductWhereInput = {
+      ...(search && {
+        OR: [
+          {
+            brandMark: {
+              name: { contains: search, mode: Prisma.QueryMode.insensitive },
+            },
+          },
+        ],
+      }),
+      isLive: true,
+    };
 
-    const products = await this.db.product.findMany({
-      where,
-      take: parseInt(limit),
-      skip: parseInt(offset),
-      orderBy: {
-        createdAt: 'desc',
-      },
-      include: {
-        brandMark: true,
-      },
-    });
+    let orderBy = sortBy ? { price: 'pricePerUnit' }[sortBy] : undefined;
 
-    return products.map((product) => ({
-      ...product,
-      pricePerUnit: product.pricePerUnit.toNumber(),
-    }));
+    const [products, total] = await this.db.$transaction([
+      this.db.product.findMany({
+        where,
+        orderBy: {
+          [orderBy]: sortOrder,
+        },
+        take: limit,
+        skip: offset,
+        include: {
+          brandMark: true,
+        },
+      }),
+      this.db.product.count({ where }),
+    ]);
+
+    return {
+      data: products.map((p) => ({
+        ...p,
+        pricePerUnit: p.pricePerUnit.toNumber(),
+      })),
+      total,
+      limit,
+      offset,
+    };
   }
 
   async getCart(user: any) {

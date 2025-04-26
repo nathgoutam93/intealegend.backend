@@ -50,6 +50,7 @@ export declare const usersRouter: {
                 limit: z.ZodNumber;
                 offset: z.ZodNumber;
             }, "strip", z.ZodTypeAny, {
+                total: number;
                 limit: number;
                 offset: number;
                 data: {
@@ -61,8 +62,8 @@ export declare const usersRouter: {
                     verified: boolean;
                     uniqueIdentifier: string | null;
                 }[];
-                total: number;
             }, {
+                total: number;
                 limit: number;
                 offset: number;
                 data: {
@@ -74,7 +75,6 @@ export declare const usersRouter: {
                     verified: boolean;
                     uniqueIdentifier: string | null;
                 }[];
-                total: number;
             }>;
             400: z.ZodObject<{
                 message: z.ZodString;

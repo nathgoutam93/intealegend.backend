@@ -50,10 +50,7 @@ exports.sellersRouter = c.router({
             search: zod_1.default.string().optional(),
             sortBy: zod_1.default.enum(["price", "createdAt", "name"]).optional(),
             sortOrder: zod_1.default.enum(["asc", "desc"]).optional(),
-            minPrice: zod_1.default.string().optional(),
-            maxPrice: zod_1.default.string().optional(),
-            grade: zod_1.default.string().optional(),
-            origin: zod_1.default.string().optional(),
+            status: zod_1.default.enum(["published", "draft"]).optional(),
         }),
         responses: {
             200: zod_1.default.object({

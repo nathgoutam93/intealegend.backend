@@ -4,6 +4,7 @@ import { CartSummary } from "@/components/CartSummary";
 import { Button } from "@/components/ui/button";
 import { useCartStore } from "@/store/cartStore";
 import { Header } from "@/components/Header";
+import Link from "next/link";
 
 export default function CartPage() {
   const { items } = useCartStore();
@@ -18,9 +19,9 @@ export default function CartPage() {
             {items.length === 0 ? (
               <div className="text-center py-8">
                 <p className="text-gray-500 mb-4">Your cart is empty</p>
-                <Button onClick={() => (window.location.href = "/explore")}>
-                  Continue Shopping
-                </Button>
+                <Link href="/app/explore">
+                  <Button asChild>Continue Shopping</Button>
+                </Link>
               </div>
             ) : (
               <CartSummary />

@@ -314,15 +314,30 @@ export declare const sellersRouter: {
         responses: {
             200: z.ZodObject<{
                 totalSales: z.ZodNumber;
-                totalProducts: z.ZodNumber;
+                products: z.ZodObject<{
+                    total: z.ZodNumber;
+                    listed: z.ZodNumber;
+                }, "strip", z.ZodTypeAny, {
+                    total: number;
+                    listed: number;
+                }, {
+                    total: number;
+                    listed: number;
+                }>;
                 totalOrders: z.ZodNumber;
             }, "strip", z.ZodTypeAny, {
+                products: {
+                    total: number;
+                    listed: number;
+                };
                 totalSales: number;
-                totalProducts: number;
                 totalOrders: number;
             }, {
+                products: {
+                    total: number;
+                    listed: number;
+                };
                 totalSales: number;
-                totalProducts: number;
                 totalOrders: number;
             }>;
             401: z.ZodObject<{
@@ -360,30 +375,21 @@ export declare const sellersRouter: {
             search: z.ZodOptional<z.ZodString>;
             sortBy: z.ZodOptional<z.ZodEnum<["price", "createdAt", "name"]>>;
             sortOrder: z.ZodOptional<z.ZodEnum<["asc", "desc"]>>;
-            minPrice: z.ZodOptional<z.ZodString>;
-            maxPrice: z.ZodOptional<z.ZodString>;
-            grade: z.ZodOptional<z.ZodString>;
-            origin: z.ZodOptional<z.ZodString>;
+            status: z.ZodOptional<z.ZodEnum<["published", "draft"]>>;
         }, "strip", z.ZodTypeAny, {
             limit: string;
             offset: string;
+            status?: "published" | "draft" | undefined;
             search?: string | undefined;
-            grade?: string | undefined;
-            origin?: string | undefined;
             sortBy?: "createdAt" | "name" | "price" | undefined;
             sortOrder?: "asc" | "desc" | undefined;
-            minPrice?: string | undefined;
-            maxPrice?: string | undefined;
         }, {
+            status?: "published" | "draft" | undefined;
             search?: string | undefined;
-            grade?: string | undefined;
-            origin?: string | undefined;
             limit?: string | undefined;
             offset?: string | undefined;
             sortBy?: "createdAt" | "name" | "price" | undefined;
             sortOrder?: "asc" | "desc" | undefined;
-            minPrice?: string | undefined;
-            maxPrice?: string | undefined;
         }>;
         method: "GET";
         path: "/seller/products";
@@ -405,7 +411,6 @@ export declare const sellersRouter: {
                     pricePerUnit: z.ZodNumber;
                     mbp: z.ZodNullable<z.ZodNumber>;
                     quantity: z.ZodNumber;
-                    score: z.ZodNumber;
                     appearanceScore: z.ZodNumber;
                     liquorScore: z.ZodNumber;
                     tasteScore: z.ZodNumber;
@@ -473,7 +478,6 @@ export declare const sellersRouter: {
                     pricePerUnit: number;
                     mbp: number | null;
                     quantity: number;
-                    score: number;
                     appearanceScore: number;
                     liquorScore: number;
                     tasteScore: number;
@@ -515,7 +519,6 @@ export declare const sellersRouter: {
                     pricePerUnit: number;
                     mbp: number | null;
                     quantity: number;
-                    score: number;
                     appearanceScore: number;
                     liquorScore: number;
                     tasteScore: number;
@@ -542,6 +545,7 @@ export declare const sellersRouter: {
                 offset: z.ZodNumber;
                 limit: z.ZodNumber;
             }, "strip", z.ZodTypeAny, {
+                total: number;
                 limit: number;
                 offset: number;
                 data: {
@@ -564,7 +568,6 @@ export declare const sellersRouter: {
                     pricePerUnit: number;
                     mbp: number | null;
                     quantity: number;
-                    score: number;
                     appearanceScore: number;
                     liquorScore: number;
                     tasteScore: number;
@@ -587,8 +590,8 @@ export declare const sellersRouter: {
                     cartItems?: any[] | undefined;
                     orderItems?: any[] | undefined;
                 }[];
-                total: number;
             }, {
+                total: number;
                 limit: number;
                 offset: number;
                 data: {
@@ -611,7 +614,6 @@ export declare const sellersRouter: {
                     pricePerUnit: number;
                     mbp: number | null;
                     quantity: number;
-                    score: number;
                     appearanceScore: number;
                     liquorScore: number;
                     tasteScore: number;
@@ -634,7 +636,6 @@ export declare const sellersRouter: {
                     cartItems?: any[] | undefined;
                     orderItems?: any[] | undefined;
                 }[];
-                total: number;
             }>;
             401: z.ZodObject<{
                 message: z.ZodString;
@@ -669,7 +670,6 @@ export declare const sellersRouter: {
             pricePerUnit: z.ZodNumber;
             mbp: z.ZodNullable<z.ZodNumber>;
             quantity: z.ZodNumber;
-            score: z.ZodNumber;
             appearanceScore: z.ZodNumber;
             liquorScore: z.ZodNumber;
             tasteScore: z.ZodNumber;
@@ -733,7 +733,6 @@ export declare const sellersRouter: {
             pricePerUnit: number;
             mbp: number | null;
             quantity: number;
-            score: number;
             appearanceScore: number;
             liquorScore: number;
             tasteScore: number;
@@ -759,7 +758,6 @@ export declare const sellersRouter: {
             pricePerUnit: number;
             mbp: number | null;
             quantity: number;
-            score: number;
             appearanceScore: number;
             liquorScore: number;
             tasteScore: number;
@@ -788,7 +786,6 @@ export declare const sellersRouter: {
                 pricePerUnit: z.ZodNumber;
                 mbp: z.ZodNullable<z.ZodNumber>;
                 quantity: z.ZodNumber;
-                score: z.ZodNumber;
                 appearanceScore: z.ZodNumber;
                 liquorScore: z.ZodNumber;
                 tasteScore: z.ZodNumber;
@@ -856,7 +853,6 @@ export declare const sellersRouter: {
                 pricePerUnit: number;
                 mbp: number | null;
                 quantity: number;
-                score: number;
                 appearanceScore: number;
                 liquorScore: number;
                 tasteScore: number;
@@ -898,7 +894,6 @@ export declare const sellersRouter: {
                 pricePerUnit: number;
                 mbp: number | null;
                 quantity: number;
-                score: number;
                 appearanceScore: number;
                 liquorScore: number;
                 tasteScore: number;
@@ -974,7 +969,6 @@ export declare const sellersRouter: {
             pricePerUnit: z.ZodOptional<z.ZodNumber>;
             mbp: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
             quantity: z.ZodOptional<z.ZodNumber>;
-            score: z.ZodOptional<z.ZodNumber>;
             appearanceScore: z.ZodOptional<z.ZodNumber>;
             liquorScore: z.ZodOptional<z.ZodNumber>;
             tasteScore: z.ZodOptional<z.ZodNumber>;
@@ -1034,7 +1028,6 @@ export declare const sellersRouter: {
             pricePerUnit?: number | undefined;
             mbp?: number | null | undefined;
             quantity?: number | undefined;
-            score?: number | undefined;
             appearanceScore?: number | undefined;
             liquorScore?: number | undefined;
             tasteScore?: number | undefined;
@@ -1072,7 +1065,6 @@ export declare const sellersRouter: {
             pricePerUnit?: number | undefined;
             mbp?: number | null | undefined;
             quantity?: number | undefined;
-            score?: number | undefined;
             appearanceScore?: number | undefined;
             liquorScore?: number | undefined;
             tasteScore?: number | undefined;
@@ -1113,7 +1105,6 @@ export declare const sellersRouter: {
                 pricePerUnit: z.ZodNumber;
                 mbp: z.ZodNullable<z.ZodNumber>;
                 quantity: z.ZodNumber;
-                score: z.ZodNumber;
                 appearanceScore: z.ZodNumber;
                 liquorScore: z.ZodNumber;
                 tasteScore: z.ZodNumber;
@@ -1181,7 +1172,6 @@ export declare const sellersRouter: {
                 pricePerUnit: number;
                 mbp: number | null;
                 quantity: number;
-                score: number;
                 appearanceScore: number;
                 liquorScore: number;
                 tasteScore: number;
@@ -1223,7 +1213,6 @@ export declare const sellersRouter: {
                 pricePerUnit: number;
                 mbp: number | null;
                 quantity: number;
-                score: number;
                 appearanceScore: number;
                 liquorScore: number;
                 tasteScore: number;
@@ -1301,7 +1290,6 @@ export declare const sellersRouter: {
                 pricePerUnit: z.ZodNumber;
                 mbp: z.ZodNullable<z.ZodNumber>;
                 quantity: z.ZodNumber;
-                score: z.ZodNumber;
                 appearanceScore: z.ZodNumber;
                 liquorScore: z.ZodNumber;
                 tasteScore: z.ZodNumber;
@@ -1369,7 +1357,6 @@ export declare const sellersRouter: {
                 pricePerUnit: number;
                 mbp: number | null;
                 quantity: number;
-                score: number;
                 appearanceScore: number;
                 liquorScore: number;
                 tasteScore: number;
@@ -1411,7 +1398,6 @@ export declare const sellersRouter: {
                 pricePerUnit: number;
                 mbp: number | null;
                 quantity: number;
-                score: number;
                 appearanceScore: number;
                 liquorScore: number;
                 tasteScore: number;
@@ -1586,6 +1572,7 @@ export declare const sellersRouter: {
                 offset: z.ZodNumber;
                 limit: z.ZodNumber;
             }, "strip", z.ZodTypeAny, {
+                total: number;
                 limit: number;
                 offset: number;
                 data: {
@@ -1612,8 +1599,8 @@ export declare const sellersRouter: {
                     otherCharges: number | null;
                     roundOff: number | null;
                 }[];
-                total: number;
             }, {
+                total: number;
                 limit: number;
                 offset: number;
                 data: {
@@ -1640,7 +1627,6 @@ export declare const sellersRouter: {
                     roundOff: number | null;
                     status?: "PENDING" | "ACCEPTED" | "DESPATCHED" | "ON_WAY" | "DELIVERED" | "CANCELLED" | undefined;
                 }[];
-                total: number;
             }>;
             401: z.ZodObject<{
                 message: z.ZodString;

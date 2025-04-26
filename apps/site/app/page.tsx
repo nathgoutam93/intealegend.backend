@@ -10,6 +10,7 @@ import {
   X,
   LogIn,
   ChevronDown,
+  ShoppingBag,
 } from "lucide-react";
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
@@ -20,6 +21,15 @@ import "swiper/css/effect-fade";
 import StickyHeader from "@/components/StickyHeader";
 import Footer from "@/components/Footer";
 import { env } from "process";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 type media = { type: "image" | "video"; url: string; alt: string };
 
@@ -110,17 +120,16 @@ export default function Home() {
               Login
               <ChevronDown className="w-4 h-4" />
             </button>
-            {/* Dropdown menu */}
             <div className="absolute right-0 mt-2 w-48 py-2 bg-white rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 border border-gray-100">
               <Link
-                href="/account/login"
+                href="/auth/login"
                 className="block px-4 py-2 text-gray-600 hover:text-green-700 hover:bg-gray-50"
               >
                 <LogIn className="w-6 h-6 inline mr-2" />
                 Login
               </Link>
               <Link
-                href="/account/register"
+                href="/auth/register"
                 className="flex px-4 py-2 text-gray-600 hover:text-green-700 hover:bg-gray-50"
               >
                 <CircleUser className="w-6 h-6 inline mr-2" />
@@ -170,7 +179,7 @@ export default function Home() {
           <div className="flex-1 overflow-y-auto">
             <div className="p-4 space-y-4">
               <Link
-                href="/account/login"
+                href="/auth/login"
                 className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50"
                 onClick={() => setIsMenuOpen(false)}
               >
@@ -178,7 +187,7 @@ export default function Home() {
                 <span className="text-gray-700">Login</span>
               </Link>
               <Link
-                href="/account/register"
+                href="/auth/register"
                 className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50"
                 onClick={() => setIsMenuOpen(false)}
               >
@@ -234,7 +243,7 @@ export default function Home() {
 
           {/* Content */}
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28 flex flex-col items-center justify-center min-h-[90vh] z-20">
-            <div className="text-center relative">
+            <div className="hidden text-center relative">
               <div className="inline-block">
                 <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-sm font-medium mb-6">
                   <span className="inline-block w-2 h-2 rounded-full bg-green-500"></span>
@@ -260,12 +269,69 @@ export default function Home() {
                     Start Selling <ArrowRight className="w-5 h-5" />
                   </button>
                 </Link>
-                <Link href={"/account/login"}>
+                <Link href={"/auth/login"}>
                   <button className="bg-white/10 backdrop-blur-md text-white border-2 border-white/20 px-8 py-3 rounded-lg font-semibold flex items-center gap-2 hover:bg-white/20 transition shadow-lg shadow-black/5">
                     Start Buying <ArrowRight className="w-5 h-5" />
                   </button>
                 </Link>
               </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {/* Seller Card */}
+              <Card className="overflow-hidden border border-green-100/50 shadow-lg hover:shadow-xl transition-all duration-300 bg-transparent">
+                <div className="h-40 bg-gradient-to-r from-green-600/20 to-green-800/20 relative">
+                  <div className="absolute inset-0 opacity-20 bg-[url('/placeholder.svg?height=400&width=600')] bg-cover bg-center"></div>
+                  <div className="absolute bottom-4 left-4 bg-white/90 rounded-full p-3">
+                    <Store className="h-8 w-8 text-green-700" />
+                  </div>
+                </div>
+
+                <CardHeader className="bg-white/70">
+                  <CardTitle className="text-2xl text-green-800">
+                    Start Selling
+                  </CardTitle>
+                  <CardDescription>
+                    Share your premium tea collection with tea enthusiasts
+                    worldwide
+                  </CardDescription>
+                </CardHeader>
+
+                <CardFooter className="bg-white/70">
+                  <Link href={SELLER_BASE_URL ?? ""}>
+                    <Button className="w-full bg-green-700 hover:bg-green-800">
+                      <Store className="mr-2 h-4 w-4" />
+                      <span>Become a Seller</span>
+                    </Button>
+                  </Link>
+                </CardFooter>
+              </Card>
+
+              {/* Buyer Card */}
+              <Card className="overflow-hidden border border-amber-100/50 shadow-lg hover:shadow-xl transition-all duration-300 bg-transparent">
+                <div className="h-40 bg-gradient-to-r from-amber-600/10 to-amber-800/10 relative">
+                  <div className="absolute inset-0 opacity-20 bg-[url('/placeholder.svg?height=400&width=600')] bg-cover bg-center"></div>
+                  <div className="absolute bottom-4 left-4 bg-white/90 rounded-full p-3">
+                    <ShoppingBag className="h-8 w-8 text-amber-700" />
+                  </div>
+                </div>
+                <CardHeader className="bg-white/70">
+                  <CardTitle className="text-2xl text-amber-800">
+                    Start Buying
+                  </CardTitle>
+                  <CardDescription>
+                    Discover exceptional teas from around the world
+                  </CardDescription>
+                </CardHeader>
+                <CardFooter className="bg-white/70">
+                  <Link href={"/app/explore"}>
+                    <Button className="w-full bg-amber-700 hover:bg-amber-800">
+                      <ShoppingBag className="mr-2 h-4 w-4" />
+                      <span>Explore Teas</span>
+                    </Button>
+                  </Link>
+                </CardFooter>
+              </Card>
             </div>
           </div>
 
@@ -289,7 +355,7 @@ export default function Home() {
         </section>
 
         {/* Features */}
-        <section className="py-20 bg-gray-900">
+        <section className="hidden py-20 bg-gray-900">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="text-3xl md:text-4xl font-bold text-center mb-16 bg-gradient-to-r from-green-400 to-emerald-600 bg-clip-text text-transparent">
               Why Choose InTeaLegend?
@@ -342,7 +408,7 @@ export default function Home() {
         </section>
 
         {/* CTA */}
-        <section className="py-20 bg-gray-900 relative overflow-hidden">
+        <section className="hidden py-20 bg-gray-900 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-green-900/20 to-emerald-900/20" />
           <div className="absolute inset-0 bg-[url('/assets/images/tea-field.jpg')] opacity-30 bg-cover bg-center" />
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
@@ -354,7 +420,7 @@ export default function Home() {
               manufacturers, exporters and wholesale buyers from across the
               globe.
             </p>
-            <Link href={"/account/register"}>
+            <Link href={"/auth/register"}>
               <button className="bg-gradient-to-r from-green-400 to-emerald-600 text-white px-8 py-3 rounded-lg font-semibold inline-flex items-center gap-2 hover:from-green-500 hover:to-emerald-700 transition-all duration-300 shadow-lg shadow-green-500/20">
                 Get Started Now <ArrowRight className="w-5 h-5" />
               </button>

@@ -15,7 +15,6 @@ export declare const ProductSchema: z.ZodObject<{
     pricePerUnit: z.ZodNumber;
     mbp: z.ZodNullable<z.ZodNumber>;
     quantity: z.ZodNumber;
-    score: z.ZodNumber;
     appearanceScore: z.ZodNumber;
     liquorScore: z.ZodNumber;
     tasteScore: z.ZodNumber;
@@ -83,7 +82,6 @@ export declare const ProductSchema: z.ZodObject<{
     pricePerUnit: number;
     mbp: number | null;
     quantity: number;
-    score: number;
     appearanceScore: number;
     liquorScore: number;
     tasteScore: number;
@@ -125,7 +123,6 @@ export declare const ProductSchema: z.ZodObject<{
     pricePerUnit: number;
     mbp: number | null;
     quantity: number;
-    score: number;
     appearanceScore: number;
     liquorScore: number;
     tasteScore: number;

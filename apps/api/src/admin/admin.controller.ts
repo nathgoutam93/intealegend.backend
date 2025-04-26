@@ -46,6 +46,40 @@ export class AdminController {
           body: res,
         };
       },
+      getProducts: async ({
+        query: { limit, offset, search, sortBy, sortOrder, status },
+      }) => {
+        const products = await this.adminService.getProducts({
+          limit: limit ? parseInt(limit) : undefined,
+          offset: offset ? parseInt(offset) : undefined,
+          search,
+          sortBy,
+          sortOrder: sortOrder as 'asc' | 'desc',
+          status,
+        });
+
+        return {
+          status: 200,
+          body: products,
+        };
+      },
+      updateProduct: async ({ params: { id }, body }) => {
+        const product = await this.adminService.updateProduct(
+          parseInt(id),
+          body,
+        );
+        return {
+          status: 200,
+          body: product,
+        };
+      },
+      getProduct: async ({ params: { id } }) => {
+        const product = await this.adminService.getProduct(parseInt(id));
+        return {
+          status: 200,
+          body: product,
+        };
+      },
     });
   }
 }
