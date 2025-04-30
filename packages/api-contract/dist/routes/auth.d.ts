@@ -6,11 +6,11 @@ export declare const authRouter: {
             identifier: z.ZodString;
             password: z.ZodString;
         }, "strip", z.ZodTypeAny, {
-            password: string;
             identifier: string;
+            password: string;
         }, {
-            password: string;
             identifier: string;
+            password: string;
         }>;
         path: "/auth/login";
         responses: {
@@ -26,45 +26,45 @@ export declare const authRouter: {
                     createdAt: z.ZodDate;
                     updatedAt: z.ZodDate;
                 }, "strip", z.ZodTypeAny, {
-                    email: string;
                     id: number;
-                    createdAt: Date;
-                    updatedAt: Date;
+                    email: string;
                     role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
                     verified: boolean;
                     uniqueIdentifier: string | null;
+                    createdAt: Date;
+                    updatedAt: Date;
                 }, {
-                    email: string;
                     id: number;
-                    createdAt: Date;
-                    updatedAt: Date;
+                    email: string;
                     role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
                     verified: boolean;
                     uniqueIdentifier: string | null;
+                    createdAt: Date;
+                    updatedAt: Date;
                 }>;
             }, "strip", z.ZodTypeAny, {
                 accessToken: string;
                 refreshToken: string;
                 user: {
-                    email: string;
                     id: number;
-                    createdAt: Date;
-                    updatedAt: Date;
+                    email: string;
                     role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
                     verified: boolean;
                     uniqueIdentifier: string | null;
+                    createdAt: Date;
+                    updatedAt: Date;
                 };
             }, {
                 accessToken: string;
                 refreshToken: string;
                 user: {
-                    email: string;
                     id: number;
-                    createdAt: Date;
-                    updatedAt: Date;
+                    email: string;
                     role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
                     verified: boolean;
                     uniqueIdentifier: string | null;
+                    createdAt: Date;
+                    updatedAt: Date;
                 };
             }>;
             400: z.ZodObject<{
@@ -96,7 +96,11 @@ export declare const authRouter: {
         };
     };
     register: {
+        metadata: {
+            rawRequest: boolean;
+        };
         method: "POST";
+        contentType: "multipart/form-data";
         body: z.ZodObject<{
             email: z.ZodString;
             password: z.ZodString;
@@ -132,7 +136,8 @@ export declare const authRouter: {
                 businessType: z.ZodString;
                 ownerName: z.ZodString;
                 id: z.ZodNumber;
-            }, "id" | "userId" | "createdAt" | "updatedAt">, "strip", z.ZodTypeAny, {
+            }, "id" | "createdAt" | "updatedAt" | "userId">, "strip", z.ZodTypeAny, {
+                email: string;
                 businessName: string;
                 businessType: string;
                 ownerName: string;
@@ -141,7 +146,6 @@ export declare const authRouter: {
                 district: string;
                 pincode: string;
                 phone: string;
-                email: string;
                 secondaryContactName: string | null;
                 secondaryContactDesignation: string | null;
                 secondaryContactNumber: string | null;
@@ -160,6 +164,7 @@ export declare const authRouter: {
                 brandLogo: string | null;
                 brandCertificate: string | null;
             }, {
+                email: string;
                 businessName: string;
                 businessType: string;
                 ownerName: string;
@@ -168,7 +173,6 @@ export declare const authRouter: {
                 district: string;
                 pincode: string;
                 phone: string;
-                email: string;
                 secondaryContactName: string | null;
                 secondaryContactDesignation: string | null;
                 secondaryContactNumber: string | null;
@@ -211,7 +215,8 @@ export declare const authRouter: {
                 businessType: z.ZodString;
                 ownerName: z.ZodString;
                 id: z.ZodNumber;
-            }, "id" | "userId" | "createdAt" | "updatedAt">, "strip", z.ZodTypeAny, {
+            }, "id" | "createdAt" | "updatedAt" | "userId">, "strip", z.ZodTypeAny, {
+                email: string;
                 businessName: string;
                 businessType: string;
                 ownerName: string;
@@ -220,7 +225,6 @@ export declare const authRouter: {
                 district: string;
                 pincode: string;
                 phone: string;
-                email: string;
                 secondaryContactName: string | null;
                 secondaryContactDesignation: string | null;
                 secondaryContactNumber: string | null;
@@ -233,6 +237,7 @@ export declare const authRouter: {
                 bankAccountNumber: string;
                 bankIfscCode: string;
             }, {
+                email: string;
                 businessName: string;
                 businessType: string;
                 ownerName: string;
@@ -241,7 +246,6 @@ export declare const authRouter: {
                 district: string;
                 pincode: string;
                 phone: string;
-                email: string;
                 secondaryContactName: string | null;
                 secondaryContactDesignation: string | null;
                 secondaryContactNumber: string | null;
@@ -254,10 +258,43 @@ export declare const authRouter: {
                 bankAccountNumber: string;
                 bankIfscCode: string;
             }>]>;
-        }, "strip", z.ZodTypeAny, {
-            email: string;
-            role: "SELLER" | "BUYER";
-            profile: {
+        }, "passthrough", z.ZodTypeAny, z.objectOutputType<{
+            email: z.ZodString;
+            password: z.ZodString;
+            role: z.ZodEnum<["SELLER", "BUYER"]>;
+            profile: z.ZodUnion<[z.ZodObject<Omit<{
+                tmcoNumber: z.ZodNullable<z.ZodString>;
+                cancelledCheque: z.ZodNullable<z.ZodString>;
+                transportName: z.ZodNullable<z.ZodString>;
+                brandName: z.ZodNullable<z.ZodString>;
+                brandLogo: z.ZodNullable<z.ZodString>;
+                brandCertificate: z.ZodNullable<z.ZodString>;
+                userId: z.ZodNumber;
+                createdAt: z.ZodDate;
+                updatedAt: z.ZodDate;
+                bankAccountNumber: z.ZodString;
+                bankIfscCode: z.ZodString;
+                panNumber: z.ZodString;
+                panCard: z.ZodNullable<z.ZodString>;
+                gstNumber: z.ZodString;
+                gstCertificate: z.ZodNullable<z.ZodString>;
+                fssaiNumber: z.ZodNullable<z.ZodString>;
+                fssaiLicense: z.ZodNullable<z.ZodString>;
+                phone: z.ZodString;
+                email: z.ZodString;
+                secondaryContactName: z.ZodNullable<z.ZodString>;
+                secondaryContactDesignation: z.ZodNullable<z.ZodString>;
+                secondaryContactNumber: z.ZodNullable<z.ZodString>;
+                address: z.ZodString;
+                state: z.ZodString;
+                district: z.ZodString;
+                pincode: z.ZodString;
+                businessName: z.ZodString;
+                businessType: z.ZodString;
+                ownerName: z.ZodString;
+                id: z.ZodNumber;
+            }, "id" | "createdAt" | "updatedAt" | "userId">, "strip", z.ZodTypeAny, {
+                email: string;
                 businessName: string;
                 businessType: string;
                 ownerName: string;
@@ -266,7 +303,6 @@ export declare const authRouter: {
                 district: string;
                 pincode: string;
                 phone: string;
-                email: string;
                 secondaryContactName: string | null;
                 secondaryContactDesignation: string | null;
                 secondaryContactNumber: string | null;
@@ -284,7 +320,8 @@ export declare const authRouter: {
                 brandName: string | null;
                 brandLogo: string | null;
                 brandCertificate: string | null;
-            } | {
+            }, {
+                email: string;
                 businessName: string;
                 businessType: string;
                 ownerName: string;
@@ -293,33 +330,6 @@ export declare const authRouter: {
                 district: string;
                 pincode: string;
                 phone: string;
-                email: string;
-                secondaryContactName: string | null;
-                secondaryContactDesignation: string | null;
-                secondaryContactNumber: string | null;
-                panNumber: string;
-                panCard: string | null;
-                gstNumber: string;
-                gstCertificate: string | null;
-                fssaiNumber: string | null;
-                fssaiLicense: string | null;
-                bankAccountNumber: string;
-                bankIfscCode: string;
-            };
-            password: string;
-        }, {
-            email: string;
-            role: "SELLER" | "BUYER";
-            profile: {
-                businessName: string;
-                businessType: string;
-                ownerName: string;
-                address: string;
-                state: string;
-                district: string;
-                pincode: string;
-                phone: string;
-                email: string;
                 secondaryContactName: string | null;
                 secondaryContactDesignation: string | null;
                 secondaryContactNumber: string | null;
@@ -337,7 +347,33 @@ export declare const authRouter: {
                 brandName: string | null;
                 brandLogo: string | null;
                 brandCertificate: string | null;
-            } | {
+            }>, z.ZodObject<Omit<{
+                userId: z.ZodNumber;
+                createdAt: z.ZodDate;
+                updatedAt: z.ZodDate;
+                bankAccountNumber: z.ZodString;
+                bankIfscCode: z.ZodString;
+                panNumber: z.ZodString;
+                panCard: z.ZodNullable<z.ZodString>;
+                gstNumber: z.ZodString;
+                gstCertificate: z.ZodNullable<z.ZodString>;
+                fssaiNumber: z.ZodNullable<z.ZodString>;
+                fssaiLicense: z.ZodNullable<z.ZodString>;
+                phone: z.ZodString;
+                email: z.ZodString;
+                secondaryContactName: z.ZodNullable<z.ZodString>;
+                secondaryContactDesignation: z.ZodNullable<z.ZodString>;
+                secondaryContactNumber: z.ZodNullable<z.ZodString>;
+                address: z.ZodString;
+                state: z.ZodString;
+                district: z.ZodString;
+                pincode: z.ZodString;
+                businessName: z.ZodString;
+                businessType: z.ZodString;
+                ownerName: z.ZodString;
+                id: z.ZodNumber;
+            }, "id" | "createdAt" | "updatedAt" | "userId">, "strip", z.ZodTypeAny, {
+                email: string;
                 businessName: string;
                 businessType: string;
                 ownerName: string;
@@ -346,7 +382,6 @@ export declare const authRouter: {
                 district: string;
                 pincode: string;
                 phone: string;
-                email: string;
                 secondaryContactName: string | null;
                 secondaryContactDesignation: string | null;
                 secondaryContactNumber: string | null;
@@ -358,9 +393,186 @@ export declare const authRouter: {
                 fssaiLicense: string | null;
                 bankAccountNumber: string;
                 bankIfscCode: string;
-            };
-            password: string;
-        }>;
+            }, {
+                email: string;
+                businessName: string;
+                businessType: string;
+                ownerName: string;
+                address: string;
+                state: string;
+                district: string;
+                pincode: string;
+                phone: string;
+                secondaryContactName: string | null;
+                secondaryContactDesignation: string | null;
+                secondaryContactNumber: string | null;
+                panNumber: string;
+                panCard: string | null;
+                gstNumber: string;
+                gstCertificate: string | null;
+                fssaiNumber: string | null;
+                fssaiLicense: string | null;
+                bankAccountNumber: string;
+                bankIfscCode: string;
+            }>]>;
+        }, z.ZodTypeAny, "passthrough">, z.objectInputType<{
+            email: z.ZodString;
+            password: z.ZodString;
+            role: z.ZodEnum<["SELLER", "BUYER"]>;
+            profile: z.ZodUnion<[z.ZodObject<Omit<{
+                tmcoNumber: z.ZodNullable<z.ZodString>;
+                cancelledCheque: z.ZodNullable<z.ZodString>;
+                transportName: z.ZodNullable<z.ZodString>;
+                brandName: z.ZodNullable<z.ZodString>;
+                brandLogo: z.ZodNullable<z.ZodString>;
+                brandCertificate: z.ZodNullable<z.ZodString>;
+                userId: z.ZodNumber;
+                createdAt: z.ZodDate;
+                updatedAt: z.ZodDate;
+                bankAccountNumber: z.ZodString;
+                bankIfscCode: z.ZodString;
+                panNumber: z.ZodString;
+                panCard: z.ZodNullable<z.ZodString>;
+                gstNumber: z.ZodString;
+                gstCertificate: z.ZodNullable<z.ZodString>;
+                fssaiNumber: z.ZodNullable<z.ZodString>;
+                fssaiLicense: z.ZodNullable<z.ZodString>;
+                phone: z.ZodString;
+                email: z.ZodString;
+                secondaryContactName: z.ZodNullable<z.ZodString>;
+                secondaryContactDesignation: z.ZodNullable<z.ZodString>;
+                secondaryContactNumber: z.ZodNullable<z.ZodString>;
+                address: z.ZodString;
+                state: z.ZodString;
+                district: z.ZodString;
+                pincode: z.ZodString;
+                businessName: z.ZodString;
+                businessType: z.ZodString;
+                ownerName: z.ZodString;
+                id: z.ZodNumber;
+            }, "id" | "createdAt" | "updatedAt" | "userId">, "strip", z.ZodTypeAny, {
+                email: string;
+                businessName: string;
+                businessType: string;
+                ownerName: string;
+                address: string;
+                state: string;
+                district: string;
+                pincode: string;
+                phone: string;
+                secondaryContactName: string | null;
+                secondaryContactDesignation: string | null;
+                secondaryContactNumber: string | null;
+                panNumber: string;
+                panCard: string | null;
+                gstNumber: string;
+                gstCertificate: string | null;
+                fssaiNumber: string | null;
+                fssaiLicense: string | null;
+                bankAccountNumber: string;
+                bankIfscCode: string;
+                tmcoNumber: string | null;
+                cancelledCheque: string | null;
+                transportName: string | null;
+                brandName: string | null;
+                brandLogo: string | null;
+                brandCertificate: string | null;
+            }, {
+                email: string;
+                businessName: string;
+                businessType: string;
+                ownerName: string;
+                address: string;
+                state: string;
+                district: string;
+                pincode: string;
+                phone: string;
+                secondaryContactName: string | null;
+                secondaryContactDesignation: string | null;
+                secondaryContactNumber: string | null;
+                panNumber: string;
+                panCard: string | null;
+                gstNumber: string;
+                gstCertificate: string | null;
+                fssaiNumber: string | null;
+                fssaiLicense: string | null;
+                bankAccountNumber: string;
+                bankIfscCode: string;
+                tmcoNumber: string | null;
+                cancelledCheque: string | null;
+                transportName: string | null;
+                brandName: string | null;
+                brandLogo: string | null;
+                brandCertificate: string | null;
+            }>, z.ZodObject<Omit<{
+                userId: z.ZodNumber;
+                createdAt: z.ZodDate;
+                updatedAt: z.ZodDate;
+                bankAccountNumber: z.ZodString;
+                bankIfscCode: z.ZodString;
+                panNumber: z.ZodString;
+                panCard: z.ZodNullable<z.ZodString>;
+                gstNumber: z.ZodString;
+                gstCertificate: z.ZodNullable<z.ZodString>;
+                fssaiNumber: z.ZodNullable<z.ZodString>;
+                fssaiLicense: z.ZodNullable<z.ZodString>;
+                phone: z.ZodString;
+                email: z.ZodString;
+                secondaryContactName: z.ZodNullable<z.ZodString>;
+                secondaryContactDesignation: z.ZodNullable<z.ZodString>;
+                secondaryContactNumber: z.ZodNullable<z.ZodString>;
+                address: z.ZodString;
+                state: z.ZodString;
+                district: z.ZodString;
+                pincode: z.ZodString;
+                businessName: z.ZodString;
+                businessType: z.ZodString;
+                ownerName: z.ZodString;
+                id: z.ZodNumber;
+            }, "id" | "createdAt" | "updatedAt" | "userId">, "strip", z.ZodTypeAny, {
+                email: string;
+                businessName: string;
+                businessType: string;
+                ownerName: string;
+                address: string;
+                state: string;
+                district: string;
+                pincode: string;
+                phone: string;
+                secondaryContactName: string | null;
+                secondaryContactDesignation: string | null;
+                secondaryContactNumber: string | null;
+                panNumber: string;
+                panCard: string | null;
+                gstNumber: string;
+                gstCertificate: string | null;
+                fssaiNumber: string | null;
+                fssaiLicense: string | null;
+                bankAccountNumber: string;
+                bankIfscCode: string;
+            }, {
+                email: string;
+                businessName: string;
+                businessType: string;
+                ownerName: string;
+                address: string;
+                state: string;
+                district: string;
+                pincode: string;
+                phone: string;
+                secondaryContactName: string | null;
+                secondaryContactDesignation: string | null;
+                secondaryContactNumber: string | null;
+                panNumber: string;
+                panCard: string | null;
+                gstNumber: string;
+                gstCertificate: string | null;
+                fssaiNumber: string | null;
+                fssaiLicense: string | null;
+                bankAccountNumber: string;
+                bankIfscCode: string;
+            }>]>;
+        }, z.ZodTypeAny, "passthrough">>;
         path: "/auth/register";
         responses: {
             201: z.ZodObject<{
@@ -372,21 +584,21 @@ export declare const authRouter: {
                 createdAt: z.ZodDate;
                 updatedAt: z.ZodDate;
             }, "strip", z.ZodTypeAny, {
-                email: string;
                 id: number;
-                createdAt: Date;
-                updatedAt: Date;
+                email: string;
                 role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
                 verified: boolean;
                 uniqueIdentifier: string | null;
+                createdAt: Date;
+                updatedAt: Date;
             }, {
-                email: string;
                 id: number;
-                createdAt: Date;
-                updatedAt: Date;
+                email: string;
                 role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
                 verified: boolean;
                 uniqueIdentifier: string | null;
+                createdAt: Date;
+                updatedAt: Date;
             }>;
             400: z.ZodObject<{
                 message: z.ZodString;
@@ -409,11 +621,11 @@ export declare const authRouter: {
             email: z.ZodString;
             password: z.ZodString;
         }, "strip", z.ZodTypeAny, {
-            email: string;
             password: string;
+            email: string;
         }, {
-            email: string;
             password: string;
+            email: string;
         }>;
         path: "/auth/admin/login";
         responses: {
@@ -429,45 +641,45 @@ export declare const authRouter: {
                     createdAt: z.ZodDate;
                     updatedAt: z.ZodDate;
                 }, "strip", z.ZodTypeAny, {
-                    email: string;
                     id: number;
-                    createdAt: Date;
-                    updatedAt: Date;
+                    email: string;
                     role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
                     verified: boolean;
                     uniqueIdentifier: string | null;
+                    createdAt: Date;
+                    updatedAt: Date;
                 }, {
-                    email: string;
                     id: number;
-                    createdAt: Date;
-                    updatedAt: Date;
+                    email: string;
                     role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
                     verified: boolean;
                     uniqueIdentifier: string | null;
+                    createdAt: Date;
+                    updatedAt: Date;
                 }>;
             }, "strip", z.ZodTypeAny, {
                 accessToken: string;
                 refreshToken: string;
                 user: {
-                    email: string;
                     id: number;
-                    createdAt: Date;
-                    updatedAt: Date;
+                    email: string;
                     role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
                     verified: boolean;
                     uniqueIdentifier: string | null;
+                    createdAt: Date;
+                    updatedAt: Date;
                 };
             }, {
                 accessToken: string;
                 refreshToken: string;
                 user: {
-                    email: string;
                     id: number;
-                    createdAt: Date;
-                    updatedAt: Date;
+                    email: string;
                     role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
                     verified: boolean;
                     uniqueIdentifier: string | null;
+                    createdAt: Date;
+                    updatedAt: Date;
                 };
             }>;
             400: z.ZodObject<{

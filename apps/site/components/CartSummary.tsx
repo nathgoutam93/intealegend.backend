@@ -1,3 +1,5 @@
+"use client";
+
 import { useCartStore, CartItem } from "@/store/cartStore";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -96,7 +98,7 @@ export function CartSummary() {
       {/* Summary Totals */}
       <div className="w-80">
         <div className="bg-gray-50 rounded-lg p-4 space-y-2 text-sm sticky top-4">
-          <h2 className="text-lg font-semibold mb-4">Order Summary</h2>
+          <h2 className="text-lg font-semibold mb-4">Cart Summary</h2>
           <div className="flex justify-between">
             <span>Total Packages</span>
             <span>{items.reduce((sum, item) => sum + item.quantity, 0)}</span>

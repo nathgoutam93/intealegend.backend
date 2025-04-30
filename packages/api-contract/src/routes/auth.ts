@@ -27,28 +27,34 @@ export const authRouter = c.router({
   register: {
     method: "POST",
     path: "/auth/register",
-    body: z.object({
-      email: z.string().email(),
-      password: z.string().min(8),
-      role: z.enum(["SELLER", "BUYER"]),
-      profile: z.union([
-        SellerProfileSchema.omit({
-          id: true,
-          userId: true,
-          createdAt: true,
-          updatedAt: true,
-        }),
-        BuyerProfileSchema.omit({
-          id: true,
-          userId: true,
-          createdAt: true,
-          updatedAt: true,
-        }),
-      ]),
-    }),
+    contentType: "multipart/form-data",
+    body: z
+      .object({
+        email: z.string().email(),
+        password: z.string().min(8),
+        role: z.enum(["SELLER", "BUYER"]),
+        profile: z.union([
+          SellerProfileSchema.omit({
+            id: true,
+            userId: true,
+            createdAt: true,
+            updatedAt: true,
+          }),
+          BuyerProfileSchema.omit({
+            id: true,
+            userId: true,
+            createdAt: true,
+            updatedAt: true,
+          }),
+        ]),
+      })
+      .passthrough(), // Allow additional file fields
     responses: {
       201: UserSchema,
       400: ErrorSchema,
+    },
+    metadata: {
+      rawRequest: true, // Pass raw request to handler
     },
   },
   adminLogin: {

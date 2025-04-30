@@ -7,6 +7,11 @@ import { ChevronDown, CircleUser, LogIn, Menu, Store, X } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
+const SELLER_BASE_URL =
+  process.env.NODE_ENV === "production"
+    ? (process.env.NEXT_PUBLIC_SELLER_BASE_URL as string)
+    : "http://seller.localhost:5173";
+
 export default function RegisterPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -23,14 +28,14 @@ export default function RegisterPage() {
             {/* Dropdown menu */}
             <div className="absolute right-0 mt-2 w-48 py-2 bg-white rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 border border-gray-100">
               <Link
-                href="/account/login"
+                href="/auth/login"
                 className="block px-4 py-2 text-gray-600 hover:text-green-700 hover:bg-gray-50"
               >
                 <LogIn className="w-6 h-6 inline mr-2" />
                 Login
               </Link>
               <Link
-                href="/account/register"
+                href="/auth/register"
                 className="flex px-4 py-2 text-gray-600 hover:text-green-700 hover:bg-gray-50"
               >
                 <CircleUser className="w-6 h-6 inline mr-2" />
@@ -80,7 +85,7 @@ export default function RegisterPage() {
               <p className="text-gray-600">
                 Already have an account?{" "}
                 <Link
-                  href="/account/login"
+                  href="/auth/login"
                   className="text-blue-600 hover:text-blue-700 font-medium"
                 >
                   Sign in
@@ -89,7 +94,7 @@ export default function RegisterPage() {
               <p className="text-gray-600 mt-2">
                 Want to sell on InteaLegend?{" "}
                 <Link
-                  href="/sell-online"
+                  href={`${SELLER_BASE_URL}/register`}
                   className="text-blue-600 hover:text-blue-700 font-medium"
                 >
                   Become a seller

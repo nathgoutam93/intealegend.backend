@@ -127,46 +127,8 @@ export class AdminService {
           createdAt: true,
           uniqueIdentifier: true,
           updatedAt: true,
-          sellerProfile:
-            role === 'SELLER'
-              ? {
-                  select: {
-                    businessName: true,
-                    businessType: true,
-                    address: true,
-                    state: true,
-                    pincode: true,
-                    phone: true,
-                    gstNumber: true,
-                    panNumber: true,
-                    tmcoNumber: true,
-                    cancelledCheque: true,
-                    transportName: true,
-                    brandName: true,
-                    brandLogo: true,
-                    brandCertificate: true,
-                    bankAccountNumber: true,
-                    bankIfscCode: true,
-                  },
-                }
-              : false,
-          buyerProfile:
-            role === 'BUYER'
-              ? {
-                  select: {
-                    businessName: true,
-                    businessType: true,
-                    address: true,
-                    state: true,
-                    pincode: true,
-                    phone: true,
-                    gstNumber: true,
-                    panNumber: true,
-                    bankAccountNumber: true,
-                    bankIfscCode: true,
-                  },
-                }
-              : false,
+          sellerProfile: role === 'SELLER',
+          buyerProfile: role === 'BUYER',
         },
         take: limit,
         skip: offset,

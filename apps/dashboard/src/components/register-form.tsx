@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Building2, Users, Mail, Phone, Lock, ArrowRight } from "lucide-react";
 import StateDistrictSelector from "./state-distrcit-selector";
 import client from "@/api-client";
-import { uploadFiles } from "@/lib/upload-helper";
 import { toast } from "sonner";
 import { useNavigate } from "@tanstack/react-router";
 
@@ -63,11 +62,43 @@ const REGISTRATION_STEPS = [
   },
 ];
 
+type FormData = {
+  businessName: string;
+  businessType: string;
+  ownerName: string;
+  address: string;
+  state: string;
+  district: string;
+  pincode: string;
+  phone: string;
+  email: string;
+  secondaryContactName: string;
+  secondaryContactDesignation: string;
+  secondaryContactNumber: string;
+  panNumber: string;
+  panCard: File | null;
+  gstNumber: string;
+  gstCertificate: File | null;
+  tmcoNumber: string;
+  fssaiNumber: string;
+  fssaiLicense: File | null;
+  bankAccountNumber: string;
+  bankIfscCode: string;
+  cancelledCheque: File | null;
+  transportName: string;
+  brandName: string;
+  brandLogo: File | null;
+  brandCertificate: File | null;
+  password: string;
+  confirmPassword: string;
+  [key: string]: string | File | null; // Index signature
+};
+
 export default function SellerRegistrationForm() {
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     // Step 1: Business Info
     businessName: "",
     businessType: "",
@@ -88,23 +119,23 @@ export default function SellerRegistrationForm() {
 
     // Step 4: Business Documents
     panNumber: "",
-    panCard: null as File | null,
+    panCard: null,
     gstNumber: "",
-    gstCertificate: null as File | null,
+    gstCertificate: null,
     tmcoNumber: "",
     fssaiNumber: "",
-    fssaiLicense: null as File | null,
+    fssaiLicense: null,
 
     // Step 5: Banking Info
     bankAccountNumber: "",
     bankIfscCode: "",
-    cancelledCheque: null as File | null,
+    cancelledCheque: null,
 
     // Step 6: Brand & Logistics
     transportName: "",
     brandName: "",
-    brandLogo: null as File | null,
-    brandCertificate: null as File | null,
+    brandLogo: null,
+    brandCertificate: null,
 
     // Step 7: Security
     password: "",
@@ -143,20 +174,28 @@ export default function SellerRegistrationForm() {
       }
 
       try {
-        // Process files first
-        const processedData = await uploadFiles(formData);
+        const formDataToSend = new FormData();
 
-        // Use the mutation from the client contract
+        const { password, ...profileFields } = formData;
+        formDataToSend.append("email", formData.email);
+        formDataToSend.append("role", "SELLER");
+        formDataToSend.append("password", password);
+
+        // Add all fields to form data
+        Object.entries(profileFields).forEach(([key, value]) => {
+          if (value instanceof File) {
+            formDataToSend.append(`${key}`, value);
+            formDataToSend.append(`profile[${key}]`, "");
+          } else if (value !== null && value !== undefined) {
+            formDataToSend.append(`profile[${key}]`, value.toString());
+          }
+        });
+
         await registerMutation.mutateAsync({
-          body: {
-            email: processedData.email,
-            password: processedData.password,
-            role: "SELLER",
-            profile: processedData,
-          },
+          body: formDataToSend,
         });
       } catch (error) {
-        // Error is handled by mutation callbacks
+        // Error handled by mutation callbacks
       }
     }
   };

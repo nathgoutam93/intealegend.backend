@@ -25,7 +25,9 @@ exports.authRouter = c.router({
     register: {
         method: "POST",
         path: "/auth/register",
-        body: zod_1.default.object({
+        contentType: "multipart/form-data",
+        body: zod_1.default
+            .object({
             email: zod_1.default.string().email(),
             password: zod_1.default.string().min(8),
             role: zod_1.default.enum(["SELLER", "BUYER"]),
@@ -43,10 +45,14 @@ exports.authRouter = c.router({
                     updatedAt: true,
                 }),
             ]),
-        }),
+        })
+            .passthrough(), // Allow additional file fields
         responses: {
             201: schemas_1.UserSchema,
             400: schemas_1.ErrorSchema,
+        },
+        metadata: {
+            rawRequest: true, // Pass raw request to handler
         },
     },
     adminLogin: {

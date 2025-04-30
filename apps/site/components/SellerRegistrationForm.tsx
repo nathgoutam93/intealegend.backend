@@ -4,9 +4,7 @@ import { useState } from "react";
 import { Building2, Users, Mail, Phone, Lock, ArrowRight } from "lucide-react";
 import StateDistrictSelector from "./state-distrcit-selector";
 import { client } from "@/lib/api-client";
-import { uploadFiles } from "@/lib/upload-helper";
 import { useRouter } from "next/navigation";
-import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 
 const REGISTRATION_STEPS = [
@@ -137,27 +135,28 @@ export default function SellerRegistrationForm() {
     if (step < REGISTRATION_STEPS.length) {
       setStep(step + 1);
     } else {
-      // Validate password match
       if (formData.password !== formData.confirmPassword) {
         toast.error("Passwords do not match");
         return;
       }
 
       try {
-        // Process files first
-        const processedData = await uploadFiles(formData);
+        const formDataToSend = new FormData();
 
-        // Use the mutation from the client contract
+        // Add all fields to form data
+        Object.entries(formData).forEach(([key, value]) => {
+          if (value instanceof File) {
+            formDataToSend.append(key, value);
+          } else if (value !== null && value !== undefined) {
+            formDataToSend.append(key, value.toString());
+          }
+        });
+
         await registerMutation.mutateAsync({
-          body: {
-            email: processedData.email,
-            password: processedData.password,
-            role: "SELLER",
-            profile: processedData,
-          },
+          body: formDataToSend,
         });
       } catch (error) {
-        // Error is handled by mutation callbacks
+        // Error handled by mutation callbacks
       }
     }
   };

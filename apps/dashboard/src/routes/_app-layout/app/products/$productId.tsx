@@ -24,6 +24,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/_app-layout/app/products/$productId")({
   component: ProductDetailPage,
@@ -86,6 +87,11 @@ function ProductDetailPage() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["product", productId] });
       router.invalidate();
+
+      toast("Product updated successfully", {
+        description: "The product details have been updated.",
+        duration: 3000,
+      });
     },
   });
 
@@ -663,7 +669,7 @@ function ProductDetailPage() {
               </div>
 
               <Button type="submit" className="w-full">
-                {updateProductMutation.isPending ? "Saving..." : "Save Rating"}
+                {updateProductMutation.isPending ? "Saving..." : "Save Changes"}
               </Button>
             </form>
           </div>

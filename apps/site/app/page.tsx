@@ -49,6 +49,11 @@ const heroMedia: media[] = [
     url: "https://videos.pexels.com/video-files/1324942/1324942-uhd_2560_1440_24fps.mp4",
     alt: "Tea plantation landscape",
   },
+  {
+    type: "video",
+    url: "/assets/tea.webm",
+    alt: "Tea plantation landscape",
+  },
 ];
 
 export default function Home() {

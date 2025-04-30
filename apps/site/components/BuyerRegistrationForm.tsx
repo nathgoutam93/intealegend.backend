@@ -4,7 +4,6 @@ import { useState } from "react";
 import { Building2, Users, Mail, Phone, Lock, ArrowRight } from "lucide-react";
 import StateDistrictSelector from "./state-distrcit-selector";
 import { client } from "@/lib/api-client";
-import { uploadFiles } from "@/lib/upload-helper";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
@@ -88,7 +87,6 @@ export default function BuyerRegistrationForm() {
     // Step 5: Banking Info
     bankAccountNumber: "",
     bankIfscCode: "",
-    cancelledCheque: null as File | null,
 
     // Step 6: Security
     password: "",
@@ -107,7 +105,7 @@ export default function BuyerRegistrationForm() {
       toast.success(
         "Registration successful! Please check your email for verification."
       );
-      router.push("/account/verification-pending");
+      router.push("/auth/verification-pending");
     },
     onError: (error: any) => {
       toast.error(error.message || "Registration failed. Please try again.");
@@ -124,18 +122,28 @@ export default function BuyerRegistrationForm() {
       }
 
       try {
-        const processedData = await uploadFiles(formData);
+        const formDataToSend = new FormData();
+
+        const { password, ...profileFields } = formData;
+        formDataToSend.append("email", formData.email);
+        formDataToSend.append("role", "BUYER");
+        formDataToSend.append("password", password);
+
+        // Add all fields to form data
+        Object.entries(profileFields).forEach(([key, value]) => {
+          if (value instanceof File) {
+            formDataToSend.append(`${key}`, value);
+            formDataToSend.append(`profile[${key}]`, "");
+          } else if (value !== null && value !== undefined) {
+            formDataToSend.append(`profile[${key}]`, value.toString());
+          }
+        });
 
         await registerMutation.mutateAsync({
-          body: {
-            email: processedData.email,
-            password: processedData.password,
-            role: "BUYER",
-            profile: processedData,
-          },
+          body: formDataToSend,
         });
       } catch (error) {
-        // Error is handled by mutation callbacks
+        // Error handled by mutation callbacks
       }
     }
   };
@@ -477,21 +485,6 @@ export default function BuyerRegistrationForm() {
                     onChange={(e) =>
                       handleInputChange("bankIfscCode", e.target.value)
                     }
-                  />
-                </div>
-                <div className="col-span-2">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Cancelled Cheque
-                  </label>
-                  <input
-                    type="file"
-                    accept=".pdf,.jpg,.jpeg,.png"
-                    onChange={(e) => {
-                      if (e.target.files?.[0]) {
-                        handleInputChange("cancelledCheque", e.target.files[0]);
-                      }
-                    }}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
                   />
                 </div>
               </div>
