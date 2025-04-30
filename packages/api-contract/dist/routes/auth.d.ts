@@ -6,11 +6,11 @@ export declare const authRouter: {
             identifier: z.ZodString;
             password: z.ZodString;
         }, "strip", z.ZodTypeAny, {
-            identifier: string;
             password: string;
+            identifier: string;
         }, {
-            identifier: string;
             password: string;
+            identifier: string;
         }>;
         path: "/auth/login";
         responses: {
@@ -26,45 +26,45 @@ export declare const authRouter: {
                     createdAt: z.ZodDate;
                     updatedAt: z.ZodDate;
                 }, "strip", z.ZodTypeAny, {
-                    id: number;
                     email: string;
+                    id: number;
+                    createdAt: Date;
+                    updatedAt: Date;
                     role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
                     verified: boolean;
                     uniqueIdentifier: string | null;
-                    createdAt: Date;
-                    updatedAt: Date;
                 }, {
-                    id: number;
                     email: string;
+                    id: number;
+                    createdAt: Date;
+                    updatedAt: Date;
                     role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
                     verified: boolean;
                     uniqueIdentifier: string | null;
-                    createdAt: Date;
-                    updatedAt: Date;
                 }>;
             }, "strip", z.ZodTypeAny, {
                 accessToken: string;
                 refreshToken: string;
                 user: {
-                    id: number;
                     email: string;
+                    id: number;
+                    createdAt: Date;
+                    updatedAt: Date;
                     role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
                     verified: boolean;
                     uniqueIdentifier: string | null;
-                    createdAt: Date;
-                    updatedAt: Date;
                 };
             }, {
                 accessToken: string;
                 refreshToken: string;
                 user: {
-                    id: number;
                     email: string;
+                    id: number;
+                    createdAt: Date;
+                    updatedAt: Date;
                     role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
                     verified: boolean;
                     uniqueIdentifier: string | null;
-                    createdAt: Date;
-                    updatedAt: Date;
                 };
             }>;
             400: z.ZodObject<{
@@ -136,8 +136,7 @@ export declare const authRouter: {
                 businessType: z.ZodString;
                 ownerName: z.ZodString;
                 id: z.ZodNumber;
-            }, "id" | "createdAt" | "updatedAt" | "userId">, "strip", z.ZodTypeAny, {
-                email: string;
+            }, "id" | "userId" | "createdAt" | "updatedAt">, "strip", z.ZodTypeAny, {
                 businessName: string;
                 businessType: string;
                 ownerName: string;
@@ -146,6 +145,7 @@ export declare const authRouter: {
                 district: string;
                 pincode: string;
                 phone: string;
+                email: string;
                 secondaryContactName: string | null;
                 secondaryContactDesignation: string | null;
                 secondaryContactNumber: string | null;
@@ -164,7 +164,6 @@ export declare const authRouter: {
                 brandLogo: string | null;
                 brandCertificate: string | null;
             }, {
-                email: string;
                 businessName: string;
                 businessType: string;
                 ownerName: string;
@@ -173,6 +172,7 @@ export declare const authRouter: {
                 district: string;
                 pincode: string;
                 phone: string;
+                email: string;
                 secondaryContactName: string | null;
                 secondaryContactDesignation: string | null;
                 secondaryContactNumber: string | null;
@@ -215,8 +215,7 @@ export declare const authRouter: {
                 businessType: z.ZodString;
                 ownerName: z.ZodString;
                 id: z.ZodNumber;
-            }, "id" | "createdAt" | "updatedAt" | "userId">, "strip", z.ZodTypeAny, {
-                email: string;
+            }, "id" | "userId" | "createdAt" | "updatedAt">, "strip", z.ZodTypeAny, {
                 businessName: string;
                 businessType: string;
                 ownerName: string;
@@ -225,6 +224,7 @@ export declare const authRouter: {
                 district: string;
                 pincode: string;
                 phone: string;
+                email: string;
                 secondaryContactName: string | null;
                 secondaryContactDesignation: string | null;
                 secondaryContactNumber: string | null;
@@ -237,7 +237,6 @@ export declare const authRouter: {
                 bankAccountNumber: string;
                 bankIfscCode: string;
             }, {
-                email: string;
                 businessName: string;
                 businessType: string;
                 ownerName: string;
@@ -246,6 +245,7 @@ export declare const authRouter: {
                 district: string;
                 pincode: string;
                 phone: string;
+                email: string;
                 secondaryContactName: string | null;
                 secondaryContactDesignation: string | null;
                 secondaryContactNumber: string | null;
@@ -293,8 +293,7 @@ export declare const authRouter: {
                 businessType: z.ZodString;
                 ownerName: z.ZodString;
                 id: z.ZodNumber;
-            }, "id" | "createdAt" | "updatedAt" | "userId">, "strip", z.ZodTypeAny, {
-                email: string;
+            }, "id" | "userId" | "createdAt" | "updatedAt">, "strip", z.ZodTypeAny, {
                 businessName: string;
                 businessType: string;
                 ownerName: string;
@@ -303,6 +302,7 @@ export declare const authRouter: {
                 district: string;
                 pincode: string;
                 phone: string;
+                email: string;
                 secondaryContactName: string | null;
                 secondaryContactDesignation: string | null;
                 secondaryContactNumber: string | null;
@@ -321,7 +321,6 @@ export declare const authRouter: {
                 brandLogo: string | null;
                 brandCertificate: string | null;
             }, {
-                email: string;
                 businessName: string;
                 businessType: string;
                 ownerName: string;
@@ -330,6 +329,7 @@ export declare const authRouter: {
                 district: string;
                 pincode: string;
                 phone: string;
+                email: string;
                 secondaryContactName: string | null;
                 secondaryContactDesignation: string | null;
                 secondaryContactNumber: string | null;
@@ -372,8 +372,7 @@ export declare const authRouter: {
                 businessType: z.ZodString;
                 ownerName: z.ZodString;
                 id: z.ZodNumber;
-            }, "id" | "createdAt" | "updatedAt" | "userId">, "strip", z.ZodTypeAny, {
-                email: string;
+            }, "id" | "userId" | "createdAt" | "updatedAt">, "strip", z.ZodTypeAny, {
                 businessName: string;
                 businessType: string;
                 ownerName: string;
@@ -382,6 +381,7 @@ export declare const authRouter: {
                 district: string;
                 pincode: string;
                 phone: string;
+                email: string;
                 secondaryContactName: string | null;
                 secondaryContactDesignation: string | null;
                 secondaryContactNumber: string | null;
@@ -394,7 +394,6 @@ export declare const authRouter: {
                 bankAccountNumber: string;
                 bankIfscCode: string;
             }, {
-                email: string;
                 businessName: string;
                 businessType: string;
                 ownerName: string;
@@ -403,6 +402,7 @@ export declare const authRouter: {
                 district: string;
                 pincode: string;
                 phone: string;
+                email: string;
                 secondaryContactName: string | null;
                 secondaryContactDesignation: string | null;
                 secondaryContactNumber: string | null;
@@ -450,8 +450,7 @@ export declare const authRouter: {
                 businessType: z.ZodString;
                 ownerName: z.ZodString;
                 id: z.ZodNumber;
-            }, "id" | "createdAt" | "updatedAt" | "userId">, "strip", z.ZodTypeAny, {
-                email: string;
+            }, "id" | "userId" | "createdAt" | "updatedAt">, "strip", z.ZodTypeAny, {
                 businessName: string;
                 businessType: string;
                 ownerName: string;
@@ -460,6 +459,7 @@ export declare const authRouter: {
                 district: string;
                 pincode: string;
                 phone: string;
+                email: string;
                 secondaryContactName: string | null;
                 secondaryContactDesignation: string | null;
                 secondaryContactNumber: string | null;
@@ -478,7 +478,6 @@ export declare const authRouter: {
                 brandLogo: string | null;
                 brandCertificate: string | null;
             }, {
-                email: string;
                 businessName: string;
                 businessType: string;
                 ownerName: string;
@@ -487,6 +486,7 @@ export declare const authRouter: {
                 district: string;
                 pincode: string;
                 phone: string;
+                email: string;
                 secondaryContactName: string | null;
                 secondaryContactDesignation: string | null;
                 secondaryContactNumber: string | null;
@@ -529,8 +529,7 @@ export declare const authRouter: {
                 businessType: z.ZodString;
                 ownerName: z.ZodString;
                 id: z.ZodNumber;
-            }, "id" | "createdAt" | "updatedAt" | "userId">, "strip", z.ZodTypeAny, {
-                email: string;
+            }, "id" | "userId" | "createdAt" | "updatedAt">, "strip", z.ZodTypeAny, {
                 businessName: string;
                 businessType: string;
                 ownerName: string;
@@ -539,6 +538,7 @@ export declare const authRouter: {
                 district: string;
                 pincode: string;
                 phone: string;
+                email: string;
                 secondaryContactName: string | null;
                 secondaryContactDesignation: string | null;
                 secondaryContactNumber: string | null;
@@ -551,7 +551,6 @@ export declare const authRouter: {
                 bankAccountNumber: string;
                 bankIfscCode: string;
             }, {
-                email: string;
                 businessName: string;
                 businessType: string;
                 ownerName: string;
@@ -560,6 +559,7 @@ export declare const authRouter: {
                 district: string;
                 pincode: string;
                 phone: string;
+                email: string;
                 secondaryContactName: string | null;
                 secondaryContactDesignation: string | null;
                 secondaryContactNumber: string | null;
@@ -584,21 +584,21 @@ export declare const authRouter: {
                 createdAt: z.ZodDate;
                 updatedAt: z.ZodDate;
             }, "strip", z.ZodTypeAny, {
-                id: number;
                 email: string;
+                id: number;
+                createdAt: Date;
+                updatedAt: Date;
                 role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
                 verified: boolean;
                 uniqueIdentifier: string | null;
-                createdAt: Date;
-                updatedAt: Date;
             }, {
-                id: number;
                 email: string;
+                id: number;
+                createdAt: Date;
+                updatedAt: Date;
                 role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
                 verified: boolean;
                 uniqueIdentifier: string | null;
-                createdAt: Date;
-                updatedAt: Date;
             }>;
             400: z.ZodObject<{
                 message: z.ZodString;
@@ -621,11 +621,11 @@ export declare const authRouter: {
             email: z.ZodString;
             password: z.ZodString;
         }, "strip", z.ZodTypeAny, {
-            password: string;
             email: string;
+            password: string;
         }, {
-            password: string;
             email: string;
+            password: string;
         }>;
         path: "/auth/admin/login";
         responses: {
@@ -641,45 +641,45 @@ export declare const authRouter: {
                     createdAt: z.ZodDate;
                     updatedAt: z.ZodDate;
                 }, "strip", z.ZodTypeAny, {
-                    id: number;
                     email: string;
+                    id: number;
+                    createdAt: Date;
+                    updatedAt: Date;
                     role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
                     verified: boolean;
                     uniqueIdentifier: string | null;
-                    createdAt: Date;
-                    updatedAt: Date;
                 }, {
-                    id: number;
                     email: string;
+                    id: number;
+                    createdAt: Date;
+                    updatedAt: Date;
                     role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
                     verified: boolean;
                     uniqueIdentifier: string | null;
-                    createdAt: Date;
-                    updatedAt: Date;
                 }>;
             }, "strip", z.ZodTypeAny, {
                 accessToken: string;
                 refreshToken: string;
                 user: {
-                    id: number;
                     email: string;
+                    id: number;
+                    createdAt: Date;
+                    updatedAt: Date;
                     role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
                     verified: boolean;
                     uniqueIdentifier: string | null;
-                    createdAt: Date;
-                    updatedAt: Date;
                 };
             }, {
                 accessToken: string;
                 refreshToken: string;
                 user: {
-                    id: number;
                     email: string;
+                    id: number;
+                    createdAt: Date;
+                    updatedAt: Date;
                     role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
                     verified: boolean;
                     uniqueIdentifier: string | null;
-                    createdAt: Date;
-                    updatedAt: Date;
                 };
             }>;
             400: z.ZodObject<{
