@@ -33,7 +33,6 @@ export const PendingUserSchema = z.object({
       ...BankingInfoSchema.shape,
       tmcoNumber: z.string().nullable(),
       cancelledCheque: z.string().nullable(),
-      transportName: z.string().nullable(),
       brandName: z.string().nullable(),
       brandLogo: z.string().nullable(),
       brandCertificate: z.string().nullable(),
@@ -45,6 +44,7 @@ export const PendingUserSchema = z.object({
       ...ContactInfoSchema.shape,
       ...BusinessDocumentsSchema.shape,
       ...BankingInfoSchema.shape,
+      transportName: z.string().nullable(),
     }),
   ]),
 });

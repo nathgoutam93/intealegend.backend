@@ -33,7 +33,6 @@ export declare const PendingUserSchema: z.ZodObject<{
     profile: z.ZodDiscriminatedUnion<"role", [z.ZodObject<{
         tmcoNumber: z.ZodNullable<z.ZodString>;
         cancelledCheque: z.ZodNullable<z.ZodString>;
-        transportName: z.ZodNullable<z.ZodString>;
         brandName: z.ZodNullable<z.ZodString>;
         brandLogo: z.ZodNullable<z.ZodString>;
         brandCertificate: z.ZodNullable<z.ZodString>;
@@ -81,7 +80,6 @@ export declare const PendingUserSchema: z.ZodObject<{
         bankIfscCode: string;
         tmcoNumber: string | null;
         cancelledCheque: string | null;
-        transportName: string | null;
         brandName: string | null;
         brandLogo: string | null;
         brandCertificate: string | null;
@@ -109,12 +107,12 @@ export declare const PendingUserSchema: z.ZodObject<{
         bankIfscCode: string;
         tmcoNumber: string | null;
         cancelledCheque: string | null;
-        transportName: string | null;
         brandName: string | null;
         brandLogo: string | null;
         brandCertificate: string | null;
         role: "SELLER";
     }>, z.ZodObject<{
+        transportName: z.ZodNullable<z.ZodString>;
         bankAccountNumber: z.ZodString;
         bankIfscCode: z.ZodString;
         panNumber: z.ZodString;
@@ -157,6 +155,7 @@ export declare const PendingUserSchema: z.ZodObject<{
         fssaiLicense: string | null;
         bankAccountNumber: string;
         bankIfscCode: string;
+        transportName: string | null;
         role: "BUYER";
     }, {
         businessName: string;
@@ -179,6 +178,7 @@ export declare const PendingUserSchema: z.ZodObject<{
         fssaiLicense: string | null;
         bankAccountNumber: string;
         bankIfscCode: string;
+        transportName: string | null;
         role: "BUYER";
     }>]>;
 }, "strip", z.ZodTypeAny, {
@@ -210,7 +210,6 @@ export declare const PendingUserSchema: z.ZodObject<{
         bankIfscCode: string;
         tmcoNumber: string | null;
         cancelledCheque: string | null;
-        transportName: string | null;
         brandName: string | null;
         brandLogo: string | null;
         brandCertificate: string | null;
@@ -236,6 +235,7 @@ export declare const PendingUserSchema: z.ZodObject<{
         fssaiLicense: string | null;
         bankAccountNumber: string;
         bankIfscCode: string;
+        transportName: string | null;
         role: "BUYER";
     };
 }, {
@@ -267,7 +267,6 @@ export declare const PendingUserSchema: z.ZodObject<{
         bankIfscCode: string;
         tmcoNumber: string | null;
         cancelledCheque: string | null;
-        transportName: string | null;
         brandName: string | null;
         brandLogo: string | null;
         brandCertificate: string | null;
@@ -293,6 +292,7 @@ export declare const PendingUserSchema: z.ZodObject<{
         fssaiLicense: string | null;
         bankAccountNumber: string;
         bankIfscCode: string;
+        transportName: string | null;
         role: "BUYER";
     };
 }>;

@@ -131,8 +131,7 @@ model SellerProfile {
     bankIfscCode      String
     cancelledCheque   String? // File path or URL
 
-    // Step 6: Brand & Logistics
-    transportName    String?
+    // Step 6: Brand
     brandName        String?
     brandLogo        String? // File path or URL
     brandCertificate String? // File path or URL
@@ -182,6 +181,9 @@ model BuyerProfile {
     // Step 5: Banking Info
     bankAccountNumber String
     bankIfscCode      String
+
+    //step:6 Logistics
+    transportName String?
 
     // One-to-one relation to User
     user   User @relation(fields: [userId], references: [id])

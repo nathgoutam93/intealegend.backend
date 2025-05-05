@@ -18,12 +18,6 @@ import type { Product } from "@intealegend/api-contract";
 import { useQueryClient } from "@tanstack/react-query";
 import { useAuthStore } from "@/stores/auth.store";
 import { StarRating } from "@/components/ui/star-rating";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_app-layout/app/products/$productId")({
@@ -434,119 +428,6 @@ function ProductDetailPage() {
             </>
           )}
 
-          {user?.role === "SELLER" && (
-            <div className="space-y-4">
-              <div className="border rounded-lg p-4">
-                <div className="flex justify-between items-center">
-                  <div>
-                    <h3 className="font-semibold">Current Inventory</h3>
-                    <p className="text-2xl font-bold">
-                      {product.quantity} units
-                    </p>
-                  </div>
-                  <Dialog
-                    open={inventoryDialogOpen}
-                    onOpenChange={setInventoryDialogOpen}
-                  >
-                    <DialogTrigger asChild>
-                      <Button variant="outline">Update Inventory</Button>
-                    </DialogTrigger>
-                    <DialogContent>
-                      <DialogHeader>
-                        <DialogTitle>Update Inventory</DialogTitle>
-                      </DialogHeader>
-                      <div className="space-y-4">
-                        <div className="flex space-x-4">
-                          <Button
-                            variant={
-                              inventoryAction === "add" ? "default" : "outline"
-                            }
-                            onClick={() => setInventoryAction("add")}
-                          >
-                            Add to Inventory
-                          </Button>
-                          <Button
-                            variant={
-                              inventoryAction === "remove"
-                                ? "default"
-                                : "outline"
-                            }
-                            onClick={() => setInventoryAction("remove")}
-                          >
-                            Remove from Inventory
-                          </Button>
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium mb-2">
-                            Package to {inventoryAction}
-                          </label>
-                          <Input
-                            type="number"
-                            min={0}
-                            value={inventoryAmount || ""}
-                            onChange={(e) =>
-                              setInventoryAmount(Number(e.target.value))
-                            }
-                          />
-                        </div>
-                        <div className="flex justify-end space-x-2">
-                          <Button
-                            variant="outline"
-                            onClick={() => {
-                              setInventoryDialogOpen(false);
-                              setInventoryAmount(0);
-                            }}
-                          >
-                            Cancel
-                          </Button>
-                          <Button
-                            onClick={handleInventoryUpdate}
-                            disabled={inventoryAmount <= 0}
-                          >
-                            {inventoryAction === "add" ? "Add" : "Remove"}
-                          </Button>
-                        </div>
-                      </div>
-                    </DialogContent>
-                  </Dialog>
-                </div>
-              </div>
-
-              <div className="border rounded-lg p-4">
-                <div className="flex justify-between items-center">
-                  <div>
-                    <h3 className="font-semibold">Product Status</h3>
-                    <p className="text-sm text-muted-foreground">
-                      {product.isLive ? "Currently Live" : "Currently in Draft"}
-                    </p>
-                  </div>
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <div>
-                          <Button
-                            onClick={handleLiveStatusToggle}
-                            disabled={product.status !== "APPROVED"}
-                            variant={product.isLive ? "default" : "outline"}
-                          >
-                            {product.isLive ? "Set to Draft" : "Make Live"}
-                          </Button>
-                        </div>
-                      </TooltipTrigger>
-                      {product.status !== "APPROVED" && (
-                        <TooltipContent>
-                          <p>
-                            Product needs to be approved before it can go live
-                          </p>
-                        </TooltipContent>
-                      )}
-                    </Tooltip>
-                  </TooltipProvider>
-                </div>
-              </div>
-            </div>
-          )}
-
           {product.imageUrl && (
             <div>
               <h3 className="font-medium text-muted-foreground mb-2">
@@ -575,6 +456,103 @@ function ProductDetailPage() {
               className="space-y-6"
             >
               <div className="space-y-4">
+                <div className="border rounded-lg p-4">
+                  <div className="flex justify-between items-center mb-4">
+                    <div>
+                      <h3 className="font-semibold">Current Inventory</h3>
+                      <p className="text-2xl font-bold">
+                        {product.quantity} units
+                      </p>
+                    </div>
+                    <Dialog
+                      open={inventoryDialogOpen}
+                      onOpenChange={setInventoryDialogOpen}
+                    >
+                      <DialogTrigger asChild>
+                        <Button variant="outline">Update Inventory</Button>
+                      </DialogTrigger>
+                      <DialogContent>
+                        <DialogHeader>
+                          <DialogTitle>Update Inventory</DialogTitle>
+                        </DialogHeader>
+                        <div className="space-y-4">
+                          <div className="flex space-x-4">
+                            <Button
+                              variant={
+                                inventoryAction === "add"
+                                  ? "default"
+                                  : "outline"
+                              }
+                              onClick={() => setInventoryAction("add")}
+                            >
+                              Add to Inventory
+                            </Button>
+                            <Button
+                              variant={
+                                inventoryAction === "remove"
+                                  ? "default"
+                                  : "outline"
+                              }
+                              onClick={() => setInventoryAction("remove")}
+                            >
+                              Remove from Inventory
+                            </Button>
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium mb-2">
+                              Package to {inventoryAction}
+                            </label>
+                            <Input
+                              type="number"
+                              min={0}
+                              value={inventoryAmount || ""}
+                              onChange={(e) =>
+                                setInventoryAmount(Number(e.target.value))
+                              }
+                            />
+                          </div>
+                          <div className="flex justify-end space-x-2">
+                            <Button
+                              variant="outline"
+                              onClick={() => {
+                                setInventoryDialogOpen(false);
+                                setInventoryAmount(0);
+                              }}
+                            >
+                              Cancel
+                            </Button>
+                            <Button
+                              onClick={handleInventoryUpdate}
+                              disabled={inventoryAmount <= 0}
+                            >
+                              {inventoryAction === "add" ? "Add" : "Remove"}
+                            </Button>
+                          </div>
+                        </div>
+                      </DialogContent>
+                    </Dialog>
+                  </div>
+                </div>
+
+                <div className="border rounded-lg p-4">
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <h3 className="font-semibold">Product Status</h3>
+                      <p className="text-sm text-muted-foreground">
+                        {product.isLive
+                          ? "Currently Live"
+                          : "Currently in Draft"}
+                      </p>
+                    </div>
+                    <Button
+                      onClick={handleLiveStatusToggle}
+                      variant={product.isLive ? "default" : "outline"}
+                    >
+                      {product.isLive ? "Set to Draft" : "Make Live"}
+                    </Button>
+                  </div>
+                </div>
+
                 <div className="border rounded-lg p-4">
                   <h3 className="font-medium text-muted-foreground mb-2">
                     Appearance

@@ -5,6 +5,7 @@ export declare const buyersRouter: {
         path: "/buyer/profile";
         responses: {
             200: z.ZodObject<{
+                transportName: z.ZodNullable<z.ZodString>;
                 userId: z.ZodNumber;
                 createdAt: z.ZodDate;
                 updatedAt: z.ZodDate;
@@ -54,6 +55,7 @@ export declare const buyersRouter: {
                 userId: number;
                 createdAt: Date;
                 updatedAt: Date;
+                transportName: string | null;
             }, {
                 businessName: string;
                 businessType: string;
@@ -79,6 +81,7 @@ export declare const buyersRouter: {
                 userId: number;
                 createdAt: Date;
                 updatedAt: Date;
+                transportName: string | null;
             }>;
             404: z.ZodObject<{
                 message: z.ZodString;
@@ -118,6 +121,7 @@ export declare const buyersRouter: {
             fssaiLicense: z.ZodOptional<z.ZodNullable<z.ZodString>>;
             bankAccountNumber: z.ZodOptional<z.ZodString>;
             bankIfscCode: z.ZodOptional<z.ZodString>;
+            transportName: z.ZodOptional<z.ZodNullable<z.ZodString>>;
         }, "strip", z.ZodTypeAny, {
             businessName?: string | undefined;
             businessType?: string | undefined;
@@ -139,6 +143,7 @@ export declare const buyersRouter: {
             fssaiLicense?: string | null | undefined;
             bankAccountNumber?: string | undefined;
             bankIfscCode?: string | undefined;
+            transportName?: string | null | undefined;
         }, {
             businessName?: string | undefined;
             businessType?: string | undefined;
@@ -160,10 +165,12 @@ export declare const buyersRouter: {
             fssaiLicense?: string | null | undefined;
             bankAccountNumber?: string | undefined;
             bankIfscCode?: string | undefined;
+            transportName?: string | null | undefined;
         }>;
         path: "/buyers/profile";
         responses: {
             200: z.ZodObject<{
+                transportName: z.ZodNullable<z.ZodString>;
                 userId: z.ZodNumber;
                 createdAt: z.ZodDate;
                 updatedAt: z.ZodDate;
@@ -213,6 +220,7 @@ export declare const buyersRouter: {
                 userId: number;
                 createdAt: Date;
                 updatedAt: Date;
+                transportName: string | null;
             }, {
                 businessName: string;
                 businessType: string;
@@ -238,6 +246,7 @@ export declare const buyersRouter: {
                 userId: number;
                 createdAt: Date;
                 updatedAt: Date;
+                transportName: string | null;
             }>;
             404: z.ZodObject<{
                 message: z.ZodString;

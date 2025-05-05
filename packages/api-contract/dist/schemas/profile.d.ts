@@ -82,7 +82,6 @@ export declare const BankingInfoSchema: z.ZodObject<{
 export declare const SellerProfileSchema: z.ZodObject<{
     tmcoNumber: z.ZodNullable<z.ZodString>;
     cancelledCheque: z.ZodNullable<z.ZodString>;
-    transportName: z.ZodNullable<z.ZodString>;
     brandName: z.ZodNullable<z.ZodString>;
     brandLogo: z.ZodNullable<z.ZodString>;
     brandCertificate: z.ZodNullable<z.ZodString>;
@@ -134,7 +133,6 @@ export declare const SellerProfileSchema: z.ZodObject<{
     id: number;
     tmcoNumber: string | null;
     cancelledCheque: string | null;
-    transportName: string | null;
     brandName: string | null;
     brandLogo: string | null;
     brandCertificate: string | null;
@@ -165,7 +163,6 @@ export declare const SellerProfileSchema: z.ZodObject<{
     id: number;
     tmcoNumber: string | null;
     cancelledCheque: string | null;
-    transportName: string | null;
     brandName: string | null;
     brandLogo: string | null;
     brandCertificate: string | null;
@@ -174,6 +171,7 @@ export declare const SellerProfileSchema: z.ZodObject<{
     updatedAt: Date;
 }>;
 export declare const BuyerProfileSchema: z.ZodObject<{
+    transportName: z.ZodNullable<z.ZodString>;
     userId: z.ZodNumber;
     createdAt: z.ZodDate;
     updatedAt: z.ZodDate;
@@ -223,6 +221,7 @@ export declare const BuyerProfileSchema: z.ZodObject<{
     userId: number;
     createdAt: Date;
     updatedAt: Date;
+    transportName: string | null;
 }, {
     businessName: string;
     businessType: string;
@@ -248,6 +247,7 @@ export declare const BuyerProfileSchema: z.ZodObject<{
     userId: number;
     createdAt: Date;
     updatedAt: Date;
+    transportName: string | null;
 }>;
 export declare const AdminProfileSchema: z.ZodObject<{
     id: z.ZodNumber;

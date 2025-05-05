@@ -108,7 +108,6 @@ export declare const authRouter: {
             profile: z.ZodUnion<[z.ZodObject<Omit<{
                 tmcoNumber: z.ZodNullable<z.ZodString>;
                 cancelledCheque: z.ZodNullable<z.ZodString>;
-                transportName: z.ZodNullable<z.ZodString>;
                 brandName: z.ZodNullable<z.ZodString>;
                 brandLogo: z.ZodNullable<z.ZodString>;
                 brandCertificate: z.ZodNullable<z.ZodString>;
@@ -159,7 +158,6 @@ export declare const authRouter: {
                 bankIfscCode: string;
                 tmcoNumber: string | null;
                 cancelledCheque: string | null;
-                transportName: string | null;
                 brandName: string | null;
                 brandLogo: string | null;
                 brandCertificate: string | null;
@@ -186,11 +184,11 @@ export declare const authRouter: {
                 bankIfscCode: string;
                 tmcoNumber: string | null;
                 cancelledCheque: string | null;
-                transportName: string | null;
                 brandName: string | null;
                 brandLogo: string | null;
                 brandCertificate: string | null;
             }>, z.ZodObject<Omit<{
+                transportName: z.ZodNullable<z.ZodString>;
                 userId: z.ZodNumber;
                 createdAt: z.ZodDate;
                 updatedAt: z.ZodDate;
@@ -236,6 +234,7 @@ export declare const authRouter: {
                 fssaiLicense: string | null;
                 bankAccountNumber: string;
                 bankIfscCode: string;
+                transportName: string | null;
             }, {
                 businessName: string;
                 businessType: string;
@@ -257,6 +256,7 @@ export declare const authRouter: {
                 fssaiLicense: string | null;
                 bankAccountNumber: string;
                 bankIfscCode: string;
+                transportName: string | null;
             }>]>;
         }, "passthrough", z.ZodTypeAny, z.objectOutputType<{
             email: z.ZodString;
@@ -265,7 +265,6 @@ export declare const authRouter: {
             profile: z.ZodUnion<[z.ZodObject<Omit<{
                 tmcoNumber: z.ZodNullable<z.ZodString>;
                 cancelledCheque: z.ZodNullable<z.ZodString>;
-                transportName: z.ZodNullable<z.ZodString>;
                 brandName: z.ZodNullable<z.ZodString>;
                 brandLogo: z.ZodNullable<z.ZodString>;
                 brandCertificate: z.ZodNullable<z.ZodString>;
@@ -316,7 +315,6 @@ export declare const authRouter: {
                 bankIfscCode: string;
                 tmcoNumber: string | null;
                 cancelledCheque: string | null;
-                transportName: string | null;
                 brandName: string | null;
                 brandLogo: string | null;
                 brandCertificate: string | null;
@@ -343,11 +341,11 @@ export declare const authRouter: {
                 bankIfscCode: string;
                 tmcoNumber: string | null;
                 cancelledCheque: string | null;
-                transportName: string | null;
                 brandName: string | null;
                 brandLogo: string | null;
                 brandCertificate: string | null;
             }>, z.ZodObject<Omit<{
+                transportName: z.ZodNullable<z.ZodString>;
                 userId: z.ZodNumber;
                 createdAt: z.ZodDate;
                 updatedAt: z.ZodDate;
@@ -393,6 +391,7 @@ export declare const authRouter: {
                 fssaiLicense: string | null;
                 bankAccountNumber: string;
                 bankIfscCode: string;
+                transportName: string | null;
             }, {
                 businessName: string;
                 businessType: string;
@@ -414,6 +413,7 @@ export declare const authRouter: {
                 fssaiLicense: string | null;
                 bankAccountNumber: string;
                 bankIfscCode: string;
+                transportName: string | null;
             }>]>;
         }, z.ZodTypeAny, "passthrough">, z.objectInputType<{
             email: z.ZodString;
@@ -422,7 +422,6 @@ export declare const authRouter: {
             profile: z.ZodUnion<[z.ZodObject<Omit<{
                 tmcoNumber: z.ZodNullable<z.ZodString>;
                 cancelledCheque: z.ZodNullable<z.ZodString>;
-                transportName: z.ZodNullable<z.ZodString>;
                 brandName: z.ZodNullable<z.ZodString>;
                 brandLogo: z.ZodNullable<z.ZodString>;
                 brandCertificate: z.ZodNullable<z.ZodString>;
@@ -473,7 +472,6 @@ export declare const authRouter: {
                 bankIfscCode: string;
                 tmcoNumber: string | null;
                 cancelledCheque: string | null;
-                transportName: string | null;
                 brandName: string | null;
                 brandLogo: string | null;
                 brandCertificate: string | null;
@@ -500,11 +498,11 @@ export declare const authRouter: {
                 bankIfscCode: string;
                 tmcoNumber: string | null;
                 cancelledCheque: string | null;
-                transportName: string | null;
                 brandName: string | null;
                 brandLogo: string | null;
                 brandCertificate: string | null;
             }>, z.ZodObject<Omit<{
+                transportName: z.ZodNullable<z.ZodString>;
                 userId: z.ZodNumber;
                 createdAt: z.ZodDate;
                 updatedAt: z.ZodDate;
@@ -550,6 +548,7 @@ export declare const authRouter: {
                 fssaiLicense: string | null;
                 bankAccountNumber: string;
                 bankIfscCode: string;
+                transportName: string | null;
             }, {
                 businessName: string;
                 businessType: string;
@@ -571,6 +570,7 @@ export declare const authRouter: {
                 fssaiLicense: string | null;
                 bankAccountNumber: string;
                 bankIfscCode: string;
+                transportName: string | null;
             }>]>;
         }, z.ZodTypeAny, "passthrough">>;
         path: "/auth/register";

@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
 import { Badge } from "./ui/badge";
 import { PendingUser } from "@intealegend/api-contract";

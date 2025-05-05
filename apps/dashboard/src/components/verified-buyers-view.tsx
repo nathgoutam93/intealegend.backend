@@ -7,7 +7,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
 import client from "@/api-client";
 import { UserDetailsModal } from "./user-details-modal";
 
@@ -30,11 +29,11 @@ export function VerifiedBuyersView() {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Email</TableHead>
+            <TableHead>ID</TableHead>
             <TableHead>Business Name</TableHead>
             <TableHead>Contact Number</TableHead>
+            <TableHead>Email</TableHead>
             <TableHead>Registration Date</TableHead>
-            <TableHead>Status</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -44,14 +43,12 @@ export function VerifiedBuyersView() {
               className="cursor-pointer hover:bg-muted/50"
               onClick={() => setSelectedUser(user)}
             >
-              <TableCell>{user.email}</TableCell>
+              <TableCell>{user.uniqueIdentifier}</TableCell>
               <TableCell>{user.profile.businessName}</TableCell>
               <TableCell>{user.profile.phone}</TableCell>
+              <TableCell>{user.email}</TableCell>
               <TableCell>
                 {new Date(user.createdAt).toLocaleDateString()}
-              </TableCell>
-              <TableCell>
-                <Badge>Verified</Badge>
               </TableCell>
             </TableRow>
           ))}

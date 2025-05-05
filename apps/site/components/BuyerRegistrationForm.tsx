@@ -48,6 +48,11 @@ const REGISTRATION_STEPS = [
   },
   {
     id: 6,
+    title: "Logistics",
+    fields: ["transportName"],
+  },
+  {
+    id: 7,
     title: "Set Password",
     fields: ["password", "confirmPassword"],
   },
@@ -87,6 +92,8 @@ export default function BuyerRegistrationForm() {
     // Step 5: Banking Info
     bankAccountNumber: "",
     bankIfscCode: "",
+
+    transportName: "",
 
     // Step 6: Security
     password: "",
@@ -491,8 +498,24 @@ export default function BuyerRegistrationForm() {
             </>
           )}
 
-          {/* STEP 7: Set Password */}
           {step === 6 && (
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Transport Partner Name
+              </label>
+              <input
+                type="text"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                value={formData.transportName}
+                onChange={(e) =>
+                  handleInputChange("transportName", e.target.value)
+                }
+              />
+            </div>
+          )}
+
+          {/* STEP 7: Set Password */}
+          {step === 7 && (
             <>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">

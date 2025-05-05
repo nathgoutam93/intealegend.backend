@@ -39,16 +39,16 @@ const SELLER_BASE_URL =
     : "http://seller.localhost:5173";
 
 const heroMedia: media[] = [
-  {
-    type: "video",
-    url: "https://videos.pexels.com/video-files/30762625/13158951_1920_1080_60fps.mp4",
-    alt: "tea garden ",
-  },
-  {
-    type: "video",
-    url: "https://videos.pexels.com/video-files/1324942/1324942-uhd_2560_1440_24fps.mp4",
-    alt: "Tea plantation landscape",
-  },
+  // {
+  //   type: "video",
+  //   url: "https://videos.pexels.com/video-files/30762625/13158951_1920_1080_60fps.mp4",
+  //   alt: "tea garden ",
+  // },
+  // {
+  //   type: "video",
+  //   url: "https://videos.pexels.com/video-files/1324942/1324942-uhd_2560_1440_24fps.mp4",
+  //   alt: "Tea plantation landscape",
+  // },
   {
     type: "video",
     url: "/assets/tea.webm",

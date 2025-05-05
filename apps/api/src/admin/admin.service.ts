@@ -127,7 +127,14 @@ export class AdminService {
           createdAt: true,
           uniqueIdentifier: true,
           updatedAt: true,
-          sellerProfile: role === 'SELLER',
+          sellerProfile:
+            role === 'SELLER'
+              ? {
+                  include: {
+                    BrandMarks: true,
+                  },
+                }
+              : false,
           buyerProfile: role === 'BUYER',
         },
         take: limit,

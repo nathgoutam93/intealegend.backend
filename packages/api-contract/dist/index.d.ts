@@ -111,7 +111,6 @@ export declare const contract: {
                 profile: z.ZodUnion<[z.ZodObject<Omit<{
                     tmcoNumber: z.ZodNullable<z.ZodString>;
                     cancelledCheque: z.ZodNullable<z.ZodString>;
-                    transportName: z.ZodNullable<z.ZodString>;
                     brandName: z.ZodNullable<z.ZodString>;
                     brandLogo: z.ZodNullable<z.ZodString>;
                     brandCertificate: z.ZodNullable<z.ZodString>;
@@ -162,7 +161,6 @@ export declare const contract: {
                     bankIfscCode: string;
                     tmcoNumber: string | null;
                     cancelledCheque: string | null;
-                    transportName: string | null;
                     brandName: string | null;
                     brandLogo: string | null;
                     brandCertificate: string | null;
@@ -189,11 +187,11 @@ export declare const contract: {
                     bankIfscCode: string;
                     tmcoNumber: string | null;
                     cancelledCheque: string | null;
-                    transportName: string | null;
                     brandName: string | null;
                     brandLogo: string | null;
                     brandCertificate: string | null;
                 }>, z.ZodObject<Omit<{
+                    transportName: z.ZodNullable<z.ZodString>;
                     userId: z.ZodNumber;
                     createdAt: z.ZodDate;
                     updatedAt: z.ZodDate;
@@ -239,6 +237,7 @@ export declare const contract: {
                     fssaiLicense: string | null;
                     bankAccountNumber: string;
                     bankIfscCode: string;
+                    transportName: string | null;
                 }, {
                     businessName: string;
                     businessType: string;
@@ -260,6 +259,7 @@ export declare const contract: {
                     fssaiLicense: string | null;
                     bankAccountNumber: string;
                     bankIfscCode: string;
+                    transportName: string | null;
                 }>]>;
             }, "passthrough", z.ZodTypeAny, z.objectOutputType<{
                 email: z.ZodString;
@@ -268,7 +268,6 @@ export declare const contract: {
                 profile: z.ZodUnion<[z.ZodObject<Omit<{
                     tmcoNumber: z.ZodNullable<z.ZodString>;
                     cancelledCheque: z.ZodNullable<z.ZodString>;
-                    transportName: z.ZodNullable<z.ZodString>;
                     brandName: z.ZodNullable<z.ZodString>;
                     brandLogo: z.ZodNullable<z.ZodString>;
                     brandCertificate: z.ZodNullable<z.ZodString>;
@@ -319,7 +318,6 @@ export declare const contract: {
                     bankIfscCode: string;
                     tmcoNumber: string | null;
                     cancelledCheque: string | null;
-                    transportName: string | null;
                     brandName: string | null;
                     brandLogo: string | null;
                     brandCertificate: string | null;
@@ -346,11 +344,11 @@ export declare const contract: {
                     bankIfscCode: string;
                     tmcoNumber: string | null;
                     cancelledCheque: string | null;
-                    transportName: string | null;
                     brandName: string | null;
                     brandLogo: string | null;
                     brandCertificate: string | null;
                 }>, z.ZodObject<Omit<{
+                    transportName: z.ZodNullable<z.ZodString>;
                     userId: z.ZodNumber;
                     createdAt: z.ZodDate;
                     updatedAt: z.ZodDate;
@@ -396,6 +394,7 @@ export declare const contract: {
                     fssaiLicense: string | null;
                     bankAccountNumber: string;
                     bankIfscCode: string;
+                    transportName: string | null;
                 }, {
                     businessName: string;
                     businessType: string;
@@ -417,6 +416,7 @@ export declare const contract: {
                     fssaiLicense: string | null;
                     bankAccountNumber: string;
                     bankIfscCode: string;
+                    transportName: string | null;
                 }>]>;
             }, z.ZodTypeAny, "passthrough">, z.objectInputType<{
                 email: z.ZodString;
@@ -425,7 +425,6 @@ export declare const contract: {
                 profile: z.ZodUnion<[z.ZodObject<Omit<{
                     tmcoNumber: z.ZodNullable<z.ZodString>;
                     cancelledCheque: z.ZodNullable<z.ZodString>;
-                    transportName: z.ZodNullable<z.ZodString>;
                     brandName: z.ZodNullable<z.ZodString>;
                     brandLogo: z.ZodNullable<z.ZodString>;
                     brandCertificate: z.ZodNullable<z.ZodString>;
@@ -476,7 +475,6 @@ export declare const contract: {
                     bankIfscCode: string;
                     tmcoNumber: string | null;
                     cancelledCheque: string | null;
-                    transportName: string | null;
                     brandName: string | null;
                     brandLogo: string | null;
                     brandCertificate: string | null;
@@ -503,11 +501,11 @@ export declare const contract: {
                     bankIfscCode: string;
                     tmcoNumber: string | null;
                     cancelledCheque: string | null;
-                    transportName: string | null;
                     brandName: string | null;
                     brandLogo: string | null;
                     brandCertificate: string | null;
                 }>, z.ZodObject<Omit<{
+                    transportName: z.ZodNullable<z.ZodString>;
                     userId: z.ZodNumber;
                     createdAt: z.ZodDate;
                     updatedAt: z.ZodDate;
@@ -553,6 +551,7 @@ export declare const contract: {
                     fssaiLicense: string | null;
                     bankAccountNumber: string;
                     bankIfscCode: string;
+                    transportName: string | null;
                 }, {
                     businessName: string;
                     businessType: string;
@@ -574,6 +573,7 @@ export declare const contract: {
                     fssaiLicense: string | null;
                     bankAccountNumber: string;
                     bankIfscCode: string;
+                    transportName: string | null;
                 }>]>;
             }, z.ZodTypeAny, "passthrough">>;
             path: "/api/auth/register";
@@ -1237,7 +1237,6 @@ export declare const contract: {
                             profile: z.ZodObject<{
                                 tmcoNumber: z.ZodNullable<z.ZodString>;
                                 cancelledCheque: z.ZodNullable<z.ZodString>;
-                                transportName: z.ZodNullable<z.ZodString>;
                                 brandName: z.ZodNullable<z.ZodString>;
                                 brandLogo: z.ZodNullable<z.ZodString>;
                                 brandCertificate: z.ZodNullable<z.ZodString>;
@@ -1289,7 +1288,6 @@ export declare const contract: {
                                 id: number;
                                 tmcoNumber: string | null;
                                 cancelledCheque: string | null;
-                                transportName: string | null;
                                 brandName: string | null;
                                 brandLogo: string | null;
                                 brandCertificate: string | null;
@@ -1320,7 +1318,6 @@ export declare const contract: {
                                 id: number;
                                 tmcoNumber: string | null;
                                 cancelledCheque: string | null;
-                                transportName: string | null;
                                 brandName: string | null;
                                 brandLogo: string | null;
                                 brandCertificate: string | null;
@@ -1360,7 +1357,6 @@ export declare const contract: {
                                 id: number;
                                 tmcoNumber: string | null;
                                 cancelledCheque: string | null;
-                                transportName: string | null;
                                 brandName: string | null;
                                 brandLogo: string | null;
                                 brandCertificate: string | null;
@@ -1400,7 +1396,6 @@ export declare const contract: {
                                 id: number;
                                 tmcoNumber: string | null;
                                 cancelledCheque: string | null;
-                                transportName: string | null;
                                 brandName: string | null;
                                 brandLogo: string | null;
                                 brandCertificate: string | null;
@@ -1442,7 +1437,6 @@ export declare const contract: {
                                 id: number;
                                 tmcoNumber: string | null;
                                 cancelledCheque: string | null;
-                                transportName: string | null;
                                 brandName: string | null;
                                 brandLogo: string | null;
                                 brandCertificate: string | null;
@@ -1485,7 +1479,6 @@ export declare const contract: {
                                 id: number;
                                 tmcoNumber: string | null;
                                 cancelledCheque: string | null;
-                                transportName: string | null;
                                 brandName: string | null;
                                 brandLogo: string | null;
                                 brandCertificate: string | null;
@@ -1507,6 +1500,7 @@ export declare const contract: {
                             updatedAt: z.ZodDate;
                         }, {
                             profile: z.ZodObject<{
+                                transportName: z.ZodNullable<z.ZodString>;
                                 userId: z.ZodNumber;
                                 createdAt: z.ZodDate;
                                 updatedAt: z.ZodDate;
@@ -1556,6 +1550,7 @@ export declare const contract: {
                                 userId: number;
                                 createdAt: Date;
                                 updatedAt: Date;
+                                transportName: string | null;
                             }, {
                                 businessName: string;
                                 businessType: string;
@@ -1581,6 +1576,7 @@ export declare const contract: {
                                 userId: number;
                                 createdAt: Date;
                                 updatedAt: Date;
+                                transportName: string | null;
                             }>;
                         }>, "strip", z.ZodTypeAny, {
                             email: string;
@@ -1615,6 +1611,7 @@ export declare const contract: {
                                 userId: number;
                                 createdAt: Date;
                                 updatedAt: Date;
+                                transportName: string | null;
                             };
                         }, {
                             email: string;
@@ -1649,6 +1646,7 @@ export declare const contract: {
                                 userId: number;
                                 createdAt: Date;
                                 updatedAt: Date;
+                                transportName: string | null;
                             };
                         }>, "many">;
                     }, "strip", z.ZodTypeAny, {
@@ -1685,6 +1683,7 @@ export declare const contract: {
                                 userId: number;
                                 createdAt: Date;
                                 updatedAt: Date;
+                                transportName: string | null;
                             };
                         }[];
                         role: "BUYER";
@@ -1722,6 +1721,7 @@ export declare const contract: {
                                 userId: number;
                                 createdAt: Date;
                                 updatedAt: Date;
+                                transportName: string | null;
                             };
                         }[];
                         role: "BUYER";
@@ -1766,7 +1766,6 @@ export declare const contract: {
                                 id: number;
                                 tmcoNumber: string | null;
                                 cancelledCheque: string | null;
-                                transportName: string | null;
                                 brandName: string | null;
                                 brandLogo: string | null;
                                 brandCertificate: string | null;
@@ -1810,6 +1809,7 @@ export declare const contract: {
                                 userId: number;
                                 createdAt: Date;
                                 updatedAt: Date;
+                                transportName: string | null;
                             };
                         }[];
                         role: "BUYER";
@@ -1851,7 +1851,6 @@ export declare const contract: {
                                 id: number;
                                 tmcoNumber: string | null;
                                 cancelledCheque: string | null;
-                                transportName: string | null;
                                 brandName: string | null;
                                 brandLogo: string | null;
                                 brandCertificate: string | null;
@@ -1895,6 +1894,7 @@ export declare const contract: {
                                 userId: number;
                                 createdAt: Date;
                                 updatedAt: Date;
+                                transportName: string | null;
                             };
                         }[];
                         role: "BUYER";
@@ -2790,7 +2790,6 @@ export declare const contract: {
                 200: z.ZodObject<{
                     tmcoNumber: z.ZodNullable<z.ZodString>;
                     cancelledCheque: z.ZodNullable<z.ZodString>;
-                    transportName: z.ZodNullable<z.ZodString>;
                     brandName: z.ZodNullable<z.ZodString>;
                     brandLogo: z.ZodNullable<z.ZodString>;
                     brandCertificate: z.ZodNullable<z.ZodString>;
@@ -2842,7 +2841,6 @@ export declare const contract: {
                     id: number;
                     tmcoNumber: string | null;
                     cancelledCheque: string | null;
-                    transportName: string | null;
                     brandName: string | null;
                     brandLogo: string | null;
                     brandCertificate: string | null;
@@ -2873,7 +2871,6 @@ export declare const contract: {
                     id: number;
                     tmcoNumber: string | null;
                     cancelledCheque: string | null;
-                    transportName: string | null;
                     brandName: string | null;
                     brandLogo: string | null;
                     brandCertificate: string | null;
@@ -2921,7 +2918,6 @@ export declare const contract: {
                 bankIfscCode: z.ZodOptional<z.ZodString>;
                 tmcoNumber: z.ZodOptional<z.ZodNullable<z.ZodString>>;
                 cancelledCheque: z.ZodOptional<z.ZodNullable<z.ZodString>>;
-                transportName: z.ZodOptional<z.ZodNullable<z.ZodString>>;
                 brandName: z.ZodOptional<z.ZodNullable<z.ZodString>>;
                 brandLogo: z.ZodOptional<z.ZodNullable<z.ZodString>>;
                 brandCertificate: z.ZodOptional<z.ZodNullable<z.ZodString>>;
@@ -2948,7 +2944,6 @@ export declare const contract: {
                 bankIfscCode?: string | undefined;
                 tmcoNumber?: string | null | undefined;
                 cancelledCheque?: string | null | undefined;
-                transportName?: string | null | undefined;
                 brandName?: string | null | undefined;
                 brandLogo?: string | null | undefined;
                 brandCertificate?: string | null | undefined;
@@ -2975,7 +2970,6 @@ export declare const contract: {
                 bankIfscCode?: string | undefined;
                 tmcoNumber?: string | null | undefined;
                 cancelledCheque?: string | null | undefined;
-                transportName?: string | null | undefined;
                 brandName?: string | null | undefined;
                 brandLogo?: string | null | undefined;
                 brandCertificate?: string | null | undefined;
@@ -2985,7 +2979,6 @@ export declare const contract: {
                 200: z.ZodObject<{
                     tmcoNumber: z.ZodNullable<z.ZodString>;
                     cancelledCheque: z.ZodNullable<z.ZodString>;
-                    transportName: z.ZodNullable<z.ZodString>;
                     brandName: z.ZodNullable<z.ZodString>;
                     brandLogo: z.ZodNullable<z.ZodString>;
                     brandCertificate: z.ZodNullable<z.ZodString>;
@@ -3037,7 +3030,6 @@ export declare const contract: {
                     id: number;
                     tmcoNumber: string | null;
                     cancelledCheque: string | null;
-                    transportName: string | null;
                     brandName: string | null;
                     brandLogo: string | null;
                     brandCertificate: string | null;
@@ -3068,7 +3060,6 @@ export declare const contract: {
                     id: number;
                     tmcoNumber: string | null;
                     cancelledCheque: string | null;
-                    transportName: string | null;
                     brandName: string | null;
                     brandLogo: string | null;
                     brandCertificate: string | null;
@@ -5001,6 +4992,7 @@ export declare const contract: {
             path: "/api/buyer/profile";
             responses: {
                 200: z.ZodObject<{
+                    transportName: z.ZodNullable<z.ZodString>;
                     userId: z.ZodNumber;
                     createdAt: z.ZodDate;
                     updatedAt: z.ZodDate;
@@ -5050,6 +5042,7 @@ export declare const contract: {
                     userId: number;
                     createdAt: Date;
                     updatedAt: Date;
+                    transportName: string | null;
                 }, {
                     businessName: string;
                     businessType: string;
@@ -5075,6 +5068,7 @@ export declare const contract: {
                     userId: number;
                     createdAt: Date;
                     updatedAt: Date;
+                    transportName: string | null;
                 }>;
                 404: z.ZodObject<{
                     message: z.ZodString;
@@ -5114,6 +5108,7 @@ export declare const contract: {
                 fssaiLicense: z.ZodOptional<z.ZodNullable<z.ZodString>>;
                 bankAccountNumber: z.ZodOptional<z.ZodString>;
                 bankIfscCode: z.ZodOptional<z.ZodString>;
+                transportName: z.ZodOptional<z.ZodNullable<z.ZodString>>;
             }, "strip", z.ZodTypeAny, {
                 businessName?: string | undefined;
                 businessType?: string | undefined;
@@ -5135,6 +5130,7 @@ export declare const contract: {
                 fssaiLicense?: string | null | undefined;
                 bankAccountNumber?: string | undefined;
                 bankIfscCode?: string | undefined;
+                transportName?: string | null | undefined;
             }, {
                 businessName?: string | undefined;
                 businessType?: string | undefined;
@@ -5156,10 +5152,12 @@ export declare const contract: {
                 fssaiLicense?: string | null | undefined;
                 bankAccountNumber?: string | undefined;
                 bankIfscCode?: string | undefined;
+                transportName?: string | null | undefined;
             }>;
             path: "/api/buyers/profile";
             responses: {
                 200: z.ZodObject<{
+                    transportName: z.ZodNullable<z.ZodString>;
                     userId: z.ZodNumber;
                     createdAt: z.ZodDate;
                     updatedAt: z.ZodDate;
@@ -5209,6 +5207,7 @@ export declare const contract: {
                     userId: number;
                     createdAt: Date;
                     updatedAt: Date;
+                    transportName: string | null;
                 }, {
                     businessName: string;
                     businessType: string;
@@ -5234,6 +5233,7 @@ export declare const contract: {
                     userId: number;
                     createdAt: Date;
                     updatedAt: Date;
+                    transportName: string | null;
                 }>;
                 404: z.ZodObject<{
                     message: z.ZodString;

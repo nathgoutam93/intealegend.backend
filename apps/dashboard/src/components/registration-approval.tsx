@@ -55,9 +55,11 @@ export function RegistrationApprovalView() {
 
   if (isBuyersLoading || isSellersLoading) return <div>Loading...</div>;
 
-  const renderTable = (data: typeof buyers, title: string) => (
+  const renderSellersTable = () => (
     <div className="mb-8">
-      <h2 className="text-xl font-semibold mb-4">{title}</h2>
+      <h2 className="text-xl font-semibold mb-4">
+        Pending Seller Registrations
+      </h2>
       <Table>
         <TableHeader>
           <TableRow>
@@ -67,7 +69,7 @@ export function RegistrationApprovalView() {
                 onChange={(e) => {
                   if (e.target.checked) {
                     setSelectedUsers(
-                      data?.body.data.users.map((user) => user.id) ?? []
+                      sellers?.body.data.users.map((user) => user.id) ?? []
                     );
                   } else {
                     setSelectedUsers([]);
@@ -75,14 +77,15 @@ export function RegistrationApprovalView() {
                 }}
               />
             </TableHead>
-            <TableHead>Email</TableHead>
+            <TableHead>Application Date</TableHead>
+            <TableHead>Mark</TableHead>
+            <TableHead>Business Name</TableHead>
             <TableHead>Role</TableHead>
-            <TableHead>Registration Date</TableHead>
             <TableHead>Status</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data?.body.data.users.map((user) => (
+          {sellers?.body.data.users.map((user) => (
             <TableRow
               key={user.id}
               className="cursor-pointer hover:bg-muted/50"
@@ -103,12 +106,88 @@ export function RegistrationApprovalView() {
                   }}
                 />
               </TableCell>
-              <TableCell>{user.email}</TableCell>
+              <TableCell>
+                {new Date(user.createdAt).toLocaleDateString()}
+              </TableCell>
+              <TableCell>
+                {"BrandMarks" in user.profile
+                  ? (user.profile.BrandMarks as any)[0]?.name || "N/A"
+                  : "N/A"}
+              </TableCell>
+              <TableCell>{user.profile.businessName}</TableCell>
               <TableCell>
                 <Badge>{user.role}</Badge>
               </TableCell>
               <TableCell>
+                <Badge variant={user.verified ? "default" : "outline"}>
+                  {user.verified ? "Verified" : "Pending"}
+                </Badge>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </div>
+  );
+
+  const renderBuyersTable = () => (
+    <div className="mb-8">
+      <h2 className="text-xl font-semibold mb-4">
+        Pending Buyer Registrations
+      </h2>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead className="w-[50px]">
+              <input
+                type="checkbox"
+                onChange={(e) => {
+                  if (e.target.checked) {
+                    setSelectedUsers(
+                      buyers?.body.data.users.map((user) => user.id) ?? []
+                    );
+                  } else {
+                    setSelectedUsers([]);
+                  }
+                }}
+              />
+            </TableHead>
+            <TableHead>Application Date</TableHead>
+            <TableHead>Name</TableHead>
+            <TableHead>Town</TableHead>
+            <TableHead>Role</TableHead>
+            <TableHead>Status</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {buyers?.body.data.users.map((user) => (
+            <TableRow
+              key={user.id}
+              className="cursor-pointer hover:bg-muted/50"
+              onClick={() => setSelectedUser(user)}
+            >
+              <TableCell onClick={(e) => e.stopPropagation()}>
+                <input
+                  type="checkbox"
+                  checked={selectedUsers.includes(user.id)}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setSelectedUsers([...selectedUsers, user.id]);
+                    } else {
+                      setSelectedUsers(
+                        selectedUsers.filter((id) => id !== user.id)
+                      );
+                    }
+                  }}
+                />
+              </TableCell>
+              <TableCell>
                 {new Date(user.createdAt).toLocaleDateString()}
+              </TableCell>
+              <TableCell>{user.profile.ownerName}</TableCell>
+              <TableCell>{user.profile.district}</TableCell>
+              <TableCell>
+                <Badge>{user.role}</Badge>
               </TableCell>
               <TableCell>
                 <Badge variant={user.verified ? "default" : "outline"}>
@@ -135,8 +214,8 @@ export function RegistrationApprovalView() {
       </div>
 
       <div className="grid grid-cols-2 gap-8">
-        {renderTable(sellers, "Pending Seller Registrations")}
-        {renderTable(buyers, "Pending Buyer Registrations")}
+        {renderSellersTable()}
+        {renderBuyersTable()}
       </div>
 
       <UserDetailsModal

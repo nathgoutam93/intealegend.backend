@@ -7,7 +7,6 @@ export declare const sellersRouter: {
             200: z.ZodObject<{
                 tmcoNumber: z.ZodNullable<z.ZodString>;
                 cancelledCheque: z.ZodNullable<z.ZodString>;
-                transportName: z.ZodNullable<z.ZodString>;
                 brandName: z.ZodNullable<z.ZodString>;
                 brandLogo: z.ZodNullable<z.ZodString>;
                 brandCertificate: z.ZodNullable<z.ZodString>;
@@ -59,7 +58,6 @@ export declare const sellersRouter: {
                 id: number;
                 tmcoNumber: string | null;
                 cancelledCheque: string | null;
-                transportName: string | null;
                 brandName: string | null;
                 brandLogo: string | null;
                 brandCertificate: string | null;
@@ -90,7 +88,6 @@ export declare const sellersRouter: {
                 id: number;
                 tmcoNumber: string | null;
                 cancelledCheque: string | null;
-                transportName: string | null;
                 brandName: string | null;
                 brandLogo: string | null;
                 brandCertificate: string | null;
@@ -138,7 +135,6 @@ export declare const sellersRouter: {
             bankIfscCode: z.ZodOptional<z.ZodString>;
             tmcoNumber: z.ZodOptional<z.ZodNullable<z.ZodString>>;
             cancelledCheque: z.ZodOptional<z.ZodNullable<z.ZodString>>;
-            transportName: z.ZodOptional<z.ZodNullable<z.ZodString>>;
             brandName: z.ZodOptional<z.ZodNullable<z.ZodString>>;
             brandLogo: z.ZodOptional<z.ZodNullable<z.ZodString>>;
             brandCertificate: z.ZodOptional<z.ZodNullable<z.ZodString>>;
@@ -165,7 +161,6 @@ export declare const sellersRouter: {
             bankIfscCode?: string | undefined;
             tmcoNumber?: string | null | undefined;
             cancelledCheque?: string | null | undefined;
-            transportName?: string | null | undefined;
             brandName?: string | null | undefined;
             brandLogo?: string | null | undefined;
             brandCertificate?: string | null | undefined;
@@ -192,7 +187,6 @@ export declare const sellersRouter: {
             bankIfscCode?: string | undefined;
             tmcoNumber?: string | null | undefined;
             cancelledCheque?: string | null | undefined;
-            transportName?: string | null | undefined;
             brandName?: string | null | undefined;
             brandLogo?: string | null | undefined;
             brandCertificate?: string | null | undefined;
@@ -202,7 +196,6 @@ export declare const sellersRouter: {
             200: z.ZodObject<{
                 tmcoNumber: z.ZodNullable<z.ZodString>;
                 cancelledCheque: z.ZodNullable<z.ZodString>;
-                transportName: z.ZodNullable<z.ZodString>;
                 brandName: z.ZodNullable<z.ZodString>;
                 brandLogo: z.ZodNullable<z.ZodString>;
                 brandCertificate: z.ZodNullable<z.ZodString>;
@@ -254,7 +247,6 @@ export declare const sellersRouter: {
                 id: number;
                 tmcoNumber: string | null;
                 cancelledCheque: string | null;
-                transportName: string | null;
                 brandName: string | null;
                 brandLogo: string | null;
                 brandCertificate: string | null;
@@ -285,7 +277,6 @@ export declare const sellersRouter: {
                 id: number;
                 tmcoNumber: string | null;
                 cancelledCheque: string | null;
-                transportName: string | null;
                 brandName: string | null;
                 brandLogo: string | null;
                 brandCertificate: string | null;

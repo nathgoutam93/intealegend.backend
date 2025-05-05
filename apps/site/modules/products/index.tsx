@@ -146,11 +146,12 @@ function ProductList({}: Props) {
                   <TableHead>Mark</TableHead>
                   <TableHead>Invoice No.</TableHead>
                   <TableHead>Grade</TableHead>
-                  <TableHead>Score</TableHead>
-                  <TableHead>Wt/Pkg</TableHead>
-                  <TableHead>MBP</TableHead>
                   <TableHead>Pkgs</TableHead>
+                  <TableHead>Wt/Pkg</TableHead>
+                  <TableHead>Sample</TableHead>
                   <TableHead className="whitespace-nowrap">Total Wt.</TableHead>
+                  <TableHead>Score</TableHead>
+                  <TableHead>MBP</TableHead>
                   <TableHead className="text-right">
                     <Button
                       variant="ghost"
@@ -208,6 +209,14 @@ function ProductList({}: Props) {
                     <TableCell>{product.brandMark.name}</TableCell>
                     <TableCell>{product.invoiceNo}</TableCell>
                     <TableCell>{product.grade}</TableCell>
+                    <TableCell>{product.quantity}</TableCell>
+                    <TableCell>{product.weightPerUnit} kg</TableCell>
+                    <TableCell>{product.sampleWeight} kg</TableCell>
+                    <TableCell>
+                      {product.quantity * product.weightPerUnit -
+                        Number(product.sampleWeight)}{" "}
+                      kg
+                    </TableCell>
                     <TableCell>
                       <TooltipProvider delayDuration={200}>
                         <Tooltip>
@@ -232,17 +241,11 @@ function ProductList({}: Props) {
                         </Tooltip>
                       </TooltipProvider>
                     </TableCell>
-                    <TableCell>{product.weightPerUnit} kg</TableCell>
                     <TableCell>{product.mbp}</TableCell>
-                    <TableCell>{product.quantity}</TableCell>
-                    <TableCell>
-                      {product.quantity * product.weightPerUnit -
-                        Number(product.sampleWeight)}{" "}
-                      kg
-                    </TableCell>
                     <TableCell className="text-right">
                       {product.pricePerUnit.toLocaleString("en-IN")}
                     </TableCell>
+
                     <TableCell className="text-right">
                       <Button
                         variant="outline"
@@ -255,6 +258,7 @@ function ProductList({}: Props) {
                         Add to Cart
                       </Button>
                     </TableCell>
+
                     <TableCell className="text-xs">
                       {product.location}
                     </TableCell>

@@ -54,11 +54,6 @@ const REGISTRATION_STEPS = [
   },
   {
     id: 7,
-    title: "Logistics",
-    fields: ["transportName"],
-  },
-  {
-    id: 8,
     title: "Set Password",
     fields: ["password", "confirmPassword"],
   },
@@ -101,8 +96,7 @@ export default function SellerRegistrationForm() {
     bankIfscCode: "",
     cancelledCheque: null as File | null,
 
-    // Step 6: Brand & Logistics
-    transportName: "",
+    // Step 6: Brand
     brandName: "",
     brandLogo: null as File | null,
     brandCertificate: null as File | null,
@@ -578,20 +572,6 @@ export default function SellerRegistrationForm() {
                       }
                     }}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Transport Partner Name
-                  </label>
-                  <input
-                    type="text"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                    value={formData.transportName}
-                    onChange={(e) =>
-                      handleInputChange("transportName", e.target.value)
-                    }
                   />
                 </div>
               </div>

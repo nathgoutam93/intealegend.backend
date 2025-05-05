@@ -104,7 +104,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 </div>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">Intealegend</span>
-                  <span className="truncate text-xs capitalize">{role}</span>
+                  <span className="truncate text-xs capitalize">
+                    {user?.role === "ADMIN"
+                      ? "ADMIN"
+                      : `Seller ID: ${user?.uniqueIdentifier}`}
+                  </span>
                 </div>
               </a>
             </SidebarMenuButton>

@@ -13,7 +13,8 @@ import {
 
 export function CartSummary() {
   const { items, removeItem, updateQuantity, calculateTotals } = useCartStore();
-  const { subtotal, totalWeight, totalAmount } = calculateTotals();
+  const { subtotal, totalWeight, totalAmount, gstOnSubtotal, gstOnShipping } =
+    calculateTotals();
 
   const handleQuantityChange = (item: CartItem, newQuantity: number) => {
     if (newQuantity >= 1) {
@@ -24,11 +25,8 @@ export function CartSummary() {
   // Calculate shipping based on weight (20 INR per kg, min 200 INR, max 600 INR)
   const shipping = Math.min(Math.max(totalWeight * 20, 200), 600);
 
-  // Calculate GST (5% of subtotal)
-  const gst = subtotal * 0.05;
-
   // Calculate total amount
-  const finalTotal = subtotal + shipping + gst;
+  const finalTotal = subtotal + shipping + gstOnSubtotal + gstOnShipping;
 
   return (
     <div className="flex gap-6">
@@ -128,8 +126,12 @@ export function CartSummary() {
             <span>₹{shipping.toFixed(2)}</span>
           </div>
           <div className="flex justify-between">
-            <span>GST (5%)</span>
-            <span>₹{gst.toFixed(2)}</span>
+            <span>GST on Items (5%)</span>
+            <span>₹{gstOnSubtotal.toFixed(2)}</span>
+          </div>
+          <div className="flex justify-between">
+            <span>GST on Shipping (5%)</span>
+            <span>₹{gstOnShipping.toFixed(2)}</span>
           </div>
           <div className="border-t pt-2 mt-2 font-semibold">
             <div className="flex justify-between">

@@ -27,6 +27,8 @@ interface CartState {
     subtotal: number;
     totalWeight: number;
     totalAmount: number;
+    gstOnSubtotal: number;
+    gstOnShipping: number;
   };
 }
 
@@ -146,10 +148,23 @@ export const useCartStore = create<CartState>()(
         // Calculate shipping based on weight (20 INR per kg, min 200 INR, max 600 INR)
         const shipping = Math.min(Math.max(totalWeight * 20, 200), 600);
 
-        const totalAmount =
-          subtotal + shipping + state.otherCharges + state.gst + state.roundOff;
+        // Calculate GST separately for subtotal and shipping (5% each)
+        const gstOnSubtotal = subtotal * 0.05;
+        const gstOnShipping = shipping * 0.05;
+        
+        // Total GST
+        const totalGst = gstOnSubtotal + gstOnShipping;
 
-        return { subtotal, totalWeight, totalAmount };
+        const totalAmount =
+          subtotal + shipping + state.otherCharges + totalGst + state.roundOff;
+
+        return { 
+          subtotal, 
+          totalWeight, 
+          totalAmount,
+          gstOnSubtotal,
+          gstOnShipping
+        };
       },
     }),
     {

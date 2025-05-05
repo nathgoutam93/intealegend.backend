@@ -52,11 +52,6 @@ const REGISTRATION_STEPS = [
   },
   {
     id: 7,
-    title: "Logistics",
-    fields: ["transportName"],
-  },
-  {
-    id: 8,
     title: "Set Password",
     fields: ["password", "confirmPassword"],
   },
@@ -85,7 +80,6 @@ type FormData = {
   bankAccountNumber: string;
   bankIfscCode: string;
   cancelledCheque: File | null;
-  transportName: string;
   brandName: string;
   brandLogo: File | null;
   brandCertificate: File | null;
@@ -131,8 +125,7 @@ export default function SellerRegistrationForm() {
     bankIfscCode: "",
     cancelledCheque: null,
 
-    // Step 6: Brand & Logistics
-    transportName: "",
+    // Step 6: Brand
     brandName: "",
     brandLogo: null,
     brandCertificate: null,
@@ -623,27 +616,8 @@ export default function SellerRegistrationForm() {
             </>
           )}
 
-          {/* STEP 7: Logistics */}
-          {step === 7 && (
-            <>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Transport Partner Name
-                </label>
-                <input
-                  type="text"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                  value={formData.transportName}
-                  onChange={(e) =>
-                    handleInputChange("transportName", e.target.value)
-                  }
-                />
-              </div>
-            </>
-          )}
-
           {/* STEP 8: Set Password */}
-          {step === 8 && (
+          {step === 7 && (
             <>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
