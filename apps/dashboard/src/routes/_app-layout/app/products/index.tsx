@@ -179,7 +179,7 @@ function ProductsPage() {
               <TableHead>Location</TableHead>
               <TableHead>Origin</TableHead>
               <TableHead>Production</TableHead>
-              {user?.role === "ADMIN" && <TableHead>Seller</TableHead>}
+              {user?.role === "ADMIN" && <TableHead></TableHead>}
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -240,8 +240,15 @@ function ProductsPage() {
                 </TableCell>
                 {user?.role === "ADMIN" && (
                   <TableCell>
-                    {/* @ts-ignore - seller info is available in admin view */}
-                    {product.seller?.businessName || product.sellerId}
+                    <Button asChild>
+                      <Link
+                        to={`/app/products/$productId`}
+                        params={{ productId: product.id.toString() }}
+                        className="text-blue-500 hover:underline"
+                      >
+                        Edit
+                      </Link>
+                    </Button>
                   </TableCell>
                 )}
               </TableRow>

@@ -271,6 +271,7 @@ export class AdminService {
           },
         ],
       }),
+      status: { not: 'REJECTED' },
       ...(status && { isLive: status === 'published' }),
     };
 

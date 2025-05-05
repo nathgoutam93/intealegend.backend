@@ -2,6 +2,8 @@
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
 import { Badge } from "./ui/badge";
+import { Button } from "./ui/button";
+import { Printer } from "lucide-react";
 import { PendingUser } from "@intealegend/api-contract";
 
 interface UserDetailsModalProps {
@@ -19,14 +21,57 @@ export function UserDetailsModal({
 
   const isSeller = user.role === "SELLER";
 
+  const handlePrint = () => {
+    const printWindow = window.open("", "", "width=800,height=600");
+    if (!printWindow) return;
+
+    const content = document.querySelector("[data-print-content]");
+    if (!content) return;
+
+    printWindow.document.write(`
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>User Details - ${user.profile.businessName}</title>
+          <style>
+            body { font-family: Arial, sans-serif; padding: 20px; }
+            .header { text-align: center; margin-bottom: 20px; }
+            .section { margin-bottom: 20px; }
+            .section-title { font-weight: bold; margin-bottom: 10px; }
+            .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+            .field { margin-bottom: 8px; }
+            .label { color: #666; font-size: 0.9em; }
+            .value { margin-top: 2px; }
+            img { max-width: 200px; height: auto; }
+            @page { size: A4; margin: 2cm; }
+            @media print {
+              body { -webkit-print-color-adjust: exact; }
+            }
+          </style>
+        </head>
+        <body>
+          ${content.innerHTML}
+        </body>
+      </html>
+    `);
+
+    printWindow.document.close();
+    printWindow.focus();
+    printWindow.print();
+    printWindow.close();
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-4xl max-h-[80vh] overflow-hidden flex flex-col">
-        <DialogHeader>
+        <DialogHeader className="flex flex-row justify-between items-center">
           <DialogTitle>User Details</DialogTitle>
+          <Button variant="outline" size="icon" onClick={handlePrint}>
+            <Printer className="h-4 w-4" />
+          </Button>
         </DialogHeader>
 
-        <div className="space-y-4 overflow-y-auto pr-6">
+        <div className="space-y-4 overflow-y-auto pr-6" data-print-content>
           {/* Basic Info */}
           <div className="space-y-2">
             <h3 className="font-semibold">Basic Information</h3>
