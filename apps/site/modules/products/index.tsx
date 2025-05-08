@@ -22,7 +22,9 @@ type Props = {};
 
 function ProductList({}: Props) {
   const [searchText, setSearchText] = useState("");
+  const [gradeText, setGradeText] = useState("");
   const [debouncedSearchText, setDebouncedSearchText] = useState(searchText);
+  const [debouncedGradeText, setDebouncedGradeText] = useState(gradeText);
   const [sortOrder, setSortOrder] = useState<"asc" | "desc" | undefined>(
     undefined
   );
@@ -33,42 +35,62 @@ function ProductList({}: Props) {
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedSearchText(searchText);
-    }, 500); // 500ms debounce
+      // Update URL params only after debounce
+      const params = new URLSearchParams(window.location.search);
+      if (searchText) {
+        params.set("search", searchText);
+      } else {
+        params.delete("search");
+      }
+      window.history.replaceState({}, "", `?${params.toString()}`);
+    }, 500);
 
     return () => {
-      clearTimeout(handler); // Cleanup the previous timeout if the search text changes again
+      clearTimeout(handler);
     };
   }, [searchText]);
 
-  // on mount, read params
+  // Debounce the grade input
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedGradeText(gradeText);
+      // Update URL params only after debounce
+      const params = new URLSearchParams(window.location.search);
+      if (gradeText) {
+        params.set("grade", gradeText);
+      } else {
+        params.delete("grade");
+      }
+      window.history.replaceState({}, "", `?${params.toString()}`);
+    }, 500);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [gradeText]);
+
+  // Handle sort and pagination URL updates
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    setSearchText(params.get("search") || "");
-    const so = params.get("sortOrder");
-    setSortOrder(
-      so === "asc" || so === "desc" ? (so as "asc" | "desc") : undefined
-    );
-    setOffset(Number(params.get("offset")) || 0);
-  }, []);
-
-  // when filters change, update URL
-  const updateSearchParams = useCallback(() => {
-    const params = new URLSearchParams();
-    if (debouncedSearchText) params.set("search", debouncedSearchText);
-    if (sortOrder) params.set("sortOrder", sortOrder);
-    if (offset) params.set("offset", offset.toString());
+    if (sortOrder) {
+      params.set("sortOrder", sortOrder);
+    } else {
+      params.delete("sortOrder");
+    }
+    if (offset) {
+      params.set("offset", offset.toString());
+    } else {
+      params.delete("offset");
+    }
     window.history.replaceState({}, "", `?${params.toString()}`);
-  }, [debouncedSearchText, sortOrder, offset]);
-
-  useEffect(() => {
-    updateSearchParams();
-  }, [debouncedSearchText, sortOrder, offset, updateSearchParams]);
+  }, [sortOrder, offset]);
 
   const { data, isLoading } = client.buyers.getProducts.useQuery(
     [
       "products",
       {
         search: debouncedSearchText,
+        grade: debouncedGradeText,
         sortBy: sortOrder ? "price" : undefined,
         sortOrder,
         offset: offset.toString(),
@@ -78,6 +100,7 @@ function ProductList({}: Props) {
     {
       query: {
         search: debouncedSearchText,
+        grade: debouncedGradeText,
         sortBy: sortOrder ? "price" : undefined,
         sortOrder,
         offset: offset.toString(),
@@ -131,8 +154,8 @@ function ProductList({}: Props) {
           />
           <Input
             placeholder="Search Grade..."
-            value={searchText}
-            onChange={(e) => setSearchText(e.target.value)}
+            value={gradeText}
+            onChange={(e) => setGradeText(e.target.value)}
             className="max-w-sm"
           />
         </div>

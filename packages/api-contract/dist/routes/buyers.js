@@ -43,6 +43,7 @@ exports.buyersRouter = c.router({
             offset: zod_1.default.string().optional().default("0"),
             limit: zod_1.default.string().optional().default("10"),
             search: zod_1.default.string().optional(),
+            grade: zod_1.default.string().optional(),
             sortBy: zod_1.default.enum(["price", "createdAt", "name"]).optional(),
             sortOrder: zod_1.default.enum(["asc", "desc"]).optional(),
         }),

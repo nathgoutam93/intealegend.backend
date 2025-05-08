@@ -362,7 +362,7 @@ function ProductDetailPage() {
                 />
               </div>
               <div>
-                <h3 className="font-medium text-muted-foreground">Quantity</h3>
+                <h3 className="font-medium text-muted-foreground">Pkgs</h3>
                 <Input
                   name="quantity"
                   type="number"

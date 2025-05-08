@@ -9,7 +9,7 @@ export default function AccountLayout({
 }) {
   return (
     <>
-      <Header />
+      <Header showBackButton />
       <div className="container flex flex-col md:flex-row p-4 gap-6">
         <AccountSidebar className="w-full md:w-64 mb-6 md:mb-0" />
         <main className="flex-1">{children}</main>

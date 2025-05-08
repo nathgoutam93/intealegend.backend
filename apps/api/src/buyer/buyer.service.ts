@@ -30,10 +30,11 @@ export class BuyerService {
     limit?: number;
     offset?: number;
     search?: string;
+    grade?: string;
     sortBy?: 'price' | 'createdAt' | 'name';
     sortOrder?: 'asc' | 'desc';
   }) {
-    const { offset = 0, limit = 10, sortBy, sortOrder, search } = query;
+    const { offset = 0, limit = 10, sortBy, sortOrder, search, grade } = query;
 
     const where: Prisma.ProductWhereInput = {
       ...(search && {
@@ -44,6 +45,9 @@ export class BuyerService {
             },
           },
         ],
+      }),
+      ...(grade && {
+        grade: { contains: grade, mode: Prisma.QueryMode.insensitive },
       }),
       isLive: true,
     };

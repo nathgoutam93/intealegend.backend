@@ -5255,16 +5255,19 @@ export declare const contract: {
                 offset: z.ZodDefault<z.ZodOptional<z.ZodString>>;
                 limit: z.ZodDefault<z.ZodOptional<z.ZodString>>;
                 search: z.ZodOptional<z.ZodString>;
+                grade: z.ZodOptional<z.ZodString>;
                 sortBy: z.ZodOptional<z.ZodEnum<["price", "createdAt", "name"]>>;
                 sortOrder: z.ZodOptional<z.ZodEnum<["asc", "desc"]>>;
             }, "strip", z.ZodTypeAny, {
                 limit: string;
                 offset: string;
                 search?: string | undefined;
+                grade?: string | undefined;
                 sortBy?: "createdAt" | "name" | "price" | undefined;
                 sortOrder?: "asc" | "desc" | undefined;
             }, {
                 search?: string | undefined;
+                grade?: string | undefined;
                 limit?: string | undefined;
                 offset?: string | undefined;
                 sortBy?: "createdAt" | "name" | "price" | undefined;

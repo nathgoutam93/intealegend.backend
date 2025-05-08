@@ -34,12 +34,13 @@ export class BuyerController {
       },
 
       getProducts: async ({
-        query: { limit, offset, search, sortBy, sortOrder },
+        query: { limit, offset, search, grade, sortBy, sortOrder },
       }) => {
         const products = await this.buyerService.getProducts({
           limit: limit ? parseInt(limit) : undefined,
           offset: offset ? parseInt(offset) : undefined,
           search,
+          grade,
           sortBy,
           sortOrder: sortOrder as 'asc' | 'desc',
         });

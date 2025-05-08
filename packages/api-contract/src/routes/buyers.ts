@@ -46,6 +46,7 @@ export const buyersRouter = c.router({
       offset: z.string().optional().default("0"),
       limit: z.string().optional().default("10"),
       search: z.string().optional(),
+      grade: z.string().optional(),
       sortBy: z.enum(["price", "createdAt", "name"]).optional(),
       sortOrder: z.enum(["asc", "desc"]).optional(),
     }),
