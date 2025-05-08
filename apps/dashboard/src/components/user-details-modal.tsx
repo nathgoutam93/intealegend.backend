@@ -28,6 +28,15 @@ export function UserDetailsModal({
     const content = document.querySelector("[data-print-content]");
     if (!content) return;
 
+    // Clone the content to modify it for printing
+    const contentClone = content.cloneNode(true) as HTMLElement;
+
+    // Ensure all images have complete URLs
+    const images = contentClone.getElementsByTagName("img");
+    Array.from(images).forEach((img) => {
+      img.src = img.src; // This converts relative URLs to absolute
+    });
+
     printWindow.document.write(`
       <!DOCTYPE html>
       <html>
@@ -42,23 +51,49 @@ export function UserDetailsModal({
             .field { margin-bottom: 8px; }
             .label { color: #666; font-size: 0.9em; }
             .value { margin-top: 2px; }
-            img { max-width: 200px; height: auto; }
+            img { max-width: 200px; height: auto; display: block; margin: 10px 0; }
             @page { size: A4; margin: 2cm; }
             @media print {
               body { -webkit-print-color-adjust: exact; }
+              img { max-width: 100%; page-break-inside: avoid; }
             }
           </style>
         </head>
         <body>
-          ${content.innerHTML}
+          ${contentClone.innerHTML}
         </body>
       </html>
     `);
 
     printWindow.document.close();
-    printWindow.focus();
-    printWindow.print();
-    printWindow.close();
+
+    // Wait for images to load before printing
+    const loadImages = Array.from(printWindow.document.images).map((img) => {
+      return new Promise((resolve, reject) => {
+        if (img.complete) {
+          resolve(null);
+        } else {
+          img.onload = () => resolve(null);
+          img.onerror = reject;
+        }
+      });
+    });
+
+    Promise.all(loadImages)
+      .then(() => {
+        // Add a small delay to ensure styles are applied
+        setTimeout(() => {
+          printWindow.focus();
+          printWindow.print();
+          printWindow.close();
+        }, 500);
+      })
+      .catch((error) => {
+        console.error("Error loading images:", error);
+        printWindow.focus();
+        printWindow.print();
+        printWindow.close();
+      });
   };
 
   return (

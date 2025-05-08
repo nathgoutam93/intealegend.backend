@@ -11,9 +11,15 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
-import { ChevronDown, Filter } from "lucide-react";
+import { ChevronDown, CircleHelp, Filter } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { useAuthStore } from "@/stores/auth.store";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export const Route = createFileRoute("/_app-layout/app/products/")({
   component: ProductsPage,
@@ -141,11 +147,11 @@ function ProductsPage() {
               <TableHead>Mark</TableHead>
               <TableHead>Invoice No.</TableHead>
               <TableHead>Grade</TableHead>
+              <TableHead>Pkgs</TableHead>
               <TableHead>Wt/Pkg</TableHead>
               <TableHead>Sample Wt.</TableHead>
-              <TableHead>MBP</TableHead>
-              <TableHead>Pkgs</TableHead>
               <TableHead>Total Wt.</TableHead>
+              <TableHead>Score</TableHead>
               <TableHead className="text-right">
                 <Button
                   variant="ghost"
@@ -174,6 +180,17 @@ function ProductsPage() {
                     }}
                   />
                 </Button>
+              </TableHead>
+              <TableHead>
+                <TooltipProvider delayDuration={200}>
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <span>MBP</span>
+                      <CircleHelp size={14} className="ml-1 mb-0.5 inline" />
+                    </TooltipTrigger>
+                    <TooltipContent>Minimum Buy Pkgs</TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
               </TableHead>
               <TableHead className="text-right">Status</TableHead>
               <TableHead>Location</TableHead>
@@ -206,19 +223,43 @@ function ProductsPage() {
                 </TableCell>
                 <TableCell>{product.brandMark.name}</TableCell>
                 <TableCell>{product.invoiceNo}</TableCell>
-                <TableCell>{product.grade}</TableCell>
+                <TableCell className="text-center">{product.grade}</TableCell>
+                <TableCell>{product.quantity}</TableCell>
                 <TableCell>{product.weightPerUnit} kg</TableCell>
                 <TableCell>{product.sampleWeight} kg</TableCell>
-                <TableCell>{product.mbp}</TableCell>
-                <TableCell>{product.quantity}</TableCell>
                 <TableCell>
                   {product.quantity * product.weightPerUnit -
                     Number(product.sampleWeight)}{" "}
                   kg
                 </TableCell>
-                <TableCell className="text-right">
+                <TableCell>
+                  <TooltipProvider delayDuration={200}>
+                    <Tooltip>
+                      <TooltipTrigger>
+                        {product.tasteScore +
+                          product.liquorScore +
+                          product.infusionScore +
+                          product.gradingScore +
+                          product.volumeScore +
+                          product.appearanceScore}
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <div className="p-1 bg-black text-white text-xs">
+                          <p>Taste: {product.tasteScore}</p>
+                          <p>Liquor: {product.liquorScore}</p>
+                          <p>Infusion: {product.infusionScore}</p>
+                          <p>Grading: {product.gradingScore}</p>
+                          <p>Volume: {product.volumeScore}</p>
+                          <p>Appearance: {product.appearanceScore}</p>
+                        </div>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </TableCell>
+                <TableCell className="text-center">
                   {product.pricePerUnit.toLocaleString("en-IN")}
                 </TableCell>
+                <TableCell className="text-center">{product.mbp}</TableCell>
                 <TableCell className="text-right">
                   <span
                     className={`px-2 py-1 rounded-full text-xs ${

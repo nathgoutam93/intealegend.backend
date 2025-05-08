@@ -59,11 +59,13 @@ export class AdminService {
       this.db.product.count({
         where: {
           isLive: true,
+          status: { not: 'REJECTED' },
         },
       }),
       this.db.product.count({
         where: {
-          status: 'PENDING',
+          isLive: false,
+          status: { not: 'REJECTED' },
         },
       }),
       this.db.order.count({

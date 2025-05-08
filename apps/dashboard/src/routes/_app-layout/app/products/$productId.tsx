@@ -125,7 +125,7 @@ function ProductDetailPage() {
       pricePerUnit: Number(formData.get("pricePerUnit")),
       mbp: formData.get("mbp") ? Number(formData.get("mbp")) : null,
       imageUrl: (formData.get("imageUrl") as string) || null,
-      quantity: data.body.quantity || 0,
+      quantity: Number(formData.get("quantity")),
     };
 
     try {
@@ -289,7 +289,7 @@ function ProductDetailPage() {
                   type="number"
                   defaultValue={product.weightPerUnit}
                   disabled={user?.role !== "ADMIN"}
-                  step={0.5}
+                  step={0.01}
                 />
               </div>
               <div>
@@ -301,6 +301,7 @@ function ProductDetailPage() {
                   type="number"
                   defaultValue={product.sampleWeight ?? ""}
                   disabled={user?.role !== "ADMIN"}
+                  step={0.01}
                 />
               </div>
             </div>
@@ -334,6 +335,7 @@ function ProductDetailPage() {
                   type="number"
                   defaultValue={product.pricePerUnit}
                   disabled={user?.role !== "ADMIN"}
+                  step={0.01}
                 />
               </div>
               <div>

@@ -151,7 +151,6 @@ function ProductList({}: Props) {
                   <TableHead>Sample</TableHead>
                   <TableHead className="whitespace-nowrap">Total Wt.</TableHead>
                   <TableHead>Score</TableHead>
-                  <TableHead>MBP</TableHead>
                   <TableHead className="text-right">
                     <Button
                       variant="ghost"
@@ -183,6 +182,7 @@ function ProductList({}: Props) {
                       />
                     </Button>
                   </TableHead>
+                  <TableHead>MBP</TableHead>
                   <TableHead className="text-right"></TableHead>
                   <TableHead>Location</TableHead>
                   <TableHead>Origin</TableHead>
