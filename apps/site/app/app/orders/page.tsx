@@ -123,10 +123,11 @@ export default function OrdersPage() {
               <TableHeader>
                 <TableRow>
                   <TableHead>Order ID</TableHead>
-                  <TableHead>Date</TableHead>
-                  <TableHead>Items</TableHead>
-                  <TableHead>Weight</TableHead>
-                  <TableHead>Amount</TableHead>
+                  <TableHead className="text-center">Date</TableHead>
+                  <TableHead className="text-center">Items</TableHead>
+                  <TableHead className="text-center">Total Pkg</TableHead>
+                  <TableHead className="text-center">Total Weight</TableHead>
+                  <TableHead className="text-center">Total Amount</TableHead>
                   <TableHead>Status</TableHead>
                 </TableRow>
               </TableHeader>
@@ -138,12 +139,24 @@ export default function OrdersPage() {
                     onClick={() => router.push(`/app/orders/${order.id}`)}
                   >
                     <TableCell className="font-medium">#{order.id}</TableCell>
-                    <TableCell>
+                    <TableCell className="text-center">
                       {new Date(order.createdAt).toLocaleDateString()}
                     </TableCell>
-                    <TableCell>{order.orderItems.length} items</TableCell>
-                    <TableCell>{order.estimatedWeight}kg</TableCell>
-                    <TableCell>₹{order.totalAmount.toFixed(2)}</TableCell>
+                    <TableCell className="text-center">
+                      {order.orderItems.length}
+                    </TableCell>
+                    <TableCell className="text-center">
+                      {order.orderItems.reduce(
+                        (prv, cur) => cur.quantity + prv,
+                        0
+                      )}{" "}
+                    </TableCell>
+                    <TableCell className="text-center">
+                      {order.estimatedWeight}kg
+                    </TableCell>
+                    <TableCell className="text-center">
+                      ₹{order.totalAmount.toFixed(2)}
+                    </TableCell>
                     <TableCell>
                       <Badge
                         variant={

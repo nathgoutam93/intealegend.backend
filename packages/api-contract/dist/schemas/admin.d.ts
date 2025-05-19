@@ -6,14 +6,14 @@ export declare const AdminStatsSchema: z.ZodObject<{
         buyer: z.ZodNumber;
         pending: z.ZodNumber;
     }, "strip", z.ZodTypeAny, {
+        buyer: number;
         total: number;
         seller: number;
-        buyer: number;
         pending: number;
     }, {
+        buyer: number;
         total: number;
         seller: number;
-        buyer: number;
         pending: number;
     }>;
     products: z.ZodObject<{
@@ -41,9 +41,9 @@ export declare const AdminStatsSchema: z.ZodObject<{
     }>;
 }, "strip", z.ZodTypeAny, {
     users: {
+        buyer: number;
         total: number;
         seller: number;
-        buyer: number;
         pending: number;
     };
     products: {
@@ -57,9 +57,9 @@ export declare const AdminStatsSchema: z.ZodObject<{
     };
 }, {
     users: {
+        buyer: number;
         total: number;
         seller: number;
-        buyer: number;
         pending: number;
     };
     products: {

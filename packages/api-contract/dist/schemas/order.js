@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.OrderSchema = exports.OrderItemSchema = void 0;
 var zod_1 = __importDefault(require("zod"));
+var profile_1 = require("./profile");
 exports.OrderItemSchema = zod_1.default.object({
     id: zod_1.default.number(),
     orderId: zod_1.default.number(),
@@ -19,6 +20,11 @@ exports.OrderItemSchema = zod_1.default.object({
 exports.OrderSchema = zod_1.default.object({
     id: zod_1.default.number(),
     userId: zod_1.default.number(),
+    buyer: profile_1.BuyerProfileSchema.pick({
+        businessName: true,
+        ownerName: true,
+        transportName: true,
+    }),
     status: zod_1.default
         .enum([
         "PENDING",
@@ -36,6 +42,12 @@ exports.OrderSchema = zod_1.default.object({
     otherCharges: zod_1.default.number().nullable(),
     roundOff: zod_1.default.number().nullable(),
     orderItems: zod_1.default.array(exports.OrderItemSchema),
+    shippingAddress: zod_1.default.string(),
+    shippingState: zod_1.default.string(),
+    shippingDistrict: zod_1.default.string(),
+    shippingPincode: zod_1.default.string(),
+    shippingPhone: zod_1.default.string(),
+    shippingEmail: zod_1.default.string().nullable(),
     createdAt: zod_1.default.date(),
     updatedAt: zod_1.default.date(),
 });

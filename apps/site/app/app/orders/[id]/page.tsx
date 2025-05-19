@@ -118,8 +118,8 @@ export default function OrderDetailsPage() {
                     <TableHeader>
                       <TableRow>
                         <TableHead>Item</TableHead>
-                        <TableHead>Quantity</TableHead>
-                        <TableHead>Weight</TableHead>
+                        <TableHead className="text-center">Quantity</TableHead>
+                        <TableHead className="text-center">Weight</TableHead>
                         <TableHead className="text-right">Price</TableHead>
                       </TableRow>
                     </TableHeader>
@@ -139,8 +139,12 @@ export default function OrderDetailsPage() {
                               </p>
                             </div>
                           </TableCell>
-                          <TableCell>{item.quantity}</TableCell>
-                          <TableCell>{item.totalWeight}kg</TableCell>
+                          <TableCell className="text-center">
+                            {item.quantity}
+                          </TableCell>
+                          <TableCell className="text-center">
+                            {item.totalWeight}kg
+                          </TableCell>
                           <TableCell className="text-right">
                             ₹{item.unitPrice.toFixed(2)} /kg
                           </TableCell>
@@ -184,31 +188,36 @@ export default function OrderDetailsPage() {
                 </CardContent>
               </Card>
 
-              {/* <Card className="mt-6">
+              <Card className="mt-6">
                 <CardHeader>
                   <CardTitle>Delivery Details</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
                     <div>
-                      <div className="text-sm text-muted-foreground">Address</div>
-                      <div>{order.shippingAddress}</div>
+                      <div className="text-sm text-muted-foreground">
+                        Address
+                      </div>
+                      <div>
+                        {[
+                          order.shippingAddress,
+                          order.shippingDistrict,
+                          order.shippingState,
+                          order.shippingPincode,
+                        ].join(", ")}
+                      </div>
                     </div>
                     <div>
                       <div className="text-sm text-muted-foreground">
                         Contact Number
                       </div>
-                      <div>{order.contactNumber}</div>
-                    </div>
-                    {order.deliveryNotes && (
                       <div>
-                        <div className="text-sm text-muted-foreground">Notes</div>
-                        <div>{order.deliveryNotes}</div>
+                        {[order.shippingPhone, order.shippingEmail].join(", ")}
                       </div>
-                    )}
+                    </div>
                   </div>
                 </CardContent>
-              </Card> */}
+              </Card>
             </div>
           </div>
         </div>

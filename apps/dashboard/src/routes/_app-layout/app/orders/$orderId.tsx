@@ -125,26 +125,25 @@ function OrderDetailPage() {
         </div>
       </div>
       <div className="space-y-4">
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <h3 className="font-semibold">Status</h3>
-            {user?.role === "ADMIN" ? (
-              <Select value={order.status} onValueChange={handleStatusChange}>
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select status" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="PENDING">Pending</SelectItem>
-                  <SelectItem value="ACCEPTED">Accepted</SelectItem>
-                  <SelectItem value="DESPATCHED">Despatched</SelectItem>
-                  <SelectItem value="ON_WAY">On Way</SelectItem>
-                  <SelectItem value="DELIVERED">Delivered</SelectItem>
-                  <SelectItem value="CANCELLED">Cancelled</SelectItem>
-                </SelectContent>
-              </Select>
-            ) : (
-              <div
-                className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
+        <div className="w-max">
+          <h3 className="font-semibold mb-2">Status</h3>
+          {user?.role === "ADMIN" ? (
+            <Select value={order.status} onValueChange={handleStatusChange}>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="PENDING">Pending</SelectItem>
+                <SelectItem value="ACCEPTED">Accepted</SelectItem>
+                <SelectItem value="DESPATCHED">Despatched</SelectItem>
+                <SelectItem value="ON_WAY">On Way</SelectItem>
+                <SelectItem value="DELIVERED">Delivered</SelectItem>
+                <SelectItem value="CANCELLED">Cancelled</SelectItem>
+              </SelectContent>
+            </Select>
+          ) : (
+            <div
+              className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
                 ${
                   order.status === "DELIVERED"
                     ? "bg-green-100 text-green-800"
@@ -152,16 +151,33 @@ function OrderDetailPage() {
                       ? "bg-red-100 text-red-800"
                       : "bg-blue-100 text-blue-800"
                 }`}
-              >
-                {order.status}
-              </div>
-            )}
+            >
+              {order.status}
+            </div>
+          )}
+        </div>
+        <div className="grid grid-cols-4 gap-4">
+          <div className="bg-gray-50 p-2 rounded-sm">
+            <h3 className="font-semibold">Total Items</h3>
+            <p>{order.orderItems.length}</p>
           </div>
-          <div>
+          <div className="bg-gray-50 p-2 rounded-sm">
+            <h3 className="font-semibold">Total Pkgs</h3>
+            <p>
+              {order.orderItems.reduce((prv, cur) => cur.quantity + prv, 0)}
+            </p>
+          </div>
+          <div className="bg-gray-50 p-2 rounded-sm">
+            <h3 className="font-semibold">Total Weight</h3>
+            <p>{order.estimatedWeight}</p>
+          </div>
+          <div className="bg-gray-50 p-2 rounded-sm"></div>
+          <div className="bg-gray-50 p-2 rounded-sm">
             <h3 className="font-semibold">Total Amount</h3>
             <p>₹{order.totalAmount.toFixed(2)}</p>
           </div>
-          <div>
+
+          <div className="bg-gray-50 p-2 rounded-sm">
             <h3 className="font-semibold">Shipping Charges</h3>
             {user?.role === "ADMIN" && isEditing ? (
               <div className="flex items-center space-x-2">
@@ -185,12 +201,12 @@ function OrderDetailPage() {
               <p>₹{(order.deliveryCharges || 0).toFixed(2)}</p>
             )}
           </div>
-          <div>
+          <div className="bg-gray-50 p-2 rounded-sm">
             <h3 className="font-semibold">GST Amount</h3>
             <p>₹{order.gstAmount.toFixed(2)}</p>
           </div>
-          {(isEditing || order.otherCharges) && user?.role === "ADMIN" && (
-            <div>
+          {user?.role === "ADMIN" && (
+            <div className="bg-gray-50 p-2 rounded-sm">
               <h3 className="font-semibold">Other Charges</h3>
               {isEditing ? (
                 <div className="flex items-center space-x-2">
@@ -215,6 +231,28 @@ function OrderDetailPage() {
               )}
             </div>
           )}
+        </div>
+        <div className="mt-6 grid grid-cols-2">
+          <div className="">
+            <p className="mb-4 font-semibold">Buyer Details</p>
+            <p className="text-sm">Business Name: {order.buyer.businessName}</p>
+            <p className="text-sm">Owner: {order.buyer.ownerName}</p>
+            <p className="text-sm">
+              Prefered Transport: {order.buyer.transportName}
+            </p>
+          </div>
+
+          <div className="">
+            <p className="mb-4 font-semibold">Shipping Address</p>
+            <p>
+              {[
+                order.shippingAddress,
+                order.shippingDistrict,
+                order.shippingState,
+                order.shippingPincode,
+              ].join(", ")}
+            </p>
+          </div>
         </div>
         {user?.role === "ADMIN" && isEditing && (
           <div className="flex justify-end space-x-2 mt-4">

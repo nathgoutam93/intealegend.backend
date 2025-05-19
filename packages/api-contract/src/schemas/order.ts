@@ -1,4 +1,5 @@
 import z from "zod";
+import { BuyerProfileSchema } from "./profile";
 
 export const OrderItemSchema = z.object({
   id: z.number(),
@@ -15,6 +16,11 @@ export const OrderItemSchema = z.object({
 export const OrderSchema = z.object({
   id: z.number(),
   userId: z.number(),
+  buyer: BuyerProfileSchema.pick({
+    businessName: true,
+    ownerName: true,
+    transportName: true,
+  }),
   status: z
     .enum([
       "PENDING",
@@ -32,6 +38,12 @@ export const OrderSchema = z.object({
   otherCharges: z.number().nullable(),
   roundOff: z.number().nullable(),
   orderItems: z.array(OrderItemSchema),
+  shippingAddress: z.string(),
+  shippingState: z.string(),
+  shippingDistrict: z.string(),
+  shippingPincode: z.string(),
+  shippingPhone: z.string(),
+  shippingEmail: z.string().nullable(),
   createdAt: z.date(),
   updatedAt: z.date(),
 });

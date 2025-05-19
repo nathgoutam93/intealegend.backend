@@ -290,6 +290,11 @@ export class BuyerService {
 
     return {
       ...order,
+      buyer: {
+        businessName: buyer?.businessName ?? '',
+        ownerName: buyer?.ownerName ?? '',
+        transportName: buyer?.transportName ?? '',
+      },
       orderItems: order.orderItems.map((oi) => ({
         ...oi,
         unitPrice: oi.unitPrice.toNumber(),
@@ -312,6 +317,11 @@ export class BuyerService {
             product: true,
           },
         },
+        user: {
+          select: {
+            buyerProfile: true,
+          },
+        },
       },
       orderBy: {
         createdAt: 'desc',
@@ -324,6 +334,11 @@ export class BuyerService {
 
     return orders.map((order) => ({
       ...order,
+      buyer: {
+        businessName: order.user.buyerProfile?.businessName ?? '',
+        ownerName: order.user.buyerProfile?.ownerName ?? '',
+        transportName: order.user.buyerProfile?.transportName ?? '',
+      },
       orderItems: order.orderItems.map((oi) => ({
         ...oi,
         unitPrice: oi.unitPrice.toNumber(),
@@ -349,6 +364,11 @@ export class BuyerService {
             product: true,
           },
         },
+        user: {
+          select: {
+            buyerProfile: true,
+          },
+        },
       },
     });
 
@@ -358,6 +378,11 @@ export class BuyerService {
 
     return {
       ...order,
+      buyer: {
+        businessName: order.user.buyerProfile?.businessName ?? '',
+        ownerName: order.user.buyerProfile?.ownerName ?? '',
+        transportName: order.user.buyerProfile?.transportName ?? '',
+      },
       orderItems: order.orderItems.map((oi) => ({
         ...oi,
         unitPrice: oi.unitPrice.toNumber(),

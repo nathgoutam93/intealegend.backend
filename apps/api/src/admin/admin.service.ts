@@ -351,6 +351,11 @@ export class AdminService {
               product: true,
             },
           },
+          user: {
+            select: {
+              buyerProfile: true,
+            },
+          },
         },
         orderBy: {
           [sortBy]: sortOrder,
@@ -361,7 +366,14 @@ export class AdminService {
     ]);
 
     return {
-      data: orders,
+      data: orders.map((order) => ({
+        ...order,
+        buyer: {
+          businessName: order.user.buyerProfile?.businessName ?? '',
+          ownerName: order.user.buyerProfile?.ownerName ?? '',
+          transportName: order.user.buyerProfile?.transportName ?? '',
+        },
+      })),
       total,
       offset,
       limit,
@@ -379,7 +391,11 @@ export class AdminService {
             product: true,
           },
         },
-        user: true,
+        user: {
+          select: {
+            buyerProfile: true,
+          },
+        },
       },
     });
 
@@ -389,6 +405,11 @@ export class AdminService {
 
     return {
       ...order,
+      buyer: {
+        businessName: order.user.buyerProfile?.businessName ?? '',
+        ownerName: order.user.buyerProfile?.ownerName ?? '',
+        transportName: order.user.buyerProfile?.transportName ?? '',
+      },
       orderItems: order.orderItems.map((oi) => ({
         ...oi,
         unitPrice: oi.unitPrice.toNumber(),
@@ -430,18 +451,55 @@ export class AdminService {
       }),
     };
 
-    const order = await this.db.order.update({
-      where: { id },
-      data: prismaData,
-      include: {
-        orderItems: true,
-      },
+    // Use transaction to ensure data consistency when updating order and product quantities
+    const order = await this.db.$transaction(async (tx) => {
+      const updatedOrder = await tx.order.update({
+        where: { id },
+        data: prismaData,
+        include: {
+          orderItems: {
+            include: {
+              product: true,
+            },
+          },
+          user: {
+            select: {
+              buyerProfile: true,
+            },
+          },
+        },
+      });
+
+      // If status is being updated to ACCEPTED, deduct quantities from products
+      if (data.status === 'ACCEPTED') {
+        await Promise.all(
+          updatedOrder.orderItems.map((item) =>
+            tx.product.update({
+              where: { id: item.productId },
+              data: {
+                quantity: {
+                  decrement: item.quantity,
+                },
+              },
+            }),
+          ),
+        );
+      }
+
+      return updatedOrder;
     });
 
     if (!order) {
       throw new NotFoundException('Order not found');
     }
 
-    return order;
+    return {
+      ...order,
+      buyer: {
+        businessName: order.user.buyerProfile?.businessName ?? '',
+        ownerName: order.user.buyerProfile?.ownerName ?? '',
+        transportName: order.user.buyerProfile?.transportName ?? '',
+      },
+    };
   }
 }

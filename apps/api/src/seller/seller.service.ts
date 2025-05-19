@@ -236,7 +236,11 @@ export class SellerService {
               product: true,
             },
           },
-          user: true,
+          user: {
+            select: {
+              buyerProfile: true,
+            },
+          },
         },
         orderBy: {
           [sortBy]: sortOrder,
@@ -250,6 +254,11 @@ export class SellerService {
     return {
       data: orders.map((o) => ({
         ...o,
+        buyer: {
+          businessName: o.user.buyerProfile?.businessName ?? '',
+          ownerName: o.user.buyerProfile?.ownerName ?? '',
+          transportName: o.user.buyerProfile?.transportName ?? '',
+        },
         orderItems: o.orderItems.map((oi) => ({
           ...oi,
           unitPrice: oi.unitPrice.toNumber(),
@@ -285,7 +294,11 @@ export class SellerService {
             product: true,
           },
         },
-        user: true,
+        user: {
+          select: {
+            buyerProfile: true,
+          },
+        },
       },
     });
 
@@ -295,6 +308,11 @@ export class SellerService {
 
     return {
       ...order,
+      buyer: {
+        businessName: order.user.buyerProfile?.businessName ?? '',
+        ownerName: order.user.buyerProfile?.ownerName ?? '',
+        transportName: order.user.buyerProfile?.transportName ?? '',
+      },
       orderItems: order.orderItems.map((oi) => ({
         ...oi,
         unitPrice: oi.unitPrice.toNumber(),
@@ -329,11 +347,17 @@ export class SellerService {
       },
       include: {
         orderItems: true,
+        user: { select: { buyerProfile: true } },
       },
     });
 
     return {
       ...order,
+      buyer: {
+        businessName: order.user.buyerProfile?.businessName ?? '',
+        ownerName: order.user.buyerProfile?.ownerName ?? '',
+        transportName: order.user.buyerProfile?.transportName ?? '',
+      },
       orderItems: order.orderItems.map((oi) => ({
         ...oi,
         unitPrice: oi.unitPrice.toNumber(),

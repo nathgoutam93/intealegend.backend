@@ -33,6 +33,41 @@ export declare const OrderItemSchema: z.ZodObject<{
 export declare const OrderSchema: z.ZodObject<{
     id: z.ZodNumber;
     userId: z.ZodNumber;
+    buyer: z.ZodObject<Pick<{
+        transportName: z.ZodNullable<z.ZodString>;
+        userId: z.ZodNumber;
+        createdAt: z.ZodDate;
+        updatedAt: z.ZodDate;
+        bankAccountNumber: z.ZodString;
+        bankIfscCode: z.ZodString;
+        panNumber: z.ZodString;
+        panCard: z.ZodNullable<z.ZodString>;
+        gstNumber: z.ZodString;
+        gstCertificate: z.ZodNullable<z.ZodString>;
+        fssaiNumber: z.ZodNullable<z.ZodString>;
+        fssaiLicense: z.ZodNullable<z.ZodString>;
+        phone: z.ZodString;
+        email: z.ZodString;
+        secondaryContactName: z.ZodNullable<z.ZodString>;
+        secondaryContactDesignation: z.ZodNullable<z.ZodString>;
+        secondaryContactNumber: z.ZodNullable<z.ZodString>;
+        address: z.ZodString;
+        state: z.ZodString;
+        district: z.ZodString;
+        pincode: z.ZodString;
+        businessName: z.ZodString;
+        businessType: z.ZodString;
+        ownerName: z.ZodString;
+        id: z.ZodNumber;
+    }, "businessName" | "ownerName" | "transportName">, "strip", z.ZodTypeAny, {
+        businessName: string;
+        ownerName: string;
+        transportName: string | null;
+    }, {
+        businessName: string;
+        ownerName: string;
+        transportName: string | null;
+    }>;
     status: z.ZodDefault<z.ZodEnum<["PENDING", "ACCEPTED", "DESPATCHED", "ON_WAY", "DELIVERED", "CANCELLED"]>>;
     totalAmount: z.ZodNumber;
     estimatedWeight: z.ZodNumber;
@@ -71,6 +106,12 @@ export declare const OrderSchema: z.ZodObject<{
         totalPrice: number;
         totalWeight: number;
     }>, "many">;
+    shippingAddress: z.ZodString;
+    shippingState: z.ZodString;
+    shippingDistrict: z.ZodString;
+    shippingPincode: z.ZodString;
+    shippingPhone: z.ZodString;
+    shippingEmail: z.ZodNullable<z.ZodString>;
     createdAt: z.ZodDate;
     updatedAt: z.ZodDate;
 }, "strip", z.ZodTypeAny, {
@@ -90,12 +131,23 @@ export declare const OrderSchema: z.ZodObject<{
         totalPrice: number;
         totalWeight: number;
     }[];
+    buyer: {
+        businessName: string;
+        ownerName: string;
+        transportName: string | null;
+    };
     totalAmount: number;
     estimatedWeight: number;
     deliveryCharges: number | null;
     gstAmount: number;
     otherCharges: number | null;
     roundOff: number | null;
+    shippingAddress: string;
+    shippingState: string;
+    shippingDistrict: string;
+    shippingPincode: string;
+    shippingPhone: string;
+    shippingEmail: string | null;
 }, {
     id: number;
     userId: number;
@@ -112,11 +164,22 @@ export declare const OrderSchema: z.ZodObject<{
         totalPrice: number;
         totalWeight: number;
     }[];
+    buyer: {
+        businessName: string;
+        ownerName: string;
+        transportName: string | null;
+    };
     totalAmount: number;
     estimatedWeight: number;
     deliveryCharges: number | null;
     gstAmount: number;
     otherCharges: number | null;
     roundOff: number | null;
+    shippingAddress: string;
+    shippingState: string;
+    shippingDistrict: string;
+    shippingPincode: string;
+    shippingPhone: string;
+    shippingEmail: string | null;
     status?: "PENDING" | "ACCEPTED" | "DESPATCHED" | "ON_WAY" | "DELIVERED" | "CANCELLED" | undefined;
 }>;
