@@ -18,7 +18,7 @@ exports.OrderItemSchema = zod_1.default.object({
 });
 exports.OrderSchema = zod_1.default.object({
     id: zod_1.default.number(),
-    buyerId: zod_1.default.number(),
+    userId: zod_1.default.number(),
     status: zod_1.default
         .enum([
         "PENDING",

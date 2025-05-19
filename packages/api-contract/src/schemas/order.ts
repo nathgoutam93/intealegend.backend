@@ -14,7 +14,7 @@ export const OrderItemSchema = z.object({
 
 export const OrderSchema = z.object({
   id: z.number(),
-  buyerId: z.number(),
+  userId: z.number(),
   status: z
     .enum([
       "PENDING",

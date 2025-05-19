@@ -1681,4 +1681,499 @@ export declare const adminRouter: {
             }>;
         };
     };
+    getOrders: {
+        query: z.ZodObject<{
+            offset: z.ZodDefault<z.ZodOptional<z.ZodPipeline<z.ZodEffects<z.ZodString, number, string>, z.ZodNumber>>>;
+            limit: z.ZodDefault<z.ZodOptional<z.ZodPipeline<z.ZodEffects<z.ZodString, number, string>, z.ZodNumber>>>;
+            status: z.ZodOptional<z.ZodEnum<["PENDING", "ACCEPTED", "DESPATCHED", "ON_WAY", "DELIVERED", "CANCELLED"]>>;
+            startDate: z.ZodOptional<z.ZodString>;
+            endDate: z.ZodOptional<z.ZodString>;
+            sortBy: z.ZodOptional<z.ZodEnum<["createdAt", "totalAmount"]>>;
+            sortOrder: z.ZodOptional<z.ZodEnum<["asc", "desc"]>>;
+        }, "strip", z.ZodTypeAny, {
+            limit: number;
+            offset: number;
+            status?: "PENDING" | "ACCEPTED" | "DESPATCHED" | "ON_WAY" | "DELIVERED" | "CANCELLED" | undefined;
+            sortBy?: "createdAt" | "totalAmount" | undefined;
+            sortOrder?: "asc" | "desc" | undefined;
+            startDate?: string | undefined;
+            endDate?: string | undefined;
+        }, {
+            status?: "PENDING" | "ACCEPTED" | "DESPATCHED" | "ON_WAY" | "DELIVERED" | "CANCELLED" | undefined;
+            limit?: string | undefined;
+            offset?: string | undefined;
+            sortBy?: "createdAt" | "totalAmount" | undefined;
+            sortOrder?: "asc" | "desc" | undefined;
+            startDate?: string | undefined;
+            endDate?: string | undefined;
+        }>;
+        method: "GET";
+        path: "/admin/orders";
+        responses: {
+            200: z.ZodObject<{
+                data: z.ZodArray<z.ZodObject<{
+                    id: z.ZodNumber;
+                    userId: z.ZodNumber;
+                    status: z.ZodDefault<z.ZodEnum<["PENDING", "ACCEPTED", "DESPATCHED", "ON_WAY", "DELIVERED", "CANCELLED"]>>;
+                    totalAmount: z.ZodNumber;
+                    estimatedWeight: z.ZodNumber;
+                    deliveryCharges: z.ZodNullable<z.ZodNumber>;
+                    gstAmount: z.ZodNumber;
+                    otherCharges: z.ZodNullable<z.ZodNumber>;
+                    roundOff: z.ZodNullable<z.ZodNumber>;
+                    orderItems: z.ZodArray<z.ZodObject<{
+                        id: z.ZodNumber;
+                        orderId: z.ZodNumber;
+                        productId: z.ZodNumber;
+                        quantity: z.ZodNumber;
+                        unitPrice: z.ZodNumber;
+                        totalPrice: z.ZodNumber;
+                        totalWeight: z.ZodNumber;
+                        createdAt: z.ZodDate;
+                        updatedAt: z.ZodDate;
+                    }, "strip", z.ZodTypeAny, {
+                        id: number;
+                        createdAt: Date;
+                        updatedAt: Date;
+                        quantity: number;
+                        orderId: number;
+                        productId: number;
+                        unitPrice: number;
+                        totalPrice: number;
+                        totalWeight: number;
+                    }, {
+                        id: number;
+                        createdAt: Date;
+                        updatedAt: Date;
+                        quantity: number;
+                        orderId: number;
+                        productId: number;
+                        unitPrice: number;
+                        totalPrice: number;
+                        totalWeight: number;
+                    }>, "many">;
+                    createdAt: z.ZodDate;
+                    updatedAt: z.ZodDate;
+                }, "strip", z.ZodTypeAny, {
+                    status: "PENDING" | "ACCEPTED" | "DESPATCHED" | "ON_WAY" | "DELIVERED" | "CANCELLED";
+                    id: number;
+                    userId: number;
+                    createdAt: Date;
+                    updatedAt: Date;
+                    orderItems: {
+                        id: number;
+                        createdAt: Date;
+                        updatedAt: Date;
+                        quantity: number;
+                        orderId: number;
+                        productId: number;
+                        unitPrice: number;
+                        totalPrice: number;
+                        totalWeight: number;
+                    }[];
+                    totalAmount: number;
+                    estimatedWeight: number;
+                    deliveryCharges: number | null;
+                    gstAmount: number;
+                    otherCharges: number | null;
+                    roundOff: number | null;
+                }, {
+                    id: number;
+                    userId: number;
+                    createdAt: Date;
+                    updatedAt: Date;
+                    orderItems: {
+                        id: number;
+                        createdAt: Date;
+                        updatedAt: Date;
+                        quantity: number;
+                        orderId: number;
+                        productId: number;
+                        unitPrice: number;
+                        totalPrice: number;
+                        totalWeight: number;
+                    }[];
+                    totalAmount: number;
+                    estimatedWeight: number;
+                    deliveryCharges: number | null;
+                    gstAmount: number;
+                    otherCharges: number | null;
+                    roundOff: number | null;
+                    status?: "PENDING" | "ACCEPTED" | "DESPATCHED" | "ON_WAY" | "DELIVERED" | "CANCELLED" | undefined;
+                }>, "many">;
+                total: z.ZodNumber;
+                offset: z.ZodNumber;
+                limit: z.ZodNumber;
+            }, "strip", z.ZodTypeAny, {
+                total: number;
+                limit: number;
+                offset: number;
+                data: {
+                    status: "PENDING" | "ACCEPTED" | "DESPATCHED" | "ON_WAY" | "DELIVERED" | "CANCELLED";
+                    id: number;
+                    userId: number;
+                    createdAt: Date;
+                    updatedAt: Date;
+                    orderItems: {
+                        id: number;
+                        createdAt: Date;
+                        updatedAt: Date;
+                        quantity: number;
+                        orderId: number;
+                        productId: number;
+                        unitPrice: number;
+                        totalPrice: number;
+                        totalWeight: number;
+                    }[];
+                    totalAmount: number;
+                    estimatedWeight: number;
+                    deliveryCharges: number | null;
+                    gstAmount: number;
+                    otherCharges: number | null;
+                    roundOff: number | null;
+                }[];
+            }, {
+                total: number;
+                limit: number;
+                offset: number;
+                data: {
+                    id: number;
+                    userId: number;
+                    createdAt: Date;
+                    updatedAt: Date;
+                    orderItems: {
+                        id: number;
+                        createdAt: Date;
+                        updatedAt: Date;
+                        quantity: number;
+                        orderId: number;
+                        productId: number;
+                        unitPrice: number;
+                        totalPrice: number;
+                        totalWeight: number;
+                    }[];
+                    totalAmount: number;
+                    estimatedWeight: number;
+                    deliveryCharges: number | null;
+                    gstAmount: number;
+                    otherCharges: number | null;
+                    roundOff: number | null;
+                    status?: "PENDING" | "ACCEPTED" | "DESPATCHED" | "ON_WAY" | "DELIVERED" | "CANCELLED" | undefined;
+                }[];
+            }>;
+            401: z.ZodObject<{
+                message: z.ZodString;
+                code: z.ZodString;
+                timestamp: z.ZodString;
+            }, "strip", z.ZodTypeAny, {
+                code: string;
+                message: string;
+                timestamp: string;
+            }, {
+                code: string;
+                message: string;
+                timestamp: string;
+            }>;
+            403: z.ZodObject<{
+                message: z.ZodString;
+                code: z.ZodString;
+                timestamp: z.ZodString;
+            }, "strip", z.ZodTypeAny, {
+                code: string;
+                message: string;
+                timestamp: string;
+            }, {
+                code: string;
+                message: string;
+                timestamp: string;
+            }>;
+        };
+    };
+    getOrder: {
+        pathParams: z.ZodObject<{
+            id: z.ZodString;
+        }, "strip", z.ZodTypeAny, {
+            id: string;
+        }, {
+            id: string;
+        }>;
+        method: "GET";
+        path: "/admin/orders/:id";
+        responses: {
+            200: z.ZodObject<{
+                id: z.ZodNumber;
+                userId: z.ZodNumber;
+                status: z.ZodDefault<z.ZodEnum<["PENDING", "ACCEPTED", "DESPATCHED", "ON_WAY", "DELIVERED", "CANCELLED"]>>;
+                totalAmount: z.ZodNumber;
+                estimatedWeight: z.ZodNumber;
+                deliveryCharges: z.ZodNullable<z.ZodNumber>;
+                gstAmount: z.ZodNumber;
+                otherCharges: z.ZodNullable<z.ZodNumber>;
+                roundOff: z.ZodNullable<z.ZodNumber>;
+                orderItems: z.ZodArray<z.ZodObject<{
+                    id: z.ZodNumber;
+                    orderId: z.ZodNumber;
+                    productId: z.ZodNumber;
+                    quantity: z.ZodNumber;
+                    unitPrice: z.ZodNumber;
+                    totalPrice: z.ZodNumber;
+                    totalWeight: z.ZodNumber;
+                    createdAt: z.ZodDate;
+                    updatedAt: z.ZodDate;
+                }, "strip", z.ZodTypeAny, {
+                    id: number;
+                    createdAt: Date;
+                    updatedAt: Date;
+                    quantity: number;
+                    orderId: number;
+                    productId: number;
+                    unitPrice: number;
+                    totalPrice: number;
+                    totalWeight: number;
+                }, {
+                    id: number;
+                    createdAt: Date;
+                    updatedAt: Date;
+                    quantity: number;
+                    orderId: number;
+                    productId: number;
+                    unitPrice: number;
+                    totalPrice: number;
+                    totalWeight: number;
+                }>, "many">;
+                createdAt: z.ZodDate;
+                updatedAt: z.ZodDate;
+            }, "strip", z.ZodTypeAny, {
+                status: "PENDING" | "ACCEPTED" | "DESPATCHED" | "ON_WAY" | "DELIVERED" | "CANCELLED";
+                id: number;
+                userId: number;
+                createdAt: Date;
+                updatedAt: Date;
+                orderItems: {
+                    id: number;
+                    createdAt: Date;
+                    updatedAt: Date;
+                    quantity: number;
+                    orderId: number;
+                    productId: number;
+                    unitPrice: number;
+                    totalPrice: number;
+                    totalWeight: number;
+                }[];
+                totalAmount: number;
+                estimatedWeight: number;
+                deliveryCharges: number | null;
+                gstAmount: number;
+                otherCharges: number | null;
+                roundOff: number | null;
+            }, {
+                id: number;
+                userId: number;
+                createdAt: Date;
+                updatedAt: Date;
+                orderItems: {
+                    id: number;
+                    createdAt: Date;
+                    updatedAt: Date;
+                    quantity: number;
+                    orderId: number;
+                    productId: number;
+                    unitPrice: number;
+                    totalPrice: number;
+                    totalWeight: number;
+                }[];
+                totalAmount: number;
+                estimatedWeight: number;
+                deliveryCharges: number | null;
+                gstAmount: number;
+                otherCharges: number | null;
+                roundOff: number | null;
+                status?: "PENDING" | "ACCEPTED" | "DESPATCHED" | "ON_WAY" | "DELIVERED" | "CANCELLED" | undefined;
+            }>;
+            401: z.ZodObject<{
+                message: z.ZodString;
+                code: z.ZodString;
+                timestamp: z.ZodString;
+            }, "strip", z.ZodTypeAny, {
+                code: string;
+                message: string;
+                timestamp: string;
+            }, {
+                code: string;
+                message: string;
+                timestamp: string;
+            }>;
+            404: z.ZodObject<{
+                message: z.ZodString;
+                code: z.ZodString;
+                timestamp: z.ZodString;
+            }, "strip", z.ZodTypeAny, {
+                code: string;
+                message: string;
+                timestamp: string;
+            }, {
+                code: string;
+                message: string;
+                timestamp: string;
+            }>;
+        };
+    };
+    updateOrder: {
+        pathParams: z.ZodObject<{
+            id: z.ZodString;
+        }, "strip", z.ZodTypeAny, {
+            id: string;
+        }, {
+            id: string;
+        }>;
+        method: "PATCH";
+        body: z.ZodObject<{
+            status: z.ZodOptional<z.ZodEnum<["PENDING", "ACCEPTED", "DESPATCHED", "ON_WAY", "DELIVERED", "CANCELLED"]>>;
+            deliveryCharges: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+            otherCharges: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+            roundOff: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
+        }, "strip", z.ZodTypeAny, {
+            status?: "PENDING" | "ACCEPTED" | "DESPATCHED" | "ON_WAY" | "DELIVERED" | "CANCELLED" | undefined;
+            deliveryCharges?: number | null | undefined;
+            otherCharges?: number | null | undefined;
+            roundOff?: number | null | undefined;
+        }, {
+            status?: "PENDING" | "ACCEPTED" | "DESPATCHED" | "ON_WAY" | "DELIVERED" | "CANCELLED" | undefined;
+            deliveryCharges?: number | null | undefined;
+            otherCharges?: number | null | undefined;
+            roundOff?: number | null | undefined;
+        }>;
+        path: "/admin/orders/:id";
+        responses: {
+            200: z.ZodObject<{
+                id: z.ZodNumber;
+                userId: z.ZodNumber;
+                status: z.ZodDefault<z.ZodEnum<["PENDING", "ACCEPTED", "DESPATCHED", "ON_WAY", "DELIVERED", "CANCELLED"]>>;
+                totalAmount: z.ZodNumber;
+                estimatedWeight: z.ZodNumber;
+                deliveryCharges: z.ZodNullable<z.ZodNumber>;
+                gstAmount: z.ZodNumber;
+                otherCharges: z.ZodNullable<z.ZodNumber>;
+                roundOff: z.ZodNullable<z.ZodNumber>;
+                orderItems: z.ZodArray<z.ZodObject<{
+                    id: z.ZodNumber;
+                    orderId: z.ZodNumber;
+                    productId: z.ZodNumber;
+                    quantity: z.ZodNumber;
+                    unitPrice: z.ZodNumber;
+                    totalPrice: z.ZodNumber;
+                    totalWeight: z.ZodNumber;
+                    createdAt: z.ZodDate;
+                    updatedAt: z.ZodDate;
+                }, "strip", z.ZodTypeAny, {
+                    id: number;
+                    createdAt: Date;
+                    updatedAt: Date;
+                    quantity: number;
+                    orderId: number;
+                    productId: number;
+                    unitPrice: number;
+                    totalPrice: number;
+                    totalWeight: number;
+                }, {
+                    id: number;
+                    createdAt: Date;
+                    updatedAt: Date;
+                    quantity: number;
+                    orderId: number;
+                    productId: number;
+                    unitPrice: number;
+                    totalPrice: number;
+                    totalWeight: number;
+                }>, "many">;
+                createdAt: z.ZodDate;
+                updatedAt: z.ZodDate;
+            }, "strip", z.ZodTypeAny, {
+                status: "PENDING" | "ACCEPTED" | "DESPATCHED" | "ON_WAY" | "DELIVERED" | "CANCELLED";
+                id: number;
+                userId: number;
+                createdAt: Date;
+                updatedAt: Date;
+                orderItems: {
+                    id: number;
+                    createdAt: Date;
+                    updatedAt: Date;
+                    quantity: number;
+                    orderId: number;
+                    productId: number;
+                    unitPrice: number;
+                    totalPrice: number;
+                    totalWeight: number;
+                }[];
+                totalAmount: number;
+                estimatedWeight: number;
+                deliveryCharges: number | null;
+                gstAmount: number;
+                otherCharges: number | null;
+                roundOff: number | null;
+            }, {
+                id: number;
+                userId: number;
+                createdAt: Date;
+                updatedAt: Date;
+                orderItems: {
+                    id: number;
+                    createdAt: Date;
+                    updatedAt: Date;
+                    quantity: number;
+                    orderId: number;
+                    productId: number;
+                    unitPrice: number;
+                    totalPrice: number;
+                    totalWeight: number;
+                }[];
+                totalAmount: number;
+                estimatedWeight: number;
+                deliveryCharges: number | null;
+                gstAmount: number;
+                otherCharges: number | null;
+                roundOff: number | null;
+                status?: "PENDING" | "ACCEPTED" | "DESPATCHED" | "ON_WAY" | "DELIVERED" | "CANCELLED" | undefined;
+            }>;
+            401: z.ZodObject<{
+                message: z.ZodString;
+                code: z.ZodString;
+                timestamp: z.ZodString;
+            }, "strip", z.ZodTypeAny, {
+                code: string;
+                message: string;
+                timestamp: string;
+            }, {
+                code: string;
+                message: string;
+                timestamp: string;
+            }>;
+            403: z.ZodObject<{
+                message: z.ZodString;
+                code: z.ZodString;
+                timestamp: z.ZodString;
+            }, "strip", z.ZodTypeAny, {
+                code: string;
+                message: string;
+                timestamp: string;
+            }, {
+                code: string;
+                message: string;
+                timestamp: string;
+            }>;
+            404: z.ZodObject<{
+                message: z.ZodString;
+                code: z.ZodString;
+                timestamp: z.ZodString;
+            }, "strip", z.ZodTypeAny, {
+                code: string;
+                message: string;
+                timestamp: string;
+            }, {
+                code: string;
+                message: string;
+                timestamp: string;
+            }>;
+        };
+    };
 };

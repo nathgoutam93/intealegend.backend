@@ -231,16 +231,24 @@ function ProductList({}: Props) {
 
                     <TableCell>{product.brandMark.name}</TableCell>
                     <TableCell>{product.invoiceNo}</TableCell>
-                    <TableCell>{product.grade}</TableCell>
-                    <TableCell>{product.quantity}</TableCell>
-                    <TableCell>{product.weightPerUnit} kg</TableCell>
-                    <TableCell>{product.sampleWeight} kg</TableCell>
-                    <TableCell>
+                    <TableCell className="text-center">
+                      {product.grade}
+                    </TableCell>
+                    <TableCell className="text-center">
+                      {product.quantity}
+                    </TableCell>
+                    <TableCell className="text-right">
+                      {product.weightPerUnit} kg
+                    </TableCell>
+                    <TableCell className="text-right">
+                      {product.sampleWeight} kg
+                    </TableCell>
+                    <TableCell className="text-right">
                       {product.quantity * product.weightPerUnit -
                         Number(product.sampleWeight)}{" "}
                       kg
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="text-center">
                       <TooltipProvider delayDuration={200}>
                         <Tooltip>
                           <TooltipTrigger>
@@ -264,10 +272,10 @@ function ProductList({}: Props) {
                         </Tooltip>
                       </TooltipProvider>
                     </TableCell>
-                    <TableCell>{product.mbp}</TableCell>
-                    <TableCell className="text-right">
+                    <TableCell className="text-center">
                       {product.pricePerUnit.toLocaleString("en-IN")}
                     </TableCell>
+                    <TableCell className="text-center">{product.mbp}</TableCell>
 
                     <TableCell className="text-right">
                       <Button

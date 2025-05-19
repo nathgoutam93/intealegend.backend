@@ -236,7 +236,7 @@ export class SellerService {
               product: true,
             },
           },
-          buyer: true,
+          user: true,
         },
         orderBy: {
           [sortBy]: sortOrder,
@@ -285,7 +285,7 @@ export class SellerService {
             product: true,
           },
         },
-        buyer: true,
+        user: true,
       },
     });
 

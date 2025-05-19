@@ -10,11 +10,24 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { client } from "@/lib/api-client";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export function CartSummary() {
   const { items, removeItem, updateQuantity, calculateTotals } = useCartStore();
   const { subtotal, totalWeight, totalAmount, gstOnSubtotal, gstOnShipping } =
     calculateTotals();
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const router = useRouter();
 
   const handleQuantityChange = (item: CartItem, newQuantity: number) => {
     if (newQuantity >= 1) {
@@ -27,6 +40,26 @@ export function CartSummary() {
 
   // Calculate total amount
   const finalTotal = subtotal + shipping + gstOnSubtotal + gstOnShipping;
+
+  const placeOrderMutation = client.buyers.placeOrder.useMutation({
+    onSuccess: () => {
+      setIsDialogOpen(false);
+      // Clear cart (handled in backend)
+      router.push("/app/orders");
+    },
+  });
+
+  const handlePlaceOrder = () => {
+    placeOrderMutation.mutate({
+      body: {
+        items: items.map((item) => ({
+          productId: item.id,
+          quantity: item.quantity,
+        })),
+        shippingAddress: "", // TODO: Add shipping address
+      },
+    });
+  };
 
   return (
     <div className="flex gap-6">
@@ -140,10 +173,51 @@ export function CartSummary() {
             </div>
           </div>
           <div className="pt-4">
-            <Button className="w-full">Proceed to Checkout</Button>
+            <Button className="w-full" onClick={() => setIsDialogOpen(true)}>
+              Place Order
+            </Button>
           </div>
         </div>
       </div>
+
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Confirm your order</DialogTitle>
+            <DialogDescription>
+              Your order will be submitted for confirmation. Once confirmed, you
+              will receive a notification with your order details.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="py-4 space-y-2">
+            <div className="flex justify-between text-sm">
+              <span>Total Items</span>
+              <span>{items.length}</span>
+            </div>
+            <div className="flex justify-between text-sm">
+              <span>Net Weight</span>
+              <span>{totalWeight}kg</span>
+            </div>
+            <div className="flex justify-between text-sm font-semibold">
+              <span>Final Amount</span>
+              <span>₹{finalTotal.toFixed(2)}</span>
+            </div>
+          </div>
+
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsDialogOpen(false)}>
+              Cancel
+            </Button>
+            <Button
+              onClick={handlePlaceOrder}
+              disabled={placeOrderMutation.isPending}
+            >
+              Confirm Order
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

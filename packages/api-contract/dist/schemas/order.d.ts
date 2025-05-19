@@ -32,7 +32,7 @@ export declare const OrderItemSchema: z.ZodObject<{
 }>;
 export declare const OrderSchema: z.ZodObject<{
     id: z.ZodNumber;
-    buyerId: z.ZodNumber;
+    userId: z.ZodNumber;
     status: z.ZodDefault<z.ZodEnum<["PENDING", "ACCEPTED", "DESPATCHED", "ON_WAY", "DELIVERED", "CANCELLED"]>>;
     totalAmount: z.ZodNumber;
     estimatedWeight: z.ZodNumber;
@@ -76,6 +76,7 @@ export declare const OrderSchema: z.ZodObject<{
 }, "strip", z.ZodTypeAny, {
     status: "PENDING" | "ACCEPTED" | "DESPATCHED" | "ON_WAY" | "DELIVERED" | "CANCELLED";
     id: number;
+    userId: number;
     createdAt: Date;
     updatedAt: Date;
     orderItems: {
@@ -89,7 +90,6 @@ export declare const OrderSchema: z.ZodObject<{
         totalPrice: number;
         totalWeight: number;
     }[];
-    buyerId: number;
     totalAmount: number;
     estimatedWeight: number;
     deliveryCharges: number | null;
@@ -98,6 +98,7 @@ export declare const OrderSchema: z.ZodObject<{
     roundOff: number | null;
 }, {
     id: number;
+    userId: number;
     createdAt: Date;
     updatedAt: Date;
     orderItems: {
@@ -111,7 +112,6 @@ export declare const OrderSchema: z.ZodObject<{
         totalPrice: number;
         totalWeight: number;
     }[];
-    buyerId: number;
     totalAmount: number;
     estimatedWeight: number;
     deliveryCharges: number | null;

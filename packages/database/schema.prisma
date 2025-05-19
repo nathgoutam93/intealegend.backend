@@ -50,6 +50,10 @@ model User {
     sellerProfile SellerProfile?
     buyerProfile  BuyerProfile?
 
+    // User's cart and orders
+    cartItems CartItem[]
+    orders    Order[]
+
     // Sessions for admin/staff (session-based authentication)
     sessions Session[]
 
@@ -191,9 +195,6 @@ model BuyerProfile {
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
-
-    orders    Order[]
-    cartItems CartItem[]
 }
 
 model BrandMark {
@@ -260,9 +261,9 @@ model Product {
 }
 
 model CartItem {
-    id      Int          @id @default(autoincrement())
-    buyer   BuyerProfile @relation(fields: [buyerId], references: [id])
-    buyerId Int
+    id     Int  @id @default(autoincrement())
+    user   User @relation(fields: [userId], references: [id])
+    userId Int
 
     product   Product @relation(fields: [productId], references: [id])
     productId Int
@@ -274,9 +275,9 @@ model CartItem {
 }
 
 model Order {
-    id      Int          @id @default(autoincrement())
-    buyer   BuyerProfile @relation(fields: [buyerId], references: [id])
-    buyerId Int
+    id     Int  @id @default(autoincrement())
+    user   User @relation(fields: [userId], references: [id])
+    userId Int
 
     status          OrderStatus @default(PENDING)
     totalAmount     Decimal
@@ -285,6 +286,14 @@ model Order {
     gstAmount       Decimal
     otherCharges    Decimal?
     roundOff        Decimal?
+
+    // Shipping address fields
+    shippingAddress  String
+    shippingState    String
+    shippingDistrict String
+    shippingPincode  String
+    shippingPhone    String
+    shippingEmail    String?
 
     orderItems OrderItem[]
 

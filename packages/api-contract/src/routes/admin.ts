@@ -6,6 +6,7 @@ import {
   BuyerProfileSchema,
   AdminStatsSchema,
   ProductSchema,
+  OrderSchema,
 } from "../schemas";
 import z from "zod";
 
@@ -131,6 +132,88 @@ export const adminRouter = c.router({
     responses: {
       200: ProductSchema,
       401: ErrorSchema,
+      404: ErrorSchema,
+    },
+  },
+  getOrders: {
+    method: "GET",
+    path: "/admin/orders",
+    query: z.object({
+      offset: z
+        .string()
+        .transform((val) => parseInt(val))
+        .pipe(z.number().min(0))
+        .optional()
+        .default("0"),
+      limit: z
+        .string()
+        .transform((val) => parseInt(val))
+        .pipe(z.number().min(1).max(100))
+        .optional()
+        .default("10"),
+      status: z
+        .enum([
+          "PENDING",
+          "ACCEPTED",
+          "DESPATCHED",
+          "ON_WAY",
+          "DELIVERED",
+          "CANCELLED",
+        ])
+        .optional(),
+      startDate: z.string().optional(), // ISO date string
+      endDate: z.string().optional(), // ISO date string
+      sortBy: z.enum(["createdAt", "totalAmount"]).optional(),
+      sortOrder: z.enum(["asc", "desc"]).optional(),
+    }),
+    responses: {
+      200: z.object({
+        data: z.array(OrderSchema),
+        total: z.number(),
+        offset: z.number(),
+        limit: z.number(),
+      }),
+      401: ErrorSchema,
+      403: ErrorSchema,
+    },
+  },
+  getOrder: {
+    method: "GET",
+    path: "/admin/orders/:id",
+    pathParams: z.object({
+      id: z.string(),
+    }),
+    responses: {
+      200: OrderSchema,
+      401: ErrorSchema,
+      404: ErrorSchema,
+    },
+  },
+  updateOrder: {
+    method: "PATCH",
+    path: "/admin/orders/:id",
+    pathParams: z.object({
+      id: z.string(),
+    }),
+    body: z.object({
+      status: z
+        .enum([
+          "PENDING",
+          "ACCEPTED",
+          "DESPATCHED",
+          "ON_WAY",
+          "DELIVERED",
+          "CANCELLED",
+        ])
+        .optional(),
+      deliveryCharges: z.number().nullable().optional(),
+      otherCharges: z.number().nullable().optional(),
+      roundOff: z.number().nullable().optional(),
+    }),
+    responses: {
+      200: OrderSchema,
+      401: ErrorSchema,
+      403: ErrorSchema,
       404: ErrorSchema,
     },
   },

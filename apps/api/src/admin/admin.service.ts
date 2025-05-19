@@ -304,4 +304,144 @@ export class AdminService {
       offset,
     };
   }
+
+  async getOrders({
+    limit = 10,
+    offset = 0,
+    status,
+    startDate,
+    endDate,
+    sortBy = 'createdAt',
+    sortOrder = 'desc',
+  }: {
+    limit?: number;
+    offset?: number;
+    status?:
+      | 'PENDING'
+      | 'ACCEPTED'
+      | 'DESPATCHED'
+      | 'ON_WAY'
+      | 'DELIVERED'
+      | 'CANCELLED';
+    startDate?: string;
+    endDate?: string;
+    sortBy?: 'createdAt' | 'totalAmount';
+    sortOrder?: 'asc' | 'desc';
+  }) {
+    const where: Prisma.OrderWhereInput = {};
+
+    if (status) {
+      where.status = status;
+    }
+
+    if (startDate || endDate) {
+      where.createdAt = {
+        ...(startDate && { gte: new Date(startDate) }),
+        ...(endDate && { lte: new Date(endDate) }),
+      };
+    }
+
+    const [total, orders] = await Promise.all([
+      this.db.order.count({ where }),
+      this.db.order.findMany({
+        where,
+        include: {
+          orderItems: {
+            include: {
+              product: true,
+            },
+          },
+        },
+        orderBy: {
+          [sortBy]: sortOrder,
+        },
+        skip: offset,
+        take: limit,
+      }),
+    ]);
+
+    return {
+      data: orders,
+      total,
+      offset,
+      limit,
+    };
+  }
+
+  async getOrder(orderId: number) {
+    const order = await this.db.order.findFirst({
+      where: {
+        id: orderId,
+      },
+      include: {
+        orderItems: {
+          include: {
+            product: true,
+          },
+        },
+        user: true,
+      },
+    });
+
+    if (!order) {
+      throw new NotFoundException('order not found');
+    }
+
+    return {
+      ...order,
+      orderItems: order.orderItems.map((oi) => ({
+        ...oi,
+        unitPrice: oi.unitPrice.toNumber(),
+        totalPrice: oi.totalPrice.toNumber(),
+      })),
+      totalAmount: order.totalAmount.toNumber(),
+      deliveryCharges: order.deliveryCharges?.toNumber() ?? null,
+      gstAmount: order.gstAmount.toNumber(),
+      otherCharges: order.otherCharges?.toNumber() ?? null,
+      roundOff: order.roundOff?.toNumber() ?? null,
+    };
+  }
+
+  async updateOrder(
+    id: number,
+    data: {
+      status?:
+        | 'PENDING'
+        | 'ACCEPTED'
+        | 'DESPATCHED'
+        | 'ON_WAY'
+        | 'DELIVERED'
+        | 'CANCELLED';
+      deliveryCharges?: number | null;
+      otherCharges?: number | null;
+      roundOff?: number | null;
+    },
+  ) {
+    const prismaData: Prisma.OrderUpdateInput = {
+      status: data.status,
+      ...(data.deliveryCharges !== undefined && {
+        deliveryCharges: new Prisma.Decimal(data.deliveryCharges || 0),
+      }),
+      ...(data.otherCharges !== undefined && {
+        otherCharges: new Prisma.Decimal(data.otherCharges || 0),
+      }),
+      ...(data.roundOff !== undefined && {
+        roundOff: new Prisma.Decimal(data.roundOff || 0),
+      }),
+    };
+
+    const order = await this.db.order.update({
+      where: { id },
+      data: prismaData,
+      include: {
+        orderItems: true,
+      },
+    });
+
+    if (!order) {
+      throw new NotFoundException('Order not found');
+    }
+
+    return order;
+  }
 }

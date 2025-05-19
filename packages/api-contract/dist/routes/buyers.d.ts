@@ -711,7 +711,7 @@ export declare const buyersRouter: {
         responses: {
             201: z.ZodObject<{
                 id: z.ZodNumber;
-                buyerId: z.ZodNumber;
+                userId: z.ZodNumber;
                 status: z.ZodDefault<z.ZodEnum<["PENDING", "ACCEPTED", "DESPATCHED", "ON_WAY", "DELIVERED", "CANCELLED"]>>;
                 totalAmount: z.ZodNumber;
                 estimatedWeight: z.ZodNumber;
@@ -755,6 +755,7 @@ export declare const buyersRouter: {
             }, "strip", z.ZodTypeAny, {
                 status: "PENDING" | "ACCEPTED" | "DESPATCHED" | "ON_WAY" | "DELIVERED" | "CANCELLED";
                 id: number;
+                userId: number;
                 createdAt: Date;
                 updatedAt: Date;
                 orderItems: {
@@ -768,7 +769,6 @@ export declare const buyersRouter: {
                     totalPrice: number;
                     totalWeight: number;
                 }[];
-                buyerId: number;
                 totalAmount: number;
                 estimatedWeight: number;
                 deliveryCharges: number | null;
@@ -777,6 +777,7 @@ export declare const buyersRouter: {
                 roundOff: number | null;
             }, {
                 id: number;
+                userId: number;
                 createdAt: Date;
                 updatedAt: Date;
                 orderItems: {
@@ -790,7 +791,6 @@ export declare const buyersRouter: {
                     totalPrice: number;
                     totalWeight: number;
                 }[];
-                buyerId: number;
                 totalAmount: number;
                 estimatedWeight: number;
                 deliveryCharges: number | null;
@@ -820,7 +820,7 @@ export declare const buyersRouter: {
         responses: {
             200: z.ZodArray<z.ZodObject<{
                 id: z.ZodNumber;
-                buyerId: z.ZodNumber;
+                userId: z.ZodNumber;
                 status: z.ZodDefault<z.ZodEnum<["PENDING", "ACCEPTED", "DESPATCHED", "ON_WAY", "DELIVERED", "CANCELLED"]>>;
                 totalAmount: z.ZodNumber;
                 estimatedWeight: z.ZodNumber;
@@ -864,6 +864,7 @@ export declare const buyersRouter: {
             }, "strip", z.ZodTypeAny, {
                 status: "PENDING" | "ACCEPTED" | "DESPATCHED" | "ON_WAY" | "DELIVERED" | "CANCELLED";
                 id: number;
+                userId: number;
                 createdAt: Date;
                 updatedAt: Date;
                 orderItems: {
@@ -877,7 +878,6 @@ export declare const buyersRouter: {
                     totalPrice: number;
                     totalWeight: number;
                 }[];
-                buyerId: number;
                 totalAmount: number;
                 estimatedWeight: number;
                 deliveryCharges: number | null;
@@ -886,6 +886,7 @@ export declare const buyersRouter: {
                 roundOff: number | null;
             }, {
                 id: number;
+                userId: number;
                 createdAt: Date;
                 updatedAt: Date;
                 orderItems: {
@@ -899,7 +900,6 @@ export declare const buyersRouter: {
                     totalPrice: number;
                     totalWeight: number;
                 }[];
-                buyerId: number;
                 totalAmount: number;
                 estimatedWeight: number;
                 deliveryCharges: number | null;
@@ -929,7 +929,7 @@ export declare const buyersRouter: {
         responses: {
             200: z.ZodObject<{
                 id: z.ZodNumber;
-                buyerId: z.ZodNumber;
+                userId: z.ZodNumber;
                 status: z.ZodDefault<z.ZodEnum<["PENDING", "ACCEPTED", "DESPATCHED", "ON_WAY", "DELIVERED", "CANCELLED"]>>;
                 totalAmount: z.ZodNumber;
                 estimatedWeight: z.ZodNumber;
@@ -973,6 +973,7 @@ export declare const buyersRouter: {
             }, "strip", z.ZodTypeAny, {
                 status: "PENDING" | "ACCEPTED" | "DESPATCHED" | "ON_WAY" | "DELIVERED" | "CANCELLED";
                 id: number;
+                userId: number;
                 createdAt: Date;
                 updatedAt: Date;
                 orderItems: {
@@ -986,7 +987,6 @@ export declare const buyersRouter: {
                     totalPrice: number;
                     totalWeight: number;
                 }[];
-                buyerId: number;
                 totalAmount: number;
                 estimatedWeight: number;
                 deliveryCharges: number | null;
@@ -995,6 +995,7 @@ export declare const buyersRouter: {
                 roundOff: number | null;
             }, {
                 id: number;
+                userId: number;
                 createdAt: Date;
                 updatedAt: Date;
                 orderItems: {
@@ -1008,7 +1009,6 @@ export declare const buyersRouter: {
                     totalPrice: number;
                     totalWeight: number;
                 }[];
-                buyerId: number;
                 totalAmount: number;
                 estimatedWeight: number;
                 deliveryCharges: number | null;

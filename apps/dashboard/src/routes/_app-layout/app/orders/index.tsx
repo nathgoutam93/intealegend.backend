@@ -1,53 +1,200 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Link } from "@tanstack/react-router";
 import client from "@/api-client";
+import { useAuthStore } from "@/stores/auth.store";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
+import { Filter } from "lucide-react";
+import { useCallback, useEffect, useState } from "react";
 
 export const Route = createFileRoute("/_app-layout/app/orders/")({
   component: OrdersPage,
 });
 
+const ORDER_STATUS = [
+  "PENDING",
+  "ACCEPTED",
+  "DESPATCHED",
+  "ON_WAY",
+  "DELIVERED",
+  "CANCELLED",
+] as const;
+
+type OrderStatus = (typeof ORDER_STATUS)[number];
+
 function OrdersPage() {
-  const { data, isLoading } = client.sellers.getOrders.useQuery(["orders"], {
-    query: {
-      offset: "0",
-      limit: "10",
-      sortBy: "createdAt",
-      sortOrder: "desc",
-      status: undefined,
-      startDate: undefined,
-      endDate: undefined,
-    },
-  });
+  const { user } = useAuthStore();
+  const [statusFilter, setStatusFilter] = useState<OrderStatus | "all">("all");
+  const [offset, setOffset] = useState(0);
+  const limit = 10;
+
+  // when filters change, update URL
+  const updateSearchParams = useCallback(() => {
+    const params = new URLSearchParams();
+    if (statusFilter !== "all") params.set("status", statusFilter);
+    if (offset) params.set("offset", offset.toString());
+    window.history.replaceState({}, "", `?${params.toString()}`);
+  }, [statusFilter, offset]);
+
+  // on mount, read params
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const status = params.get("status") as OrderStatus | null;
+    if (status && ORDER_STATUS.includes(status)) {
+      setStatusFilter(status);
+    }
+    setOffset(Number(params.get("offset")) || 0);
+  }, []);
+
+  useEffect(() => {
+    updateSearchParams();
+  }, [statusFilter, offset, updateSearchParams]);
+
+  const queryParams = {
+    offset: offset.toString(),
+    limit: limit.toString(),
+    sortBy: "createdAt" as const,
+    sortOrder: "desc" as const,
+    status: statusFilter !== "all" ? statusFilter : undefined,
+    startDate: undefined,
+    endDate: undefined,
+  };
+
+  const { data, isLoading } =
+    user?.role === "ADMIN"
+      ? client.admin.getOrders.useQuery(["admin-orders", queryParams], {
+          query: queryParams,
+        })
+      : client.sellers.getOrders.useQuery(["orders", queryParams], {
+          query: queryParams,
+        });
 
   if (isLoading) return <div>Loading...</div>;
   if (!data || data.status !== 200) return <div>Something went wrong</div>;
 
   return (
     <div className="p-8">
-      <h1 className="text-2xl font-bold mb-6">Orders</h1>
-      <div className="space-y-4">
-        {data.body.data.map((order) => (
-          <Link
-            key={order.id}
-            to={"/app/orders/$orderId"}
-            params={{ orderId: order.id.toString() }}
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold">Orders</h1>
+        <div className="flex gap-2">
+          {ORDER_STATUS.map((status) => (
+            <Button
+              key={status}
+              variant={statusFilter === status ? "default" : "outline"}
+              onClick={() =>
+                setStatusFilter(statusFilter === status ? "all" : status)
+              }
+              className={`flex items-center gap-1 border-2 ${
+                statusFilter === status ? "border-blue-500" : ""
+              }`}
+            >
+              <Filter className="h-4 w-4" />
+              {status.charAt(0) + status.slice(1).toLowerCase()}
+            </Button>
+          ))}
+        </div>
+      </div>
+
+      <div className="border rounded-lg">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Order ID</TableHead>
+              <TableHead>Date</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead>Total Amount</TableHead>
+              <TableHead>Shipping</TableHead>
+              <TableHead>GST</TableHead>
+              <TableHead>Items</TableHead>
+              {user?.role === "ADMIN" && <TableHead>Actions</TableHead>}
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {data.body.data.map((order) => (
+              <TableRow
+                key={order.id}
+                className="cursor-pointer hover:bg-muted/50"
+                onClick={() => {
+                  if (user?.role !== "ADMIN") {
+                    window.location.href = `/app/orders/${order.id}`;
+                  }
+                }}
+              >
+                <TableCell>#{order.id}</TableCell>
+                <TableCell>
+                  {new Date(order.createdAt).toLocaleDateString()}
+                </TableCell>
+                <TableCell>
+                  <span
+                    className={`px-2 py-1 rounded-full text-xs ${
+                      order.status === "DELIVERED"
+                        ? "bg-green-100 text-green-800"
+                        : order.status === "CANCELLED"
+                          ? "bg-red-100 text-red-800"
+                          : order.status === "PENDING"
+                            ? "bg-yellow-100 text-yellow-800"
+                            : "bg-blue-100 text-blue-800"
+                    }`}
+                  >
+                    {order.status}
+                  </span>
+                </TableCell>
+                <TableCell>₹{order.totalAmount.toFixed(2)}</TableCell>
+                <TableCell>
+                  ₹
+                  {order.deliveryCharges
+                    ? order.deliveryCharges.toFixed(2)
+                    : "0.00"}
+                </TableCell>
+                <TableCell>₹{order.gstAmount.toFixed(2)}</TableCell>
+                <TableCell>{order.orderItems.length}</TableCell>
+                {user?.role === "ADMIN" && (
+                  <TableCell>
+                    <Button asChild>
+                      <Link
+                        to="/app/orders/$orderId"
+                        params={{ orderId: order.id.toString() }}
+                      >
+                        View Details
+                      </Link>
+                    </Button>
+                  </TableCell>
+                )}
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+
+      {/* Pagination */}
+      <div className="flex justify-between items-center mt-4">
+        <div className="text-sm text-muted-foreground">
+          Showing {offset + 1} to {Math.min(offset + limit, data.body.total)} of{" "}
+          {data.body.total} orders
+        </div>
+        <div className="flex gap-2">
+          <Button
+            variant="outline"
+            onClick={() => setOffset(Math.max(0, offset - limit))}
+            disabled={offset === 0}
           >
-            <div className="border rounded-lg p-4 hover:bg-muted/50">
-              <div className="flex justify-between">
-                <h3 className="font-semibold">Order #{order.id}</h3>
-                <span className="text-sm bg-primary/10 px-2 py-1 rounded">
-                  {order.status}
-                </span>
-              </div>
-              <p className="text-sm text-muted-foreground">
-                Total Amount: ₹{order.totalAmount}
-              </p>
-              <p className="text-sm text-muted-foreground">
-                Date: {new Date(order.createdAt).toLocaleDateString()}
-              </p>
-            </div>
-          </Link>
-        ))}
+            Previous
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => setOffset(offset + limit)}
+            disabled={offset + limit >= data.body.total}
+          >
+            Next
+          </Button>
+        </div>
       </div>
     </div>
   );

@@ -131,4 +131,86 @@ exports.adminRouter = c.router({
             404: schemas_1.ErrorSchema,
         },
     },
+    getOrders: {
+        method: "GET",
+        path: "/admin/orders",
+        query: zod_1.default.object({
+            offset: zod_1.default
+                .string()
+                .transform(function (val) { return parseInt(val); })
+                .pipe(zod_1.default.number().min(0))
+                .optional()
+                .default("0"),
+            limit: zod_1.default
+                .string()
+                .transform(function (val) { return parseInt(val); })
+                .pipe(zod_1.default.number().min(1).max(100))
+                .optional()
+                .default("10"),
+            status: zod_1.default
+                .enum([
+                "PENDING",
+                "ACCEPTED",
+                "DESPATCHED",
+                "ON_WAY",
+                "DELIVERED",
+                "CANCELLED",
+            ])
+                .optional(),
+            startDate: zod_1.default.string().optional(), // ISO date string
+            endDate: zod_1.default.string().optional(), // ISO date string
+            sortBy: zod_1.default.enum(["createdAt", "totalAmount"]).optional(),
+            sortOrder: zod_1.default.enum(["asc", "desc"]).optional(),
+        }),
+        responses: {
+            200: zod_1.default.object({
+                data: zod_1.default.array(schemas_1.OrderSchema),
+                total: zod_1.default.number(),
+                offset: zod_1.default.number(),
+                limit: zod_1.default.number(),
+            }),
+            401: schemas_1.ErrorSchema,
+            403: schemas_1.ErrorSchema,
+        },
+    },
+    getOrder: {
+        method: "GET",
+        path: "/admin/orders/:id",
+        pathParams: zod_1.default.object({
+            id: zod_1.default.string(),
+        }),
+        responses: {
+            200: schemas_1.OrderSchema,
+            401: schemas_1.ErrorSchema,
+            404: schemas_1.ErrorSchema,
+        },
+    },
+    updateOrder: {
+        method: "PATCH",
+        path: "/admin/orders/:id",
+        pathParams: zod_1.default.object({
+            id: zod_1.default.string(),
+        }),
+        body: zod_1.default.object({
+            status: zod_1.default
+                .enum([
+                "PENDING",
+                "ACCEPTED",
+                "DESPATCHED",
+                "ON_WAY",
+                "DELIVERED",
+                "CANCELLED",
+            ])
+                .optional(),
+            deliveryCharges: zod_1.default.number().nullable().optional(),
+            otherCharges: zod_1.default.number().nullable().optional(),
+            roundOff: zod_1.default.number().nullable().optional(),
+        }),
+        responses: {
+            200: schemas_1.OrderSchema,
+            401: schemas_1.ErrorSchema,
+            403: schemas_1.ErrorSchema,
+            404: schemas_1.ErrorSchema,
+        },
+    },
 });

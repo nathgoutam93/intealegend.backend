@@ -80,6 +80,73 @@ export class AdminController {
           body: product,
         };
       },
+      getOrders: async ({ query }) => {
+        const orders = await this.adminService.getOrders({
+          limit: query.limit ? Number(query.limit) : undefined,
+          offset: query.offset ? Number(query.offset) : undefined,
+          status: query.status,
+          startDate: query.startDate,
+          endDate: query.endDate,
+          sortBy: query.sortBy,
+          sortOrder: query.sortOrder,
+        });
+
+        return {
+          status: 200,
+          body: {
+            ...orders,
+            data: orders.data.map((order) => ({
+              ...order,
+              totalAmount: Number(order.totalAmount),
+              deliveryCharges: order.deliveryCharges
+                ? Number(order.deliveryCharges)
+                : null,
+              gstAmount: Number(order.gstAmount),
+              otherCharges: order.otherCharges
+                ? Number(order.otherCharges)
+                : null,
+              roundOff: order.roundOff ? Number(order.roundOff) : null,
+              orderItems: order.orderItems.map((item) => ({
+                ...item,
+                unitPrice: Number(item.unitPrice),
+                totalPrice: Number(item.totalPrice),
+              })),
+            })),
+          },
+        };
+      },
+      getOrder: async ({ params: { id } }) => {
+        const order = await this.adminService.getOrder(parseInt(id));
+
+        return {
+          status: 200,
+          body: order,
+        };
+      },
+      updateOrder: async ({ params: { id }, body }) => {
+        const order = await this.adminService.updateOrder(parseInt(id), body);
+
+        return {
+          status: 200,
+          body: {
+            ...order,
+            totalAmount: Number(order.totalAmount),
+            deliveryCharges: order.deliveryCharges
+              ? Number(order.deliveryCharges)
+              : null,
+            gstAmount: Number(order.gstAmount),
+            otherCharges: order.otherCharges
+              ? Number(order.otherCharges)
+              : null,
+            roundOff: order.roundOff ? Number(order.roundOff) : null,
+            orderItems: order.orderItems.map((item) => ({
+              ...item,
+              unitPrice: Number(item.unitPrice),
+              totalPrice: Number(item.totalPrice),
+            })),
+          },
+        };
+      },
     });
   }
 }

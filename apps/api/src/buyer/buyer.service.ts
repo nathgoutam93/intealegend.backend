@@ -82,7 +82,7 @@ export class BuyerService {
 
   async getCart(user: any) {
     const cartItems = await this.db.cartItem.findMany({
-      where: { buyerId: user.id },
+      where: { userId: user.id },
     });
 
     if (!cartItems.length) {
@@ -98,7 +98,7 @@ export class BuyerService {
   async addToCart(user: any, item: { productId: number; quantity: number }) {
     const existing = await this.db.cartItem.findFirst({
       where: {
-        buyerId: user.id,
+        userId: user.id,
         productId: item.productId,
       },
     });
@@ -113,7 +113,7 @@ export class BuyerService {
     } else {
       await this.db.cartItem.create({
         data: {
-          buyerId: user.id,
+          userId: user.id,
           productId: item.productId,
           quantity: item.quantity,
         },
@@ -121,7 +121,7 @@ export class BuyerService {
     }
 
     const items = await this.db.cartItem.findMany({
-      where: { buyerId: user.id },
+      where: { userId: user.id },
     });
 
     return items.map((item) => ({
@@ -133,7 +133,7 @@ export class BuyerService {
   async updateCartItem(user: any, productId: number, quantity: number) {
     const existing = await this.db.cartItem.findFirst({
       where: {
-        buyerId: user.id,
+        userId: user.id,
         productId,
       },
     });
@@ -148,7 +148,7 @@ export class BuyerService {
     });
 
     const items = await this.db.cartItem.findMany({
-      where: { buyerId: user.id },
+      where: { userId: user.id },
     });
 
     return items.map((item) => ({
@@ -160,7 +160,7 @@ export class BuyerService {
   async removeFromCart(user: any, productId: number) {
     const existing = await this.db.cartItem.findFirst({
       where: {
-        buyerId: user.id,
+        userId: user.id,
         productId,
       },
     });
@@ -174,7 +174,7 @@ export class BuyerService {
     });
 
     const items = await this.db.cartItem.findMany({
-      where: { buyerId: user.id },
+      where: { userId: user.id },
     });
 
     return items.map((item) => ({
@@ -245,10 +245,16 @@ export class BuyerService {
       ).toFixed(2),
     );
 
+    const buyer = await this.db.buyerProfile.findFirst({
+      where: {
+        userId: user.id,
+      },
+    });
+
     // Create order and items
     const order = await this.db.order.create({
       data: {
-        buyerId: user.id,
+        userId: user.id,
         status: 'PENDING',
         estimatedWeight,
         gstAmount,
@@ -265,6 +271,12 @@ export class BuyerService {
             totalPrice: item.totalPrice,
           })),
         },
+        shippingAddress: buyer?.address ?? '',
+        shippingDistrict: buyer?.district ?? '',
+        shippingState: buyer?.state ?? '',
+        shippingPincode: buyer?.pincode ?? '',
+        shippingPhone: buyer?.phone ?? '',
+        shippingEmail: buyer?.email ?? '',
       },
       include: {
         orderItems: true,
@@ -273,7 +285,7 @@ export class BuyerService {
 
     // Clear cart
     await this.db.cartItem.deleteMany({
-      where: { buyerId: user.id },
+      where: { userId: user.id },
     });
 
     return {
@@ -293,7 +305,7 @@ export class BuyerService {
 
   async getOrders(user: any) {
     const orders = await this.db.order.findMany({
-      where: { buyerId: user.id },
+      where: { userId: user.id },
       include: {
         orderItems: {
           include: {
@@ -329,7 +341,7 @@ export class BuyerService {
     const order = await this.db.order.findFirst({
       where: {
         id: orderId,
-        buyerId: user.id,
+        userId: user.id,
       },
       include: {
         orderItems: {
