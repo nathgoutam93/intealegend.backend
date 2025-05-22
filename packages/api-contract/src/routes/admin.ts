@@ -206,10 +206,27 @@ export const adminRouter = c.router({
           "CANCELLED",
         ])
         .optional(),
+      cn: z.string().nullable().optional(),
+      transport: z.string().nullable().optional(),
       deliveryCharges: z.number().nullable().optional(),
       otherCharges: z.number().nullable().optional(),
       roundOff: z.number().nullable().optional(),
     }),
+    responses: {
+      200: OrderSchema,
+      401: ErrorSchema,
+      403: ErrorSchema,
+      404: ErrorSchema,
+    },
+  },
+  uploadInvoice: {
+    method: "POST",
+    path: "/admin/orders/:id/invoice",
+    pathParams: z.object({
+      id: z.string(),
+    }),
+    contentType: "multipart/form-data",
+    body: z.object({}).passthrough(),
     responses: {
       200: OrderSchema,
       401: ErrorSchema,

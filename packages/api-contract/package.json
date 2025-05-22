@@ -1,6 +1,6 @@
 {
   "name": "@intealegend/api-contract",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "shared api contract",
   "types": "./dist/index.d.ts",
   "exports": {

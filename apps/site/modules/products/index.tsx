@@ -17,6 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Tooltip, TooltipProvider } from "@/components/ui/tooltip";
 import { TooltipContent, TooltipTrigger } from "@radix-ui/react-tooltip";
 import { CartSummary } from "@/components/CartSummary";
+import { formatProductId } from "@/lib/utils";
 
 type Props = {};
 
@@ -129,6 +130,7 @@ function ProductList({}: Props) {
     addToCart({
       id: product.id.toString(),
       mark: product.brandMark.name,
+      productionMonth: product.productionMonth,
       grade: product.grade,
       pricePerKg: product.pricePerUnit,
       weightPerPkg: product.weightPerUnit,
@@ -220,12 +222,10 @@ function ProductList({}: Props) {
                   >
                     <TableCell className="font-medium">
                       <span>
-                        IIL{new Date(product.createdAt).getFullYear()}
-                        {new Date(product.createdAt)
-                          .getMonth()
-                          .toString()
-                          .padStart(2, "0")}
-                        {product.id.toString().padStart(6, "0")}
+                        {formatProductId(
+                          product.id.toString(),
+                          product.productionMonth
+                        )}
                       </span>
                     </TableCell>
 

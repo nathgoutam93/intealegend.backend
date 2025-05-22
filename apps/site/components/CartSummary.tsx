@@ -21,9 +21,11 @@ import {
 import { client } from "@/lib/api-client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { formatProductId } from "@/lib/utils";
 
 export function CartSummary() {
-  const { items, removeItem, updateQuantity, calculateTotals } = useCartStore();
+  const { items, removeItem, updateQuantity, calculateTotals, clearCart } =
+    useCartStore();
   const { subtotal, totalWeight, totalAmount, gstOnSubtotal, gstOnShipping } =
     calculateTotals();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -50,26 +52,36 @@ export function CartSummary() {
   });
 
   const handlePlaceOrder = () => {
-    placeOrderMutation.mutate({
-      body: {
-        items: items.map((item) => ({
-          productId: item.id,
-          quantity: item.quantity,
-        })),
-        shippingAddress: "", // TODO: Add shipping address
+    placeOrderMutation.mutate(
+      {
+        body: {
+          items: items.map((item) => ({
+            productId: item.id,
+            quantity: item.quantity,
+          })),
+          shippingAddress: "", // TODO: Add shipping address
+        },
       },
-    });
+      {
+        onSuccess: () => {
+          clearCart();
+        },
+      }
+    );
   };
 
   return (
     <div className="flex gap-6">
       {/* Cart Items */}
-      <div className="flex-1 space-y-4">
+      <div className="flex-1 grid grid-cols-3 gap-4">
         {items.map((item) => (
-          <div key={item.id} className="border rounded-lg p-4">
+          <div key={item.id} className="border rounded-lg p-4 min-w-[200px]">
             <div className="flex justify-between items-start">
               <div>
-                <span className="font-medium">{item.mark}</span>
+                <p className="font-medium">{item.mark}</p>
+                <p className="font-medium text-sm">
+                  {formatProductId(item.id, item.productionMonth)}
+                </p>
                 <div className="text-sm text-gray-500">
                   <div>Grade: {item.grade}</div>
                   <div>Price/kg: ₹{item.pricePerKg}</div>
@@ -84,6 +96,14 @@ export function CartSummary() {
               >
                 <Trash2 className="h-4 w-4" />
               </Button>
+            </div>
+            <div className="mt-8">
+              <div className="text-sm text-gray-500">
+                <div>Net Weight: {item.totalWeight}kg</div>
+              </div>
+              <div className="font-medium">
+                ₹{(item.totalPrice || 0).toFixed(2)}
+              </div>
             </div>
             <div className="flex items-center justify-between mt-4">
               <div className="flex items-center space-x-2">
@@ -112,14 +132,6 @@ export function CartSummary() {
                 >
                   <Plus className="h-4 w-4" />
                 </Button>
-              </div>
-              <div className="text-right">
-                <div className="text-sm text-gray-500">
-                  <div>Net Weight: {item.totalWeight}kg</div>
-                </div>
-                <div className="font-medium">
-                  ₹{(item.totalPrice || 0).toFixed(2)}
-                </div>
               </div>
             </div>
           </div>

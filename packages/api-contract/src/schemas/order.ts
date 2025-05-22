@@ -1,10 +1,12 @@
 import z from "zod";
 import { BuyerProfileSchema } from "./profile";
+import { ProductSchema } from "./product";
 
 export const OrderItemSchema = z.object({
   id: z.number(),
   orderId: z.number(),
   productId: z.number(),
+  product: ProductSchema,
   quantity: z.number().int(),
   unitPrice: z.number(),
   totalPrice: z.number(),
@@ -31,6 +33,7 @@ export const OrderSchema = z.object({
       "CANCELLED",
     ])
     .default("PENDING"),
+  subtotal: z.number(),
   totalAmount: z.number(),
   estimatedWeight: z.number(),
   deliveryCharges: z.number().nullable(),
@@ -38,6 +41,11 @@ export const OrderSchema = z.object({
   otherCharges: z.number().nullable(),
   roundOff: z.number().nullable(),
   orderItems: z.array(OrderItemSchema),
+
+  invoice: z.string().nullable(),
+  cn: z.string().nullable(),
+  transport: z.string().nullable(),
+
   shippingAddress: z.string(),
   shippingState: z.string(),
   shippingDistrict: z.string(),

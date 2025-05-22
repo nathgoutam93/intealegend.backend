@@ -233,7 +233,11 @@ export class SellerService {
         include: {
           orderItems: {
             include: {
-              product: true,
+              product: {
+                include: {
+                  brandMark: true,
+                },
+              },
             },
           },
           user: {
@@ -261,9 +265,14 @@ export class SellerService {
         },
         orderItems: o.orderItems.map((oi) => ({
           ...oi,
+          product: {
+            ...oi.product,
+            pricePerUnit: oi.product.pricePerUnit.toNumber(),
+          },
           unitPrice: oi.unitPrice.toNumber(),
           totalPrice: oi.totalPrice.toNumber(),
         })),
+        subtotal: o.subtotal.toNumber(),
         totalAmount: o.totalAmount.toNumber(),
         deliveryCharges: o.deliveryCharges?.toNumber() ?? null,
         gstAmount: o.gstAmount.toNumber(),
@@ -291,7 +300,11 @@ export class SellerService {
       include: {
         orderItems: {
           include: {
-            product: true,
+            product: {
+              include: {
+                brandMark: true,
+              },
+            },
           },
         },
         user: {
@@ -315,9 +328,14 @@ export class SellerService {
       },
       orderItems: order.orderItems.map((oi) => ({
         ...oi,
+        product: {
+          ...oi.product,
+          pricePerUnit: oi.product.pricePerUnit.toNumber(),
+        },
         unitPrice: oi.unitPrice.toNumber(),
         totalPrice: oi.totalPrice.toNumber(),
       })),
+      subtotal: order.subtotal.toNumber(),
       totalAmount: order.totalAmount.toNumber(),
       deliveryCharges: order.deliveryCharges?.toNumber() ?? null,
       gstAmount: order.gstAmount.toNumber(),
@@ -346,7 +364,15 @@ export class SellerService {
         status,
       },
       include: {
-        orderItems: true,
+        orderItems: {
+          include: {
+            product: {
+              include: {
+                brandMark: true,
+              },
+            },
+          },
+        },
         user: { select: { buyerProfile: true } },
       },
     });
@@ -360,9 +386,14 @@ export class SellerService {
       },
       orderItems: order.orderItems.map((oi) => ({
         ...oi,
+        product: {
+          ...oi.product,
+          pricePerUnit: oi.product.pricePerUnit.toNumber(),
+        },
         unitPrice: oi.unitPrice.toNumber(),
         totalPrice: oi.totalPrice.toNumber(),
       })),
+      subtotal: order.subtotal.toNumber(),
       totalAmount: order.totalAmount.toNumber(),
       deliveryCharges: order.deliveryCharges?.toNumber() ?? null,
       gstAmount: order.gstAmount.toNumber(),

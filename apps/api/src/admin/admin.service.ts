@@ -3,12 +3,14 @@ import { PrismaClient, Prisma } from '@intealegend/database';
 import { PRISMA_TOKEN } from 'src/database/constants';
 import { generateUniqueIdentifier } from 'src/utils/identifier';
 import { MailService } from 'src/mail/mail.service';
+import { StorageService } from 'src/storage/storage.service';
 
 @Injectable()
 export class AdminService {
   constructor(
     @Inject(PRISMA_TOKEN) private db: PrismaClient,
     private mailService: MailService,
+    private storageService: StorageService,
   ) {}
 
   async getProfile(userId: string) {
@@ -348,7 +350,11 @@ export class AdminService {
         include: {
           orderItems: {
             include: {
-              product: true,
+              product: {
+                include: {
+                  brandMark: true,
+                },
+              },
             },
           },
           user: {
@@ -368,6 +374,13 @@ export class AdminService {
     return {
       data: orders.map((order) => ({
         ...order,
+        orderItems: order.orderItems.map((i) => ({
+          ...i,
+          product: {
+            ...i.product,
+            pricePerUnit: i.product.pricePerUnit.toNumber(),
+          },
+        })),
         buyer: {
           businessName: order.user.buyerProfile?.businessName ?? '',
           ownerName: order.user.buyerProfile?.ownerName ?? '',
@@ -388,7 +401,11 @@ export class AdminService {
       include: {
         orderItems: {
           include: {
-            product: true,
+            product: {
+              include: {
+                brandMark: true,
+              },
+            },
           },
         },
         user: {
@@ -412,9 +429,14 @@ export class AdminService {
       },
       orderItems: order.orderItems.map((oi) => ({
         ...oi,
+        product: {
+          ...oi.product,
+          pricePerUnit: oi.product.pricePerUnit.toNumber(),
+        },
         unitPrice: oi.unitPrice.toNumber(),
         totalPrice: oi.totalPrice.toNumber(),
       })),
+      subtotal: order.subtotal.toNumber(),
       totalAmount: order.totalAmount.toNumber(),
       deliveryCharges: order.deliveryCharges?.toNumber() ?? null,
       gstAmount: order.gstAmount.toNumber(),
@@ -433,6 +455,8 @@ export class AdminService {
         | 'ON_WAY'
         | 'DELIVERED'
         | 'CANCELLED';
+      cn?: string | null;
+      transport?: string | null;
       deliveryCharges?: number | null;
       otherCharges?: number | null;
       roundOff?: number | null;
@@ -446,8 +470,11 @@ export class AdminService {
       ...(data.otherCharges !== undefined && {
         otherCharges: new Prisma.Decimal(data.otherCharges || 0),
       }),
-      ...(data.roundOff !== undefined && {
-        roundOff: new Prisma.Decimal(data.roundOff || 0),
+      ...(data.cn !== undefined && {
+        cn: data.cn || '',
+      }),
+      ...(data.transport !== undefined && {
+        transport: data.transport || '',
       }),
     };
 
@@ -459,7 +486,11 @@ export class AdminService {
         include: {
           orderItems: {
             include: {
-              product: true,
+              product: {
+                include: {
+                  brandMark: true,
+                },
+              },
             },
           },
           user: {
@@ -495,11 +526,75 @@ export class AdminService {
 
     return {
       ...order,
+      orderItems: order.orderItems.map((i) => ({
+        ...i,
+        product: {
+          ...i.product,
+          pricePerUnit: i.product.pricePerUnit.toNumber(),
+        },
+      })),
       buyer: {
         businessName: order.user.buyerProfile?.businessName ?? '',
         ownerName: order.user.buyerProfile?.ownerName ?? '',
         transportName: order.user.buyerProfile?.transportName ?? '',
       },
+    };
+  }
+
+  async uploadInvoice(orderId: number, invoice: string) {
+    const order = await this.db.order.findUnique({
+      where: { id: orderId },
+    });
+
+    if (!order) {
+      throw new NotFoundException('Order not found');
+    }
+    // Update order with invoice URL
+    const updated_order = await this.db.order.update({
+      where: { id: orderId },
+      data: {
+        invoice,
+      },
+      include: {
+        user: {
+          include: {
+            buyerProfile: true,
+          },
+        },
+        orderItems: {
+          include: {
+            product: {
+              include: {
+                brandMark: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    return {
+      ...updated_order,
+      orderItems: updated_order.orderItems.map((i) => ({
+        ...i,
+        product: {
+          ...i.product,
+          pricePerUnit: i.product.pricePerUnit.toNumber(),
+        },
+        unitPrice: i.unitPrice.toNumber(),
+        totalPrice: i.totalPrice.toNumber(),
+      })),
+      buyer: {
+        businessName: updated_order.user.buyerProfile?.businessName ?? '',
+        ownerName: updated_order.user.buyerProfile?.ownerName ?? '',
+        transportName: updated_order.user.buyerProfile?.transportName ?? '',
+      },
+      subtotal: order.subtotal.toNumber(),
+      totalAmount: order.totalAmount.toNumber(),
+      deliveryCharges: order.deliveryCharges?.toNumber() ?? null,
+      gstAmount: order.gstAmount.toNumber(),
+      otherCharges: order.otherCharges?.toNumber() ?? null,
+      roundOff: order.roundOff?.toNumber() ?? null,
     };
   }
 }

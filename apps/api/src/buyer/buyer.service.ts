@@ -204,7 +204,7 @@ export class BuyerService {
 
         const unitPrice = product.pricePerUnit.toNumber();
         const totalWeight = item.quantity * product.weightPerUnit;
-        const totalPrice = unitPrice * item.quantity;
+        const totalPrice = unitPrice * totalWeight;
 
         return {
           productId: product.id,
@@ -216,25 +216,31 @@ export class BuyerService {
       }),
     );
 
-    // Calculate totals
-    const estimatedWeight = itemsWithProductData.reduce(
-      (sum, i) => sum + i.totalWeight,
+    const subtotal = itemsWithProductData.reduce(
+      (sum, item) => sum + item.totalPrice,
       0,
     );
-    const subtotal = itemsWithProductData.reduce(
-      (sum, i) => sum + i.totalPrice,
+    const estimatedWeight = itemsWithProductData.reduce(
+      (sum, item) => sum + item.totalWeight,
       0,
     );
 
-    const gstAmount = parseFloat((subtotal * 0.05).toFixed(2)); // Assuming 5% GST
-    const deliveryCharges = 50; // Flat delivery charge — replace with dynamic logic if needed
+    // Calculate shipping based on weight (20 INR per kg, min 200 INR, max 600 INR)
+    const deliveryCharges = Math.min(Math.max(estimatedWeight * 20, 200), 600);
+
     const otherCharges = 0;
+
+    const gstOnSubtotal = subtotal * 0.05; // Assuming 5% GST
+    const gstOnShipping = deliveryCharges * 0.05; // Assuming 5% GST
+    const gstAmount = gstOnSubtotal + gstOnShipping;
+
     const roundOff = parseFloat(
       (
-        Math.round(subtotal + gstAmount + deliveryCharges + otherCharges) -
-        (subtotal + gstAmount + deliveryCharges + otherCharges)
+        Math.round(subtotal + deliveryCharges + gstAmount + otherCharges) -
+        (subtotal + deliveryCharges + gstAmount + otherCharges)
       ).toFixed(2),
     );
+
     const totalAmount = parseFloat(
       (
         subtotal +
@@ -261,6 +267,7 @@ export class BuyerService {
         deliveryCharges,
         otherCharges,
         roundOff,
+        subtotal,
         totalAmount,
         orderItems: {
           create: itemsWithProductData.map((item) => ({
@@ -279,7 +286,15 @@ export class BuyerService {
         shippingEmail: buyer?.email ?? '',
       },
       include: {
-        orderItems: true,
+        orderItems: {
+          include: {
+            product: {
+              include: {
+                brandMark: true,
+              },
+            },
+          },
+        },
       },
     });
 
@@ -297,9 +312,14 @@ export class BuyerService {
       },
       orderItems: order.orderItems.map((oi) => ({
         ...oi,
+        product: {
+          ...oi.product,
+          pricePerUnit: oi.product.pricePerUnit.toNumber(),
+        },
         unitPrice: oi.unitPrice.toNumber(),
         totalPrice: oi.totalPrice.toNumber(),
       })),
+      subtotal: order.subtotal.toNumber(),
       totalAmount: order.totalAmount.toNumber(),
       deliveryCharges: order.deliveryCharges?.toNumber() ?? null,
       gstAmount: order.gstAmount.toNumber(),
@@ -314,7 +334,11 @@ export class BuyerService {
       include: {
         orderItems: {
           include: {
-            product: true,
+            product: {
+              include: {
+                brandMark: true,
+              },
+            },
           },
         },
         user: {
@@ -341,9 +365,14 @@ export class BuyerService {
       },
       orderItems: order.orderItems.map((oi) => ({
         ...oi,
+        product: {
+          ...oi.product,
+          pricePerUnit: oi.product.pricePerUnit.toNumber(),
+        },
         unitPrice: oi.unitPrice.toNumber(),
         totalPrice: oi.totalPrice.toNumber(),
       })),
+      subtotal: order.subtotal.toNumber(),
       totalAmount: order.totalAmount.toNumber(),
       deliveryCharges: order.deliveryCharges?.toNumber() ?? null,
       gstAmount: order.gstAmount.toNumber(),
@@ -361,7 +390,11 @@ export class BuyerService {
       include: {
         orderItems: {
           include: {
-            product: true,
+            product: {
+              include: {
+                brandMark: true,
+              },
+            },
           },
         },
         user: {
@@ -385,9 +418,14 @@ export class BuyerService {
       },
       orderItems: order.orderItems.map((oi) => ({
         ...oi,
+        product: {
+          ...oi.product,
+          pricePerUnit: oi.product.pricePerUnit.toNumber(),
+        },
         unitPrice: oi.unitPrice.toNumber(),
         totalPrice: oi.totalPrice.toNumber(),
       })),
+      subtotal: order.subtotal.toNumber(),
       totalAmount: order.totalAmount.toNumber(),
       deliveryCharges: order.deliveryCharges?.toNumber() ?? null,
       gstAmount: order.gstAmount.toNumber(),

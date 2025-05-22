@@ -202,10 +202,27 @@ exports.adminRouter = c.router({
                 "CANCELLED",
             ])
                 .optional(),
+            cn: zod_1.default.string().nullable().optional(),
+            transport: zod_1.default.string().nullable().optional(),
             deliveryCharges: zod_1.default.number().nullable().optional(),
             otherCharges: zod_1.default.number().nullable().optional(),
             roundOff: zod_1.default.number().nullable().optional(),
         }),
+        responses: {
+            200: schemas_1.OrderSchema,
+            401: schemas_1.ErrorSchema,
+            403: schemas_1.ErrorSchema,
+            404: schemas_1.ErrorSchema,
+        },
+    },
+    uploadInvoice: {
+        method: "POST",
+        path: "/admin/orders/:id/invoice",
+        pathParams: zod_1.default.object({
+            id: zod_1.default.string(),
+        }),
+        contentType: "multipart/form-data",
+        body: zod_1.default.object({}).passthrough(),
         responses: {
             200: schemas_1.OrderSchema,
             401: schemas_1.ErrorSchema,

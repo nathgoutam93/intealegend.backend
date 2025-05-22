@@ -109,11 +109,13 @@ function OrdersPage() {
               <TableHead>Order ID</TableHead>
               <TableHead>Date</TableHead>
               <TableHead>Status</TableHead>
+              <TableHead>Tea Value</TableHead>
               <TableHead>Total Amount</TableHead>
-              <TableHead>Shipping</TableHead>
-              <TableHead>GST</TableHead>
-              <TableHead>Items</TableHead>
-              {user?.role === "ADMIN" && <TableHead>Actions</TableHead>}
+              <TableHead>Total Pkgs</TableHead>
+              <TableHead>Total Weight</TableHead>
+              <TableHead>Actions</TableHead>
+              <TableHead>Inv No.</TableHead>
+              <TableHead>CN No.</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -146,27 +148,34 @@ function OrdersPage() {
                     {order.status}
                   </span>
                 </TableCell>
+                <TableCell>₹{order.subtotal.toFixed(2)}</TableCell>
                 <TableCell>₹{order.totalAmount.toFixed(2)}</TableCell>
                 <TableCell>
-                  ₹
-                  {order.deliveryCharges
-                    ? order.deliveryCharges.toFixed(2)
-                    : "0.00"}
+                  {order.orderItems.reduce((prv, cur) => prv + cur.quantity, 0)}
                 </TableCell>
-                <TableCell>₹{order.gstAmount.toFixed(2)}</TableCell>
-                <TableCell>{order.orderItems.length}</TableCell>
-                {user?.role === "ADMIN" && (
-                  <TableCell>
-                    <Button asChild>
-                      <Link
-                        to="/app/orders/$orderId"
-                        params={{ orderId: order.id.toString() }}
-                      >
-                        View Details
-                      </Link>
-                    </Button>
-                  </TableCell>
-                )}
+                <TableCell>{order.estimatedWeight} kg</TableCell>
+
+                <TableCell>
+                  <Button asChild>
+                    <Link
+                      to="/app/orders/$orderId"
+                      params={{ orderId: order.id.toString() }}
+                    >
+                      View Details
+                    </Link>
+                  </Button>
+                </TableCell>
+
+                <TableCell>
+                  {order.invoice ? (
+                    <a href={order.invoice} className="text-blue-400">
+                      view invoice
+                    </a>
+                  ) : (
+                    <span>N/A</span>
+                  )}
+                </TableCell>
+                <TableCell>{order.cn ?? "N/A"}</TableCell>
               </TableRow>
             ))}
           </TableBody>

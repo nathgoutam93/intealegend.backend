@@ -8,11 +8,18 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import client from "@/api-client";
 import { useAuthStore } from "@/stores/auth.store";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 type OrderStatus =
   | "PENDING"
@@ -33,14 +40,14 @@ function OrderDetailPage() {
   const { orderId } = Route.useParams();
 
   const [isEditing, setIsEditing] = useState(false);
+  const [showInvoiceModal, setShowInvoiceModal] = useState(false);
+  const [invoiceFile, setInvoiceFile] = useState<File | null>(null);
   const [formData, setFormData] = useState<{
-    status: string;
-    deliveryCharges: string;
-    otherCharges: string;
+    cn: string;
+    transport: string;
   }>({
-    status: "",
-    deliveryCharges: "0",
-    otherCharges: "0",
+    cn: "",
+    transport: "0",
   });
 
   const { data, isLoading, refetch } =
@@ -53,13 +60,13 @@ function OrderDetailPage() {
         });
 
   const updateOrderMutation = client.admin.updateOrder.useMutation();
+  const updateInvoiceMutation = client.admin.uploadInvoice.useMutation();
 
   useEffect(() => {
     if (data?.body) {
       setFormData({
-        status: data.body.status,
-        deliveryCharges: data.body.deliveryCharges?.toString() || "0",
-        otherCharges: data.body.otherCharges?.toString() || "0",
+        cn: data.body.cn?.toString() || "",
+        transport: data.body.transport?.toString() || "",
       });
     }
   }, [data?.body]);
@@ -86,17 +93,40 @@ function OrderDetailPage() {
     }
   };
 
+  // Handler for invoice upload
+  const handleInvoiceUpload = async (e: any) => {
+    e.preventDefault();
+    if (!invoiceFile) {
+      toast("Error", { description: "Please select a file." });
+      return;
+    }
+    try {
+      const formData = new FormData();
+      formData.append("invoice", invoiceFile);
+
+      await updateInvoiceMutation.mutateAsync({
+        params: { id: orderId },
+        body: formData,
+      });
+
+      setShowInvoiceModal(false);
+      setInvoiceFile(null);
+      toast("Invoice Uploaded", {
+        description: "Invoice uploaded successfully.",
+      });
+      await refetch();
+    } catch (error) {
+      toast("Error", { description: "Failed to upload invoice." });
+    }
+  };
+
   const handleSaveChanges = async () => {
     try {
       await updateOrderMutation.mutateAsync({
         params: { id: orderId },
         body: {
-          deliveryCharges: formData.deliveryCharges
-            ? parseFloat(formData.deliveryCharges)
-            : 0,
-          otherCharges: formData.otherCharges
-            ? parseFloat(formData.otherCharges)
-            : 0,
+          cn: formData.cn,
+          transport: formData.transport,
         },
       });
       await refetch();
@@ -125,25 +155,26 @@ function OrderDetailPage() {
         </div>
       </div>
       <div className="space-y-4">
-        <div className="w-max">
-          <h3 className="font-semibold mb-2">Status</h3>
-          {user?.role === "ADMIN" ? (
-            <Select value={order.status} onValueChange={handleStatusChange}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select status" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="PENDING">Pending</SelectItem>
-                <SelectItem value="ACCEPTED">Accepted</SelectItem>
-                <SelectItem value="DESPATCHED">Despatched</SelectItem>
-                <SelectItem value="ON_WAY">On Way</SelectItem>
-                <SelectItem value="DELIVERED">Delivered</SelectItem>
-                <SelectItem value="CANCELLED">Cancelled</SelectItem>
-              </SelectContent>
-            </Select>
-          ) : (
-            <div
-              className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
+        <div className="grid grid-cols-5">
+          <div className="w-max">
+            <h3 className="font-semibold mb-2">Status</h3>
+            {user?.role === "ADMIN" ? (
+              <Select value={order.status} onValueChange={handleStatusChange}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="PENDING">Pending</SelectItem>
+                  <SelectItem value="ACCEPTED">Accepted</SelectItem>
+                  <SelectItem value="DESPATCHED">Despatched</SelectItem>
+                  <SelectItem value="ON_WAY">On Way</SelectItem>
+                  <SelectItem value="DELIVERED">Delivered</SelectItem>
+                  <SelectItem value="CANCELLED">Cancelled</SelectItem>
+                </SelectContent>
+              </Select>
+            ) : (
+              <div
+                className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
                 ${
                   order.status === "DELIVERED"
                     ? "bg-green-100 text-green-800"
@@ -151,60 +182,133 @@ function OrderDetailPage() {
                       ? "bg-red-100 text-red-800"
                       : "bg-blue-100 text-blue-800"
                 }`}
-            >
-              {order.status}
+              >
+                {order.status}
+              </div>
+            )}
+          </div>
+          <div className="w-max">
+            <h3 className="font-semibold mb-2">Invoice</h3>
+            {order.invoice ? (
+              <div className="bg-gray-100 p-2 rounded-sm">
+                <a
+                  href={order.invoice}
+                  target="_blank"
+                  className="text-blue-400"
+                >
+                  View Invoice
+                </a>
+              </div>
+            ) : user?.role === "ADMIN" ? (
+              <>
+                <Button size={"sm"} onClick={() => setShowInvoiceModal(true)}>
+                  Upload Invoice
+                </Button>
+                {showInvoiceModal && (
+                  <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center">
+                    <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
+                      <h2 className="font-bold text-xl mb-4">Upload Invoice</h2>
+                      <form onSubmit={handleInvoiceUpload}>
+                        <Input
+                          type="file"
+                          accept="application/pdf,image/*"
+                          onChange={(e) =>
+                            setInvoiceFile(e.target.files?.[0] ?? null)
+                          }
+                          className="mb-4"
+                        />
+                        <div className="flex justify-end space-x-2">
+                          <Button
+                            type="button"
+                            variant="outline"
+                            onClick={() => setShowInvoiceModal(false)}
+                          >
+                            Cancel
+                          </Button>
+                          <Button
+                            type="submit"
+                            disabled={updateInvoiceMutation.isPending}
+                          >
+                            {updateInvoiceMutation.isPending
+                              ? "Uploading..."
+                              : "Upload"}
+                          </Button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                )}
+              </>
+            ) : (
+              <span>N/A</span>
+            )}
+          </div>
+          <div className="w-max">
+            <h3 className="font-semibold mb-2">CN No.</h3>
+            {isEditing ? (
+              <Input
+                value={formData.cn}
+                onChange={(e) =>
+                  setFormData((prv) => ({ ...prv, cn: e.target.value }))
+                }
+              />
+            ) : (
+              <span>{order.cn ?? "n/a"}</span>
+            )}
+          </div>
+          <div className="w-max">
+            <h3 className="font-semibold mb-2">Transport</h3>
+            {isEditing ? (
+              <Input
+                value={formData.transport}
+                onChange={(e) =>
+                  setFormData((prv) => ({ ...prv, transport: e.target.value }))
+                }
+              />
+            ) : (
+              <span>{order.transport ?? "n/a"}</span>
+            )}
+          </div>
+          {user?.role === "ADMIN" && isEditing && (
+            <div className="flex justify-end space-x-2 mt-4">
+              <Button variant="outline" onClick={() => setIsEditing(false)}>
+                Cancel
+              </Button>
+              <Button onClick={handleSaveChanges}>Save Changes</Button>
             </div>
           )}
         </div>
-        <div className="grid grid-cols-4 gap-4">
-          <div className="bg-gray-50 p-2 rounded-sm">
-            <h3 className="font-semibold">Total Items</h3>
-            <p>{order.orderItems.length}</p>
-          </div>
-          <div className="bg-gray-50 p-2 rounded-sm">
-            <h3 className="font-semibold">Total Pkgs</h3>
-            <p>
-              {order.orderItems.reduce((prv, cur) => cur.quantity + prv, 0)}
-            </p>
-          </div>
-          <div className="bg-gray-50 p-2 rounded-sm">
-            <h3 className="font-semibold">Total Weight</h3>
-            <p>{order.estimatedWeight}</p>
-          </div>
-          <div className="bg-gray-50 p-2 rounded-sm"></div>
-          <div className="bg-gray-50 p-2 rounded-sm">
-            <h3 className="font-semibold">Total Amount</h3>
-            <p>₹{order.totalAmount.toFixed(2)}</p>
-          </div>
 
-          <div className="bg-gray-50 p-2 rounded-sm">
-            <h3 className="font-semibold">Shipping Charges</h3>
-            {user?.role === "ADMIN" && isEditing ? (
-              <div className="flex items-center space-x-2">
-                <Label htmlFor="deliveryCharges">₹</Label>
-                <Input
-                  id="deliveryCharges"
-                  type="number"
-                  min="0"
-                  step="0.01"
-                  value={formData.deliveryCharges}
-                  onChange={(e) =>
-                    setFormData((prev) => ({
-                      ...prev,
-                      deliveryCharges: e.target.value,
-                    }))
-                  }
-                  className="w-32"
-                />
-              </div>
-            ) : (
-              <p>₹{(order.deliveryCharges || 0).toFixed(2)}</p>
-            )}
-          </div>
-          <div className="bg-gray-50 p-2 rounded-sm">
-            <h3 className="font-semibold">GST Amount</h3>
-            <p>₹{order.gstAmount.toFixed(2)}</p>
-          </div>
+        <div className="border rounded-lg">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Order No.</TableHead>
+                <TableHead>Total Pkgs</TableHead>
+                <TableHead>Total Weight</TableHead>
+                <TableHead>Tea Value</TableHead>
+                <TableHead>Shipping</TableHead>
+                <TableHead>GST</TableHead>
+                <TableHead>Total Amount</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              <TableRow>
+                <TableCell>{order.id}</TableCell>
+                <TableCell>
+                  {order.orderItems.reduce((prv, cur) => prv + cur.quantity, 0)}
+                </TableCell>
+                <TableCell>{order.estimatedWeight}</TableCell>
+                <TableCell>{order.subtotal}</TableCell>
+                <TableCell>{order.deliveryCharges}</TableCell>
+                <TableCell>{order.gstAmount}</TableCell>
+                <TableCell>{order.totalAmount}</TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </div>
+
+        {/* <div className="grid grid-cols-4 gap-4">
           {user?.role === "ADMIN" && (
             <div className="bg-gray-50 p-2 rounded-sm">
               <h3 className="font-semibold">Other Charges</h3>
@@ -231,8 +335,54 @@ function OrderDetailPage() {
               )}
             </div>
           )}
+        </div> */}
+
+        <div className="mt-6">
+          <h3 className="font-semibold mb-6">Order Items</h3>
+          <div className="border rounded-lg">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Product Id</TableHead>
+                  <TableHead>Mark</TableHead>
+                  <TableHead>Grade</TableHead>
+                  <TableHead>Price/Kg</TableHead>
+                  <TableHead>Weight/pkg</TableHead>
+                  <TableHead>Sample Weight</TableHead>
+                  <TableHead>Total Pkgs</TableHead>
+                  <TableHead>Total Weight</TableHead>
+                  <TableHead>Total Price</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {order.orderItems.map((item) => (
+                  <TableRow>
+                    <TableCell>
+                      <span>
+                        IIL{new Date(item.product.createdAt).getFullYear()}
+                        {new Date(item.product.createdAt)
+                          .getMonth()
+                          .toString()
+                          .padStart(2, "0")}
+                        {item.product.id.toString().padStart(6, "0")}
+                      </span>
+                    </TableCell>
+                    <TableCell>{item.product.brandMark.name}</TableCell>
+                    <TableCell>{item.product.grade}</TableCell>
+                    <TableCell>{item.product.pricePerUnit}</TableCell>
+                    <TableCell>{item.product.weightPerUnit}</TableCell>
+                    <TableCell>{item.product.sampleWeight}</TableCell>
+                    <TableCell>{item.quantity}</TableCell>
+                    <TableCell>{item.totalWeight}</TableCell>
+                    <TableCell>{item.totalPrice}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
         </div>
-        <div className="mt-6 grid grid-cols-2">
+
+        <div className="mt-10 grid grid-cols-3">
           <div className="">
             <p className="mb-4 font-semibold">Buyer Details</p>
             <p className="text-sm">Business Name: {order.buyer.businessName}</p>
@@ -252,33 +402,6 @@ function OrderDetailPage() {
                 order.shippingPincode,
               ].join(", ")}
             </p>
-          </div>
-        </div>
-        {user?.role === "ADMIN" && isEditing && (
-          <div className="flex justify-end space-x-2 mt-4">
-            <Button variant="outline" onClick={() => setIsEditing(false)}>
-              Cancel
-            </Button>
-            <Button onClick={handleSaveChanges}>Save Changes</Button>
-          </div>
-        )}
-        <div>
-          <h3 className="font-semibold mb-6">Order Items</h3>
-          <div className="space-y-2">
-            {order.orderItems.map((item) => (
-              <div key={item.id} className="border p-2 rounded">
-                <p>
-                  Product ID: IIL{new Date(item.createdAt).getFullYear()}
-                  {new Date(item.createdAt)
-                    .getMonth()
-                    .toString()
-                    .padStart(2, "0")}
-                  {item.id.toString().padStart(6, "0")}
-                </p>
-                <p>Quantity: {item.quantity}</p>
-                <p>Price/Kg: ₹{item.unitPrice}</p>
-              </div>
-            ))}
           </div>
         </div>
       </div>

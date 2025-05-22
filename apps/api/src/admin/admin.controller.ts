@@ -1,16 +1,31 @@
-import { Controller, Req, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Req,
+  UploadedFiles,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
 import { contract } from '@intealegend/api-contract';
 import { TsRestHandler, tsRestHandler } from '@ts-rest/nest';
 import { AdminService } from './admin.service';
 import { JwtGuard } from '../auth/jwt.guard';
+import { FileFieldsInterceptor } from '@nestjs/platform-express';
+import { StorageService } from 'src/storage/storage.service';
 
 @Controller()
 @UseGuards(JwtGuard) // Add this decorator to protect all routes in this controller
 export class AdminController {
-  constructor(private readonly adminService: AdminService) {}
+  constructor(
+    private readonly adminService: AdminService,
+    private readonly storageService: StorageService,
+  ) {}
 
   @TsRestHandler(contract.admin)
-  handler(@Req() req) {
+  @UseInterceptors(FileFieldsInterceptor([{ name: 'invoice', maxCount: 1 }]))
+  handler(
+    @Req() req,
+    @UploadedFiles() files: Record<string, Express.Multer.File[]>,
+  ) {
     if (req.user.role != 'ADMIN') {
       return {
         status: 401,
@@ -97,6 +112,7 @@ export class AdminController {
             ...orders,
             data: orders.data.map((order) => ({
               ...order,
+              subtotal: Number(order.subtotal),
               totalAmount: Number(order.totalAmount),
               deliveryCharges: order.deliveryCharges
                 ? Number(order.deliveryCharges)
@@ -130,6 +146,7 @@ export class AdminController {
           status: 200,
           body: {
             ...order,
+            subtotal: Number(order.subtotal),
             totalAmount: Number(order.totalAmount),
             deliveryCharges: order.deliveryCharges
               ? Number(order.deliveryCharges)
@@ -145,6 +162,34 @@ export class AdminController {
               totalPrice: Number(item.totalPrice),
             })),
           },
+        };
+      },
+      uploadInvoice: async ({ params: { id }, body: {} }) => {
+        let invoice = '';
+
+        if (files) {
+          for (const [fieldName, fieldFiles] of Object.entries(files)) {
+            if (fieldFiles?.length > 0) {
+              const file = fieldFiles[0];
+              const url = await this.storageService.upload(
+                file.originalname,
+                file.buffer,
+                fieldName === 'brandLogo', // Only optimize brand logo
+              );
+              if (fieldName === 'invoice') {
+                invoice = url;
+              }
+            }
+          }
+        }
+
+        const result = await this.adminService.uploadInvoice(
+          parseInt(id),
+          invoice,
+        );
+        return {
+          status: 200,
+          body: result,
         };
       },
     });

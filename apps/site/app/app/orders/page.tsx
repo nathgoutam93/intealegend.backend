@@ -123,55 +123,70 @@ export default function OrdersPage() {
               <TableHeader>
                 <TableRow>
                   <TableHead>Order ID</TableHead>
-                  <TableHead className="text-center">Date</TableHead>
-                  <TableHead className="text-center">Items</TableHead>
-                  <TableHead className="text-center">Total Pkg</TableHead>
-                  <TableHead className="text-center">Total Weight</TableHead>
-                  <TableHead className="text-center">Total Amount</TableHead>
+                  <TableHead>Date</TableHead>
                   <TableHead>Status</TableHead>
+                  <TableHead>Tea Value</TableHead>
+                  <TableHead>Total Amount</TableHead>
+                  <TableHead>Total Pkgs</TableHead>
+                  <TableHead>Total Weight</TableHead>
+                  <TableHead>Actions</TableHead>
+                  <TableHead>Invoice</TableHead>
+                  <TableHead>CN No.</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {filteredOrders.map((order) => (
                   <TableRow
                     key={order.id}
-                    className="cursor-pointer hover:bg-gray-50"
-                    onClick={() => router.push(`/app/orders/${order.id}`)}
+                    className="cursor-pointer hover:bg-muted/50"
                   >
-                    <TableCell className="font-medium">#{order.id}</TableCell>
-                    <TableCell className="text-center">
+                    <TableCell>#{order.id}</TableCell>
+                    <TableCell>
                       {new Date(order.createdAt).toLocaleDateString()}
                     </TableCell>
-                    <TableCell className="text-center">
-                      {order.orderItems.length}
-                    </TableCell>
-                    <TableCell className="text-center">
-                      {order.orderItems.reduce(
-                        (prv, cur) => cur.quantity + prv,
-                        0
-                      )}{" "}
-                    </TableCell>
-                    <TableCell className="text-center">
-                      {order.estimatedWeight}kg
-                    </TableCell>
-                    <TableCell className="text-center">
-                      ₹{order.totalAmount.toFixed(2)}
-                    </TableCell>
                     <TableCell>
-                      <Badge
-                        variant={
-                          order.status === "ON_WAY"
-                            ? "default"
-                            : order.status === "DESPATCHED"
-                              ? "secondary"
-                              : order.status === "ACCEPTED"
-                                ? "secondary"
-                                : "outline"
-                        }
+                      <span
+                        className={`px-2 py-1 rounded-full text-xs ${
+                          order.status === "DELIVERED"
+                            ? "bg-green-100 text-green-800"
+                            : order.status === "CANCELLED"
+                              ? "bg-red-100 text-red-800"
+                              : order.status === "PENDING"
+                                ? "bg-yellow-100 text-yellow-800"
+                                : "bg-blue-100 text-blue-800"
+                        }`}
                       >
                         {order.status}
-                      </Badge>
+                      </span>
                     </TableCell>
+                    <TableCell>₹{order.subtotal.toFixed(2)}</TableCell>
+                    <TableCell>₹{order.totalAmount.toFixed(2)}</TableCell>
+                    <TableCell>
+                      {order.orderItems.reduce(
+                        (prv, cur) => prv + cur.quantity,
+                        0
+                      )}
+                    </TableCell>
+                    <TableCell>{order.estimatedWeight} kg</TableCell>
+
+                    <TableCell>
+                      <Button asChild>
+                        <Link href={`/app/orders/${order.id}`}>
+                          View Details
+                        </Link>
+                      </Button>
+                    </TableCell>
+
+                    <TableCell>
+                      {order.invoice ? (
+                        <a href={order.invoice} className="text-blue-400">
+                          view invoice
+                        </a>
+                      ) : (
+                        <span>N/A</span>
+                      )}
+                    </TableCell>
+                    <TableCell>{order.cn ?? "N/A"}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>

@@ -6,10 +6,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.OrderSchema = exports.OrderItemSchema = void 0;
 var zod_1 = __importDefault(require("zod"));
 var profile_1 = require("./profile");
+var product_1 = require("./product");
 exports.OrderItemSchema = zod_1.default.object({
     id: zod_1.default.number(),
     orderId: zod_1.default.number(),
     productId: zod_1.default.number(),
+    product: product_1.ProductSchema,
     quantity: zod_1.default.number().int(),
     unitPrice: zod_1.default.number(),
     totalPrice: zod_1.default.number(),
@@ -35,6 +37,7 @@ exports.OrderSchema = zod_1.default.object({
         "CANCELLED",
     ])
         .default("PENDING"),
+    subtotal: zod_1.default.number(),
     totalAmount: zod_1.default.number(),
     estimatedWeight: zod_1.default.number(),
     deliveryCharges: zod_1.default.number().nullable(),
@@ -42,6 +45,9 @@ exports.OrderSchema = zod_1.default.object({
     otherCharges: zod_1.default.number().nullable(),
     roundOff: zod_1.default.number().nullable(),
     orderItems: zod_1.default.array(exports.OrderItemSchema),
+    invoice: zod_1.default.string().nullable(),
+    cn: zod_1.default.string().nullable(),
+    transport: zod_1.default.string().nullable(),
     shippingAddress: zod_1.default.string(),
     shippingState: zod_1.default.string(),
     shippingDistrict: zod_1.default.string(),

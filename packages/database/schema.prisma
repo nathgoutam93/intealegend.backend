@@ -280,12 +280,17 @@ model Order {
     userId Int
 
     status          OrderStatus @default(PENDING)
-    totalAmount     Decimal
+    subtotal        Decimal
     estimatedWeight Float
     deliveryCharges Decimal?
     gstAmount       Decimal
     otherCharges    Decimal?
+    totalAmount     Decimal
     roundOff        Decimal?
+
+    invoice   String?
+    cn        String?
+    transport String?
 
     // Shipping address fields
     shippingAddress  String

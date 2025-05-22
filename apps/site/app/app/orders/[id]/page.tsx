@@ -74,151 +74,143 @@ export default function OrderDetailsPage() {
   return (
     <div className="min-h-screen flex flex-col">
       <Header showBackButton backUrl="/app/orders" />
-      <div className="flex-1 pt-4">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center gap-4 mb-6">
-            <Link href="/app/orders">
-              <Button variant="ghost" size="icon">
-                <ArrowLeft className="h-4 w-4" />
-              </Button>
-            </Link>
-            <div>
-              <h1 className="text-2xl font-bold">Order #{order.id}</h1>
-              <p className="text-sm text-muted-foreground">
-                Placed on {new Date(order.createdAt).toLocaleDateString()}
-              </p>
-            </div>
-            <Badge
-              className="ml-auto"
-              variant={
-                order.status === "ON_WAY"
-                  ? "default"
-                  : order.status === "DESPATCHED"
-                    ? "secondary"
-                    : order.status === "ACCEPTED"
-                      ? "secondary"
-                      : "outline"
-              }
+      <div className="py-8 max-w-7xl mx-auto">
+        <div className="grid grid-cols-5">
+          <div className="w-max">
+            <h3 className="font-semibold mb-2">Status</h3>
+            <div
+              className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
+              ${
+                order.status === "DELIVERED"
+                  ? "bg-green-100 text-green-800"
+                  : order.status === "CANCELLED"
+                    ? "bg-red-100 text-red-800"
+                    : "bg-blue-100 text-blue-800"
+              }`}
             >
               {order.status}
-            </Badge>
+            </div>
+          </div>
+          <div className="w-max">
+            <h3 className="font-semibold mb-2">Invoice</h3>
+            {order.invoice ? (
+              <div className="bg-gray-100 p-2 rounded-sm">
+                <a
+                  href={order.invoice}
+                  target="_blank"
+                  className="text-blue-400"
+                >
+                  View Invoice
+                </a>
+              </div>
+            ) : (
+              <span>N/A</span>
+            )}
+          </div>
+          <div className="w-max">
+            <h3 className="font-semibold mb-2">CN No.</h3>
+            <span>{order.cn ?? "n/a"}</span>
+          </div>
+          <div className="w-max">
+            <h3 className="font-semibold mb-2">Transport</h3>
+            <span>{order.transport ?? "n/a"}</span>
+          </div>
+        </div>
+
+        <div className="mt-4 border rounded-lg">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Order No.</TableHead>
+                <TableHead>Total Pkgs</TableHead>
+                <TableHead>Total Weight</TableHead>
+                <TableHead>Tea Value</TableHead>
+                <TableHead>Shipping</TableHead>
+                <TableHead>GST</TableHead>
+                <TableHead>Total Amount</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              <TableRow>
+                <TableCell>{order.id}</TableCell>
+                <TableCell>
+                  {order.orderItems.reduce((prv, cur) => prv + cur.quantity, 0)}
+                </TableCell>
+                <TableCell>{order.estimatedWeight}</TableCell>
+                <TableCell>{order.subtotal}</TableCell>
+                <TableCell>{order.deliveryCharges}</TableCell>
+                <TableCell>{order.gstAmount}</TableCell>
+                <TableCell>{order.totalAmount}</TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </div>
+
+        <div className="mt-6">
+          <h3 className="font-semibold mb-6">Order Items</h3>
+          <div className="border rounded-lg">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Product Id</TableHead>
+                  <TableHead>Mark</TableHead>
+                  <TableHead>Grade</TableHead>
+                  <TableHead>Price/Kg</TableHead>
+                  <TableHead>Weight/pkg</TableHead>
+                  <TableHead>Sample Weight</TableHead>
+                  <TableHead>Total Pkgs</TableHead>
+                  <TableHead>Total Weight</TableHead>
+                  <TableHead>Total Price</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {order.orderItems.map((item) => (
+                  <TableRow>
+                    <TableCell>
+                      <span>
+                        IIL{new Date(item.product.createdAt).getFullYear()}
+                        {new Date(item.product.createdAt)
+                          .getMonth()
+                          .toString()
+                          .padStart(2, "0")}
+                        {item.product.id.toString().padStart(6, "0")}
+                      </span>
+                    </TableCell>
+                    <TableCell>{item.product.brandMark.name}</TableCell>
+                    <TableCell>{item.product.grade}</TableCell>
+                    <TableCell>{item.product.pricePerUnit}</TableCell>
+                    <TableCell>{item.product.weightPerUnit}</TableCell>
+                    <TableCell>{item.product.sampleWeight}</TableCell>
+                    <TableCell>{item.quantity}</TableCell>
+                    <TableCell>{item.totalWeight}</TableCell>
+                    <TableCell>{item.totalPrice}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        </div>
+
+        <div className="mt-10 grid grid-cols-3">
+          <div className="">
+            <p className="mb-4 font-semibold">Buyer Details</p>
+            <p className="text-sm">Business Name: {order.buyer.businessName}</p>
+            <p className="text-sm">Owner: {order.buyer.ownerName}</p>
+            <p className="text-sm">
+              Prefered Transport: {order.buyer.transportName}
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="md:col-span-2">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Order Items</CardTitle>
-                  <CardDescription>
-                    Items included in this order
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Item</TableHead>
-                        <TableHead className="text-center">Quantity</TableHead>
-                        <TableHead className="text-center">Weight</TableHead>
-                        <TableHead className="text-right">Price</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {order.orderItems.map((item) => (
-                        <TableRow key={item.id}>
-                          <TableCell>
-                            <div>
-                              <p>
-                                Product ID: IIL
-                                {new Date(item.createdAt).getFullYear()}
-                                {new Date(item.createdAt)
-                                  .getMonth()
-                                  .toString()
-                                  .padStart(2, "0")}
-                                {item.id.toString().padStart(6, "0")}
-                              </p>
-                            </div>
-                          </TableCell>
-                          <TableCell className="text-center">
-                            {item.quantity}
-                          </TableCell>
-                          <TableCell className="text-center">
-                            {item.totalWeight}kg
-                          </TableCell>
-                          <TableCell className="text-right">
-                            ₹{item.unitPrice.toFixed(2)} /kg
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </CardContent>
-              </Card>
-            </div>
-
-            <div>
-              <Card>
-                <CardHeader>
-                  <CardTitle>Order Summary</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    <div className="flex justify-between">
-                      <span className="text-muted-foreground">Subtotal</span>
-                      <span>₹{order.totalAmount.toFixed(2)}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-muted-foreground">GST</span>
-                      <span>₹{order.gstAmount.toFixed(2)}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-muted-foreground">
-                        Delivery Charges
-                      </span>
-                      <span>
-                        ₹{order.deliveryCharges?.toFixed(2) || "0.00"}
-                      </span>
-                    </div>
-                    <Separator />
-                    <div className="flex justify-between font-medium">
-                      <span>Total Amount</span>
-                      <span>₹{order.totalAmount.toFixed(2)}</span>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="mt-6">
-                <CardHeader>
-                  <CardTitle>Delivery Details</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    <div>
-                      <div className="text-sm text-muted-foreground">
-                        Address
-                      </div>
-                      <div>
-                        {[
-                          order.shippingAddress,
-                          order.shippingDistrict,
-                          order.shippingState,
-                          order.shippingPincode,
-                        ].join(", ")}
-                      </div>
-                    </div>
-                    <div>
-                      <div className="text-sm text-muted-foreground">
-                        Contact Number
-                      </div>
-                      <div>
-                        {[order.shippingPhone, order.shippingEmail].join(", ")}
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
+          <div className="">
+            <p className="mb-4 font-semibold">Shipping Address</p>
+            <p>
+              {[
+                order.shippingAddress,
+                order.shippingDistrict,
+                order.shippingState,
+                order.shippingPincode,
+              ].join(", ")}
+            </p>
           </div>
         </div>
       </div>

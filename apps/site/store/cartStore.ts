@@ -5,6 +5,7 @@ export interface CartItem {
   id: string;
   mark: string;
   grade: string;
+  productionMonth: string;
   pricePerKg: number;
   weightPerPkg: number;
   quantity: number;
@@ -22,6 +23,7 @@ interface CartState {
   roundOff: number;
   addItem: (item: Omit<CartItem, "totalPrice" | "totalWeight">) => void;
   removeItem: (id: string) => void;
+  clearCart: () => void;
   updateQuantity: (id: string, quantity: number) => void;
   calculateTotals: () => {
     subtotal: number;
@@ -99,6 +101,12 @@ export const useCartStore = create<CartState>()(
         }));
       },
 
+      clearCart: () => {
+        set((state) => ({
+          items: [],
+        }));
+      },
+
       updateQuantity: (id, quantity) => {
         set((state) => {
           const item = state.items.find((i) => i.id === id);
@@ -151,19 +159,27 @@ export const useCartStore = create<CartState>()(
         // Calculate GST separately for subtotal and shipping (5% each)
         const gstOnSubtotal = subtotal * 0.05;
         const gstOnShipping = shipping * 0.05;
-        
+
         // Total GST
         const totalGst = gstOnSubtotal + gstOnShipping;
 
-        const totalAmount =
-          subtotal + shipping + state.otherCharges + totalGst + state.roundOff;
+        const roundOff = parseFloat(
+          (
+            Math.round(subtotal + shipping + totalGst) -
+            (subtotal + shipping + totalGst)
+          ).toFixed(2)
+        );
 
-        return { 
-          subtotal, 
-          totalWeight, 
+        const totalAmount = parseFloat(
+          (subtotal + totalGst + shipping + roundOff).toFixed(2)
+        );
+
+        return {
+          subtotal,
+          totalWeight,
           totalAmount,
           gstOnSubtotal,
-          gstOnShipping
+          gstOnShipping,
         };
       },
     }),

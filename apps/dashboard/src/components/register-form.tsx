@@ -160,6 +160,10 @@ export default function SellerRegistrationForm() {
     if (step < REGISTRATION_STEPS.length) {
       setStep(step + 1);
     } else {
+      if (registerMutation.isPending) {
+        return;
+      }
+
       // Validate password match
       if (formData.password !== formData.confirmPassword) {
         toast.error("Passwords do not match");
