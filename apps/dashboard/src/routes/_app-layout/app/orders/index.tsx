@@ -123,11 +123,6 @@ function OrdersPage() {
               <TableRow
                 key={order.id}
                 className="cursor-pointer hover:bg-muted/50"
-                onClick={() => {
-                  if (user?.role !== "ADMIN") {
-                    window.location.href = `/app/orders/${order.id}`;
-                  }
-                }}
               >
                 <TableCell>#{order.id}</TableCell>
                 <TableCell>
