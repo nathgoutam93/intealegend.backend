@@ -142,8 +142,9 @@ function OrdersPage() {
                       </TooltipTrigger>
                       <TooltipContent>
                         <div className="p-1 bg-black text-white">
-                          <p>{order.buyer.ownerName}</p>
-                          <p>{order.buyer.transportName}</p>
+                          <p>Owner: {order.buyer.ownerName}</p>
+                          <p>Transport: {order.buyer.transportName}</p>
+                          <p>GST: {order.buyer.gstNumber}</p>
                         </div>
                       </TooltipContent>
                     </Tooltip>
