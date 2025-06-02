@@ -41,12 +41,16 @@ function OrderDetailPage() {
 
   const [isEditing, setIsEditing] = useState(false);
   const [showInvoiceModal, setShowInvoiceModal] = useState(false);
+  const [showCnModal, setShowCnModal] = useState(false);
   const [invoiceFile, setInvoiceFile] = useState<File | null>(null);
+  const [cnFile, setCnFile] = useState<File | null>(null);
   const [formData, setFormData] = useState<{
     cn: string;
+    invoice: string;
     transport: string;
   }>({
     cn: "",
+    invoice: "",
     transport: "0",
   });
 
@@ -61,11 +65,13 @@ function OrderDetailPage() {
 
   const updateOrderMutation = client.admin.updateOrder.useMutation();
   const updateInvoiceMutation = client.admin.uploadInvoice.useMutation();
+  const updateCnMutation = client.admin.uploadCn.useMutation();
 
   useEffect(() => {
     if (data?.body) {
       setFormData({
         cn: data.body.cn?.toString() || "",
+        invoice: data.body.invoice?.toString() || "",
         transport: data.body.transport?.toString() || "",
       });
     }
@@ -90,6 +96,33 @@ function OrderDetailPage() {
       toast.error("Error", {
         description: "Failed to update order status.",
       });
+    }
+  };
+
+  // Handler for invoice upload
+  const handleCnUpload = async (e: any) => {
+    e.preventDefault();
+    if (!cnFile) {
+      toast("Error", { description: "Please select a file." });
+      return;
+    }
+    try {
+      const formData = new FormData();
+      formData.append("cn", cnFile);
+
+      await updateCnMutation.mutateAsync({
+        params: { id: orderId },
+        body: formData,
+      });
+
+      setShowInvoiceModal(false);
+      setInvoiceFile(null);
+      toast("CN Uploaded", {
+        description: "CN uploaded successfully.",
+      });
+      await refetch();
+    } catch (error) {
+      toast("Error", { description: "Failed to upload CN." });
     }
   };
 
@@ -126,6 +159,7 @@ function OrderDetailPage() {
         params: { id: orderId },
         body: {
           cn: formData.cn,
+          invoice: formData.invoice,
           transport: formData.transport,
         },
       });
@@ -189,85 +223,145 @@ function OrderDetailPage() {
           </div>
           <div className="w-max">
             <h3 className="font-semibold mb-2">Invoice</h3>
-            {order.invoice ? (
-              <div className="bg-gray-100 p-2 rounded-sm">
-                <a
-                  href={order.invoice}
-                  target="_blank"
-                  className="text-blue-400"
-                >
-                  View Invoice
-                </a>
-              </div>
-            ) : user?.role === "ADMIN" ? (
-              <>
-                <Button size={"sm"} onClick={() => setShowInvoiceModal(true)}>
-                  Upload Invoice
-                </Button>
-                {showInvoiceModal && (
-                  <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center">
-                    <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
-                      <h2 className="font-bold text-xl mb-4">Upload Invoice</h2>
-                      <form onSubmit={handleInvoiceUpload}>
-                        <Input
-                          type="file"
-                          accept="application/pdf,image/*"
-                          onChange={(e) =>
-                            setInvoiceFile(e.target.files?.[0] ?? null)
-                          }
-                          className="mb-4"
-                        />
-                        <div className="flex justify-end space-x-2">
-                          <Button
-                            type="button"
-                            variant="outline"
-                            onClick={() => setShowInvoiceModal(false)}
-                          >
-                            Cancel
-                          </Button>
-                          <Button
-                            type="submit"
-                            disabled={updateInvoiceMutation.isPending}
-                          >
-                            {updateInvoiceMutation.isPending
-                              ? "Uploading..."
-                              : "Upload"}
-                          </Button>
-                        </div>
-                      </form>
+            <div className="space-y-2">
+              <Input
+                disabled={!isEditing}
+                value={formData.invoice}
+                onChange={(e) =>
+                  setFormData((prv) => ({ ...prv, invoice: e.target.value }))
+                }
+              />
+              {order.invoice_url ? (
+                <div className="bg-gray-100 p-2 rounded-sm w-max">
+                  <a
+                    href={order.invoice_url}
+                    target="_blank"
+                    className="text-blue-400"
+                  >
+                    View Invoice
+                  </a>
+                </div>
+              ) : user?.role === "ADMIN" ? (
+                <>
+                  <Button size={"sm"} onClick={() => setShowInvoiceModal(true)}>
+                    Upload Invoice
+                  </Button>
+                  {showInvoiceModal && (
+                    <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center">
+                      <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
+                        <h2 className="font-bold text-xl mb-4">
+                          Upload Invoice
+                        </h2>
+                        <form onSubmit={handleInvoiceUpload}>
+                          <Input
+                            type="file"
+                            accept="application/pdf,image/*"
+                            onChange={(e) =>
+                              setInvoiceFile(e.target.files?.[0] ?? null)
+                            }
+                            className="mb-4"
+                          />
+                          <div className="flex justify-end space-x-2">
+                            <Button
+                              type="button"
+                              variant="outline"
+                              onClick={() => setShowInvoiceModal(false)}
+                            >
+                              Cancel
+                            </Button>
+                            <Button
+                              type="submit"
+                              disabled={updateInvoiceMutation.isPending}
+                            >
+                              {updateInvoiceMutation.isPending
+                                ? "Uploading..."
+                                : "Upload"}
+                            </Button>
+                          </div>
+                        </form>
+                      </div>
                     </div>
-                  </div>
-                )}
-              </>
-            ) : (
-              <span>N/A</span>
-            )}
+                  )}
+                </>
+              ) : (
+                <span>N/A</span>
+              )}
+            </div>
           </div>
           <div className="w-max">
             <h3 className="font-semibold mb-2">CN No.</h3>
-            {isEditing ? (
+            <div className="space-y-2">
               <Input
+                disabled={!isEditing}
                 value={formData.cn}
                 onChange={(e) =>
                   setFormData((prv) => ({ ...prv, cn: e.target.value }))
                 }
               />
-            ) : (
-              <span>{order.cn ?? "n/a"}</span>
-            )}
+              {order.cn_url ? (
+                <div className="bg-gray-100 p-2 rounded-sm w-max">
+                  <a
+                    href={order.cn_url}
+                    target="_blank"
+                    className="text-blue-400"
+                  >
+                    View CN
+                  </a>
+                </div>
+              ) : user?.role === "ADMIN" ? (
+                <>
+                  <Button size={"sm"} onClick={() => setShowCnModal(true)}>
+                    Upload CN
+                  </Button>
+                  {showCnModal && (
+                    <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center">
+                      <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
+                        <h2 className="font-bold text-xl mb-4">Upload CN</h2>
+                        <form onSubmit={handleCnUpload}>
+                          <Input
+                            type="file"
+                            accept="application/pdf,image/*"
+                            onChange={(e) =>
+                              setCnFile(e.target.files?.[0] ?? null)
+                            }
+                            className="mb-4"
+                          />
+                          <div className="flex justify-end space-x-2">
+                            <Button
+                              type="button"
+                              variant="outline"
+                              onClick={() => setShowCnModal(false)}
+                            >
+                              Cancel
+                            </Button>
+                            <Button
+                              type="submit"
+                              disabled={updateInvoiceMutation.isPending}
+                            >
+                              {updateInvoiceMutation.isPending
+                                ? "Uploading..."
+                                : "Upload"}
+                            </Button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  )}
+                </>
+              ) : (
+                <span>N/A</span>
+              )}
+            </div>
           </div>
           <div className="w-max">
             <h3 className="font-semibold mb-2">Transport</h3>
-            {isEditing ? (
-              <Input
-                value={formData.transport}
-                onChange={(e) =>
-                  setFormData((prv) => ({ ...prv, transport: e.target.value }))
-                }
-              />
-            ) : (
-              <span>{order.transport ?? "n/a"}</span>
-            )}
+            <Input
+              disabled={!isEditing}
+              value={formData.transport}
+              onChange={(e) =>
+                setFormData((prv) => ({ ...prv, transport: e.target.value }))
+              }
+            />
           </div>
           {user?.role === "ADMIN" && isEditing && (
             <div className="flex justify-end space-x-2 mt-4">
@@ -346,12 +440,16 @@ function OrderDetailPage() {
                   <TableHead>Product Id</TableHead>
                   <TableHead>Mark</TableHead>
                   <TableHead>Grade</TableHead>
-                  <TableHead>Price/Kg</TableHead>
+
+                  <TableHead>Total Pkgs</TableHead>
+
                   <TableHead>Weight/pkg</TableHead>
                   <TableHead>Sample Weight</TableHead>
-                  <TableHead>Total Pkgs</TableHead>
                   <TableHead>Total Weight</TableHead>
-                  <TableHead>Total Price</TableHead>
+
+                  <TableHead>Price/Kg</TableHead>
+                  <TableHead>Tea Value</TableHead>
+                  <TableHead>Location</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -369,12 +467,14 @@ function OrderDetailPage() {
                     </TableCell>
                     <TableCell>{item.product.brandMark.name}</TableCell>
                     <TableCell>{item.product.grade}</TableCell>
-                    <TableCell>{item.product.pricePerUnit}</TableCell>
+                    <TableCell>{item.quantity}</TableCell>
                     <TableCell>{item.product.weightPerUnit}</TableCell>
                     <TableCell>{item.product.sampleWeight}</TableCell>
-                    <TableCell>{item.quantity}</TableCell>
                     <TableCell>{item.totalWeight}</TableCell>
+
+                    <TableCell>{item.product.pricePerUnit}</TableCell>
                     <TableCell>{item.totalPrice}</TableCell>
+                    <TableCell>{item.product.location}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -387,6 +487,7 @@ function OrderDetailPage() {
             <p className="mb-4 font-semibold">Buyer Details</p>
             <p className="text-sm">Business Name: {order.buyer.businessName}</p>
             <p className="text-sm">Owner: {order.buyer.ownerName}</p>
+            <p className="text-sm">GST: {order.buyer.gstNumber}</p>
             <p className="text-sm">
               Prefered Transport: {order.buyer.transportName}
             </p>
@@ -394,13 +495,19 @@ function OrderDetailPage() {
 
           <div className="">
             <p className="mb-4 font-semibold">Shipping Address</p>
-            <p>
+            <p className="text-sm">
               {[
                 order.shippingAddress,
                 order.shippingDistrict,
                 order.shippingState,
                 order.shippingPincode,
               ].join(", ")}
+            </p>
+            <p className="text-sm">
+              Contact:{" "}
+              <span className="font-semibold">
+                {[order.shippingPhone, order.shippingEmail].join(", ")}
+              </span>
             </p>
           </div>
         </div>

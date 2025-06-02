@@ -21,7 +21,12 @@ export class AdminController {
   ) {}
 
   @TsRestHandler(contract.admin)
-  @UseInterceptors(FileFieldsInterceptor([{ name: 'invoice', maxCount: 1 }]))
+  @UseInterceptors(
+    FileFieldsInterceptor([
+      { name: 'invoice', maxCount: 1 },
+      { name: 'cn', maxCount: 1 },
+    ]),
+  )
   handler(
     @Req() req,
     @UploadedFiles() files: Record<string, Express.Multer.File[]>,
@@ -55,6 +60,14 @@ export class AdminController {
       },
       verifyRegistration: async ({ body }) => {
         const res = await this.adminService.verifyRegistrations(body.userIds);
+
+        return {
+          status: 200,
+          body: res,
+        };
+      },
+      toggleUserBan: async ({ body, params: { id } }) => {
+        const res = await this.adminService.toggleUserBan(parseInt(id));
 
         return {
           status: 200,
@@ -165,7 +178,7 @@ export class AdminController {
         };
       },
       uploadInvoice: async ({ params: { id }, body: {} }) => {
-        let invoice = '';
+        let invoice_url = '';
 
         if (files) {
           for (const [fieldName, fieldFiles] of Object.entries(files)) {
@@ -177,7 +190,7 @@ export class AdminController {
                 fieldName === 'brandLogo', // Only optimize brand logo
               );
               if (fieldName === 'invoice') {
-                invoice = url;
+                invoice_url = url;
               }
             }
           }
@@ -185,8 +198,33 @@ export class AdminController {
 
         const result = await this.adminService.uploadInvoice(
           parseInt(id),
-          invoice,
+          invoice_url,
         );
+        return {
+          status: 200,
+          body: result,
+        };
+      },
+      uploadCn: async ({ params: { id }, body: {} }) => {
+        let cn_url = '';
+
+        if (files) {
+          for (const [fieldName, fieldFiles] of Object.entries(files)) {
+            if (fieldFiles?.length > 0) {
+              const file = fieldFiles[0];
+              const url = await this.storageService.upload(
+                file.originalname,
+                file.buffer,
+                fieldName === 'brandLogo', // Only optimize brand logo
+              );
+              if (fieldName === 'cn') {
+                cn_url = url;
+              }
+            }
+          }
+        }
+
+        const result = await this.adminService.uploadCn(parseInt(id), cn_url);
         return {
           status: 200,
           body: result,

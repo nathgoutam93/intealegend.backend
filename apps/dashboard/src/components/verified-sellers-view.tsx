@@ -31,9 +31,9 @@ export function VerifiedSellersView() {
           <TableRow>
             <TableHead>ID</TableHead>
             <TableHead>Mark</TableHead>
-            <TableHead>Email</TableHead>
             <TableHead>Business Name</TableHead>
             <TableHead>Contact Number</TableHead>
+            <TableHead>Email</TableHead>
             <TableHead>Registration Date</TableHead>
           </TableRow>
         </TableHeader>
@@ -45,15 +45,16 @@ export function VerifiedSellersView() {
               onClick={() => setSelectedUser(user)}
             >
               <TableCell>{user.uniqueIdentifier}</TableCell>
+
               <TableCell>
                 {
                   // @ts-ignore
                   user.profile.BrandMarks[0].name
                 }
               </TableCell>
-              <TableCell>{user.profile.email}</TableCell>
               <TableCell>{user.profile.businessName}</TableCell>
               <TableCell>{user.profile.phone}</TableCell>
+              <TableCell>{user.profile.email}</TableCell>
               <TableCell>
                 {new Date(user.createdAt).toLocaleDateString()}
               </TableCell>

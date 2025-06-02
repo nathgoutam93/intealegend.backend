@@ -152,11 +152,10 @@ function NewProductPage() {
                 <FormItem>
                   <FormLabel>Brand Mark</FormLabel>
                   <Select
+                    defaultValue={
+                      marks?.body.find((m) => m.isDefault)?.id.toString() ?? ""
+                    }
                     onValueChange={(value: string) => {
-                      // if (value === "new") {
-                      //   handleCreateNewMark();
-                      //   return;
-                      // }
                       const selectedMark = marks?.body.find(
                         (m) => m.id.toString() === value
                       );
@@ -174,15 +173,12 @@ function NewProductPage() {
                     </FormControl>
                     <SelectContent>
                       {marks?.body.map((mark) => {
-                        if (!mark.isDefault) return null;
-
                         return (
                           <SelectItem key={mark.id} value={mark.id.toString()}>
                             {mark.name}
                           </SelectItem>
                         );
                       })}
-                      {/* <SelectItem value="new">Create New Mark</SelectItem> */}
                     </SelectContent>
                   </Select>
                   <FormMessage />

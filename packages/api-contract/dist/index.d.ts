@@ -24,7 +24,9 @@ export declare const contract: {
                         id: z.ZodNumber;
                         email: z.ZodString;
                         role: z.ZodEnum<["SELLER", "BUYER", "ADMIN", "STAFF"]>;
+                        superSeller: z.ZodBoolean;
                         verified: z.ZodBoolean;
+                        isSuspended: z.ZodBoolean;
                         uniqueIdentifier: z.ZodNullable<z.ZodString>;
                         createdAt: z.ZodDate;
                         updatedAt: z.ZodDate;
@@ -34,7 +36,9 @@ export declare const contract: {
                         createdAt: Date;
                         updatedAt: Date;
                         role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                        superSeller: boolean;
                         verified: boolean;
+                        isSuspended: boolean;
                         uniqueIdentifier: string | null;
                     }, {
                         email: string;
@@ -42,7 +46,9 @@ export declare const contract: {
                         createdAt: Date;
                         updatedAt: Date;
                         role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                        superSeller: boolean;
                         verified: boolean;
+                        isSuspended: boolean;
                         uniqueIdentifier: string | null;
                     }>;
                 }, "strip", z.ZodTypeAny, {
@@ -54,7 +60,9 @@ export declare const contract: {
                         createdAt: Date;
                         updatedAt: Date;
                         role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                        superSeller: boolean;
                         verified: boolean;
+                        isSuspended: boolean;
                         uniqueIdentifier: string | null;
                     };
                 }, {
@@ -66,7 +74,9 @@ export declare const contract: {
                         createdAt: Date;
                         updatedAt: Date;
                         role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                        superSeller: boolean;
                         verified: boolean;
+                        isSuspended: boolean;
                         uniqueIdentifier: string | null;
                     };
                 }>;
@@ -582,7 +592,9 @@ export declare const contract: {
                     id: z.ZodNumber;
                     email: z.ZodString;
                     role: z.ZodEnum<["SELLER", "BUYER", "ADMIN", "STAFF"]>;
+                    superSeller: z.ZodBoolean;
                     verified: z.ZodBoolean;
+                    isSuspended: z.ZodBoolean;
                     uniqueIdentifier: z.ZodNullable<z.ZodString>;
                     createdAt: z.ZodDate;
                     updatedAt: z.ZodDate;
@@ -592,7 +604,9 @@ export declare const contract: {
                     createdAt: Date;
                     updatedAt: Date;
                     role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                    superSeller: boolean;
                     verified: boolean;
+                    isSuspended: boolean;
                     uniqueIdentifier: string | null;
                 }, {
                     email: string;
@@ -600,7 +614,9 @@ export declare const contract: {
                     createdAt: Date;
                     updatedAt: Date;
                     role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                    superSeller: boolean;
                     verified: boolean;
+                    isSuspended: boolean;
                     uniqueIdentifier: string | null;
                 }>;
                 400: z.ZodObject<{
@@ -639,7 +655,9 @@ export declare const contract: {
                         id: z.ZodNumber;
                         email: z.ZodString;
                         role: z.ZodEnum<["SELLER", "BUYER", "ADMIN", "STAFF"]>;
+                        superSeller: z.ZodBoolean;
                         verified: z.ZodBoolean;
+                        isSuspended: z.ZodBoolean;
                         uniqueIdentifier: z.ZodNullable<z.ZodString>;
                         createdAt: z.ZodDate;
                         updatedAt: z.ZodDate;
@@ -649,7 +667,9 @@ export declare const contract: {
                         createdAt: Date;
                         updatedAt: Date;
                         role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                        superSeller: boolean;
                         verified: boolean;
+                        isSuspended: boolean;
                         uniqueIdentifier: string | null;
                     }, {
                         email: string;
@@ -657,7 +677,9 @@ export declare const contract: {
                         createdAt: Date;
                         updatedAt: Date;
                         role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                        superSeller: boolean;
                         verified: boolean;
+                        isSuspended: boolean;
                         uniqueIdentifier: string | null;
                     }>;
                 }, "strip", z.ZodTypeAny, {
@@ -669,7 +691,9 @@ export declare const contract: {
                         createdAt: Date;
                         updatedAt: Date;
                         role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                        superSeller: boolean;
                         verified: boolean;
+                        isSuspended: boolean;
                         uniqueIdentifier: string | null;
                     };
                 }, {
@@ -681,7 +705,9 @@ export declare const contract: {
                         createdAt: Date;
                         updatedAt: Date;
                         role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                        superSeller: boolean;
                         verified: boolean;
+                        isSuspended: boolean;
                         uniqueIdentifier: string | null;
                     };
                 }>;
@@ -740,7 +766,9 @@ export declare const contract: {
                         id: z.ZodNumber;
                         email: z.ZodString;
                         role: z.ZodEnum<["SELLER", "BUYER", "ADMIN", "STAFF"]>;
+                        superSeller: z.ZodBoolean;
                         verified: z.ZodBoolean;
+                        isSuspended: z.ZodBoolean;
                         uniqueIdentifier: z.ZodNullable<z.ZodString>;
                         createdAt: z.ZodDate;
                         updatedAt: z.ZodDate;
@@ -750,7 +778,9 @@ export declare const contract: {
                         createdAt: Date;
                         updatedAt: Date;
                         role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                        superSeller: boolean;
                         verified: boolean;
+                        isSuspended: boolean;
                         uniqueIdentifier: string | null;
                     }, {
                         email: string;
@@ -758,7 +788,9 @@ export declare const contract: {
                         createdAt: Date;
                         updatedAt: Date;
                         role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                        superSeller: boolean;
                         verified: boolean;
+                        isSuspended: boolean;
                         uniqueIdentifier: string | null;
                     }>, "many">;
                     total: z.ZodNumber;
@@ -774,7 +806,9 @@ export declare const contract: {
                         createdAt: Date;
                         updatedAt: Date;
                         role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                        superSeller: boolean;
                         verified: boolean;
+                        isSuspended: boolean;
                         uniqueIdentifier: string | null;
                     }[];
                 }, {
@@ -787,7 +821,9 @@ export declare const contract: {
                         createdAt: Date;
                         updatedAt: Date;
                         role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                        superSeller: boolean;
                         verified: boolean;
+                        isSuspended: boolean;
                         uniqueIdentifier: string | null;
                     }[];
                 }>;
@@ -821,7 +857,9 @@ export declare const contract: {
                     id: z.ZodNumber;
                     email: z.ZodString;
                     role: z.ZodEnum<["SELLER", "BUYER", "ADMIN", "STAFF"]>;
+                    superSeller: z.ZodBoolean;
                     verified: z.ZodBoolean;
+                    isSuspended: z.ZodBoolean;
                     uniqueIdentifier: z.ZodNullable<z.ZodString>;
                     createdAt: z.ZodDate;
                     updatedAt: z.ZodDate;
@@ -831,7 +869,9 @@ export declare const contract: {
                     createdAt: Date;
                     updatedAt: Date;
                     role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                    superSeller: boolean;
                     verified: boolean;
+                    isSuspended: boolean;
                     uniqueIdentifier: string | null;
                 }, {
                     email: string;
@@ -839,7 +879,9 @@ export declare const contract: {
                     createdAt: Date;
                     updatedAt: Date;
                     role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                    superSeller: boolean;
                     verified: boolean;
+                    isSuspended: boolean;
                     uniqueIdentifier: string | null;
                 }>;
                 404: z.ZodObject<{
@@ -878,7 +920,9 @@ export declare const contract: {
                     id: z.ZodNumber;
                     email: z.ZodString;
                     role: z.ZodEnum<["SELLER", "BUYER", "ADMIN", "STAFF"]>;
+                    superSeller: z.ZodBoolean;
                     verified: z.ZodBoolean;
+                    isSuspended: z.ZodBoolean;
                     uniqueIdentifier: z.ZodNullable<z.ZodString>;
                     createdAt: z.ZodDate;
                     updatedAt: z.ZodDate;
@@ -888,7 +932,9 @@ export declare const contract: {
                     createdAt: Date;
                     updatedAt: Date;
                     role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                    superSeller: boolean;
                     verified: boolean;
+                    isSuspended: boolean;
                     uniqueIdentifier: string | null;
                 }, {
                     email: string;
@@ -896,7 +942,9 @@ export declare const contract: {
                     createdAt: Date;
                     updatedAt: Date;
                     role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                    superSeller: boolean;
                     verified: boolean;
+                    isSuspended: boolean;
                     uniqueIdentifier: string | null;
                 }>;
                 400: z.ZodObject<{
@@ -948,7 +996,9 @@ export declare const contract: {
                     id: z.ZodNumber;
                     email: z.ZodString;
                     role: z.ZodEnum<["SELLER", "BUYER", "ADMIN", "STAFF"]>;
+                    superSeller: z.ZodBoolean;
                     verified: z.ZodBoolean;
+                    isSuspended: z.ZodBoolean;
                     uniqueIdentifier: z.ZodNullable<z.ZodString>;
                     createdAt: z.ZodDate;
                     updatedAt: z.ZodDate;
@@ -958,7 +1008,9 @@ export declare const contract: {
                     createdAt: Date;
                     updatedAt: Date;
                     role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                    superSeller: boolean;
                     verified: boolean;
+                    isSuspended: boolean;
                     uniqueIdentifier: string | null;
                 }, {
                     email: string;
@@ -966,7 +1018,9 @@ export declare const contract: {
                     createdAt: Date;
                     updatedAt: Date;
                     role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                    superSeller: boolean;
                     verified: boolean;
+                    isSuspended: boolean;
                     uniqueIdentifier: string | null;
                 }>;
                 404: z.ZodObject<{
@@ -1046,7 +1100,9 @@ export declare const contract: {
                     id: z.ZodNumber;
                     email: z.ZodString;
                     role: z.ZodEnum<["SELLER", "BUYER", "ADMIN", "STAFF"]>;
+                    superSeller: z.ZodBoolean;
                     verified: z.ZodBoolean;
+                    isSuspended: z.ZodBoolean;
                     uniqueIdentifier: z.ZodNullable<z.ZodString>;
                     createdAt: z.ZodDate;
                     updatedAt: z.ZodDate;
@@ -1056,7 +1112,9 @@ export declare const contract: {
                     createdAt: Date;
                     updatedAt: Date;
                     role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                    superSeller: boolean;
                     verified: boolean;
+                    isSuspended: boolean;
                     uniqueIdentifier: string | null;
                 }, {
                     email: string;
@@ -1064,7 +1122,9 @@ export declare const contract: {
                     createdAt: Date;
                     updatedAt: Date;
                     role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                    superSeller: boolean;
                     verified: boolean;
+                    isSuspended: boolean;
                     uniqueIdentifier: string | null;
                 }>;
                 404: z.ZodObject<{
@@ -1229,7 +1289,9 @@ export declare const contract: {
                             id: z.ZodNumber;
                             email: z.ZodString;
                             role: z.ZodEnum<["SELLER", "BUYER", "ADMIN", "STAFF"]>;
+                            superSeller: z.ZodBoolean;
                             verified: z.ZodBoolean;
+                            isSuspended: z.ZodBoolean;
                             uniqueIdentifier: z.ZodNullable<z.ZodString>;
                             createdAt: z.ZodDate;
                             updatedAt: z.ZodDate;
@@ -1331,7 +1393,9 @@ export declare const contract: {
                             createdAt: Date;
                             updatedAt: Date;
                             role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                            superSeller: boolean;
                             verified: boolean;
+                            isSuspended: boolean;
                             uniqueIdentifier: string | null;
                             profile: {
                                 businessName: string;
@@ -1370,7 +1434,9 @@ export declare const contract: {
                             createdAt: Date;
                             updatedAt: Date;
                             role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                            superSeller: boolean;
                             verified: boolean;
+                            isSuspended: boolean;
                             uniqueIdentifier: string | null;
                             profile: {
                                 businessName: string;
@@ -1411,7 +1477,9 @@ export declare const contract: {
                             createdAt: Date;
                             updatedAt: Date;
                             role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                            superSeller: boolean;
                             verified: boolean;
+                            isSuspended: boolean;
                             uniqueIdentifier: string | null;
                             profile: {
                                 businessName: string;
@@ -1453,7 +1521,9 @@ export declare const contract: {
                             createdAt: Date;
                             updatedAt: Date;
                             role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                            superSeller: boolean;
                             verified: boolean;
+                            isSuspended: boolean;
                             uniqueIdentifier: string | null;
                             profile: {
                                 businessName: string;
@@ -1494,7 +1564,9 @@ export declare const contract: {
                             id: z.ZodNumber;
                             email: z.ZodString;
                             role: z.ZodEnum<["SELLER", "BUYER", "ADMIN", "STAFF"]>;
+                            superSeller: z.ZodBoolean;
                             verified: z.ZodBoolean;
+                            isSuspended: z.ZodBoolean;
                             uniqueIdentifier: z.ZodNullable<z.ZodString>;
                             createdAt: z.ZodDate;
                             updatedAt: z.ZodDate;
@@ -1584,7 +1656,9 @@ export declare const contract: {
                             createdAt: Date;
                             updatedAt: Date;
                             role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                            superSeller: boolean;
                             verified: boolean;
+                            isSuspended: boolean;
                             uniqueIdentifier: string | null;
                             profile: {
                                 businessName: string;
@@ -1619,7 +1693,9 @@ export declare const contract: {
                             createdAt: Date;
                             updatedAt: Date;
                             role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                            superSeller: boolean;
                             verified: boolean;
+                            isSuspended: boolean;
                             uniqueIdentifier: string | null;
                             profile: {
                                 businessName: string;
@@ -1656,7 +1732,9 @@ export declare const contract: {
                             createdAt: Date;
                             updatedAt: Date;
                             role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                            superSeller: boolean;
                             verified: boolean;
+                            isSuspended: boolean;
                             uniqueIdentifier: string | null;
                             profile: {
                                 businessName: string;
@@ -1694,7 +1772,9 @@ export declare const contract: {
                             createdAt: Date;
                             updatedAt: Date;
                             role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                            superSeller: boolean;
                             verified: boolean;
+                            isSuspended: boolean;
                             uniqueIdentifier: string | null;
                             profile: {
                                 businessName: string;
@@ -1740,7 +1820,9 @@ export declare const contract: {
                             createdAt: Date;
                             updatedAt: Date;
                             role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                            superSeller: boolean;
                             verified: boolean;
+                            isSuspended: boolean;
                             uniqueIdentifier: string | null;
                             profile: {
                                 businessName: string;
@@ -1782,7 +1864,9 @@ export declare const contract: {
                             createdAt: Date;
                             updatedAt: Date;
                             role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                            superSeller: boolean;
                             verified: boolean;
+                            isSuspended: boolean;
                             uniqueIdentifier: string | null;
                             profile: {
                                 businessName: string;
@@ -1825,7 +1909,9 @@ export declare const contract: {
                             createdAt: Date;
                             updatedAt: Date;
                             role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                            superSeller: boolean;
                             verified: boolean;
+                            isSuspended: boolean;
                             uniqueIdentifier: string | null;
                             profile: {
                                 businessName: string;
@@ -1867,7 +1953,9 @@ export declare const contract: {
                             createdAt: Date;
                             updatedAt: Date;
                             role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                            superSeller: boolean;
                             verified: boolean;
+                            isSuspended: boolean;
                             uniqueIdentifier: string | null;
                             profile: {
                                 businessName: string;
@@ -1976,6 +2064,77 @@ export declare const contract: {
                     timestamp: string;
                 }>;
                 403: z.ZodObject<{
+                    message: z.ZodString;
+                    code: z.ZodString;
+                    timestamp: z.ZodString;
+                }, "strip", z.ZodTypeAny, {
+                    code: string;
+                    message: string;
+                    timestamp: string;
+                }, {
+                    code: string;
+                    message: string;
+                    timestamp: string;
+                }>;
+            };
+        };
+        toggleUserBan: {
+            pathParams: z.ZodObject<{
+                id: z.ZodString;
+            }, "strip", z.ZodTypeAny, {
+                id: string;
+            }, {
+                id: string;
+            }>;
+            method: "POST";
+            body: z.ZodObject<{}, "strip", z.ZodTypeAny, {}, {}>;
+            path: "/api/admin/users/:id/ban";
+            responses: {
+                200: z.ZodObject<{
+                    id: z.ZodNumber;
+                    email: z.ZodString;
+                    role: z.ZodEnum<["SELLER", "BUYER", "ADMIN", "STAFF"]>;
+                    superSeller: z.ZodBoolean;
+                    verified: z.ZodBoolean;
+                    isSuspended: z.ZodBoolean;
+                    uniqueIdentifier: z.ZodNullable<z.ZodString>;
+                    createdAt: z.ZodDate;
+                    updatedAt: z.ZodDate;
+                }, "strip", z.ZodTypeAny, {
+                    email: string;
+                    id: number;
+                    createdAt: Date;
+                    updatedAt: Date;
+                    role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                    superSeller: boolean;
+                    verified: boolean;
+                    isSuspended: boolean;
+                    uniqueIdentifier: string | null;
+                }, {
+                    email: string;
+                    id: number;
+                    createdAt: Date;
+                    updatedAt: Date;
+                    role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                    superSeller: boolean;
+                    verified: boolean;
+                    isSuspended: boolean;
+                    uniqueIdentifier: string | null;
+                }>;
+                401: z.ZodObject<{
+                    message: z.ZodString;
+                    code: z.ZodString;
+                    timestamp: z.ZodString;
+                }, "strip", z.ZodTypeAny, {
+                    code: string;
+                    message: string;
+                    timestamp: string;
+                }, {
+                    code: string;
+                    message: string;
+                    timestamp: string;
+                }>;
+                404: z.ZodObject<{
                     message: z.ZodString;
                     code: z.ZodString;
                     timestamp: z.ZodString;
@@ -2837,13 +2996,15 @@ export declare const contract: {
                             businessType: z.ZodString;
                             ownerName: z.ZodString;
                             id: z.ZodNumber;
-                        }, "businessName" | "ownerName" | "transportName">, "strip", z.ZodTypeAny, {
+                        }, "businessName" | "ownerName" | "gstNumber" | "transportName">, "strip", z.ZodTypeAny, {
                             businessName: string;
                             ownerName: string;
+                            gstNumber: string;
                             transportName: string | null;
                         }, {
                             businessName: string;
                             ownerName: string;
+                            gstNumber: string;
                             transportName: string | null;
                         }>;
                         status: z.ZodDefault<z.ZodEnum<["PENDING", "ACCEPTED", "DESPATCHED", "ON_WAY", "DELIVERED", "CANCELLED"]>>;
@@ -3116,7 +3277,9 @@ export declare const contract: {
                             totalWeight: number;
                         }>, "many">;
                         invoice: z.ZodNullable<z.ZodString>;
+                        invoice_url: z.ZodNullable<z.ZodString>;
                         cn: z.ZodNullable<z.ZodString>;
+                        cn_url: z.ZodNullable<z.ZodString>;
                         transport: z.ZodNullable<z.ZodString>;
                         shippingAddress: z.ZodString;
                         shippingState: z.ZodString;
@@ -3188,6 +3351,7 @@ export declare const contract: {
                         buyer: {
                             businessName: string;
                             ownerName: string;
+                            gstNumber: string;
                             transportName: string | null;
                         };
                         subtotal: number;
@@ -3198,7 +3362,9 @@ export declare const contract: {
                         otherCharges: number | null;
                         roundOff: number | null;
                         invoice: string | null;
+                        invoice_url: string | null;
                         cn: string | null;
+                        cn_url: string | null;
                         transport: string | null;
                         shippingAddress: string;
                         shippingState: string;
@@ -3267,6 +3433,7 @@ export declare const contract: {
                         buyer: {
                             businessName: string;
                             ownerName: string;
+                            gstNumber: string;
                             transportName: string | null;
                         };
                         subtotal: number;
@@ -3277,7 +3444,9 @@ export declare const contract: {
                         otherCharges: number | null;
                         roundOff: number | null;
                         invoice: string | null;
+                        invoice_url: string | null;
                         cn: string | null;
+                        cn_url: string | null;
                         transport: string | null;
                         shippingAddress: string;
                         shippingState: string;
@@ -3356,6 +3525,7 @@ export declare const contract: {
                         buyer: {
                             businessName: string;
                             ownerName: string;
+                            gstNumber: string;
                             transportName: string | null;
                         };
                         subtotal: number;
@@ -3366,7 +3536,9 @@ export declare const contract: {
                         otherCharges: number | null;
                         roundOff: number | null;
                         invoice: string | null;
+                        invoice_url: string | null;
                         cn: string | null;
+                        cn_url: string | null;
                         transport: string | null;
                         shippingAddress: string;
                         shippingState: string;
@@ -3440,6 +3612,7 @@ export declare const contract: {
                         buyer: {
                             businessName: string;
                             ownerName: string;
+                            gstNumber: string;
                             transportName: string | null;
                         };
                         subtotal: number;
@@ -3450,7 +3623,9 @@ export declare const contract: {
                         otherCharges: number | null;
                         roundOff: number | null;
                         invoice: string | null;
+                        invoice_url: string | null;
                         cn: string | null;
+                        cn_url: string | null;
                         transport: string | null;
                         shippingAddress: string;
                         shippingState: string;
@@ -3529,13 +3704,15 @@ export declare const contract: {
                         businessType: z.ZodString;
                         ownerName: z.ZodString;
                         id: z.ZodNumber;
-                    }, "businessName" | "ownerName" | "transportName">, "strip", z.ZodTypeAny, {
+                    }, "businessName" | "ownerName" | "gstNumber" | "transportName">, "strip", z.ZodTypeAny, {
                         businessName: string;
                         ownerName: string;
+                        gstNumber: string;
                         transportName: string | null;
                     }, {
                         businessName: string;
                         ownerName: string;
+                        gstNumber: string;
                         transportName: string | null;
                     }>;
                     status: z.ZodDefault<z.ZodEnum<["PENDING", "ACCEPTED", "DESPATCHED", "ON_WAY", "DELIVERED", "CANCELLED"]>>;
@@ -3808,7 +3985,9 @@ export declare const contract: {
                         totalWeight: number;
                     }>, "many">;
                     invoice: z.ZodNullable<z.ZodString>;
+                    invoice_url: z.ZodNullable<z.ZodString>;
                     cn: z.ZodNullable<z.ZodString>;
+                    cn_url: z.ZodNullable<z.ZodString>;
                     transport: z.ZodNullable<z.ZodString>;
                     shippingAddress: z.ZodString;
                     shippingState: z.ZodString;
@@ -3880,6 +4059,7 @@ export declare const contract: {
                     buyer: {
                         businessName: string;
                         ownerName: string;
+                        gstNumber: string;
                         transportName: string | null;
                     };
                     subtotal: number;
@@ -3890,7 +4070,9 @@ export declare const contract: {
                     otherCharges: number | null;
                     roundOff: number | null;
                     invoice: string | null;
+                    invoice_url: string | null;
                     cn: string | null;
+                    cn_url: string | null;
                     transport: string | null;
                     shippingAddress: string;
                     shippingState: string;
@@ -3959,6 +4141,7 @@ export declare const contract: {
                     buyer: {
                         businessName: string;
                         ownerName: string;
+                        gstNumber: string;
                         transportName: string | null;
                     };
                     subtotal: number;
@@ -3969,7 +4152,9 @@ export declare const contract: {
                     otherCharges: number | null;
                     roundOff: number | null;
                     invoice: string | null;
+                    invoice_url: string | null;
                     cn: string | null;
+                    cn_url: string | null;
                     transport: string | null;
                     shippingAddress: string;
                     shippingState: string;
@@ -4018,6 +4203,7 @@ export declare const contract: {
             method: "PATCH";
             body: z.ZodObject<{
                 status: z.ZodOptional<z.ZodEnum<["PENDING", "ACCEPTED", "DESPATCHED", "ON_WAY", "DELIVERED", "CANCELLED"]>>;
+                invoice: z.ZodOptional<z.ZodNullable<z.ZodString>>;
                 cn: z.ZodOptional<z.ZodNullable<z.ZodString>>;
                 transport: z.ZodOptional<z.ZodNullable<z.ZodString>>;
                 deliveryCharges: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
@@ -4028,6 +4214,7 @@ export declare const contract: {
                 deliveryCharges?: number | null | undefined;
                 otherCharges?: number | null | undefined;
                 roundOff?: number | null | undefined;
+                invoice?: string | null | undefined;
                 cn?: string | null | undefined;
                 transport?: string | null | undefined;
             }, {
@@ -4035,6 +4222,7 @@ export declare const contract: {
                 deliveryCharges?: number | null | undefined;
                 otherCharges?: number | null | undefined;
                 roundOff?: number | null | undefined;
+                invoice?: string | null | undefined;
                 cn?: string | null | undefined;
                 transport?: string | null | undefined;
             }>;
@@ -4069,13 +4257,15 @@ export declare const contract: {
                         businessType: z.ZodString;
                         ownerName: z.ZodString;
                         id: z.ZodNumber;
-                    }, "businessName" | "ownerName" | "transportName">, "strip", z.ZodTypeAny, {
+                    }, "businessName" | "ownerName" | "gstNumber" | "transportName">, "strip", z.ZodTypeAny, {
                         businessName: string;
                         ownerName: string;
+                        gstNumber: string;
                         transportName: string | null;
                     }, {
                         businessName: string;
                         ownerName: string;
+                        gstNumber: string;
                         transportName: string | null;
                     }>;
                     status: z.ZodDefault<z.ZodEnum<["PENDING", "ACCEPTED", "DESPATCHED", "ON_WAY", "DELIVERED", "CANCELLED"]>>;
@@ -4348,7 +4538,9 @@ export declare const contract: {
                         totalWeight: number;
                     }>, "many">;
                     invoice: z.ZodNullable<z.ZodString>;
+                    invoice_url: z.ZodNullable<z.ZodString>;
                     cn: z.ZodNullable<z.ZodString>;
+                    cn_url: z.ZodNullable<z.ZodString>;
                     transport: z.ZodNullable<z.ZodString>;
                     shippingAddress: z.ZodString;
                     shippingState: z.ZodString;
@@ -4420,6 +4612,7 @@ export declare const contract: {
                     buyer: {
                         businessName: string;
                         ownerName: string;
+                        gstNumber: string;
                         transportName: string | null;
                     };
                     subtotal: number;
@@ -4430,7 +4623,9 @@ export declare const contract: {
                     otherCharges: number | null;
                     roundOff: number | null;
                     invoice: string | null;
+                    invoice_url: string | null;
                     cn: string | null;
+                    cn_url: string | null;
                     transport: string | null;
                     shippingAddress: string;
                     shippingState: string;
@@ -4499,6 +4694,7 @@ export declare const contract: {
                     buyer: {
                         businessName: string;
                         ownerName: string;
+                        gstNumber: string;
                         transportName: string | null;
                     };
                     subtotal: number;
@@ -4509,7 +4705,9 @@ export declare const contract: {
                     otherCharges: number | null;
                     roundOff: number | null;
                     invoice: string | null;
+                    invoice_url: string | null;
                     cn: string | null;
+                    cn_url: string | null;
                     transport: string | null;
                     shippingAddress: string;
                     shippingState: string;
@@ -4602,13 +4800,15 @@ export declare const contract: {
                         businessType: z.ZodString;
                         ownerName: z.ZodString;
                         id: z.ZodNumber;
-                    }, "businessName" | "ownerName" | "transportName">, "strip", z.ZodTypeAny, {
+                    }, "businessName" | "ownerName" | "gstNumber" | "transportName">, "strip", z.ZodTypeAny, {
                         businessName: string;
                         ownerName: string;
+                        gstNumber: string;
                         transportName: string | null;
                     }, {
                         businessName: string;
                         ownerName: string;
+                        gstNumber: string;
                         transportName: string | null;
                     }>;
                     status: z.ZodDefault<z.ZodEnum<["PENDING", "ACCEPTED", "DESPATCHED", "ON_WAY", "DELIVERED", "CANCELLED"]>>;
@@ -4881,7 +5081,9 @@ export declare const contract: {
                         totalWeight: number;
                     }>, "many">;
                     invoice: z.ZodNullable<z.ZodString>;
+                    invoice_url: z.ZodNullable<z.ZodString>;
                     cn: z.ZodNullable<z.ZodString>;
+                    cn_url: z.ZodNullable<z.ZodString>;
                     transport: z.ZodNullable<z.ZodString>;
                     shippingAddress: z.ZodString;
                     shippingState: z.ZodString;
@@ -4953,6 +5155,7 @@ export declare const contract: {
                     buyer: {
                         businessName: string;
                         ownerName: string;
+                        gstNumber: string;
                         transportName: string | null;
                     };
                     subtotal: number;
@@ -4963,7 +5166,9 @@ export declare const contract: {
                     otherCharges: number | null;
                     roundOff: number | null;
                     invoice: string | null;
+                    invoice_url: string | null;
                     cn: string | null;
+                    cn_url: string | null;
                     transport: string | null;
                     shippingAddress: string;
                     shippingState: string;
@@ -5032,6 +5237,7 @@ export declare const contract: {
                     buyer: {
                         businessName: string;
                         ownerName: string;
+                        gstNumber: string;
                         transportName: string | null;
                     };
                     subtotal: number;
@@ -5042,7 +5248,552 @@ export declare const contract: {
                     otherCharges: number | null;
                     roundOff: number | null;
                     invoice: string | null;
+                    invoice_url: string | null;
                     cn: string | null;
+                    cn_url: string | null;
+                    transport: string | null;
+                    shippingAddress: string;
+                    shippingState: string;
+                    shippingDistrict: string;
+                    shippingPincode: string;
+                    shippingPhone: string;
+                    shippingEmail: string | null;
+                    status?: "PENDING" | "ACCEPTED" | "DESPATCHED" | "ON_WAY" | "DELIVERED" | "CANCELLED" | undefined;
+                }>;
+                401: z.ZodObject<{
+                    message: z.ZodString;
+                    code: z.ZodString;
+                    timestamp: z.ZodString;
+                }, "strip", z.ZodTypeAny, {
+                    code: string;
+                    message: string;
+                    timestamp: string;
+                }, {
+                    code: string;
+                    message: string;
+                    timestamp: string;
+                }>;
+                403: z.ZodObject<{
+                    message: z.ZodString;
+                    code: z.ZodString;
+                    timestamp: z.ZodString;
+                }, "strip", z.ZodTypeAny, {
+                    code: string;
+                    message: string;
+                    timestamp: string;
+                }, {
+                    code: string;
+                    message: string;
+                    timestamp: string;
+                }>;
+                404: z.ZodObject<{
+                    message: z.ZodString;
+                    code: z.ZodString;
+                    timestamp: z.ZodString;
+                }, "strip", z.ZodTypeAny, {
+                    code: string;
+                    message: string;
+                    timestamp: string;
+                }, {
+                    code: string;
+                    message: string;
+                    timestamp: string;
+                }>;
+            };
+        };
+        uploadCn: {
+            pathParams: z.ZodObject<{
+                id: z.ZodString;
+            }, "strip", z.ZodTypeAny, {
+                id: string;
+            }, {
+                id: string;
+            }>;
+            method: "POST";
+            contentType: "multipart/form-data";
+            body: z.ZodObject<{}, "passthrough", z.ZodTypeAny, z.objectOutputType<{}, z.ZodTypeAny, "passthrough">, z.objectInputType<{}, z.ZodTypeAny, "passthrough">>;
+            path: "/api/admin/orders/:id/cn";
+            responses: {
+                200: z.ZodObject<{
+                    id: z.ZodNumber;
+                    userId: z.ZodNumber;
+                    buyer: z.ZodObject<Pick<{
+                        transportName: z.ZodNullable<z.ZodString>;
+                        userId: z.ZodNumber;
+                        createdAt: z.ZodDate;
+                        updatedAt: z.ZodDate;
+                        bankAccountNumber: z.ZodString;
+                        bankIfscCode: z.ZodString;
+                        panNumber: z.ZodString;
+                        panCard: z.ZodNullable<z.ZodString>;
+                        gstNumber: z.ZodString;
+                        gstCertificate: z.ZodNullable<z.ZodString>;
+                        fssaiNumber: z.ZodNullable<z.ZodString>;
+                        fssaiLicense: z.ZodNullable<z.ZodString>;
+                        phone: z.ZodString;
+                        email: z.ZodString;
+                        secondaryContactName: z.ZodNullable<z.ZodString>;
+                        secondaryContactDesignation: z.ZodNullable<z.ZodString>;
+                        secondaryContactNumber: z.ZodNullable<z.ZodString>;
+                        address: z.ZodString;
+                        state: z.ZodString;
+                        district: z.ZodString;
+                        pincode: z.ZodString;
+                        businessName: z.ZodString;
+                        businessType: z.ZodString;
+                        ownerName: z.ZodString;
+                        id: z.ZodNumber;
+                    }, "businessName" | "ownerName" | "gstNumber" | "transportName">, "strip", z.ZodTypeAny, {
+                        businessName: string;
+                        ownerName: string;
+                        gstNumber: string;
+                        transportName: string | null;
+                    }, {
+                        businessName: string;
+                        ownerName: string;
+                        gstNumber: string;
+                        transportName: string | null;
+                    }>;
+                    status: z.ZodDefault<z.ZodEnum<["PENDING", "ACCEPTED", "DESPATCHED", "ON_WAY", "DELIVERED", "CANCELLED"]>>;
+                    subtotal: z.ZodNumber;
+                    totalAmount: z.ZodNumber;
+                    estimatedWeight: z.ZodNumber;
+                    deliveryCharges: z.ZodNullable<z.ZodNumber>;
+                    gstAmount: z.ZodNumber;
+                    otherCharges: z.ZodNullable<z.ZodNumber>;
+                    roundOff: z.ZodNullable<z.ZodNumber>;
+                    orderItems: z.ZodArray<z.ZodObject<{
+                        id: z.ZodNumber;
+                        orderId: z.ZodNumber;
+                        productId: z.ZodNumber;
+                        product: z.ZodObject<{
+                            id: z.ZodNumber;
+                            name: z.ZodNullable<z.ZodString>;
+                            description: z.ZodNullable<z.ZodString>;
+                            imageUrl: z.ZodNullable<z.ZodString>;
+                            mark: z.ZodNumber;
+                            grade: z.ZodString;
+                            invoiceNo: z.ZodString;
+                            weightPerUnit: z.ZodNumber;
+                            sampleWeight: z.ZodNullable<z.ZodNumber>;
+                            productionMonth: z.ZodString;
+                            location: z.ZodString;
+                            origin: z.ZodString;
+                            pricePerUnit: z.ZodNumber;
+                            mbp: z.ZodNullable<z.ZodNumber>;
+                            quantity: z.ZodNumber;
+                            appearanceScore: z.ZodNumber;
+                            liquorScore: z.ZodNumber;
+                            tasteScore: z.ZodNumber;
+                            infusionScore: z.ZodNumber;
+                            gradingScore: z.ZodNumber;
+                            volumeScore: z.ZodNumber;
+                            status: z.ZodEnum<["PENDING", "APPROVED", "REJECTED"]>;
+                            isLive: z.ZodBoolean;
+                            sellerId: z.ZodNumber;
+                            brandMark: z.ZodObject<{
+                                id: z.ZodNumber;
+                                name: z.ZodString;
+                                logo: z.ZodNullable<z.ZodString>;
+                                certificate: z.ZodNullable<z.ZodString>;
+                                isDefault: z.ZodBoolean;
+                                status: z.ZodEnum<["PENDING", "APPROVED", "REJECTED"]>;
+                                verifiedAt: z.ZodNullable<z.ZodDate>;
+                                sellerId: z.ZodNumber;
+                                createdAt: z.ZodDate;
+                                updatedAt: z.ZodDate;
+                            }, "strip", z.ZodTypeAny, {
+                                status: "PENDING" | "APPROVED" | "REJECTED";
+                                id: number;
+                                createdAt: Date;
+                                updatedAt: Date;
+                                name: string;
+                                logo: string | null;
+                                certificate: string | null;
+                                isDefault: boolean;
+                                verifiedAt: Date | null;
+                                sellerId: number;
+                            }, {
+                                status: "PENDING" | "APPROVED" | "REJECTED";
+                                id: number;
+                                createdAt: Date;
+                                updatedAt: Date;
+                                name: string;
+                                logo: string | null;
+                                certificate: string | null;
+                                isDefault: boolean;
+                                verifiedAt: Date | null;
+                                sellerId: number;
+                            }>;
+                            cartItems: z.ZodOptional<z.ZodArray<z.ZodAny, "many">>;
+                            orderItems: z.ZodOptional<z.ZodArray<z.ZodAny, "many">>;
+                            createdAt: z.ZodDate;
+                            updatedAt: z.ZodDate;
+                        }, "strip", z.ZodTypeAny, {
+                            status: "PENDING" | "APPROVED" | "REJECTED";
+                            id: number;
+                            createdAt: Date;
+                            updatedAt: Date;
+                            name: string | null;
+                            sellerId: number;
+                            description: string | null;
+                            imageUrl: string | null;
+                            mark: number;
+                            grade: string;
+                            invoiceNo: string;
+                            weightPerUnit: number;
+                            sampleWeight: number | null;
+                            productionMonth: string;
+                            location: string;
+                            origin: string;
+                            pricePerUnit: number;
+                            mbp: number | null;
+                            quantity: number;
+                            appearanceScore: number;
+                            liquorScore: number;
+                            tasteScore: number;
+                            infusionScore: number;
+                            gradingScore: number;
+                            volumeScore: number;
+                            isLive: boolean;
+                            brandMark: {
+                                status: "PENDING" | "APPROVED" | "REJECTED";
+                                id: number;
+                                createdAt: Date;
+                                updatedAt: Date;
+                                name: string;
+                                logo: string | null;
+                                certificate: string | null;
+                                isDefault: boolean;
+                                verifiedAt: Date | null;
+                                sellerId: number;
+                            };
+                            cartItems?: any[] | undefined;
+                            orderItems?: any[] | undefined;
+                        }, {
+                            status: "PENDING" | "APPROVED" | "REJECTED";
+                            id: number;
+                            createdAt: Date;
+                            updatedAt: Date;
+                            name: string | null;
+                            sellerId: number;
+                            description: string | null;
+                            imageUrl: string | null;
+                            mark: number;
+                            grade: string;
+                            invoiceNo: string;
+                            weightPerUnit: number;
+                            sampleWeight: number | null;
+                            productionMonth: string;
+                            location: string;
+                            origin: string;
+                            pricePerUnit: number;
+                            mbp: number | null;
+                            quantity: number;
+                            appearanceScore: number;
+                            liquorScore: number;
+                            tasteScore: number;
+                            infusionScore: number;
+                            gradingScore: number;
+                            volumeScore: number;
+                            isLive: boolean;
+                            brandMark: {
+                                status: "PENDING" | "APPROVED" | "REJECTED";
+                                id: number;
+                                createdAt: Date;
+                                updatedAt: Date;
+                                name: string;
+                                logo: string | null;
+                                certificate: string | null;
+                                isDefault: boolean;
+                                verifiedAt: Date | null;
+                                sellerId: number;
+                            };
+                            cartItems?: any[] | undefined;
+                            orderItems?: any[] | undefined;
+                        }>;
+                        quantity: z.ZodNumber;
+                        unitPrice: z.ZodNumber;
+                        totalPrice: z.ZodNumber;
+                        totalWeight: z.ZodNumber;
+                        createdAt: z.ZodDate;
+                        updatedAt: z.ZodDate;
+                    }, "strip", z.ZodTypeAny, {
+                        id: number;
+                        createdAt: Date;
+                        updatedAt: Date;
+                        quantity: number;
+                        orderId: number;
+                        productId: number;
+                        product: {
+                            status: "PENDING" | "APPROVED" | "REJECTED";
+                            id: number;
+                            createdAt: Date;
+                            updatedAt: Date;
+                            name: string | null;
+                            sellerId: number;
+                            description: string | null;
+                            imageUrl: string | null;
+                            mark: number;
+                            grade: string;
+                            invoiceNo: string;
+                            weightPerUnit: number;
+                            sampleWeight: number | null;
+                            productionMonth: string;
+                            location: string;
+                            origin: string;
+                            pricePerUnit: number;
+                            mbp: number | null;
+                            quantity: number;
+                            appearanceScore: number;
+                            liquorScore: number;
+                            tasteScore: number;
+                            infusionScore: number;
+                            gradingScore: number;
+                            volumeScore: number;
+                            isLive: boolean;
+                            brandMark: {
+                                status: "PENDING" | "APPROVED" | "REJECTED";
+                                id: number;
+                                createdAt: Date;
+                                updatedAt: Date;
+                                name: string;
+                                logo: string | null;
+                                certificate: string | null;
+                                isDefault: boolean;
+                                verifiedAt: Date | null;
+                                sellerId: number;
+                            };
+                            cartItems?: any[] | undefined;
+                            orderItems?: any[] | undefined;
+                        };
+                        unitPrice: number;
+                        totalPrice: number;
+                        totalWeight: number;
+                    }, {
+                        id: number;
+                        createdAt: Date;
+                        updatedAt: Date;
+                        quantity: number;
+                        orderId: number;
+                        productId: number;
+                        product: {
+                            status: "PENDING" | "APPROVED" | "REJECTED";
+                            id: number;
+                            createdAt: Date;
+                            updatedAt: Date;
+                            name: string | null;
+                            sellerId: number;
+                            description: string | null;
+                            imageUrl: string | null;
+                            mark: number;
+                            grade: string;
+                            invoiceNo: string;
+                            weightPerUnit: number;
+                            sampleWeight: number | null;
+                            productionMonth: string;
+                            location: string;
+                            origin: string;
+                            pricePerUnit: number;
+                            mbp: number | null;
+                            quantity: number;
+                            appearanceScore: number;
+                            liquorScore: number;
+                            tasteScore: number;
+                            infusionScore: number;
+                            gradingScore: number;
+                            volumeScore: number;
+                            isLive: boolean;
+                            brandMark: {
+                                status: "PENDING" | "APPROVED" | "REJECTED";
+                                id: number;
+                                createdAt: Date;
+                                updatedAt: Date;
+                                name: string;
+                                logo: string | null;
+                                certificate: string | null;
+                                isDefault: boolean;
+                                verifiedAt: Date | null;
+                                sellerId: number;
+                            };
+                            cartItems?: any[] | undefined;
+                            orderItems?: any[] | undefined;
+                        };
+                        unitPrice: number;
+                        totalPrice: number;
+                        totalWeight: number;
+                    }>, "many">;
+                    invoice: z.ZodNullable<z.ZodString>;
+                    invoice_url: z.ZodNullable<z.ZodString>;
+                    cn: z.ZodNullable<z.ZodString>;
+                    cn_url: z.ZodNullable<z.ZodString>;
+                    transport: z.ZodNullable<z.ZodString>;
+                    shippingAddress: z.ZodString;
+                    shippingState: z.ZodString;
+                    shippingDistrict: z.ZodString;
+                    shippingPincode: z.ZodString;
+                    shippingPhone: z.ZodString;
+                    shippingEmail: z.ZodNullable<z.ZodString>;
+                    createdAt: z.ZodDate;
+                    updatedAt: z.ZodDate;
+                }, "strip", z.ZodTypeAny, {
+                    status: "PENDING" | "ACCEPTED" | "DESPATCHED" | "ON_WAY" | "DELIVERED" | "CANCELLED";
+                    id: number;
+                    userId: number;
+                    createdAt: Date;
+                    updatedAt: Date;
+                    orderItems: {
+                        id: number;
+                        createdAt: Date;
+                        updatedAt: Date;
+                        quantity: number;
+                        orderId: number;
+                        productId: number;
+                        product: {
+                            status: "PENDING" | "APPROVED" | "REJECTED";
+                            id: number;
+                            createdAt: Date;
+                            updatedAt: Date;
+                            name: string | null;
+                            sellerId: number;
+                            description: string | null;
+                            imageUrl: string | null;
+                            mark: number;
+                            grade: string;
+                            invoiceNo: string;
+                            weightPerUnit: number;
+                            sampleWeight: number | null;
+                            productionMonth: string;
+                            location: string;
+                            origin: string;
+                            pricePerUnit: number;
+                            mbp: number | null;
+                            quantity: number;
+                            appearanceScore: number;
+                            liquorScore: number;
+                            tasteScore: number;
+                            infusionScore: number;
+                            gradingScore: number;
+                            volumeScore: number;
+                            isLive: boolean;
+                            brandMark: {
+                                status: "PENDING" | "APPROVED" | "REJECTED";
+                                id: number;
+                                createdAt: Date;
+                                updatedAt: Date;
+                                name: string;
+                                logo: string | null;
+                                certificate: string | null;
+                                isDefault: boolean;
+                                verifiedAt: Date | null;
+                                sellerId: number;
+                            };
+                            cartItems?: any[] | undefined;
+                            orderItems?: any[] | undefined;
+                        };
+                        unitPrice: number;
+                        totalPrice: number;
+                        totalWeight: number;
+                    }[];
+                    buyer: {
+                        businessName: string;
+                        ownerName: string;
+                        gstNumber: string;
+                        transportName: string | null;
+                    };
+                    subtotal: number;
+                    totalAmount: number;
+                    estimatedWeight: number;
+                    deliveryCharges: number | null;
+                    gstAmount: number;
+                    otherCharges: number | null;
+                    roundOff: number | null;
+                    invoice: string | null;
+                    invoice_url: string | null;
+                    cn: string | null;
+                    cn_url: string | null;
+                    transport: string | null;
+                    shippingAddress: string;
+                    shippingState: string;
+                    shippingDistrict: string;
+                    shippingPincode: string;
+                    shippingPhone: string;
+                    shippingEmail: string | null;
+                }, {
+                    id: number;
+                    userId: number;
+                    createdAt: Date;
+                    updatedAt: Date;
+                    orderItems: {
+                        id: number;
+                        createdAt: Date;
+                        updatedAt: Date;
+                        quantity: number;
+                        orderId: number;
+                        productId: number;
+                        product: {
+                            status: "PENDING" | "APPROVED" | "REJECTED";
+                            id: number;
+                            createdAt: Date;
+                            updatedAt: Date;
+                            name: string | null;
+                            sellerId: number;
+                            description: string | null;
+                            imageUrl: string | null;
+                            mark: number;
+                            grade: string;
+                            invoiceNo: string;
+                            weightPerUnit: number;
+                            sampleWeight: number | null;
+                            productionMonth: string;
+                            location: string;
+                            origin: string;
+                            pricePerUnit: number;
+                            mbp: number | null;
+                            quantity: number;
+                            appearanceScore: number;
+                            liquorScore: number;
+                            tasteScore: number;
+                            infusionScore: number;
+                            gradingScore: number;
+                            volumeScore: number;
+                            isLive: boolean;
+                            brandMark: {
+                                status: "PENDING" | "APPROVED" | "REJECTED";
+                                id: number;
+                                createdAt: Date;
+                                updatedAt: Date;
+                                name: string;
+                                logo: string | null;
+                                certificate: string | null;
+                                isDefault: boolean;
+                                verifiedAt: Date | null;
+                                sellerId: number;
+                            };
+                            cartItems?: any[] | undefined;
+                            orderItems?: any[] | undefined;
+                        };
+                        unitPrice: number;
+                        totalPrice: number;
+                        totalWeight: number;
+                    }[];
+                    buyer: {
+                        businessName: string;
+                        ownerName: string;
+                        gstNumber: string;
+                        transportName: string | null;
+                    };
+                    subtotal: number;
+                    totalAmount: number;
+                    estimatedWeight: number;
+                    deliveryCharges: number | null;
+                    gstAmount: number;
+                    otherCharges: number | null;
+                    roundOff: number | null;
+                    invoice: string | null;
+                    invoice_url: string | null;
+                    cn: string | null;
+                    cn_url: string | null;
                     transport: string | null;
                     shippingAddress: string;
                     shippingState: string;
@@ -6596,13 +7347,15 @@ export declare const contract: {
                             businessType: z.ZodString;
                             ownerName: z.ZodString;
                             id: z.ZodNumber;
-                        }, "businessName" | "ownerName" | "transportName">, "strip", z.ZodTypeAny, {
+                        }, "businessName" | "ownerName" | "gstNumber" | "transportName">, "strip", z.ZodTypeAny, {
                             businessName: string;
                             ownerName: string;
+                            gstNumber: string;
                             transportName: string | null;
                         }, {
                             businessName: string;
                             ownerName: string;
+                            gstNumber: string;
                             transportName: string | null;
                         }>;
                         status: z.ZodDefault<z.ZodEnum<["PENDING", "ACCEPTED", "DESPATCHED", "ON_WAY", "DELIVERED", "CANCELLED"]>>;
@@ -6875,7 +7628,9 @@ export declare const contract: {
                             totalWeight: number;
                         }>, "many">;
                         invoice: z.ZodNullable<z.ZodString>;
+                        invoice_url: z.ZodNullable<z.ZodString>;
                         cn: z.ZodNullable<z.ZodString>;
+                        cn_url: z.ZodNullable<z.ZodString>;
                         transport: z.ZodNullable<z.ZodString>;
                         shippingAddress: z.ZodString;
                         shippingState: z.ZodString;
@@ -6947,6 +7702,7 @@ export declare const contract: {
                         buyer: {
                             businessName: string;
                             ownerName: string;
+                            gstNumber: string;
                             transportName: string | null;
                         };
                         subtotal: number;
@@ -6957,7 +7713,9 @@ export declare const contract: {
                         otherCharges: number | null;
                         roundOff: number | null;
                         invoice: string | null;
+                        invoice_url: string | null;
                         cn: string | null;
+                        cn_url: string | null;
                         transport: string | null;
                         shippingAddress: string;
                         shippingState: string;
@@ -7026,6 +7784,7 @@ export declare const contract: {
                         buyer: {
                             businessName: string;
                             ownerName: string;
+                            gstNumber: string;
                             transportName: string | null;
                         };
                         subtotal: number;
@@ -7036,7 +7795,9 @@ export declare const contract: {
                         otherCharges: number | null;
                         roundOff: number | null;
                         invoice: string | null;
+                        invoice_url: string | null;
                         cn: string | null;
+                        cn_url: string | null;
                         transport: string | null;
                         shippingAddress: string;
                         shippingState: string;
@@ -7115,6 +7876,7 @@ export declare const contract: {
                         buyer: {
                             businessName: string;
                             ownerName: string;
+                            gstNumber: string;
                             transportName: string | null;
                         };
                         subtotal: number;
@@ -7125,7 +7887,9 @@ export declare const contract: {
                         otherCharges: number | null;
                         roundOff: number | null;
                         invoice: string | null;
+                        invoice_url: string | null;
                         cn: string | null;
+                        cn_url: string | null;
                         transport: string | null;
                         shippingAddress: string;
                         shippingState: string;
@@ -7199,6 +7963,7 @@ export declare const contract: {
                         buyer: {
                             businessName: string;
                             ownerName: string;
+                            gstNumber: string;
                             transportName: string | null;
                         };
                         subtotal: number;
@@ -7209,7 +7974,9 @@ export declare const contract: {
                         otherCharges: number | null;
                         roundOff: number | null;
                         invoice: string | null;
+                        invoice_url: string | null;
                         cn: string | null;
+                        cn_url: string | null;
                         transport: string | null;
                         shippingAddress: string;
                         shippingState: string;
@@ -7282,13 +8049,15 @@ export declare const contract: {
                         businessType: z.ZodString;
                         ownerName: z.ZodString;
                         id: z.ZodNumber;
-                    }, "businessName" | "ownerName" | "transportName">, "strip", z.ZodTypeAny, {
+                    }, "businessName" | "ownerName" | "gstNumber" | "transportName">, "strip", z.ZodTypeAny, {
                         businessName: string;
                         ownerName: string;
+                        gstNumber: string;
                         transportName: string | null;
                     }, {
                         businessName: string;
                         ownerName: string;
+                        gstNumber: string;
                         transportName: string | null;
                     }>;
                     status: z.ZodDefault<z.ZodEnum<["PENDING", "ACCEPTED", "DESPATCHED", "ON_WAY", "DELIVERED", "CANCELLED"]>>;
@@ -7561,7 +8330,9 @@ export declare const contract: {
                         totalWeight: number;
                     }>, "many">;
                     invoice: z.ZodNullable<z.ZodString>;
+                    invoice_url: z.ZodNullable<z.ZodString>;
                     cn: z.ZodNullable<z.ZodString>;
+                    cn_url: z.ZodNullable<z.ZodString>;
                     transport: z.ZodNullable<z.ZodString>;
                     shippingAddress: z.ZodString;
                     shippingState: z.ZodString;
@@ -7633,6 +8404,7 @@ export declare const contract: {
                     buyer: {
                         businessName: string;
                         ownerName: string;
+                        gstNumber: string;
                         transportName: string | null;
                     };
                     subtotal: number;
@@ -7643,7 +8415,9 @@ export declare const contract: {
                     otherCharges: number | null;
                     roundOff: number | null;
                     invoice: string | null;
+                    invoice_url: string | null;
                     cn: string | null;
+                    cn_url: string | null;
                     transport: string | null;
                     shippingAddress: string;
                     shippingState: string;
@@ -7712,6 +8486,7 @@ export declare const contract: {
                     buyer: {
                         businessName: string;
                         ownerName: string;
+                        gstNumber: string;
                         transportName: string | null;
                     };
                     subtotal: number;
@@ -7722,7 +8497,9 @@ export declare const contract: {
                     otherCharges: number | null;
                     roundOff: number | null;
                     invoice: string | null;
+                    invoice_url: string | null;
                     cn: string | null;
+                    cn_url: string | null;
                     transport: string | null;
                     shippingAddress: string;
                     shippingState: string;
@@ -7800,13 +8577,15 @@ export declare const contract: {
                         businessType: z.ZodString;
                         ownerName: z.ZodString;
                         id: z.ZodNumber;
-                    }, "businessName" | "ownerName" | "transportName">, "strip", z.ZodTypeAny, {
+                    }, "businessName" | "ownerName" | "gstNumber" | "transportName">, "strip", z.ZodTypeAny, {
                         businessName: string;
                         ownerName: string;
+                        gstNumber: string;
                         transportName: string | null;
                     }, {
                         businessName: string;
                         ownerName: string;
+                        gstNumber: string;
                         transportName: string | null;
                     }>;
                     status: z.ZodDefault<z.ZodEnum<["PENDING", "ACCEPTED", "DESPATCHED", "ON_WAY", "DELIVERED", "CANCELLED"]>>;
@@ -8079,7 +8858,9 @@ export declare const contract: {
                         totalWeight: number;
                     }>, "many">;
                     invoice: z.ZodNullable<z.ZodString>;
+                    invoice_url: z.ZodNullable<z.ZodString>;
                     cn: z.ZodNullable<z.ZodString>;
+                    cn_url: z.ZodNullable<z.ZodString>;
                     transport: z.ZodNullable<z.ZodString>;
                     shippingAddress: z.ZodString;
                     shippingState: z.ZodString;
@@ -8151,6 +8932,7 @@ export declare const contract: {
                     buyer: {
                         businessName: string;
                         ownerName: string;
+                        gstNumber: string;
                         transportName: string | null;
                     };
                     subtotal: number;
@@ -8161,7 +8943,9 @@ export declare const contract: {
                     otherCharges: number | null;
                     roundOff: number | null;
                     invoice: string | null;
+                    invoice_url: string | null;
                     cn: string | null;
+                    cn_url: string | null;
                     transport: string | null;
                     shippingAddress: string;
                     shippingState: string;
@@ -8230,6 +9014,7 @@ export declare const contract: {
                     buyer: {
                         businessName: string;
                         ownerName: string;
+                        gstNumber: string;
                         transportName: string | null;
                     };
                     subtotal: number;
@@ -8240,7 +9025,9 @@ export declare const contract: {
                     otherCharges: number | null;
                     roundOff: number | null;
                     invoice: string | null;
+                    invoice_url: string | null;
                     cn: string | null;
+                    cn_url: string | null;
                     transport: string | null;
                     shippingAddress: string;
                     shippingState: string;
@@ -9321,13 +10108,15 @@ export declare const contract: {
                         businessType: z.ZodString;
                         ownerName: z.ZodString;
                         id: z.ZodNumber;
-                    }, "businessName" | "ownerName" | "transportName">, "strip", z.ZodTypeAny, {
+                    }, "businessName" | "ownerName" | "gstNumber" | "transportName">, "strip", z.ZodTypeAny, {
                         businessName: string;
                         ownerName: string;
+                        gstNumber: string;
                         transportName: string | null;
                     }, {
                         businessName: string;
                         ownerName: string;
+                        gstNumber: string;
                         transportName: string | null;
                     }>;
                     status: z.ZodDefault<z.ZodEnum<["PENDING", "ACCEPTED", "DESPATCHED", "ON_WAY", "DELIVERED", "CANCELLED"]>>;
@@ -9600,7 +10389,9 @@ export declare const contract: {
                         totalWeight: number;
                     }>, "many">;
                     invoice: z.ZodNullable<z.ZodString>;
+                    invoice_url: z.ZodNullable<z.ZodString>;
                     cn: z.ZodNullable<z.ZodString>;
+                    cn_url: z.ZodNullable<z.ZodString>;
                     transport: z.ZodNullable<z.ZodString>;
                     shippingAddress: z.ZodString;
                     shippingState: z.ZodString;
@@ -9672,6 +10463,7 @@ export declare const contract: {
                     buyer: {
                         businessName: string;
                         ownerName: string;
+                        gstNumber: string;
                         transportName: string | null;
                     };
                     subtotal: number;
@@ -9682,7 +10474,9 @@ export declare const contract: {
                     otherCharges: number | null;
                     roundOff: number | null;
                     invoice: string | null;
+                    invoice_url: string | null;
                     cn: string | null;
+                    cn_url: string | null;
                     transport: string | null;
                     shippingAddress: string;
                     shippingState: string;
@@ -9751,6 +10545,7 @@ export declare const contract: {
                     buyer: {
                         businessName: string;
                         ownerName: string;
+                        gstNumber: string;
                         transportName: string | null;
                     };
                     subtotal: number;
@@ -9761,7 +10556,9 @@ export declare const contract: {
                     otherCharges: number | null;
                     roundOff: number | null;
                     invoice: string | null;
+                    invoice_url: string | null;
                     cn: string | null;
+                    cn_url: string | null;
                     transport: string | null;
                     shippingAddress: string;
                     shippingState: string;
@@ -9819,13 +10616,15 @@ export declare const contract: {
                         businessType: z.ZodString;
                         ownerName: z.ZodString;
                         id: z.ZodNumber;
-                    }, "businessName" | "ownerName" | "transportName">, "strip", z.ZodTypeAny, {
+                    }, "businessName" | "ownerName" | "gstNumber" | "transportName">, "strip", z.ZodTypeAny, {
                         businessName: string;
                         ownerName: string;
+                        gstNumber: string;
                         transportName: string | null;
                     }, {
                         businessName: string;
                         ownerName: string;
+                        gstNumber: string;
                         transportName: string | null;
                     }>;
                     status: z.ZodDefault<z.ZodEnum<["PENDING", "ACCEPTED", "DESPATCHED", "ON_WAY", "DELIVERED", "CANCELLED"]>>;
@@ -10098,7 +10897,9 @@ export declare const contract: {
                         totalWeight: number;
                     }>, "many">;
                     invoice: z.ZodNullable<z.ZodString>;
+                    invoice_url: z.ZodNullable<z.ZodString>;
                     cn: z.ZodNullable<z.ZodString>;
+                    cn_url: z.ZodNullable<z.ZodString>;
                     transport: z.ZodNullable<z.ZodString>;
                     shippingAddress: z.ZodString;
                     shippingState: z.ZodString;
@@ -10170,6 +10971,7 @@ export declare const contract: {
                     buyer: {
                         businessName: string;
                         ownerName: string;
+                        gstNumber: string;
                         transportName: string | null;
                     };
                     subtotal: number;
@@ -10180,7 +10982,9 @@ export declare const contract: {
                     otherCharges: number | null;
                     roundOff: number | null;
                     invoice: string | null;
+                    invoice_url: string | null;
                     cn: string | null;
+                    cn_url: string | null;
                     transport: string | null;
                     shippingAddress: string;
                     shippingState: string;
@@ -10249,6 +11053,7 @@ export declare const contract: {
                     buyer: {
                         businessName: string;
                         ownerName: string;
+                        gstNumber: string;
                         transportName: string | null;
                     };
                     subtotal: number;
@@ -10259,7 +11064,9 @@ export declare const contract: {
                     otherCharges: number | null;
                     roundOff: number | null;
                     invoice: string | null;
+                    invoice_url: string | null;
                     cn: string | null;
+                    cn_url: string | null;
                     transport: string | null;
                     shippingAddress: string;
                     shippingState: string;
@@ -10317,13 +11124,15 @@ export declare const contract: {
                         businessType: z.ZodString;
                         ownerName: z.ZodString;
                         id: z.ZodNumber;
-                    }, "businessName" | "ownerName" | "transportName">, "strip", z.ZodTypeAny, {
+                    }, "businessName" | "ownerName" | "gstNumber" | "transportName">, "strip", z.ZodTypeAny, {
                         businessName: string;
                         ownerName: string;
+                        gstNumber: string;
                         transportName: string | null;
                     }, {
                         businessName: string;
                         ownerName: string;
+                        gstNumber: string;
                         transportName: string | null;
                     }>;
                     status: z.ZodDefault<z.ZodEnum<["PENDING", "ACCEPTED", "DESPATCHED", "ON_WAY", "DELIVERED", "CANCELLED"]>>;
@@ -10596,7 +11405,9 @@ export declare const contract: {
                         totalWeight: number;
                     }>, "many">;
                     invoice: z.ZodNullable<z.ZodString>;
+                    invoice_url: z.ZodNullable<z.ZodString>;
                     cn: z.ZodNullable<z.ZodString>;
+                    cn_url: z.ZodNullable<z.ZodString>;
                     transport: z.ZodNullable<z.ZodString>;
                     shippingAddress: z.ZodString;
                     shippingState: z.ZodString;
@@ -10668,6 +11479,7 @@ export declare const contract: {
                     buyer: {
                         businessName: string;
                         ownerName: string;
+                        gstNumber: string;
                         transportName: string | null;
                     };
                     subtotal: number;
@@ -10678,7 +11490,9 @@ export declare const contract: {
                     otherCharges: number | null;
                     roundOff: number | null;
                     invoice: string | null;
+                    invoice_url: string | null;
                     cn: string | null;
+                    cn_url: string | null;
                     transport: string | null;
                     shippingAddress: string;
                     shippingState: string;
@@ -10747,6 +11561,7 @@ export declare const contract: {
                     buyer: {
                         businessName: string;
                         ownerName: string;
+                        gstNumber: string;
                         transportName: string | null;
                     };
                     subtotal: number;
@@ -10757,7 +11572,9 @@ export declare const contract: {
                     otherCharges: number | null;
                     roundOff: number | null;
                     invoice: string | null;
+                    invoice_url: string | null;
                     cn: string | null;
+                    cn_url: string | null;
                     transport: string | null;
                     shippingAddress: string;
                     shippingState: string;

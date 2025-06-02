@@ -309,6 +309,7 @@ export class BuyerService {
         businessName: buyer?.businessName ?? '',
         ownerName: buyer?.ownerName ?? '',
         transportName: buyer?.transportName ?? '',
+        gstNumber: buyer?.gstNumber ?? '',
       },
       orderItems: order.orderItems.map((oi) => ({
         ...oi,
@@ -362,6 +363,7 @@ export class BuyerService {
         businessName: order.user.buyerProfile?.businessName ?? '',
         ownerName: order.user.buyerProfile?.ownerName ?? '',
         transportName: order.user.buyerProfile?.transportName ?? '',
+        gstNumber: order.user.buyerProfile?.gstNumber ?? '',
       },
       orderItems: order.orderItems.map((oi) => ({
         ...oi,
@@ -415,6 +417,7 @@ export class BuyerService {
         businessName: order.user.buyerProfile?.businessName ?? '',
         ownerName: order.user.buyerProfile?.ownerName ?? '',
         transportName: order.user.buyerProfile?.transportName ?? '',
+        gstNumber: order.user.buyerProfile?.gstNumber ?? '',
       },
       orderItems: order.orderItems.map((oi) => ({
         ...oi,

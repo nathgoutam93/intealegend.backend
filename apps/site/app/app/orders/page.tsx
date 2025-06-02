@@ -122,16 +122,16 @@ export default function OrdersPage() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Order ID</TableHead>
-                  <TableHead>Date</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Tea Value</TableHead>
-                  <TableHead>Total Amount</TableHead>
-                  <TableHead>Total Pkgs</TableHead>
-                  <TableHead>Total Weight</TableHead>
-                  <TableHead>Actions</TableHead>
-                  <TableHead>Invoice</TableHead>
-                  <TableHead>CN No.</TableHead>
+                  <TableHead className="text-left">Order ID</TableHead>
+                  <TableHead className="text-center">Date</TableHead>
+                  <TableHead className="text-center">Status</TableHead>
+                  <TableHead className="text-center">Total Pkgs</TableHead>
+                  <TableHead className="text-center">Total Weight</TableHead>
+                  <TableHead className="text-center">Tea Value</TableHead>
+                  <TableHead className="text-center">Total Amount</TableHead>
+                  <TableHead className="text-center">Actions</TableHead>
+                  <TableHead className="text-center">Invoice</TableHead>
+                  <TableHead className="text-right">CN No.</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -140,11 +140,11 @@ export default function OrdersPage() {
                     key={order.id}
                     className="cursor-pointer hover:bg-muted/50"
                   >
-                    <TableCell>#{order.id}</TableCell>
-                    <TableCell>
+                    <TableCell className="text-left">#{order.id}</TableCell>
+                    <TableCell className="text-center">
                       {new Date(order.createdAt).toLocaleDateString()}
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="text-center">
                       <span
                         className={`px-2 py-1 rounded-full text-xs ${
                           order.status === "DELIVERED"
@@ -159,17 +159,23 @@ export default function OrdersPage() {
                         {order.status}
                       </span>
                     </TableCell>
-                    <TableCell>₹{order.subtotal.toFixed(2)}</TableCell>
-                    <TableCell>₹{order.totalAmount.toFixed(2)}</TableCell>
-                    <TableCell>
+
+                    <TableCell className="text-center">
                       {order.orderItems.reduce(
                         (prv, cur) => prv + cur.quantity,
                         0
                       )}
                     </TableCell>
-                    <TableCell>{order.estimatedWeight} kg</TableCell>
-
-                    <TableCell>
+                    <TableCell className="text-center">
+                      {order.estimatedWeight} kg
+                    </TableCell>
+                    <TableCell className="text-center">
+                      ₹{order.subtotal.toFixed(2)}
+                    </TableCell>
+                    <TableCell className="text-center">
+                      ₹{order.totalAmount.toFixed(2)}
+                    </TableCell>
+                    <TableCell className="text-center">
                       <Button asChild>
                         <Link href={`/app/orders/${order.id}`}>
                           View Details
@@ -177,7 +183,7 @@ export default function OrdersPage() {
                       </Button>
                     </TableCell>
 
-                    <TableCell>
+                    <TableCell className="text-center">
                       {order.invoice ? (
                         <a href={order.invoice} className="text-blue-400">
                           view invoice
@@ -186,7 +192,9 @@ export default function OrdersPage() {
                         <span>N/A</span>
                       )}
                     </TableCell>
-                    <TableCell>{order.cn ?? "N/A"}</TableCell>
+                    <TableCell className="text-right">
+                      {order.cn ?? "N/A"}
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>

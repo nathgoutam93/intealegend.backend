@@ -121,26 +121,32 @@ export default function OrderDetailsPage() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Order No.</TableHead>
-                <TableHead>Total Pkgs</TableHead>
-                <TableHead>Total Weight</TableHead>
-                <TableHead>Tea Value</TableHead>
-                <TableHead>Shipping</TableHead>
-                <TableHead>GST</TableHead>
-                <TableHead>Total Amount</TableHead>
+                <TableHead className="text-left">Order No.</TableHead>
+                <TableHead className="text-center">Total Pkgs</TableHead>
+                <TableHead className="text-center">Total Weight</TableHead>
+                <TableHead className="text-center">Tea Value</TableHead>
+                <TableHead className="text-center">Shipping</TableHead>
+                <TableHead className="text-center">GST</TableHead>
+                <TableHead className="text-right">Total Amount</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               <TableRow>
-                <TableCell>{order.id}</TableCell>
-                <TableCell>
+                <TableCell className="text-left">{order.id}</TableCell>
+                <TableCell className="text-center">
                   {order.orderItems.reduce((prv, cur) => prv + cur.quantity, 0)}
                 </TableCell>
-                <TableCell>{order.estimatedWeight}</TableCell>
-                <TableCell>{order.subtotal}</TableCell>
-                <TableCell>{order.deliveryCharges}</TableCell>
-                <TableCell>{order.gstAmount}</TableCell>
-                <TableCell>{order.totalAmount}</TableCell>
+                <TableCell className="text-center">
+                  {order.estimatedWeight}
+                </TableCell>
+                <TableCell className="text-center">{order.subtotal}</TableCell>
+                <TableCell className="text-center">
+                  {order.deliveryCharges}
+                </TableCell>
+                <TableCell className="text-center">{order.gstAmount}</TableCell>
+                <TableCell className="text-right">
+                  {order.totalAmount}
+                </TableCell>
               </TableRow>
             </TableBody>
           </Table>
@@ -153,14 +159,14 @@ export default function OrderDetailsPage() {
               <TableHeader>
                 <TableRow>
                   <TableHead>Product Id</TableHead>
-                  <TableHead>Mark</TableHead>
-                  <TableHead>Grade</TableHead>
-                  <TableHead>Price/Kg</TableHead>
-                  <TableHead>Weight/pkg</TableHead>
-                  <TableHead>Sample Weight</TableHead>
-                  <TableHead>Total Pkgs</TableHead>
-                  <TableHead>Total Weight</TableHead>
-                  <TableHead>Total Price</TableHead>
+                  <TableHead className="text-center">Mark</TableHead>
+                  <TableHead className="text-center">Grade</TableHead>
+                  <TableHead className="text-center">Total Pkgs</TableHead>
+                  <TableHead className="text-center">Weight/pkg</TableHead>
+                  <TableHead className="text-center">Sample Weight</TableHead>
+                  <TableHead className="text-center">Total Weight</TableHead>
+                  <TableHead className="text-center">Price/Kg</TableHead>
+                  <TableHead className="text-right">Tea Value</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -176,14 +182,30 @@ export default function OrderDetailsPage() {
                         {item.product.id.toString().padStart(6, "0")}
                       </span>
                     </TableCell>
-                    <TableCell>{item.product.brandMark.name}</TableCell>
-                    <TableCell>{item.product.grade}</TableCell>
-                    <TableCell>{item.product.pricePerUnit}</TableCell>
-                    <TableCell>{item.product.weightPerUnit}</TableCell>
-                    <TableCell>{item.product.sampleWeight}</TableCell>
-                    <TableCell>{item.quantity}</TableCell>
-                    <TableCell>{item.totalWeight}</TableCell>
-                    <TableCell>{item.totalPrice}</TableCell>
+                    <TableCell className="text-center">
+                      {item.product.brandMark.name}
+                    </TableCell>
+                    <TableCell className="text-center">
+                      {item.product.grade}
+                    </TableCell>
+                    <TableCell className="text-center">
+                      {item.quantity}
+                    </TableCell>
+                    <TableCell className="text-center">
+                      {item.product.weightPerUnit}
+                    </TableCell>
+                    <TableCell className="text-center">
+                      {item.product.sampleWeight}
+                    </TableCell>
+                    <TableCell className="text-center">
+                      {item.totalWeight}
+                    </TableCell>
+                    <TableCell className="text-center">
+                      {item.product.pricePerUnit}
+                    </TableCell>
+                    <TableCell className="text-right">
+                      {item.totalPrice}
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>

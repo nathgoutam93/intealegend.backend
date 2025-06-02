@@ -72,7 +72,11 @@ const SellerDash = () => {
       <div>
         <h2 className="text-xl font-semibold mb-4">Products</h2>
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          <Link to="/app/products" className="block">
+          <Link
+            to="/app/products"
+            search={{ status: "published" }}
+            className="block"
+          >
             <Card className="hover:bg-muted/50 transition-colors">
               <CardContent className="flex items-center gap-4 p-6">
                 <div className="p-4 bg-primary/10 rounded-full">
@@ -87,7 +91,11 @@ const SellerDash = () => {
               </CardContent>
             </Card>
           </Link>
-          <Link to="/app/products" className="block">
+          <Link
+            to="/app/products"
+            search={{ status: "draft" }}
+            className="block"
+          >
             <Card className="hover:bg-muted/50 transition-colors">
               <CardContent className="flex items-center gap-4 p-6">
                 <div className="p-4 bg-primary/10 rounded-full">
@@ -128,7 +136,11 @@ const AdminDash = () => {
       <div>
         <h2 className="text-xl font-semibold mb-4">Products</h2>
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          <Link to="/app/products" className="block">
+          <Link
+            to="/app/products"
+            search={{ status: "published" }}
+            className="block"
+          >
             <Card className="hover:bg-muted/50 transition-colors">
               <CardContent className="flex items-center gap-4 p-6">
                 <div className="p-4 bg-primary/10 rounded-full">
@@ -143,7 +155,11 @@ const AdminDash = () => {
               </CardContent>
             </Card>
           </Link>
-          <Link to="/app/products" className="block">
+          <Link
+            to="/app/products"
+            search={{ status: "draft" }}
+            className="block"
+          >
             <Card className="hover:bg-muted/50 transition-colors">
               <CardContent className="flex items-center gap-4 p-6">
                 <div className="p-4 bg-primary/10 rounded-full">

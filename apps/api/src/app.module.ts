@@ -17,7 +17,9 @@ import { BuyerModule } from './buyer/buyer.module';
 @Module({
   imports: [
     ServeStaticModule.forRoot({
-      // serveRoot: '/app',
+      serveRoot: '/app',
+      // renderPath: '*',
+      // exclude: ['/api*'],
       rootPath: join(__dirname, '..', '..', 'dashboard', 'dist'),
     }),
     ConfigModule.forRoot({

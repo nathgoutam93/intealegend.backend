@@ -80,6 +80,19 @@ exports.adminRouter = c.router({
             403: schemas_1.ErrorSchema,
         },
     },
+    toggleUserBan: {
+        method: "POST",
+        path: "/admin/users/:id/ban",
+        pathParams: zod_1.default.object({
+            id: zod_1.default.string(),
+        }),
+        body: zod_1.default.object({}),
+        responses: {
+            200: schemas_1.UserSchema,
+            401: schemas_1.ErrorSchema,
+            404: schemas_1.ErrorSchema,
+        },
+    },
     getProducts: {
         method: "GET",
         path: "/admin/products",
@@ -202,6 +215,7 @@ exports.adminRouter = c.router({
                 "CANCELLED",
             ])
                 .optional(),
+            invoice: zod_1.default.string().nullable().optional(),
             cn: zod_1.default.string().nullable().optional(),
             transport: zod_1.default.string().nullable().optional(),
             deliveryCharges: zod_1.default.number().nullable().optional(),
@@ -218,6 +232,21 @@ exports.adminRouter = c.router({
     uploadInvoice: {
         method: "POST",
         path: "/admin/orders/:id/invoice",
+        pathParams: zod_1.default.object({
+            id: zod_1.default.string(),
+        }),
+        contentType: "multipart/form-data",
+        body: zod_1.default.object({}).passthrough(),
+        responses: {
+            200: schemas_1.OrderSchema,
+            401: schemas_1.ErrorSchema,
+            403: schemas_1.ErrorSchema,
+            404: schemas_1.ErrorSchema,
+        },
+    },
+    uploadCn: {
+        method: "POST",
+        path: "/admin/orders/:id/cn",
         pathParams: zod_1.default.object({
             id: zod_1.default.string(),
         }),

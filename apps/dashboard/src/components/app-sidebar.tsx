@@ -8,6 +8,7 @@ import {
   User2,
   Package,
   ShoppingCart,
+  StoreIcon,
 } from "lucide-react";
 import { useAuthStore } from "@/stores/auth.store";
 
@@ -91,6 +92,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const role = user?.role || "buyer";
 
   const navigation = navigationConfig[role.toLowerCase()];
+  if (user?.superSeller) {
+    navigation.projects.push({
+      name: "Brand Marks",
+      url: "/app/brands",
+      icon: StoreIcon,
+    });
+  }
 
   return (
     <Sidebar variant="inset" {...props}>

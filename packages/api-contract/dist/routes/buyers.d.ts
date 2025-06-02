@@ -738,13 +738,15 @@ export declare const buyersRouter: {
                     businessType: z.ZodString;
                     ownerName: z.ZodString;
                     id: z.ZodNumber;
-                }, "businessName" | "ownerName" | "transportName">, "strip", z.ZodTypeAny, {
+                }, "businessName" | "ownerName" | "gstNumber" | "transportName">, "strip", z.ZodTypeAny, {
                     businessName: string;
                     ownerName: string;
+                    gstNumber: string;
                     transportName: string | null;
                 }, {
                     businessName: string;
                     ownerName: string;
+                    gstNumber: string;
                     transportName: string | null;
                 }>;
                 status: z.ZodDefault<z.ZodEnum<["PENDING", "ACCEPTED", "DESPATCHED", "ON_WAY", "DELIVERED", "CANCELLED"]>>;
@@ -1017,7 +1019,9 @@ export declare const buyersRouter: {
                     totalWeight: number;
                 }>, "many">;
                 invoice: z.ZodNullable<z.ZodString>;
+                invoice_url: z.ZodNullable<z.ZodString>;
                 cn: z.ZodNullable<z.ZodString>;
+                cn_url: z.ZodNullable<z.ZodString>;
                 transport: z.ZodNullable<z.ZodString>;
                 shippingAddress: z.ZodString;
                 shippingState: z.ZodString;
@@ -1089,6 +1093,7 @@ export declare const buyersRouter: {
                 buyer: {
                     businessName: string;
                     ownerName: string;
+                    gstNumber: string;
                     transportName: string | null;
                 };
                 subtotal: number;
@@ -1099,7 +1104,9 @@ export declare const buyersRouter: {
                 otherCharges: number | null;
                 roundOff: number | null;
                 invoice: string | null;
+                invoice_url: string | null;
                 cn: string | null;
+                cn_url: string | null;
                 transport: string | null;
                 shippingAddress: string;
                 shippingState: string;
@@ -1168,6 +1175,7 @@ export declare const buyersRouter: {
                 buyer: {
                     businessName: string;
                     ownerName: string;
+                    gstNumber: string;
                     transportName: string | null;
                 };
                 subtotal: number;
@@ -1178,7 +1186,9 @@ export declare const buyersRouter: {
                 otherCharges: number | null;
                 roundOff: number | null;
                 invoice: string | null;
+                invoice_url: string | null;
                 cn: string | null;
+                cn_url: string | null;
                 transport: string | null;
                 shippingAddress: string;
                 shippingState: string;
@@ -1236,13 +1246,15 @@ export declare const buyersRouter: {
                     businessType: z.ZodString;
                     ownerName: z.ZodString;
                     id: z.ZodNumber;
-                }, "businessName" | "ownerName" | "transportName">, "strip", z.ZodTypeAny, {
+                }, "businessName" | "ownerName" | "gstNumber" | "transportName">, "strip", z.ZodTypeAny, {
                     businessName: string;
                     ownerName: string;
+                    gstNumber: string;
                     transportName: string | null;
                 }, {
                     businessName: string;
                     ownerName: string;
+                    gstNumber: string;
                     transportName: string | null;
                 }>;
                 status: z.ZodDefault<z.ZodEnum<["PENDING", "ACCEPTED", "DESPATCHED", "ON_WAY", "DELIVERED", "CANCELLED"]>>;
@@ -1515,7 +1527,9 @@ export declare const buyersRouter: {
                     totalWeight: number;
                 }>, "many">;
                 invoice: z.ZodNullable<z.ZodString>;
+                invoice_url: z.ZodNullable<z.ZodString>;
                 cn: z.ZodNullable<z.ZodString>;
+                cn_url: z.ZodNullable<z.ZodString>;
                 transport: z.ZodNullable<z.ZodString>;
                 shippingAddress: z.ZodString;
                 shippingState: z.ZodString;
@@ -1587,6 +1601,7 @@ export declare const buyersRouter: {
                 buyer: {
                     businessName: string;
                     ownerName: string;
+                    gstNumber: string;
                     transportName: string | null;
                 };
                 subtotal: number;
@@ -1597,7 +1612,9 @@ export declare const buyersRouter: {
                 otherCharges: number | null;
                 roundOff: number | null;
                 invoice: string | null;
+                invoice_url: string | null;
                 cn: string | null;
+                cn_url: string | null;
                 transport: string | null;
                 shippingAddress: string;
                 shippingState: string;
@@ -1666,6 +1683,7 @@ export declare const buyersRouter: {
                 buyer: {
                     businessName: string;
                     ownerName: string;
+                    gstNumber: string;
                     transportName: string | null;
                 };
                 subtotal: number;
@@ -1676,7 +1694,9 @@ export declare const buyersRouter: {
                 otherCharges: number | null;
                 roundOff: number | null;
                 invoice: string | null;
+                invoice_url: string | null;
                 cn: string | null;
+                cn_url: string | null;
                 transport: string | null;
                 shippingAddress: string;
                 shippingState: string;
@@ -1734,13 +1754,15 @@ export declare const buyersRouter: {
                     businessType: z.ZodString;
                     ownerName: z.ZodString;
                     id: z.ZodNumber;
-                }, "businessName" | "ownerName" | "transportName">, "strip", z.ZodTypeAny, {
+                }, "businessName" | "ownerName" | "gstNumber" | "transportName">, "strip", z.ZodTypeAny, {
                     businessName: string;
                     ownerName: string;
+                    gstNumber: string;
                     transportName: string | null;
                 }, {
                     businessName: string;
                     ownerName: string;
+                    gstNumber: string;
                     transportName: string | null;
                 }>;
                 status: z.ZodDefault<z.ZodEnum<["PENDING", "ACCEPTED", "DESPATCHED", "ON_WAY", "DELIVERED", "CANCELLED"]>>;
@@ -2013,7 +2035,9 @@ export declare const buyersRouter: {
                     totalWeight: number;
                 }>, "many">;
                 invoice: z.ZodNullable<z.ZodString>;
+                invoice_url: z.ZodNullable<z.ZodString>;
                 cn: z.ZodNullable<z.ZodString>;
+                cn_url: z.ZodNullable<z.ZodString>;
                 transport: z.ZodNullable<z.ZodString>;
                 shippingAddress: z.ZodString;
                 shippingState: z.ZodString;
@@ -2085,6 +2109,7 @@ export declare const buyersRouter: {
                 buyer: {
                     businessName: string;
                     ownerName: string;
+                    gstNumber: string;
                     transportName: string | null;
                 };
                 subtotal: number;
@@ -2095,7 +2120,9 @@ export declare const buyersRouter: {
                 otherCharges: number | null;
                 roundOff: number | null;
                 invoice: string | null;
+                invoice_url: string | null;
                 cn: string | null;
+                cn_url: string | null;
                 transport: string | null;
                 shippingAddress: string;
                 shippingState: string;
@@ -2164,6 +2191,7 @@ export declare const buyersRouter: {
                 buyer: {
                     businessName: string;
                     ownerName: string;
+                    gstNumber: string;
                     transportName: string | null;
                 };
                 subtotal: number;
@@ -2174,7 +2202,9 @@ export declare const buyersRouter: {
                 otherCharges: number | null;
                 roundOff: number | null;
                 invoice: string | null;
+                invoice_url: string | null;
                 cn: string | null;
+                cn_url: string | null;
                 transport: string | null;
                 shippingAddress: string;
                 shippingState: string;

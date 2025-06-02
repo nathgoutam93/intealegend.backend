@@ -22,6 +22,7 @@ export const OrderSchema = z.object({
     businessName: true,
     ownerName: true,
     transportName: true,
+    gstNumber: true,
   }),
   status: z
     .enum([
@@ -43,7 +44,9 @@ export const OrderSchema = z.object({
   orderItems: z.array(OrderItemSchema),
 
   invoice: z.string().nullable(),
+  invoice_url: z.string().nullable(),
   cn: z.string().nullable(),
+  cn_url: z.string().nullable(),
   transport: z.string().nullable(),
 
   shippingAddress: z.string(),

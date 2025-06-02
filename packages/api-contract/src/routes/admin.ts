@@ -84,6 +84,19 @@ export const adminRouter = c.router({
       403: ErrorSchema,
     },
   },
+  toggleUserBan: {
+    method: "POST",
+    path: "/admin/users/:id/ban",
+    pathParams: z.object({
+      id: z.string(),
+    }),
+    body: z.object({}),
+    responses: {
+      200: UserSchema,
+      401: ErrorSchema,
+      404: ErrorSchema,
+    },
+  },
   getProducts: {
     method: "GET",
     path: "/admin/products",
@@ -206,6 +219,7 @@ export const adminRouter = c.router({
           "CANCELLED",
         ])
         .optional(),
+      invoice: z.string().nullable().optional(),
       cn: z.string().nullable().optional(),
       transport: z.string().nullable().optional(),
       deliveryCharges: z.number().nullable().optional(),
@@ -222,6 +236,21 @@ export const adminRouter = c.router({
   uploadInvoice: {
     method: "POST",
     path: "/admin/orders/:id/invoice",
+    pathParams: z.object({
+      id: z.string(),
+    }),
+    contentType: "multipart/form-data",
+    body: z.object({}).passthrough(),
+    responses: {
+      200: OrderSchema,
+      401: ErrorSchema,
+      403: ErrorSchema,
+      404: ErrorSchema,
+    },
+  },
+  uploadCn: {
+    method: "POST",
+    path: "/admin/orders/:id/cn",
     pathParams: z.object({
       id: z.string(),
     }),

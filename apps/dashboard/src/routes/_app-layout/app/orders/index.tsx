@@ -13,6 +13,12 @@ import {
 import { Button } from "@/components/ui/button";
 import { Filter } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@radix-ui/react-tooltip";
 
 export const Route = createFileRoute("/_app-layout/app/orders/")({
   component: OrdersPage,
@@ -108,11 +114,11 @@ function OrdersPage() {
             <TableRow>
               <TableHead>Order ID</TableHead>
               <TableHead>Date</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Tea Value</TableHead>
-              <TableHead>Total Amount</TableHead>
+              <TableHead>Buyer</TableHead>
               <TableHead>Total Pkgs</TableHead>
               <TableHead>Total Weight</TableHead>
+              <TableHead>Tea Value</TableHead>
+              <TableHead>Total Amount</TableHead>
               <TableHead>Actions</TableHead>
               <TableHead>Inv No.</TableHead>
               <TableHead>CN No.</TableHead>
@@ -129,6 +135,21 @@ function OrdersPage() {
                   {new Date(order.createdAt).toLocaleDateString()}
                 </TableCell>
                 <TableCell>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger>
+                        {order.buyer.businessName}
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <div className="p-1 bg-black text-white">
+                          <p>{order.buyer.ownerName}</p>
+                          <p>{order.buyer.transportName}</p>
+                        </div>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </TableCell>
+                {/* <TableCell>
                   <span
                     className={`px-2 py-1 rounded-full text-xs ${
                       order.status === "DELIVERED"
@@ -142,13 +163,13 @@ function OrdersPage() {
                   >
                     {order.status}
                   </span>
-                </TableCell>
-                <TableCell>₹{order.subtotal.toFixed(2)}</TableCell>
-                <TableCell>₹{order.totalAmount.toFixed(2)}</TableCell>
+                </TableCell> */}
                 <TableCell>
                   {order.orderItems.reduce((prv, cur) => prv + cur.quantity, 0)}
                 </TableCell>
                 <TableCell>{order.estimatedWeight} kg</TableCell>
+                <TableCell>₹{order.subtotal.toFixed(2)}</TableCell>
+                <TableCell>₹{order.totalAmount.toFixed(2)}</TableCell>
 
                 <TableCell>
                   <Button asChild>

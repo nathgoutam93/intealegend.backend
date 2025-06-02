@@ -36,19 +36,24 @@ enum BrandMarkStatus {
 }
 
 model User {
-    id               Int      @id @default(autoincrement())
-    email            String
-    password         String
-    role             UserRole
-    verified         Boolean  @default(false)
+    id       Int      @id @default(autoincrement())
+    email    String
+    password String
+    role     UserRole
+
+    verified    Boolean @default(false)
+    isSuspended Boolean @default(false)
+
     // Unique identifier for sellers and buyers, generated at verification time
-    uniqueIdentifier String?  @unique
+    uniqueIdentifier String? @unique
 
     // Optional one-to-one relations to role-specific profiles
     adminProfile  AdminProfile?
     staffProfile  StaffProfile?
     sellerProfile SellerProfile?
     buyerProfile  BuyerProfile?
+
+    superSeller Boolean @default(false)
 
     // User's cart and orders
     cartItems CartItem[]
@@ -288,9 +293,11 @@ model Order {
     totalAmount     Decimal
     roundOff        Decimal?
 
-    invoice   String?
-    cn        String?
-    transport String?
+    invoice     String?
+    invoice_url String?
+    cn          String?
+    cn_url      String?
+    transport   String?
 
     // Shipping address fields
     shippingAddress  String

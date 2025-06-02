@@ -30,10 +30,11 @@ export function VerifiedBuyersView() {
         <TableHeader>
           <TableRow>
             <TableHead>ID</TableHead>
+            <TableHead>Registration Date</TableHead>
             <TableHead>Business Name</TableHead>
             <TableHead>Contact Number</TableHead>
             <TableHead>Email</TableHead>
-            <TableHead>Registration Date</TableHead>
+            <TableHead>Address</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -44,12 +45,13 @@ export function VerifiedBuyersView() {
               onClick={() => setSelectedUser(user)}
             >
               <TableCell>{user.uniqueIdentifier}</TableCell>
-              <TableCell>{user.profile.businessName}</TableCell>
-              <TableCell>{user.profile.phone}</TableCell>
-              <TableCell>{user.email}</TableCell>
               <TableCell>
                 {new Date(user.createdAt).toLocaleDateString()}
               </TableCell>
+              <TableCell>{user.profile.businessName}</TableCell>
+              <TableCell>{user.profile.phone}</TableCell>
+              <TableCell>{user.email}</TableCell>
+              <TableCell>{user.profile.address}</TableCell>
             </TableRow>
           ))}
         </TableBody>

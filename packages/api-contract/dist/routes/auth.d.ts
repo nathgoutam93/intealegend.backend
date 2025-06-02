@@ -21,7 +21,9 @@ export declare const authRouter: {
                     id: z.ZodNumber;
                     email: z.ZodString;
                     role: z.ZodEnum<["SELLER", "BUYER", "ADMIN", "STAFF"]>;
+                    superSeller: z.ZodBoolean;
                     verified: z.ZodBoolean;
+                    isSuspended: z.ZodBoolean;
                     uniqueIdentifier: z.ZodNullable<z.ZodString>;
                     createdAt: z.ZodDate;
                     updatedAt: z.ZodDate;
@@ -31,7 +33,9 @@ export declare const authRouter: {
                     createdAt: Date;
                     updatedAt: Date;
                     role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                    superSeller: boolean;
                     verified: boolean;
+                    isSuspended: boolean;
                     uniqueIdentifier: string | null;
                 }, {
                     email: string;
@@ -39,7 +43,9 @@ export declare const authRouter: {
                     createdAt: Date;
                     updatedAt: Date;
                     role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                    superSeller: boolean;
                     verified: boolean;
+                    isSuspended: boolean;
                     uniqueIdentifier: string | null;
                 }>;
             }, "strip", z.ZodTypeAny, {
@@ -51,7 +57,9 @@ export declare const authRouter: {
                     createdAt: Date;
                     updatedAt: Date;
                     role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                    superSeller: boolean;
                     verified: boolean;
+                    isSuspended: boolean;
                     uniqueIdentifier: string | null;
                 };
             }, {
@@ -63,7 +71,9 @@ export declare const authRouter: {
                     createdAt: Date;
                     updatedAt: Date;
                     role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                    superSeller: boolean;
                     verified: boolean;
+                    isSuspended: boolean;
                     uniqueIdentifier: string | null;
                 };
             }>;
@@ -579,7 +589,9 @@ export declare const authRouter: {
                 id: z.ZodNumber;
                 email: z.ZodString;
                 role: z.ZodEnum<["SELLER", "BUYER", "ADMIN", "STAFF"]>;
+                superSeller: z.ZodBoolean;
                 verified: z.ZodBoolean;
+                isSuspended: z.ZodBoolean;
                 uniqueIdentifier: z.ZodNullable<z.ZodString>;
                 createdAt: z.ZodDate;
                 updatedAt: z.ZodDate;
@@ -589,7 +601,9 @@ export declare const authRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                superSeller: boolean;
                 verified: boolean;
+                isSuspended: boolean;
                 uniqueIdentifier: string | null;
             }, {
                 email: string;
@@ -597,7 +611,9 @@ export declare const authRouter: {
                 createdAt: Date;
                 updatedAt: Date;
                 role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                superSeller: boolean;
                 verified: boolean;
+                isSuspended: boolean;
                 uniqueIdentifier: string | null;
             }>;
             400: z.ZodObject<{
@@ -636,7 +652,9 @@ export declare const authRouter: {
                     id: z.ZodNumber;
                     email: z.ZodString;
                     role: z.ZodEnum<["SELLER", "BUYER", "ADMIN", "STAFF"]>;
+                    superSeller: z.ZodBoolean;
                     verified: z.ZodBoolean;
+                    isSuspended: z.ZodBoolean;
                     uniqueIdentifier: z.ZodNullable<z.ZodString>;
                     createdAt: z.ZodDate;
                     updatedAt: z.ZodDate;
@@ -646,7 +664,9 @@ export declare const authRouter: {
                     createdAt: Date;
                     updatedAt: Date;
                     role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                    superSeller: boolean;
                     verified: boolean;
+                    isSuspended: boolean;
                     uniqueIdentifier: string | null;
                 }, {
                     email: string;
@@ -654,7 +674,9 @@ export declare const authRouter: {
                     createdAt: Date;
                     updatedAt: Date;
                     role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                    superSeller: boolean;
                     verified: boolean;
+                    isSuspended: boolean;
                     uniqueIdentifier: string | null;
                 }>;
             }, "strip", z.ZodTypeAny, {
@@ -666,7 +688,9 @@ export declare const authRouter: {
                     createdAt: Date;
                     updatedAt: Date;
                     role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                    superSeller: boolean;
                     verified: boolean;
+                    isSuspended: boolean;
                     uniqueIdentifier: string | null;
                 };
             }, {
@@ -678,7 +702,9 @@ export declare const authRouter: {
                     createdAt: Date;
                     updatedAt: Date;
                     role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                    superSeller: boolean;
                     verified: boolean;
+                    isSuspended: boolean;
                     uniqueIdentifier: string | null;
                 };
             }>;

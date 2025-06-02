@@ -167,16 +167,20 @@ function ProductList({}: Props) {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>ID</TableHead>
-                  <TableHead>Mark</TableHead>
-                  <TableHead>Invoice No.</TableHead>
-                  <TableHead>Grade</TableHead>
-                  <TableHead>Pkgs</TableHead>
-                  <TableHead>Wt/Pkg</TableHead>
-                  <TableHead>Sample</TableHead>
-                  <TableHead className="whitespace-nowrap">Total Wt.</TableHead>
-                  <TableHead>Score</TableHead>
-                  <TableHead className="text-right">
+                  <TableHead className="text-left">ID</TableHead>
+                  <TableHead className="text-center">Mark</TableHead>
+                  <TableHead className="whitespace-nowrap text-center">
+                    Invoice No.
+                  </TableHead>
+                  <TableHead className="text-center">Grade</TableHead>
+                  <TableHead className="text-center">Pkgs</TableHead>
+                  <TableHead className="text-center">Wt/Pkg</TableHead>
+                  <TableHead className="text-center">Sample</TableHead>
+                  <TableHead className="whitespace-nowrap text-center">
+                    Total Wt.
+                  </TableHead>
+                  <TableHead className="text-center">Score</TableHead>
+                  <TableHead className="text-center">
                     <Button
                       variant="ghost"
                       onClick={() => {
@@ -207,11 +211,11 @@ function ProductList({}: Props) {
                       />
                     </Button>
                   </TableHead>
-                  <TableHead>MBP</TableHead>
-                  <TableHead className="text-right"></TableHead>
-                  <TableHead>Location</TableHead>
-                  <TableHead>Origin</TableHead>
-                  <TableHead>Production</TableHead>
+                  <TableHead className="text-center">MBP</TableHead>
+                  <TableHead className="text-center"></TableHead>
+                  <TableHead className="text-center">Location</TableHead>
+                  <TableHead className="text-center">Origin</TableHead>
+                  <TableHead className="text-right">Production</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -220,7 +224,7 @@ function ProductList({}: Props) {
                     key={product.id}
                     className="cursor-pointer hover:bg-muted/50"
                   >
-                    <TableCell className="font-medium">
+                    <TableCell className="font-medium text-left">
                       <span>
                         {formatProductId(
                           product.id.toString(),
@@ -229,21 +233,25 @@ function ProductList({}: Props) {
                       </span>
                     </TableCell>
 
-                    <TableCell>{product.brandMark.name}</TableCell>
-                    <TableCell>{product.invoiceNo}</TableCell>
+                    <TableCell className="text-center">
+                      {product.brandMark.name}
+                    </TableCell>
+                    <TableCell className="text-center">
+                      {product.invoiceNo}
+                    </TableCell>
                     <TableCell className="text-center">
                       {product.grade}
                     </TableCell>
                     <TableCell className="text-center">
                       {product.quantity}
                     </TableCell>
-                    <TableCell className="text-right">
+                    <TableCell className="text-center">
                       {product.weightPerUnit} kg
                     </TableCell>
-                    <TableCell className="text-right">
+                    <TableCell className="text-center">
                       {product.sampleWeight} kg
                     </TableCell>
-                    <TableCell className="text-right">
+                    <TableCell className="text-center">
                       {product.quantity * product.weightPerUnit -
                         Number(product.sampleWeight)}{" "}
                       kg
@@ -276,8 +284,7 @@ function ProductList({}: Props) {
                       {product.pricePerUnit.toLocaleString("en-IN")}
                     </TableCell>
                     <TableCell className="text-center">{product.mbp}</TableCell>
-
-                    <TableCell className="text-right">
+                    <TableCell className="text-center">
                       <Button
                         variant="outline"
                         size="sm"
@@ -290,11 +297,13 @@ function ProductList({}: Props) {
                       </Button>
                     </TableCell>
 
-                    <TableCell className="text-xs">
+                    <TableCell className="text-xs text-center">
                       {product.location}
                     </TableCell>
-                    <TableCell className="text-xs">{product.origin}</TableCell>
-                    <TableCell className="text-xs">
+                    <TableCell className="text-xs text-center">
+                      {product.origin}
+                    </TableCell>
+                    <TableCell className="text-xs text-right">
                       {new Date(product.productionMonth).toLocaleString(
                         "en-IN",
                         {
