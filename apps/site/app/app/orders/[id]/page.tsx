@@ -21,7 +21,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Printer } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 
 export default function OrderDetailsPage() {
@@ -32,6 +32,10 @@ export default function OrderDetailsPage() {
     ["order", orderId],
     { params: { orderId } }
   );
+
+  const handlePrint = () => {
+    window.print();
+  };
 
   if (isPending) {
     return (
@@ -74,8 +78,22 @@ export default function OrderDetailsPage() {
   return (
     <div className="min-h-screen flex flex-col">
       <Header showBackButton backUrl="/app/orders" />
-      <div className="py-8 max-w-7xl mx-auto">
-        <div className="grid grid-cols-5">
+
+      <div className="py-8 max-w-7xl mx-auto px-4">
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-semibold">Order Details</h2>
+          <Button
+            variant="outline"
+            size="sm"
+            className="print:hidden"
+            onClick={handlePrint}
+          >
+            <Printer className="h-4 w-4 mr-2" />
+            Print
+          </Button>
+        </div>
+
+        <div className="grid grid-cols-5 gap-4">
           <div className="w-max">
             <h3 className="font-semibold mb-2">Status</h3>
             <div
@@ -93,23 +111,31 @@ export default function OrderDetailsPage() {
           </div>
           <div className="w-max">
             <h3 className="font-semibold mb-2">Invoice</h3>
-            {order.invoice ? (
-              <div className="bg-gray-100 p-2 rounded-sm">
-                <a
-                  href={order.invoice}
-                  target="_blank"
-                  className="text-blue-400"
-                >
-                  View Invoice
-                </a>
-              </div>
-            ) : (
-              <span>N/A</span>
-            )}
+            <span className="">{order.invoice}</span>
+            <Button
+              variant="link"
+              className="ml-1 text-blue-400 p-0 h-auto print:hidden"
+              onClick={() => {
+                const element = document.getElementById("documents");
+                element?.scrollIntoView({ behavior: "smooth" });
+              }}
+            >
+              View
+            </Button>
           </div>
           <div className="w-max">
             <h3 className="font-semibold mb-2">CN No.</h3>
-            <span>{order.cn ?? "n/a"}</span>
+            <span>{order.cn}</span>
+            <Button
+              variant="link"
+              className="ml-1 text-blue-400 p-0 h-auto print:hidden"
+              onClick={() => {
+                const element = document.getElementById("documents");
+                element?.scrollIntoView({ behavior: "smooth" });
+              }}
+            >
+              View
+            </Button>
           </div>
           <div className="w-max">
             <h3 className="font-semibold mb-2">Transport</h3>
@@ -171,7 +197,7 @@ export default function OrderDetailsPage() {
               </TableHeader>
               <TableBody>
                 {order.orderItems.map((item) => (
-                  <TableRow>
+                  <TableRow key={item.product.id}>
                     <TableCell>
                       <span>
                         IIL{new Date(item.product.createdAt).getFullYear()}
@@ -213,7 +239,7 @@ export default function OrderDetailsPage() {
           </div>
         </div>
 
-        <div className="mt-10 grid grid-cols-3">
+        <div className="mt-10 grid grid-cols-3 gap-6">
           <div className="">
             <p className="mb-4 font-semibold">Buyer Details</p>
             <p className="text-sm">Business Name: {order.buyer.businessName}</p>
@@ -235,7 +261,118 @@ export default function OrderDetailsPage() {
             </p>
           </div>
         </div>
+
+        {/* Documents Section */}
+        <div id="documents" className="mt-10 print:mt-4">
+          <h3 className="font-semibold mb-6">Documents</h3>
+          <div className="grid grid-cols-2 gap-8">
+            <div className="border p-4 rounded-lg">
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <h4 className="font-medium">Invoice</h4>
+                  <p className="text-sm text-gray-500">
+                    {order.invoice || "Not available"}
+                  </p>
+                </div>
+                {order.invoice_url && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="print:hidden"
+                    asChild
+                  >
+                    <a
+                      href={order.invoice_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Open in New Tab
+                    </a>
+                  </Button>
+                )}
+              </div>
+              <div className="bg-gray-50 rounded-lg overflow-hidden min-h-[200px] flex items-center justify-center">
+                {order.invoice_url ? (
+                  <img
+                    src={order.invoice_url}
+                    alt="Invoice Document"
+                    className="w-full h-auto object-contain"
+                  />
+                ) : (
+                  <div className="text-gray-400 text-center">
+                    <p>No invoice document available</p>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="border p-4 rounded-lg">
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <h4 className="font-medium">CN Document</h4>
+                  <p className="text-sm text-gray-500">
+                    {order.cn || "Not available"}
+                  </p>
+                </div>
+                {order.cn_url && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="print:hidden"
+                    asChild
+                  >
+                    <a
+                      href={order.cn_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Open in New Tab
+                    </a>
+                  </Button>
+                )}
+              </div>
+              <div className="bg-gray-50 rounded-lg overflow-hidden min-h-[200px] flex items-center justify-center">
+                {order.cn_url ? (
+                  <img
+                    src={order.cn_url}
+                    alt="CN Document"
+                    className="w-full h-auto object-contain"
+                  />
+                ) : (
+                  <div className="text-gray-400 text-center">
+                    <p>No CN document available</p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
+
+      <style jsx global>{`
+        @media print {
+          .print\\:hidden {
+            display: none !important;
+          }
+          .print\\:inline {
+            display: inline !important;
+          }
+          .print\\:mt-4 {
+            margin-top: 1rem !important;
+          }
+          @page {
+            margin: 20mm;
+          }
+          body {
+            print-color-adjust: exact;
+            -webkit-print-color-adjust: exact;
+          }
+          img {
+            max-height: 100vh;
+            page-break-inside: avoid;
+          }
+        }
+      `}</style>
     </div>
   );
 }

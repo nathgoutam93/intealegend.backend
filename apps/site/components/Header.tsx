@@ -11,11 +11,13 @@ import { cn } from "@/lib/utils";
 interface HeaderProps {
   showBackButton?: boolean;
   backUrl?: string;
+  children?: React.ReactNode;
 }
 
 export function Header({
   showBackButton = false,
   backUrl = "/app/explore",
+  children,
 }: HeaderProps) {
   const router = useRouter();
   const pathname = usePathname();
@@ -23,7 +25,7 @@ export function Header({
   const cartItemCount = items.length;
 
   return (
-    <header className="sticky top-0 z-50 bg-white shadow">
+    <header className="sticky top-0 z-50 bg-white shadow print:hidden">
       <div className="max-w-7xl mx-auto px-4 py-2 flex items-center justify-between">
         <div className="flex items-center space-x-4">
           {showBackButton && (
@@ -40,6 +42,7 @@ export function Header({
           </Link>
         </div>
         <div className="flex items-center space-x-4">
+          {children}
           <Link
             href={"/app/explore"}
             className={cn(
