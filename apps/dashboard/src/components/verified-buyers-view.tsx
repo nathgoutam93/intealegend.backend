@@ -51,7 +51,12 @@ export function VerifiedBuyersView() {
               <TableCell>{user.profile.businessName}</TableCell>
               <TableCell>{user.profile.phone}</TableCell>
               <TableCell>{user.email}</TableCell>
-              <TableCell>{user.profile.town}</TableCell>
+              <TableCell>
+                {
+                  // @ts-ignore
+                  user.profile.town
+                }
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
