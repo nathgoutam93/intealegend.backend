@@ -4,6 +4,7 @@ import * as bcrypt from 'bcrypt';
 import { PRISMA_TOKEN } from 'src/database/constants';
 import { PrismaClient, UserRole } from '@intealegend/database';
 import { ConfigService } from '@nestjs/config';
+import { profile } from 'console';
 
 @Injectable()
 export class AuthService {
@@ -109,6 +110,12 @@ export class AuthService {
     const user = await this.validateUser(identifier, password);
     const tokens = this.generateTokens(user);
 
+    if (user.isSuspended) {
+      throw new UnauthorizedException(
+        'Account Suspended, Please Contact Admin',
+      );
+    }
+
     return {
       ...tokens,
       user: {
@@ -121,6 +128,7 @@ export class AuthService {
         isSuspended: user.isSuspended,
         createdAt: user.createdAt,
         updatedAt: user.updatedAt,
+        profile: user.buyerProfile || user.sellerProfile || user.adminProfile,
       },
     };
   }
@@ -147,6 +155,7 @@ export class AuthService {
         isSuspended: user.isSuspended,
         createdAt: user.createdAt,
         updatedAt: user.updatedAt,
+        profile: user.adminProfile,
       },
     };
   }

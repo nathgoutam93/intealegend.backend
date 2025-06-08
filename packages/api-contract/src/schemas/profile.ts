@@ -59,6 +59,7 @@ export const BuyerProfileSchema = z.object({
   ...ContactInfoSchema.shape,
   ...BusinessDocumentsSchema.shape,
   ...BankingInfoSchema.shape,
+  town: z.string(),
   transportName: z.string().nullable(),
   userId: z.number(),
   createdAt: z.date(),

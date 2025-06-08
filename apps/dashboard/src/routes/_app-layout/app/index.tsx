@@ -27,12 +27,15 @@ export const Route = createFileRoute("/_app-layout/app/")({
 });
 
 const SellerDash = () => {
+  const user = useAuthStore((state) => state.user);
   const { data, isLoading } = client.sellers.stats.useQuery(["dash-stats"]);
   if (isLoading) return <div>loading...</div>;
   if (!data || data.status !== 200) return <div>something went wrong</div>;
 
   return (
     <div className="p-8 space-y-8">
+      <p>Welcome {user?.profile.businessName},</p>
+
       {/* Sales Section */}
       <div>
         <h2 className="text-xl font-semibold mb-4">Orders</h2>

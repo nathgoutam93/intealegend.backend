@@ -47,7 +47,7 @@ export default function RegisterPage() {
             </div>
           </div>
           <Link
-            href="/sell-online"
+            href={`${SELLER_BASE_URL}/register`}
             className="bg-green-700 text-white px-4 py-2 rounded-lg hover:bg-green-800 transition flex items-center gap-2"
           >
             <Store className="w-4 h-4" />

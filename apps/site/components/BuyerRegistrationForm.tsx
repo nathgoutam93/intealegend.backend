@@ -16,7 +16,7 @@ const REGISTRATION_STEPS = [
   {
     id: 2,
     title: "Address Information",
-    fields: ["address", "state", "district", "pincode"],
+    fields: ["address", "town", "state", "district", "pincode"],
   },
   {
     id: 3,
@@ -70,6 +70,7 @@ export default function BuyerRegistrationForm() {
 
     // Step 2: Address Info
     address: "",
+    town: "",
     state: "",
     district: "",
     pincode: "",
@@ -275,16 +276,31 @@ export default function BuyerRegistrationForm() {
               />
 
               {/* Pincode */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Pincode
-                </label>
-                <input
-                  type="text"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                  value={formData.pincode}
-                  onChange={(e) => handleInputChange("pincode", e.target.value)}
-                />
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Town
+                  </label>
+                  <input
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                    value={formData.town}
+                    onChange={(e) => handleInputChange("town", e.target.value)}
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Pincode
+                  </label>
+                  <input
+                    type="text"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                    value={formData.pincode}
+                    onChange={(e) =>
+                      handleInputChange("pincode", e.target.value)
+                    }
+                  />
+                </div>
               </div>
             </>
           )}

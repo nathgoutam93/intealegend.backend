@@ -97,9 +97,15 @@ const Footer = () => {
             </ul>
           </div>
         </div>
-        <div className="border-t border-gray-800 mt-8 pt-8 text-center">
+        <div className="flex justify-between border-t border-gray-800 mt-8 pt-8 text-center">
           <p>
             &copy; {new Date().getFullYear()} InteaLegend. All rights reserved.
+          </p>
+          <p>
+            Designed & developed by -{" "}
+            <a target="_blank" href="https://www.govisible.in/">
+              GoVisible
+            </a>
           </p>
         </div>
       </div>

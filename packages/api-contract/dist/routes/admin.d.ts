@@ -415,6 +415,7 @@ export declare const adminRouter: {
                         updatedAt: z.ZodDate;
                     }, {
                         profile: z.ZodObject<{
+                            town: z.ZodString;
                             transportName: z.ZodNullable<z.ZodString>;
                             userId: z.ZodNumber;
                             createdAt: z.ZodDate;
@@ -465,6 +466,7 @@ export declare const adminRouter: {
                             userId: number;
                             createdAt: Date;
                             updatedAt: Date;
+                            town: string;
                             transportName: string | null;
                         }, {
                             businessName: string;
@@ -491,6 +493,7 @@ export declare const adminRouter: {
                             userId: number;
                             createdAt: Date;
                             updatedAt: Date;
+                            town: string;
                             transportName: string | null;
                         }>;
                     }>, "strip", z.ZodTypeAny, {
@@ -528,6 +531,7 @@ export declare const adminRouter: {
                             userId: number;
                             createdAt: Date;
                             updatedAt: Date;
+                            town: string;
                             transportName: string | null;
                         };
                     }, {
@@ -565,6 +569,7 @@ export declare const adminRouter: {
                             userId: number;
                             createdAt: Date;
                             updatedAt: Date;
+                            town: string;
                             transportName: string | null;
                         };
                     }>, "many">;
@@ -604,6 +609,7 @@ export declare const adminRouter: {
                             userId: number;
                             createdAt: Date;
                             updatedAt: Date;
+                            town: string;
                             transportName: string | null;
                         };
                     }[];
@@ -644,6 +650,7 @@ export declare const adminRouter: {
                             userId: number;
                             createdAt: Date;
                             updatedAt: Date;
+                            town: string;
                             transportName: string | null;
                         };
                     }[];
@@ -736,6 +743,7 @@ export declare const adminRouter: {
                             userId: number;
                             createdAt: Date;
                             updatedAt: Date;
+                            town: string;
                             transportName: string | null;
                         };
                     }[];
@@ -825,6 +833,7 @@ export declare const adminRouter: {
                             userId: number;
                             createdAt: Date;
                             updatedAt: Date;
+                            town: string;
                             transportName: string | null;
                         };
                     }[];
@@ -1814,6 +1823,7 @@ export declare const adminRouter: {
                     id: z.ZodNumber;
                     userId: z.ZodNumber;
                     buyer: z.ZodObject<Pick<{
+                        town: z.ZodString;
                         transportName: z.ZodNullable<z.ZodString>;
                         userId: z.ZodNumber;
                         createdAt: z.ZodDate;
@@ -2522,6 +2532,7 @@ export declare const adminRouter: {
                 id: z.ZodNumber;
                 userId: z.ZodNumber;
                 buyer: z.ZodObject<Pick<{
+                    town: z.ZodString;
                     transportName: z.ZodNullable<z.ZodString>;
                     userId: z.ZodNumber;
                     createdAt: z.ZodDate;
@@ -3075,6 +3086,7 @@ export declare const adminRouter: {
                 id: z.ZodNumber;
                 userId: z.ZodNumber;
                 buyer: z.ZodObject<Pick<{
+                    town: z.ZodString;
                     transportName: z.ZodNullable<z.ZodString>;
                     userId: z.ZodNumber;
                     createdAt: z.ZodDate;
@@ -3618,6 +3630,7 @@ export declare const adminRouter: {
                 id: z.ZodNumber;
                 userId: z.ZodNumber;
                 buyer: z.ZodObject<Pick<{
+                    town: z.ZodString;
                     transportName: z.ZodNullable<z.ZodString>;
                     userId: z.ZodNumber;
                     createdAt: z.ZodDate;
@@ -4161,6 +4174,7 @@ export declare const adminRouter: {
                 id: z.ZodNumber;
                 userId: z.ZodNumber;
                 buyer: z.ZodObject<Pick<{
+                    town: z.ZodString;
                     transportName: z.ZodNullable<z.ZodString>;
                     userId: z.ZodNumber;
                     createdAt: z.ZodDate;

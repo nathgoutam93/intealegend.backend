@@ -168,6 +168,7 @@ model BuyerProfile {
 
     // Step 2: Address Info
     address  String
+    town     String?
     state    String
     district String
     pincode  String

@@ -264,6 +264,7 @@ export declare const OrderSchema: z.ZodObject<{
     id: z.ZodNumber;
     userId: z.ZodNumber;
     buyer: z.ZodObject<Pick<{
+        town: z.ZodString;
         transportName: z.ZodNullable<z.ZodString>;
         userId: z.ZodNumber;
         createdAt: z.ZodDate;

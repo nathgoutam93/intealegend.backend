@@ -171,6 +171,7 @@ export declare const SellerProfileSchema: z.ZodObject<{
     updatedAt: Date;
 }>;
 export declare const BuyerProfileSchema: z.ZodObject<{
+    town: z.ZodString;
     transportName: z.ZodNullable<z.ZodString>;
     userId: z.ZodNumber;
     createdAt: z.ZodDate;
@@ -221,6 +222,7 @@ export declare const BuyerProfileSchema: z.ZodObject<{
     userId: number;
     createdAt: Date;
     updatedAt: Date;
+    town: string;
     transportName: string | null;
 }, {
     businessName: string;
@@ -247,6 +249,7 @@ export declare const BuyerProfileSchema: z.ZodObject<{
     userId: number;
     createdAt: Date;
     updatedAt: Date;
+    town: string;
     transportName: string | null;
 }>;
 export declare const AdminProfileSchema: z.ZodObject<{

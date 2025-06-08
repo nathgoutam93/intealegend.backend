@@ -5,6 +5,7 @@ export declare const buyersRouter: {
         path: "/buyer/profile";
         responses: {
             200: z.ZodObject<{
+                town: z.ZodString;
                 transportName: z.ZodNullable<z.ZodString>;
                 userId: z.ZodNumber;
                 createdAt: z.ZodDate;
@@ -55,6 +56,7 @@ export declare const buyersRouter: {
                 userId: number;
                 createdAt: Date;
                 updatedAt: Date;
+                town: string;
                 transportName: string | null;
             }, {
                 businessName: string;
@@ -81,6 +83,7 @@ export declare const buyersRouter: {
                 userId: number;
                 createdAt: Date;
                 updatedAt: Date;
+                town: string;
                 transportName: string | null;
             }>;
             404: z.ZodObject<{
@@ -121,6 +124,7 @@ export declare const buyersRouter: {
             fssaiLicense: z.ZodOptional<z.ZodNullable<z.ZodString>>;
             bankAccountNumber: z.ZodOptional<z.ZodString>;
             bankIfscCode: z.ZodOptional<z.ZodString>;
+            town: z.ZodOptional<z.ZodString>;
             transportName: z.ZodOptional<z.ZodNullable<z.ZodString>>;
         }, "strip", z.ZodTypeAny, {
             businessName?: string | undefined;
@@ -143,6 +147,7 @@ export declare const buyersRouter: {
             fssaiLicense?: string | null | undefined;
             bankAccountNumber?: string | undefined;
             bankIfscCode?: string | undefined;
+            town?: string | undefined;
             transportName?: string | null | undefined;
         }, {
             businessName?: string | undefined;
@@ -165,11 +170,13 @@ export declare const buyersRouter: {
             fssaiLicense?: string | null | undefined;
             bankAccountNumber?: string | undefined;
             bankIfscCode?: string | undefined;
+            town?: string | undefined;
             transportName?: string | null | undefined;
         }>;
         path: "/buyers/profile";
         responses: {
             200: z.ZodObject<{
+                town: z.ZodString;
                 transportName: z.ZodNullable<z.ZodString>;
                 userId: z.ZodNumber;
                 createdAt: z.ZodDate;
@@ -220,6 +227,7 @@ export declare const buyersRouter: {
                 userId: number;
                 createdAt: Date;
                 updatedAt: Date;
+                town: string;
                 transportName: string | null;
             }, {
                 businessName: string;
@@ -246,6 +254,7 @@ export declare const buyersRouter: {
                 userId: number;
                 createdAt: Date;
                 updatedAt: Date;
+                town: string;
                 transportName: string | null;
             }>;
             404: z.ZodObject<{
@@ -713,6 +722,7 @@ export declare const buyersRouter: {
                 id: z.ZodNumber;
                 userId: z.ZodNumber;
                 buyer: z.ZodObject<Pick<{
+                    town: z.ZodString;
                     transportName: z.ZodNullable<z.ZodString>;
                     userId: z.ZodNumber;
                     createdAt: z.ZodDate;
@@ -1221,6 +1231,7 @@ export declare const buyersRouter: {
                 id: z.ZodNumber;
                 userId: z.ZodNumber;
                 buyer: z.ZodObject<Pick<{
+                    town: z.ZodString;
                     transportName: z.ZodNullable<z.ZodString>;
                     userId: z.ZodNumber;
                     createdAt: z.ZodDate;
@@ -1729,6 +1740,7 @@ export declare const buyersRouter: {
                 id: z.ZodNumber;
                 userId: z.ZodNumber;
                 buyer: z.ZodObject<Pick<{
+                    town: z.ZodString;
                     transportName: z.ZodNullable<z.ZodString>;
                     userId: z.ZodNumber;
                     createdAt: z.ZodDate;

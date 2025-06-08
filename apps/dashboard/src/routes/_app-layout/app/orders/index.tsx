@@ -114,6 +114,7 @@ function OrdersPage() {
             <TableRow>
               <TableHead>Order ID</TableHead>
               <TableHead>Date</TableHead>
+              <TableHead>Status</TableHead>
               <TableHead>Buyer</TableHead>
               <TableHead>Total Pkgs</TableHead>
               <TableHead>Total Weight</TableHead>
@@ -135,6 +136,21 @@ function OrdersPage() {
                   {new Date(order.createdAt).toLocaleDateString()}
                 </TableCell>
                 <TableCell>
+                  <span
+                    className={`px-2 py-1 rounded-full text-xs ${
+                      order.status === "DELIVERED"
+                        ? "bg-green-100 text-green-800"
+                        : order.status === "CANCELLED"
+                          ? "bg-red-100 text-red-800"
+                          : order.status === "PENDING"
+                            ? "bg-yellow-100 text-yellow-800"
+                            : "bg-blue-100 text-blue-800"
+                    }`}
+                  >
+                    {order.status}
+                  </span>
+                </TableCell>
+                <TableCell>
                   <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger>
@@ -150,21 +166,7 @@ function OrdersPage() {
                     </Tooltip>
                   </TooltipProvider>
                 </TableCell>
-                {/* <TableCell>
-                  <span
-                    className={`px-2 py-1 rounded-full text-xs ${
-                      order.status === "DELIVERED"
-                        ? "bg-green-100 text-green-800"
-                        : order.status === "CANCELLED"
-                          ? "bg-red-100 text-red-800"
-                          : order.status === "PENDING"
-                            ? "bg-yellow-100 text-yellow-800"
-                            : "bg-blue-100 text-blue-800"
-                    }`}
-                  >
-                    {order.status}
-                  </span>
-                </TableCell> */}
+
                 <TableCell>
                   {order.orderItems.reduce((prv, cur) => prv + cur.quantity, 0)}
                 </TableCell>
@@ -182,16 +184,7 @@ function OrdersPage() {
                     </Link>
                   </Button>
                 </TableCell>
-
-                <TableCell>
-                  {order.invoice ? (
-                    <a href={order.invoice} className="text-blue-400">
-                      view invoice
-                    </a>
-                  ) : (
-                    <span>N/A</span>
-                  )}
-                </TableCell>
+                <TableCell>{order.invoice ?? "N/A"}</TableCell>
                 <TableCell>{order.cn ?? "N/A"}</TableCell>
               </TableRow>
             ))}

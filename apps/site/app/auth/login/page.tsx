@@ -28,13 +28,14 @@ export default function LoginPage() {
 
   const loginMutation = client.auth.login.useMutation({
     onSuccess: (response) => {
-      setAuth(response.body.accessToken, response.body.user);
+      setAuth(response.body.accessToken, response.body.user as any);
       toast.success("Login successful");
       router.push("/app/explore");
     },
     onError: (error: any) => {
+      console.log(error);
       toast.error("Login failed", {
-        description: error.message || "Invalid credentials",
+        description: error.body.message || "Invalid credentials",
       });
     },
     onSettled: () => {
@@ -100,7 +101,7 @@ export default function LoginPage() {
             </div>
           </div>
           <Link
-            href="/sell-online"
+            href={`${SELLER_BASE_URL}/register`}
             className="bg-green-700 text-white px-4 py-2 rounded-lg hover:bg-green-800 transition flex items-center gap-2"
           >
             <Store className="w-4 h-4" />

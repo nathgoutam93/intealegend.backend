@@ -55,7 +55,7 @@ export class AdminController {
 
         return {
           status: 200,
-          body: res,
+          body: res as any,
         };
       },
       verifyRegistration: async ({ body }) => {

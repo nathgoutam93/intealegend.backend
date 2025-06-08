@@ -21,14 +21,14 @@ export default function SellerLoginModal({
   const loginMutation = client.auth.login.useMutation({
     onSuccess: (response) => {
       // Update Zustand store instead of localStorage
-      setAuth(response.body.accessToken, response.body.user);
+      setAuth(response.body.accessToken, response.body.user as any);
 
       toast.success("Login successful");
       navigate({ to: "/app" });
     },
     onError: (error: any) => {
       toast.error("Login failed", {
-        description: error.message || "Invalid credentials",
+        description: error.body.message || "Invalid credentials",
       });
     },
     onSettled: () => {

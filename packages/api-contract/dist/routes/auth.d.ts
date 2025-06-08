@@ -198,6 +198,7 @@ export declare const authRouter: {
                 brandLogo: string | null;
                 brandCertificate: string | null;
             }>, z.ZodObject<Omit<{
+                town: z.ZodString;
                 transportName: z.ZodNullable<z.ZodString>;
                 userId: z.ZodNumber;
                 createdAt: z.ZodDate;
@@ -244,6 +245,7 @@ export declare const authRouter: {
                 fssaiLicense: string | null;
                 bankAccountNumber: string;
                 bankIfscCode: string;
+                town: string;
                 transportName: string | null;
             }, {
                 businessName: string;
@@ -266,6 +268,7 @@ export declare const authRouter: {
                 fssaiLicense: string | null;
                 bankAccountNumber: string;
                 bankIfscCode: string;
+                town: string;
                 transportName: string | null;
             }>]>;
         }, "passthrough", z.ZodTypeAny, z.objectOutputType<{
@@ -355,6 +358,7 @@ export declare const authRouter: {
                 brandLogo: string | null;
                 brandCertificate: string | null;
             }>, z.ZodObject<Omit<{
+                town: z.ZodString;
                 transportName: z.ZodNullable<z.ZodString>;
                 userId: z.ZodNumber;
                 createdAt: z.ZodDate;
@@ -401,6 +405,7 @@ export declare const authRouter: {
                 fssaiLicense: string | null;
                 bankAccountNumber: string;
                 bankIfscCode: string;
+                town: string;
                 transportName: string | null;
             }, {
                 businessName: string;
@@ -423,6 +428,7 @@ export declare const authRouter: {
                 fssaiLicense: string | null;
                 bankAccountNumber: string;
                 bankIfscCode: string;
+                town: string;
                 transportName: string | null;
             }>]>;
         }, z.ZodTypeAny, "passthrough">, z.objectInputType<{
@@ -512,6 +518,7 @@ export declare const authRouter: {
                 brandLogo: string | null;
                 brandCertificate: string | null;
             }>, z.ZodObject<Omit<{
+                town: z.ZodString;
                 transportName: z.ZodNullable<z.ZodString>;
                 userId: z.ZodNumber;
                 createdAt: z.ZodDate;
@@ -558,6 +565,7 @@ export declare const authRouter: {
                 fssaiLicense: string | null;
                 bankAccountNumber: string;
                 bankIfscCode: string;
+                town: string;
                 transportName: string | null;
             }, {
                 businessName: string;
@@ -580,6 +588,7 @@ export declare const authRouter: {
                 fssaiLicense: string | null;
                 bankAccountNumber: string;
                 bankIfscCode: string;
+                town: string;
                 transportName: string | null;
             }>]>;
         }, z.ZodTypeAny, "passthrough">>;

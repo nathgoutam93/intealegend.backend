@@ -451,7 +451,7 @@ function ProductDetailPage() {
               </AlertDialogContent>
             </AlertDialog>
 
-            <div className="border rounded-lg p-4">
+            {/* <div className="border rounded-lg p-4">
               <div className="flex justify-between items-center mb-4">
                 <div>
                   <h3 className="font-semibold">Current Inventory</h3>
@@ -521,7 +521,7 @@ function ProductDetailPage() {
                   </DialogContent>
                 </Dialog>
               </div>
-            </div>
+            </div> */}
 
             <div className="border rounded-lg p-4">
               <form

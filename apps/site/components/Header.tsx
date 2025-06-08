@@ -7,6 +7,7 @@ import { useCartStore } from "@/store/cartStore";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { useAuthStore } from "@/store/auth.store";
 
 interface HeaderProps {
   showBackButton?: boolean;
@@ -22,6 +23,7 @@ export function Header({
   const router = useRouter();
   const pathname = usePathname();
   const { items } = useCartStore();
+  const { user } = useAuthStore();
   const cartItemCount = items.length;
 
   return (
@@ -40,9 +42,10 @@ export function Header({
               className="h-8 w-auto"
             />
           </Link>
+
+          {children}
         </div>
         <div className="flex items-center space-x-4">
-          {children}
           <Link
             href={"/app/explore"}
             className={cn(

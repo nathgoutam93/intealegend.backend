@@ -201,6 +201,7 @@ export declare const contract: {
                     brandLogo: string | null;
                     brandCertificate: string | null;
                 }>, z.ZodObject<Omit<{
+                    town: z.ZodString;
                     transportName: z.ZodNullable<z.ZodString>;
                     userId: z.ZodNumber;
                     createdAt: z.ZodDate;
@@ -247,6 +248,7 @@ export declare const contract: {
                     fssaiLicense: string | null;
                     bankAccountNumber: string;
                     bankIfscCode: string;
+                    town: string;
                     transportName: string | null;
                 }, {
                     businessName: string;
@@ -269,6 +271,7 @@ export declare const contract: {
                     fssaiLicense: string | null;
                     bankAccountNumber: string;
                     bankIfscCode: string;
+                    town: string;
                     transportName: string | null;
                 }>]>;
             }, "passthrough", z.ZodTypeAny, z.objectOutputType<{
@@ -358,6 +361,7 @@ export declare const contract: {
                     brandLogo: string | null;
                     brandCertificate: string | null;
                 }>, z.ZodObject<Omit<{
+                    town: z.ZodString;
                     transportName: z.ZodNullable<z.ZodString>;
                     userId: z.ZodNumber;
                     createdAt: z.ZodDate;
@@ -404,6 +408,7 @@ export declare const contract: {
                     fssaiLicense: string | null;
                     bankAccountNumber: string;
                     bankIfscCode: string;
+                    town: string;
                     transportName: string | null;
                 }, {
                     businessName: string;
@@ -426,6 +431,7 @@ export declare const contract: {
                     fssaiLicense: string | null;
                     bankAccountNumber: string;
                     bankIfscCode: string;
+                    town: string;
                     transportName: string | null;
                 }>]>;
             }, z.ZodTypeAny, "passthrough">, z.objectInputType<{
@@ -515,6 +521,7 @@ export declare const contract: {
                     brandLogo: string | null;
                     brandCertificate: string | null;
                 }>, z.ZodObject<Omit<{
+                    town: z.ZodString;
                     transportName: z.ZodNullable<z.ZodString>;
                     userId: z.ZodNumber;
                     createdAt: z.ZodDate;
@@ -561,6 +568,7 @@ export declare const contract: {
                     fssaiLicense: string | null;
                     bankAccountNumber: string;
                     bankIfscCode: string;
+                    town: string;
                     transportName: string | null;
                 }, {
                     businessName: string;
@@ -583,6 +591,7 @@ export declare const contract: {
                     fssaiLicense: string | null;
                     bankAccountNumber: string;
                     bankIfscCode: string;
+                    town: string;
                     transportName: string | null;
                 }>]>;
             }, z.ZodTypeAny, "passthrough">>;
@@ -1572,6 +1581,7 @@ export declare const contract: {
                             updatedAt: z.ZodDate;
                         }, {
                             profile: z.ZodObject<{
+                                town: z.ZodString;
                                 transportName: z.ZodNullable<z.ZodString>;
                                 userId: z.ZodNumber;
                                 createdAt: z.ZodDate;
@@ -1622,6 +1632,7 @@ export declare const contract: {
                                 userId: number;
                                 createdAt: Date;
                                 updatedAt: Date;
+                                town: string;
                                 transportName: string | null;
                             }, {
                                 businessName: string;
@@ -1648,6 +1659,7 @@ export declare const contract: {
                                 userId: number;
                                 createdAt: Date;
                                 updatedAt: Date;
+                                town: string;
                                 transportName: string | null;
                             }>;
                         }>, "strip", z.ZodTypeAny, {
@@ -1685,6 +1697,7 @@ export declare const contract: {
                                 userId: number;
                                 createdAt: Date;
                                 updatedAt: Date;
+                                town: string;
                                 transportName: string | null;
                             };
                         }, {
@@ -1722,6 +1735,7 @@ export declare const contract: {
                                 userId: number;
                                 createdAt: Date;
                                 updatedAt: Date;
+                                town: string;
                                 transportName: string | null;
                             };
                         }>, "many">;
@@ -1761,6 +1775,7 @@ export declare const contract: {
                                 userId: number;
                                 createdAt: Date;
                                 updatedAt: Date;
+                                town: string;
                                 transportName: string | null;
                             };
                         }[];
@@ -1801,6 +1816,7 @@ export declare const contract: {
                                 userId: number;
                                 createdAt: Date;
                                 updatedAt: Date;
+                                town: string;
                                 transportName: string | null;
                             };
                         }[];
@@ -1893,6 +1909,7 @@ export declare const contract: {
                                 userId: number;
                                 createdAt: Date;
                                 updatedAt: Date;
+                                town: string;
                                 transportName: string | null;
                             };
                         }[];
@@ -1982,6 +1999,7 @@ export declare const contract: {
                                 userId: number;
                                 createdAt: Date;
                                 updatedAt: Date;
+                                town: string;
                                 transportName: string | null;
                             };
                         }[];
@@ -2971,6 +2989,7 @@ export declare const contract: {
                         id: z.ZodNumber;
                         userId: z.ZodNumber;
                         buyer: z.ZodObject<Pick<{
+                            town: z.ZodString;
                             transportName: z.ZodNullable<z.ZodString>;
                             userId: z.ZodNumber;
                             createdAt: z.ZodDate;
@@ -3679,6 +3698,7 @@ export declare const contract: {
                     id: z.ZodNumber;
                     userId: z.ZodNumber;
                     buyer: z.ZodObject<Pick<{
+                        town: z.ZodString;
                         transportName: z.ZodNullable<z.ZodString>;
                         userId: z.ZodNumber;
                         createdAt: z.ZodDate;
@@ -4232,6 +4252,7 @@ export declare const contract: {
                     id: z.ZodNumber;
                     userId: z.ZodNumber;
                     buyer: z.ZodObject<Pick<{
+                        town: z.ZodString;
                         transportName: z.ZodNullable<z.ZodString>;
                         userId: z.ZodNumber;
                         createdAt: z.ZodDate;
@@ -4775,6 +4796,7 @@ export declare const contract: {
                     id: z.ZodNumber;
                     userId: z.ZodNumber;
                     buyer: z.ZodObject<Pick<{
+                        town: z.ZodString;
                         transportName: z.ZodNullable<z.ZodString>;
                         userId: z.ZodNumber;
                         createdAt: z.ZodDate;
@@ -5318,6 +5340,7 @@ export declare const contract: {
                     id: z.ZodNumber;
                     userId: z.ZodNumber;
                     buyer: z.ZodObject<Pick<{
+                        town: z.ZodString;
                         transportName: z.ZodNullable<z.ZodString>;
                         userId: z.ZodNumber;
                         createdAt: z.ZodDate;
@@ -7322,6 +7345,7 @@ export declare const contract: {
                         id: z.ZodNumber;
                         userId: z.ZodNumber;
                         buyer: z.ZodObject<Pick<{
+                            town: z.ZodString;
                             transportName: z.ZodNullable<z.ZodString>;
                             userId: z.ZodNumber;
                             createdAt: z.ZodDate;
@@ -8024,6 +8048,7 @@ export declare const contract: {
                     id: z.ZodNumber;
                     userId: z.ZodNumber;
                     buyer: z.ZodObject<Pick<{
+                        town: z.ZodString;
                         transportName: z.ZodNullable<z.ZodString>;
                         userId: z.ZodNumber;
                         createdAt: z.ZodDate;
@@ -8552,6 +8577,7 @@ export declare const contract: {
                     id: z.ZodNumber;
                     userId: z.ZodNumber;
                     buyer: z.ZodObject<Pick<{
+                        town: z.ZodString;
                         transportName: z.ZodNullable<z.ZodString>;
                         userId: z.ZodNumber;
                         createdAt: z.ZodDate;
@@ -9375,6 +9401,7 @@ export declare const contract: {
             path: "/api/buyer/profile";
             responses: {
                 200: z.ZodObject<{
+                    town: z.ZodString;
                     transportName: z.ZodNullable<z.ZodString>;
                     userId: z.ZodNumber;
                     createdAt: z.ZodDate;
@@ -9425,6 +9452,7 @@ export declare const contract: {
                     userId: number;
                     createdAt: Date;
                     updatedAt: Date;
+                    town: string;
                     transportName: string | null;
                 }, {
                     businessName: string;
@@ -9451,6 +9479,7 @@ export declare const contract: {
                     userId: number;
                     createdAt: Date;
                     updatedAt: Date;
+                    town: string;
                     transportName: string | null;
                 }>;
                 404: z.ZodObject<{
@@ -9491,6 +9520,7 @@ export declare const contract: {
                 fssaiLicense: z.ZodOptional<z.ZodNullable<z.ZodString>>;
                 bankAccountNumber: z.ZodOptional<z.ZodString>;
                 bankIfscCode: z.ZodOptional<z.ZodString>;
+                town: z.ZodOptional<z.ZodString>;
                 transportName: z.ZodOptional<z.ZodNullable<z.ZodString>>;
             }, "strip", z.ZodTypeAny, {
                 businessName?: string | undefined;
@@ -9513,6 +9543,7 @@ export declare const contract: {
                 fssaiLicense?: string | null | undefined;
                 bankAccountNumber?: string | undefined;
                 bankIfscCode?: string | undefined;
+                town?: string | undefined;
                 transportName?: string | null | undefined;
             }, {
                 businessName?: string | undefined;
@@ -9535,11 +9566,13 @@ export declare const contract: {
                 fssaiLicense?: string | null | undefined;
                 bankAccountNumber?: string | undefined;
                 bankIfscCode?: string | undefined;
+                town?: string | undefined;
                 transportName?: string | null | undefined;
             }>;
             path: "/api/buyers/profile";
             responses: {
                 200: z.ZodObject<{
+                    town: z.ZodString;
                     transportName: z.ZodNullable<z.ZodString>;
                     userId: z.ZodNumber;
                     createdAt: z.ZodDate;
@@ -9590,6 +9623,7 @@ export declare const contract: {
                     userId: number;
                     createdAt: Date;
                     updatedAt: Date;
+                    town: string;
                     transportName: string | null;
                 }, {
                     businessName: string;
@@ -9616,6 +9650,7 @@ export declare const contract: {
                     userId: number;
                     createdAt: Date;
                     updatedAt: Date;
+                    town: string;
                     transportName: string | null;
                 }>;
                 404: z.ZodObject<{
@@ -10083,6 +10118,7 @@ export declare const contract: {
                     id: z.ZodNumber;
                     userId: z.ZodNumber;
                     buyer: z.ZodObject<Pick<{
+                        town: z.ZodString;
                         transportName: z.ZodNullable<z.ZodString>;
                         userId: z.ZodNumber;
                         createdAt: z.ZodDate;
@@ -10591,6 +10627,7 @@ export declare const contract: {
                     id: z.ZodNumber;
                     userId: z.ZodNumber;
                     buyer: z.ZodObject<Pick<{
+                        town: z.ZodString;
                         transportName: z.ZodNullable<z.ZodString>;
                         userId: z.ZodNumber;
                         createdAt: z.ZodDate;
@@ -11099,6 +11136,7 @@ export declare const contract: {
                     id: z.ZodNumber;
                     userId: z.ZodNumber;
                     buyer: z.ZodObject<Pick<{
+                        town: z.ZodString;
                         transportName: z.ZodNullable<z.ZodString>;
                         userId: z.ZodNumber;
                         createdAt: z.ZodDate;

@@ -50,6 +50,11 @@ export class BuyerService {
         grade: { contains: grade, mode: Prisma.QueryMode.insensitive },
       }),
       isLive: true,
+      seller: {
+        user: {
+          isSuspended: false,
+        },
+      },
     };
 
     let orderBy = sortBy ? { price: 'pricePerUnit' }[sortBy] : undefined;
