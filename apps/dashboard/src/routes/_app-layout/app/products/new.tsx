@@ -162,6 +162,7 @@ function NewProductPage() {
                       if (selectedMark) {
                         field.onChange(selectedMark.id);
                         form.setValue("brandMark", selectedMark);
+                        form.setValue("mark", selectedMark.id);
                       }
                     }}
                     value={field.value?.toString()}
