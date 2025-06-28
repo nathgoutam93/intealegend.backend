@@ -110,7 +110,7 @@ export default function OrderDetailsPage() {
             </div>
           </div>
           <div className="w-max">
-            <h3 className="font-semibold mb-2">Invoice</h3>
+            <h3 className="font-semibold mb-2">Bill No.</h3>
             <span className="">{order.invoice}</span>
             <Button
               variant="link"
@@ -269,7 +269,7 @@ export default function OrderDetailsPage() {
             <div className="border p-4 rounded-lg">
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <h4 className="font-medium">Invoice</h4>
+                  <h4 className="font-medium">Bill</h4>
                   <p className="text-sm text-gray-500">
                     {order.invoice || "Not available"}
                   </p>

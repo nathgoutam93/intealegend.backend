@@ -218,16 +218,29 @@ export function CartSummary() {
           </div>
 
           <DialogFooter>
-            <Button variant="outline" onClick={() => setIsDialogOpen(false)}>
-              Cancel
-            </Button>
-            <Button
-              onClick={handlePlaceOrder}
-              disabled={placeOrderMutation.isPending}
-            >
-              Confirm Order
-            </Button>
+            <div className="space-x-2">
+              <Button variant="outline" onClick={() => setIsDialogOpen(false)}>
+                Cancel
+              </Button>
+              <Button
+                onClick={handlePlaceOrder}
+                disabled={placeOrderMutation.isPending}
+              >
+                Confirm Order
+              </Button>
+            </div>
           </DialogFooter>
+
+          <div className="grid grid-cols-2 gap-4 place-items-center bg-gray-100 rounded-sm">
+            <div className="p-4 text-sm">
+              <p className="font-semibold">Bank Details</p>
+              <p>Real Essence Trade private limited </p>
+              <p>A/C: 5545990007 </p>
+              <p>IFSC: KKBK0009529 </p>
+              <p>Bank: Kotak Mahindra Bank</p>
+            </div>
+            <img src="/assets/images/gpay.jpeg" className="w-40" />
+          </div>
         </DialogContent>
       </Dialog>
     </div>

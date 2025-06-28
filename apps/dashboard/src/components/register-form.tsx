@@ -157,6 +157,28 @@ export default function SellerRegistrationForm() {
   });
 
   const goNextStep = async () => {
+    // Exclude brandLogo, brandCertificate, and secondaryContact fields from required
+    const excludeFields = [
+      "brandLogo",
+      "brandCertificate",
+      "secondaryContactName",
+      "secondaryContactDesignation",
+      "secondaryContactNumber",
+    ];
+    const currentStepFields = (
+      REGISTRATION_STEPS[step - 1]?.fields || []
+    ).filter((field) => !excludeFields.includes(field));
+    const missingField = currentStepFields.find(
+      (field) =>
+        !formData[field] ||
+        (typeof formData[field] === "string" &&
+          formData[field]?.toString().trim() === "")
+    );
+    if (missingField) {
+      toast.error("Please fill all required fields.");
+      return;
+    }
+
     if (step < REGISTRATION_STEPS.length) {
       setStep(step + 1);
     } else {

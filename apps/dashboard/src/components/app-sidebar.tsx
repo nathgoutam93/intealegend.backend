@@ -91,9 +91,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const user = useAuthStore((state) => state.user);
   const role = user?.role || "buyer";
 
-  const navigation = navigationConfig[role.toLowerCase()];
-  if (user?.superSeller) {
-    navigation.projects.push({
+  // Clone navigation to avoid mutating shared config
+  const baseNavigation = navigationConfig[role.toLowerCase()];
+  const projects = [...(baseNavigation?.projects || [])];
+
+  if (user?.superSeller && !projects.some((p) => p.name === "Brand Marks")) {
+    projects.push({
       name: "Brand Marks",
       url: "/app/brands",
       icon: StoreIcon,
@@ -124,7 +127,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavProjects projects={navigation.projects} />
+        <NavProjects projects={projects} />
         <NavSecondary items={commonNavSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>

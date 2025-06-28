@@ -232,7 +232,11 @@ export class AdminService {
   async updateProduct(id: number, data: any) {
     const product = await this.db.product.update({
       where: { id },
-      data,
+      data: {
+        ...data,
+        isLive:
+          data?.status === 'REJECTED' ? false : (data?.isLive ?? undefined),
+      },
       include: {
         brandMark: true,
       },

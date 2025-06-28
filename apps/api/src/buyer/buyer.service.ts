@@ -49,6 +49,7 @@ export class BuyerService {
       ...(grade && {
         grade: { contains: grade, mode: Prisma.QueryMode.insensitive },
       }),
+      status: { not: 'REJECTED' },
       isLive: true,
       seller: {
         user: {

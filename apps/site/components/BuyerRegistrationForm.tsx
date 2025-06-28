@@ -7,6 +7,41 @@ import { client } from "@/lib/api-client";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
+type FormData = {
+  businessName: string;
+  businessType: string;
+  ownerName: string;
+  address: string;
+  state: string;
+  district: string;
+  town: string;
+  pincode: string;
+  phone: string;
+  email: string;
+
+  secondaryContactName: string;
+  secondaryContactDesignation: string;
+  secondaryContactNumber: string;
+
+  panNumber: string;
+  panCard: File | null;
+  gstNumber: string;
+  gstCertificate: File | null;
+
+  fssaiNumber: string;
+  fssaiLicense: File | null;
+
+  bankAccountNumber: string;
+  bankIfscCode: string;
+
+  transportName: string;
+
+  password: string;
+  confirmPassword: string;
+
+  [key: string]: string | File | null; // Index signature
+};
+
 const REGISTRATION_STEPS = [
   {
     id: 1,
@@ -62,7 +97,7 @@ export default function BuyerRegistrationForm() {
   const router = useRouter();
   const [step, setStep] = useState(1);
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     // Step 1: Business Info
     businessName: "",
     businessType: "",
@@ -121,6 +156,25 @@ export default function BuyerRegistrationForm() {
   });
 
   const goNextStep = async () => {
+    const excludeFields = [
+      "secondaryContactName",
+      "secondaryContactDesignation",
+      "secondaryContactNumber",
+    ];
+    const currentStepFields = (
+      REGISTRATION_STEPS[step - 1]?.fields || []
+    ).filter((field) => !excludeFields.includes(field));
+    const missingField = currentStepFields.find(
+      (field) =>
+        !formData[field] ||
+        (typeof formData[field] === "string" &&
+          formData[field]?.toString().trim() === "")
+    );
+    if (missingField) {
+      toast.error("Please fill all required fields.");
+      return;
+    }
+
     if (step < REGISTRATION_STEPS.length) {
       setStep(step + 1);
     } else {

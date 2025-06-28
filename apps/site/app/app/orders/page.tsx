@@ -130,7 +130,7 @@ export default function OrdersPage() {
                   <TableHead className="text-center">Tea Value</TableHead>
                   <TableHead className="text-center">Total Amount</TableHead>
                   <TableHead className="text-center">Actions</TableHead>
-                  <TableHead className="text-center">Invoice</TableHead>
+                  <TableHead className="text-center">Bill No.</TableHead>
                   <TableHead className="text-right">CN No.</TableHead>
                 </TableRow>
               </TableHeader>
