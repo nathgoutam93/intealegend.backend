@@ -41,12 +41,15 @@ function BrandsPage() {
     ["brand-marks"]
   );
 
-  const form = useForm<Omit<BrandMark, "id" | "verifiedAt" | "status">>({
+  const form = useForm<
+    Omit<BrandMark, "id" | "verifiedAt" | "status"> & { origin: string | null }
+  >({
     defaultValues: {
       name: "",
       logo: null,
       certificate: null,
       isDefault: false,
+      origin: "",
     },
   });
 
@@ -160,6 +163,26 @@ function BrandsPage() {
                   )}
                 />
 
+                <FormField
+                  control={form.control}
+                  name="origin"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Origin</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          value={field.value ?? ""}
+                          onChange={(e) =>
+                            field.onChange(e.target.value || null)
+                          }
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
                 <div className="flex justify-end space-x-4">
                   <Button
                     type="button"
@@ -183,6 +206,7 @@ function BrandsPage() {
           <TableHeader>
             <TableRow>
               <TableHead>Name</TableHead>
+              <TableHead>Origin</TableHead>
               <TableHead>Status</TableHead>
               <TableHead>Default</TableHead>
               <TableHead>Verified At</TableHead>
@@ -205,6 +229,7 @@ function BrandsPage() {
               brandMarks?.body.map((mark) => (
                 <TableRow key={mark.id}>
                   <TableCell>{mark.name}</TableCell>
+                  <TableCell>{mark.origin}</TableCell>
                   <TableCell>{mark.status}</TableCell>
                   <TableCell>{mark.isDefault ? "Yes" : "No"}</TableCell>
                   <TableCell>

@@ -18,7 +18,7 @@ exports.StaffProfileSchema = exports.StaffPermissionsSchema = exports.AdminProfi
 var zod_1 = __importDefault(require("zod"));
 exports.BusinessInfoSchema = zod_1.default.object({
     businessName: zod_1.default.string(),
-    businessType: zod_1.default.string(),
+    businessType: zod_1.default.string().nullable().optional(),
     ownerName: zod_1.default.string(),
 });
 exports.AddressInfoSchema = zod_1.default.object({
@@ -30,24 +30,24 @@ exports.AddressInfoSchema = zod_1.default.object({
 exports.ContactInfoSchema = zod_1.default.object({
     phone: zod_1.default.string(),
     email: zod_1.default.string().email(),
-    secondaryContactName: zod_1.default.string().nullable(),
-    secondaryContactDesignation: zod_1.default.string().nullable(),
-    secondaryContactNumber: zod_1.default.string().nullable(),
+    secondaryContactName: zod_1.default.string().nullable().optional(),
+    secondaryContactDesignation: zod_1.default.string().nullable().optional(),
+    secondaryContactNumber: zod_1.default.string().nullable().optional(),
 });
 exports.BusinessDocumentsSchema = zod_1.default.object({
-    panNumber: zod_1.default.string(),
-    panCard: zod_1.default.string().nullable(),
-    gstNumber: zod_1.default.string(),
-    gstCertificate: zod_1.default.string().nullable(),
-    fssaiNumber: zod_1.default.string().nullable(),
-    fssaiLicense: zod_1.default.string().nullable(),
+    panNumber: zod_1.default.string().nullable().optional(),
+    panCard: zod_1.default.string().nullable().optional(),
+    gstNumber: zod_1.default.string().nullable().optional(),
+    gstCertificate: zod_1.default.string().nullable().optional(),
+    fssaiNumber: zod_1.default.string().nullable().optional(),
+    fssaiLicense: zod_1.default.string().nullable().optional(),
 });
 exports.BankingInfoSchema = zod_1.default.object({
-    bankAccountNumber: zod_1.default.string(),
-    bankIfscCode: zod_1.default.string(),
+    bankAccountNumber: zod_1.default.string().nullable().optional(),
+    bankIfscCode: zod_1.default.string().nullable().optional(),
 });
-exports.SellerProfileSchema = zod_1.default.object(__assign(__assign(__assign(__assign(__assign(__assign({ id: zod_1.default.number() }, exports.BusinessInfoSchema.shape), exports.AddressInfoSchema.shape), exports.ContactInfoSchema.shape), exports.BusinessDocumentsSchema.shape), exports.BankingInfoSchema.shape), { tmcoNumber: zod_1.default.string().nullable(), cancelledCheque: zod_1.default.string().nullable(), brandName: zod_1.default.string().nullable(), brandLogo: zod_1.default.string().nullable(), brandCertificate: zod_1.default.string().nullable(), userId: zod_1.default.number(), createdAt: zod_1.default.date(), updatedAt: zod_1.default.date() }));
-exports.BuyerProfileSchema = zod_1.default.object(__assign(__assign(__assign(__assign(__assign(__assign({ id: zod_1.default.number() }, exports.BusinessInfoSchema.shape), exports.AddressInfoSchema.shape), exports.ContactInfoSchema.shape), exports.BusinessDocumentsSchema.shape), exports.BankingInfoSchema.shape), { town: zod_1.default.string(), transportName: zod_1.default.string().nullable(), userId: zod_1.default.number(), createdAt: zod_1.default.date(), updatedAt: zod_1.default.date() }));
+exports.SellerProfileSchema = zod_1.default.object(__assign(__assign(__assign(__assign(__assign(__assign({ id: zod_1.default.number() }, exports.BusinessInfoSchema.shape), exports.AddressInfoSchema.shape), exports.ContactInfoSchema.shape), exports.BusinessDocumentsSchema.shape), exports.BankingInfoSchema.shape), { tmcoNumber: zod_1.default.string().nullable().optional(), cancelledCheque: zod_1.default.string().nullable().optional(), brandName: zod_1.default.string().nullable().optional(), brandLogo: zod_1.default.string().nullable().optional(), brandCertificate: zod_1.default.string().nullable().optional(), userId: zod_1.default.number(), createdAt: zod_1.default.date(), updatedAt: zod_1.default.date() }));
+exports.BuyerProfileSchema = zod_1.default.object(__assign(__assign(__assign(__assign(__assign(__assign({ id: zod_1.default.number() }, exports.BusinessInfoSchema.shape), exports.AddressInfoSchema.shape), exports.ContactInfoSchema.shape), exports.BusinessDocumentsSchema.shape), exports.BankingInfoSchema.shape), { town: zod_1.default.string(), transportName: zod_1.default.string().nullable().optional(), userId: zod_1.default.number(), createdAt: zod_1.default.date(), updatedAt: zod_1.default.date() }));
 exports.AdminProfileSchema = zod_1.default.object({
     id: zod_1.default.number(),
     fullName: zod_1.default.string(),

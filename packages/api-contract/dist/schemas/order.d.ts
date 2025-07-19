@@ -39,6 +39,7 @@ export declare const OrderItemSchema: z.ZodObject<{
             sellerId: z.ZodNumber;
             createdAt: z.ZodDate;
             updatedAt: z.ZodDate;
+            origin: z.ZodNullable<z.ZodString>;
         }, "strip", z.ZodTypeAny, {
             status: "PENDING" | "APPROVED" | "REJECTED";
             id: number;
@@ -50,6 +51,7 @@ export declare const OrderItemSchema: z.ZodObject<{
             isDefault: boolean;
             verifiedAt: Date | null;
             sellerId: number;
+            origin: string | null;
         }, {
             status: "PENDING" | "APPROVED" | "REJECTED";
             id: number;
@@ -61,6 +63,7 @@ export declare const OrderItemSchema: z.ZodObject<{
             isDefault: boolean;
             verifiedAt: Date | null;
             sellerId: number;
+            origin: string | null;
         }>;
         cartItems: z.ZodOptional<z.ZodArray<z.ZodAny, "many">>;
         orderItems: z.ZodOptional<z.ZodArray<z.ZodAny, "many">>;
@@ -73,6 +76,7 @@ export declare const OrderItemSchema: z.ZodObject<{
         updatedAt: Date;
         name: string | null;
         sellerId: number;
+        origin: string;
         description: string | null;
         imageUrl: string | null;
         mark: number;
@@ -82,7 +86,6 @@ export declare const OrderItemSchema: z.ZodObject<{
         sampleWeight: number | null;
         productionMonth: string;
         location: string;
-        origin: string;
         pricePerUnit: number;
         mbp: number | null;
         quantity: number;
@@ -104,6 +107,7 @@ export declare const OrderItemSchema: z.ZodObject<{
             isDefault: boolean;
             verifiedAt: Date | null;
             sellerId: number;
+            origin: string | null;
         };
         cartItems?: any[] | undefined;
         orderItems?: any[] | undefined;
@@ -114,6 +118,7 @@ export declare const OrderItemSchema: z.ZodObject<{
         updatedAt: Date;
         name: string | null;
         sellerId: number;
+        origin: string;
         description: string | null;
         imageUrl: string | null;
         mark: number;
@@ -123,7 +128,6 @@ export declare const OrderItemSchema: z.ZodObject<{
         sampleWeight: number | null;
         productionMonth: string;
         location: string;
-        origin: string;
         pricePerUnit: number;
         mbp: number | null;
         quantity: number;
@@ -145,6 +149,7 @@ export declare const OrderItemSchema: z.ZodObject<{
             isDefault: boolean;
             verifiedAt: Date | null;
             sellerId: number;
+            origin: string | null;
         };
         cartItems?: any[] | undefined;
         orderItems?: any[] | undefined;
@@ -169,6 +174,7 @@ export declare const OrderItemSchema: z.ZodObject<{
         updatedAt: Date;
         name: string | null;
         sellerId: number;
+        origin: string;
         description: string | null;
         imageUrl: string | null;
         mark: number;
@@ -178,7 +184,6 @@ export declare const OrderItemSchema: z.ZodObject<{
         sampleWeight: number | null;
         productionMonth: string;
         location: string;
-        origin: string;
         pricePerUnit: number;
         mbp: number | null;
         quantity: number;
@@ -200,6 +205,7 @@ export declare const OrderItemSchema: z.ZodObject<{
             isDefault: boolean;
             verifiedAt: Date | null;
             sellerId: number;
+            origin: string | null;
         };
         cartItems?: any[] | undefined;
         orderItems?: any[] | undefined;
@@ -221,6 +227,7 @@ export declare const OrderItemSchema: z.ZodObject<{
         updatedAt: Date;
         name: string | null;
         sellerId: number;
+        origin: string;
         description: string | null;
         imageUrl: string | null;
         mark: number;
@@ -230,7 +237,6 @@ export declare const OrderItemSchema: z.ZodObject<{
         sampleWeight: number | null;
         productionMonth: string;
         location: string;
-        origin: string;
         pricePerUnit: number;
         mbp: number | null;
         quantity: number;
@@ -252,6 +258,7 @@ export declare const OrderItemSchema: z.ZodObject<{
             isDefault: boolean;
             verifiedAt: Date | null;
             sellerId: number;
+            origin: string | null;
         };
         cartItems?: any[] | undefined;
         orderItems?: any[] | undefined;
@@ -265,41 +272,41 @@ export declare const OrderSchema: z.ZodObject<{
     userId: z.ZodNumber;
     buyer: z.ZodObject<Pick<{
         town: z.ZodString;
-        transportName: z.ZodNullable<z.ZodString>;
+        transportName: z.ZodOptional<z.ZodNullable<z.ZodString>>;
         userId: z.ZodNumber;
         createdAt: z.ZodDate;
         updatedAt: z.ZodDate;
-        bankAccountNumber: z.ZodString;
-        bankIfscCode: z.ZodString;
-        panNumber: z.ZodString;
-        panCard: z.ZodNullable<z.ZodString>;
-        gstNumber: z.ZodString;
-        gstCertificate: z.ZodNullable<z.ZodString>;
-        fssaiNumber: z.ZodNullable<z.ZodString>;
-        fssaiLicense: z.ZodNullable<z.ZodString>;
+        bankAccountNumber: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        bankIfscCode: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        panNumber: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        panCard: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        gstNumber: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        gstCertificate: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        fssaiNumber: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        fssaiLicense: z.ZodOptional<z.ZodNullable<z.ZodString>>;
         phone: z.ZodString;
         email: z.ZodString;
-        secondaryContactName: z.ZodNullable<z.ZodString>;
-        secondaryContactDesignation: z.ZodNullable<z.ZodString>;
-        secondaryContactNumber: z.ZodNullable<z.ZodString>;
+        secondaryContactName: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        secondaryContactDesignation: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+        secondaryContactNumber: z.ZodOptional<z.ZodNullable<z.ZodString>>;
         address: z.ZodString;
         state: z.ZodString;
         district: z.ZodString;
         pincode: z.ZodString;
         businessName: z.ZodString;
-        businessType: z.ZodString;
+        businessType: z.ZodOptional<z.ZodNullable<z.ZodString>>;
         ownerName: z.ZodString;
         id: z.ZodNumber;
     }, "businessName" | "ownerName" | "gstNumber" | "transportName">, "strip", z.ZodTypeAny, {
         businessName: string;
         ownerName: string;
-        gstNumber: string;
-        transportName: string | null;
+        gstNumber?: string | null | undefined;
+        transportName?: string | null | undefined;
     }, {
         businessName: string;
         ownerName: string;
-        gstNumber: string;
-        transportName: string | null;
+        gstNumber?: string | null | undefined;
+        transportName?: string | null | undefined;
     }>;
     status: z.ZodDefault<z.ZodEnum<["PENDING", "ACCEPTED", "DESPATCHED", "ON_WAY", "DELIVERED", "CANCELLED"]>>;
     subtotal: z.ZodNumber;
@@ -349,6 +356,7 @@ export declare const OrderSchema: z.ZodObject<{
                 sellerId: z.ZodNumber;
                 createdAt: z.ZodDate;
                 updatedAt: z.ZodDate;
+                origin: z.ZodNullable<z.ZodString>;
             }, "strip", z.ZodTypeAny, {
                 status: "PENDING" | "APPROVED" | "REJECTED";
                 id: number;
@@ -360,6 +368,7 @@ export declare const OrderSchema: z.ZodObject<{
                 isDefault: boolean;
                 verifiedAt: Date | null;
                 sellerId: number;
+                origin: string | null;
             }, {
                 status: "PENDING" | "APPROVED" | "REJECTED";
                 id: number;
@@ -371,6 +380,7 @@ export declare const OrderSchema: z.ZodObject<{
                 isDefault: boolean;
                 verifiedAt: Date | null;
                 sellerId: number;
+                origin: string | null;
             }>;
             cartItems: z.ZodOptional<z.ZodArray<z.ZodAny, "many">>;
             orderItems: z.ZodOptional<z.ZodArray<z.ZodAny, "many">>;
@@ -383,6 +393,7 @@ export declare const OrderSchema: z.ZodObject<{
             updatedAt: Date;
             name: string | null;
             sellerId: number;
+            origin: string;
             description: string | null;
             imageUrl: string | null;
             mark: number;
@@ -392,7 +403,6 @@ export declare const OrderSchema: z.ZodObject<{
             sampleWeight: number | null;
             productionMonth: string;
             location: string;
-            origin: string;
             pricePerUnit: number;
             mbp: number | null;
             quantity: number;
@@ -414,6 +424,7 @@ export declare const OrderSchema: z.ZodObject<{
                 isDefault: boolean;
                 verifiedAt: Date | null;
                 sellerId: number;
+                origin: string | null;
             };
             cartItems?: any[] | undefined;
             orderItems?: any[] | undefined;
@@ -424,6 +435,7 @@ export declare const OrderSchema: z.ZodObject<{
             updatedAt: Date;
             name: string | null;
             sellerId: number;
+            origin: string;
             description: string | null;
             imageUrl: string | null;
             mark: number;
@@ -433,7 +445,6 @@ export declare const OrderSchema: z.ZodObject<{
             sampleWeight: number | null;
             productionMonth: string;
             location: string;
-            origin: string;
             pricePerUnit: number;
             mbp: number | null;
             quantity: number;
@@ -455,6 +466,7 @@ export declare const OrderSchema: z.ZodObject<{
                 isDefault: boolean;
                 verifiedAt: Date | null;
                 sellerId: number;
+                origin: string | null;
             };
             cartItems?: any[] | undefined;
             orderItems?: any[] | undefined;
@@ -479,6 +491,7 @@ export declare const OrderSchema: z.ZodObject<{
             updatedAt: Date;
             name: string | null;
             sellerId: number;
+            origin: string;
             description: string | null;
             imageUrl: string | null;
             mark: number;
@@ -488,7 +501,6 @@ export declare const OrderSchema: z.ZodObject<{
             sampleWeight: number | null;
             productionMonth: string;
             location: string;
-            origin: string;
             pricePerUnit: number;
             mbp: number | null;
             quantity: number;
@@ -510,6 +522,7 @@ export declare const OrderSchema: z.ZodObject<{
                 isDefault: boolean;
                 verifiedAt: Date | null;
                 sellerId: number;
+                origin: string | null;
             };
             cartItems?: any[] | undefined;
             orderItems?: any[] | undefined;
@@ -531,6 +544,7 @@ export declare const OrderSchema: z.ZodObject<{
             updatedAt: Date;
             name: string | null;
             sellerId: number;
+            origin: string;
             description: string | null;
             imageUrl: string | null;
             mark: number;
@@ -540,7 +554,6 @@ export declare const OrderSchema: z.ZodObject<{
             sampleWeight: number | null;
             productionMonth: string;
             location: string;
-            origin: string;
             pricePerUnit: number;
             mbp: number | null;
             quantity: number;
@@ -562,6 +575,7 @@ export declare const OrderSchema: z.ZodObject<{
                 isDefault: boolean;
                 verifiedAt: Date | null;
                 sellerId: number;
+                origin: string | null;
             };
             cartItems?: any[] | undefined;
             orderItems?: any[] | undefined;
@@ -603,6 +617,7 @@ export declare const OrderSchema: z.ZodObject<{
             updatedAt: Date;
             name: string | null;
             sellerId: number;
+            origin: string;
             description: string | null;
             imageUrl: string | null;
             mark: number;
@@ -612,7 +627,6 @@ export declare const OrderSchema: z.ZodObject<{
             sampleWeight: number | null;
             productionMonth: string;
             location: string;
-            origin: string;
             pricePerUnit: number;
             mbp: number | null;
             quantity: number;
@@ -634,6 +648,7 @@ export declare const OrderSchema: z.ZodObject<{
                 isDefault: boolean;
                 verifiedAt: Date | null;
                 sellerId: number;
+                origin: string | null;
             };
             cartItems?: any[] | undefined;
             orderItems?: any[] | undefined;
@@ -645,8 +660,8 @@ export declare const OrderSchema: z.ZodObject<{
     buyer: {
         businessName: string;
         ownerName: string;
-        gstNumber: string;
-        transportName: string | null;
+        gstNumber?: string | null | undefined;
+        transportName?: string | null | undefined;
     };
     subtotal: number;
     totalAmount: number;
@@ -685,6 +700,7 @@ export declare const OrderSchema: z.ZodObject<{
             updatedAt: Date;
             name: string | null;
             sellerId: number;
+            origin: string;
             description: string | null;
             imageUrl: string | null;
             mark: number;
@@ -694,7 +710,6 @@ export declare const OrderSchema: z.ZodObject<{
             sampleWeight: number | null;
             productionMonth: string;
             location: string;
-            origin: string;
             pricePerUnit: number;
             mbp: number | null;
             quantity: number;
@@ -716,6 +731,7 @@ export declare const OrderSchema: z.ZodObject<{
                 isDefault: boolean;
                 verifiedAt: Date | null;
                 sellerId: number;
+                origin: string | null;
             };
             cartItems?: any[] | undefined;
             orderItems?: any[] | undefined;
@@ -727,8 +743,8 @@ export declare const OrderSchema: z.ZodObject<{
     buyer: {
         businessName: string;
         ownerName: string;
-        gstNumber: string;
-        transportName: string | null;
+        gstNumber?: string | null | undefined;
+        transportName?: string | null | undefined;
     };
     subtotal: number;
     totalAmount: number;

@@ -71,9 +71,9 @@ export function CartSummary() {
   };
 
   return (
-    <div className="flex gap-6">
+    <div className="flex flex-col md:flex-row gap-6">
       {/* Cart Items */}
-      <div className="flex-1 grid grid-cols-3 gap-4">
+      <div className="flex-1 w-full max-w-full flex md:grid md:grid-cols-3 gap-4 overflow-x-scroll">
         {items.map((item) => (
           <div key={item.id} className="border rounded-lg p-4 min-w-[200px]">
             <div className="flex justify-between items-start">
@@ -139,7 +139,7 @@ export function CartSummary() {
       </div>
 
       {/* Summary Totals */}
-      <div className="w-80">
+      <div className="w-full md:w-80">
         <div className="bg-gray-50 rounded-lg p-4 space-y-2 text-sm sticky top-4">
           <h2 className="text-lg font-semibold mb-4">Cart Summary</h2>
           <div className="flex justify-between">

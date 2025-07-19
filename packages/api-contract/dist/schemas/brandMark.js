@@ -17,4 +17,5 @@ exports.BrandMarkSchema = zod_1.default.object({
     sellerId: zod_1.default.number(),
     createdAt: zod_1.default.date(),
     updatedAt: zod_1.default.date(),
+    origin: zod_1.default.string().nullable(),
 });

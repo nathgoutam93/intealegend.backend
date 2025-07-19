@@ -11,9 +11,16 @@ function ExplorePage() {
   return (
     <div className="min-h-screen flex flex-col">
       <Header>
-        <p className="">Welcome {user?.profile.businessName}</p>
+        <p className="hidden md:inline-block">
+          Welcome {user?.profile.businessName}
+        </p>
       </Header>
+
       <div className="flex-1 pt-4">
+        <p className="md:hidden inline-block pl-4">
+          Welcome {user?.profile.businessName}
+        </p>
+
         <div className="mx-auto">
           <ProductList />
         </div>

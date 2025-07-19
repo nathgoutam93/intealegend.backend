@@ -204,13 +204,15 @@ model BuyerProfile {
 }
 
 model BrandMark {
-    id          Int             @id @default(autoincrement())
-    name        String          @unique
+    id   Int    @id @default(autoincrement())
+    name String @unique
+
     logo        String? // File path or URL
     certificate String? // File path or URL
     isDefault   Boolean         @default(false) // New field to mark default brand
     status      BrandMarkStatus @default(PENDING) // New enum for approval status
     verifiedAt  DateTime? // Renamed from 'verified'
+    origin      String? // New optional field for brand origin
 
     sellerId Int
     seller   SellerProfile @relation(fields: [sellerId], references: [id])

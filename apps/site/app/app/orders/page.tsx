@@ -82,15 +82,17 @@ export default function OrdersPage() {
   return (
     <div className="min-h-screen flex flex-col">
       <Header showBackButton backUrl="/explore" />
-      <div className="flex-1 pt-4">
+      <div className="flex-1 pt-4 overflow-y-auto">
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center mb-6">
-            <h1 className="text-2xl font-bold">My Orders</h1>
+            <h1 className="hidden md:inline-block text-2xl font-bold">
+              My Orders
+            </h1>
             <div className="flex gap-4 items-center">
               <div className="flex items-center gap-2">
                 <Input
                   placeholder="Search by Order ID"
-                  className="w-[200px]"
+                  className="md:w-[200px]"
                   value={filters.search}
                   onChange={(e) =>
                     setFilters((prev) => ({ ...prev, search: e.target.value }))
@@ -103,7 +105,7 @@ export default function OrdersPage() {
                   setFilters((prev) => ({ ...prev, status: value }))
                 }
               >
-                <SelectTrigger className="w-[150px]">
+                <SelectTrigger className="w-[100px] md:w-[150px]">
                   <SelectValue placeholder="Filter by status" />
                 </SelectTrigger>
                 <SelectContent>
@@ -201,6 +203,16 @@ export default function OrdersPage() {
             </Table>
           </div>
         </div>
+      </div>
+      <div className="sticky bottom-0 left-0 w-full z-10 bg-gray-100 rounded-sm grid grid-cols-2 gap-4 place-items-center">
+        <div className="p-4 text-sm">
+          <p className="font-semibold">Bank Details</p>
+          <p>Real Essence Trade private limited </p>
+          <p>A/C: 5545990007 </p>
+          <p>IFSC: KKBK0009529 </p>
+          <p>Bank: Kotak Mahindra Bank</p>
+        </div>
+        <img src="/assets/images/gpay.jpeg" className="w-40" />
       </div>
     </div>
   );

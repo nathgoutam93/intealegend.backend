@@ -140,38 +140,37 @@ export declare const adminRouter: {
                         updatedAt: z.ZodDate;
                     }, {
                         profile: z.ZodObject<{
-                            tmcoNumber: z.ZodNullable<z.ZodString>;
-                            cancelledCheque: z.ZodNullable<z.ZodString>;
-                            brandName: z.ZodNullable<z.ZodString>;
-                            brandLogo: z.ZodNullable<z.ZodString>;
-                            brandCertificate: z.ZodNullable<z.ZodString>;
+                            tmcoNumber: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                            cancelledCheque: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                            brandName: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                            brandLogo: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                            brandCertificate: z.ZodOptional<z.ZodNullable<z.ZodString>>;
                             userId: z.ZodNumber;
                             createdAt: z.ZodDate;
                             updatedAt: z.ZodDate;
-                            bankAccountNumber: z.ZodString;
-                            bankIfscCode: z.ZodString;
-                            panNumber: z.ZodString;
-                            panCard: z.ZodNullable<z.ZodString>;
-                            gstNumber: z.ZodString;
-                            gstCertificate: z.ZodNullable<z.ZodString>;
-                            fssaiNumber: z.ZodNullable<z.ZodString>;
-                            fssaiLicense: z.ZodNullable<z.ZodString>;
+                            bankAccountNumber: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                            bankIfscCode: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                            panNumber: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                            panCard: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                            gstNumber: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                            gstCertificate: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                            fssaiNumber: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                            fssaiLicense: z.ZodOptional<z.ZodNullable<z.ZodString>>;
                             phone: z.ZodString;
                             email: z.ZodString;
-                            secondaryContactName: z.ZodNullable<z.ZodString>;
-                            secondaryContactDesignation: z.ZodNullable<z.ZodString>;
-                            secondaryContactNumber: z.ZodNullable<z.ZodString>;
+                            secondaryContactName: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                            secondaryContactDesignation: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                            secondaryContactNumber: z.ZodOptional<z.ZodNullable<z.ZodString>>;
                             address: z.ZodString;
                             state: z.ZodString;
                             district: z.ZodString;
                             pincode: z.ZodString;
                             businessName: z.ZodString;
-                            businessType: z.ZodString;
+                            businessType: z.ZodOptional<z.ZodNullable<z.ZodString>>;
                             ownerName: z.ZodString;
                             id: z.ZodNumber;
                         }, "strip", z.ZodTypeAny, {
                             businessName: string;
-                            businessType: string;
                             ownerName: string;
                             address: string;
                             state: string;
@@ -179,29 +178,29 @@ export declare const adminRouter: {
                             pincode: string;
                             phone: string;
                             email: string;
-                            secondaryContactName: string | null;
-                            secondaryContactDesignation: string | null;
-                            secondaryContactNumber: string | null;
-                            panNumber: string;
-                            panCard: string | null;
-                            gstNumber: string;
-                            gstCertificate: string | null;
-                            fssaiNumber: string | null;
-                            fssaiLicense: string | null;
-                            bankAccountNumber: string;
-                            bankIfscCode: string;
                             id: number;
-                            tmcoNumber: string | null;
-                            cancelledCheque: string | null;
-                            brandName: string | null;
-                            brandLogo: string | null;
-                            brandCertificate: string | null;
                             userId: number;
                             createdAt: Date;
                             updatedAt: Date;
+                            businessType?: string | null | undefined;
+                            secondaryContactName?: string | null | undefined;
+                            secondaryContactDesignation?: string | null | undefined;
+                            secondaryContactNumber?: string | null | undefined;
+                            panNumber?: string | null | undefined;
+                            panCard?: string | null | undefined;
+                            gstNumber?: string | null | undefined;
+                            gstCertificate?: string | null | undefined;
+                            fssaiNumber?: string | null | undefined;
+                            fssaiLicense?: string | null | undefined;
+                            bankAccountNumber?: string | null | undefined;
+                            bankIfscCode?: string | null | undefined;
+                            tmcoNumber?: string | null | undefined;
+                            cancelledCheque?: string | null | undefined;
+                            brandName?: string | null | undefined;
+                            brandLogo?: string | null | undefined;
+                            brandCertificate?: string | null | undefined;
                         }, {
                             businessName: string;
-                            businessType: string;
                             ownerName: string;
                             address: string;
                             state: string;
@@ -209,26 +208,27 @@ export declare const adminRouter: {
                             pincode: string;
                             phone: string;
                             email: string;
-                            secondaryContactName: string | null;
-                            secondaryContactDesignation: string | null;
-                            secondaryContactNumber: string | null;
-                            panNumber: string;
-                            panCard: string | null;
-                            gstNumber: string;
-                            gstCertificate: string | null;
-                            fssaiNumber: string | null;
-                            fssaiLicense: string | null;
-                            bankAccountNumber: string;
-                            bankIfscCode: string;
                             id: number;
-                            tmcoNumber: string | null;
-                            cancelledCheque: string | null;
-                            brandName: string | null;
-                            brandLogo: string | null;
-                            brandCertificate: string | null;
                             userId: number;
                             createdAt: Date;
                             updatedAt: Date;
+                            businessType?: string | null | undefined;
+                            secondaryContactName?: string | null | undefined;
+                            secondaryContactDesignation?: string | null | undefined;
+                            secondaryContactNumber?: string | null | undefined;
+                            panNumber?: string | null | undefined;
+                            panCard?: string | null | undefined;
+                            gstNumber?: string | null | undefined;
+                            gstCertificate?: string | null | undefined;
+                            fssaiNumber?: string | null | undefined;
+                            fssaiLicense?: string | null | undefined;
+                            bankAccountNumber?: string | null | undefined;
+                            bankIfscCode?: string | null | undefined;
+                            tmcoNumber?: string | null | undefined;
+                            cancelledCheque?: string | null | undefined;
+                            brandName?: string | null | undefined;
+                            brandLogo?: string | null | undefined;
+                            brandCertificate?: string | null | undefined;
                         }>;
                     }>, "strip", z.ZodTypeAny, {
                         email: string;
@@ -242,7 +242,6 @@ export declare const adminRouter: {
                         uniqueIdentifier: string | null;
                         profile: {
                             businessName: string;
-                            businessType: string;
                             ownerName: string;
                             address: string;
                             state: string;
@@ -250,26 +249,27 @@ export declare const adminRouter: {
                             pincode: string;
                             phone: string;
                             email: string;
-                            secondaryContactName: string | null;
-                            secondaryContactDesignation: string | null;
-                            secondaryContactNumber: string | null;
-                            panNumber: string;
-                            panCard: string | null;
-                            gstNumber: string;
-                            gstCertificate: string | null;
-                            fssaiNumber: string | null;
-                            fssaiLicense: string | null;
-                            bankAccountNumber: string;
-                            bankIfscCode: string;
                             id: number;
-                            tmcoNumber: string | null;
-                            cancelledCheque: string | null;
-                            brandName: string | null;
-                            brandLogo: string | null;
-                            brandCertificate: string | null;
                             userId: number;
                             createdAt: Date;
                             updatedAt: Date;
+                            businessType?: string | null | undefined;
+                            secondaryContactName?: string | null | undefined;
+                            secondaryContactDesignation?: string | null | undefined;
+                            secondaryContactNumber?: string | null | undefined;
+                            panNumber?: string | null | undefined;
+                            panCard?: string | null | undefined;
+                            gstNumber?: string | null | undefined;
+                            gstCertificate?: string | null | undefined;
+                            fssaiNumber?: string | null | undefined;
+                            fssaiLicense?: string | null | undefined;
+                            bankAccountNumber?: string | null | undefined;
+                            bankIfscCode?: string | null | undefined;
+                            tmcoNumber?: string | null | undefined;
+                            cancelledCheque?: string | null | undefined;
+                            brandName?: string | null | undefined;
+                            brandLogo?: string | null | undefined;
+                            brandCertificate?: string | null | undefined;
                         };
                     }, {
                         email: string;
@@ -283,7 +283,6 @@ export declare const adminRouter: {
                         uniqueIdentifier: string | null;
                         profile: {
                             businessName: string;
-                            businessType: string;
                             ownerName: string;
                             address: string;
                             state: string;
@@ -291,26 +290,27 @@ export declare const adminRouter: {
                             pincode: string;
                             phone: string;
                             email: string;
-                            secondaryContactName: string | null;
-                            secondaryContactDesignation: string | null;
-                            secondaryContactNumber: string | null;
-                            panNumber: string;
-                            panCard: string | null;
-                            gstNumber: string;
-                            gstCertificate: string | null;
-                            fssaiNumber: string | null;
-                            fssaiLicense: string | null;
-                            bankAccountNumber: string;
-                            bankIfscCode: string;
                             id: number;
-                            tmcoNumber: string | null;
-                            cancelledCheque: string | null;
-                            brandName: string | null;
-                            brandLogo: string | null;
-                            brandCertificate: string | null;
                             userId: number;
                             createdAt: Date;
                             updatedAt: Date;
+                            businessType?: string | null | undefined;
+                            secondaryContactName?: string | null | undefined;
+                            secondaryContactDesignation?: string | null | undefined;
+                            secondaryContactNumber?: string | null | undefined;
+                            panNumber?: string | null | undefined;
+                            panCard?: string | null | undefined;
+                            gstNumber?: string | null | undefined;
+                            gstCertificate?: string | null | undefined;
+                            fssaiNumber?: string | null | undefined;
+                            fssaiLicense?: string | null | undefined;
+                            bankAccountNumber?: string | null | undefined;
+                            bankIfscCode?: string | null | undefined;
+                            tmcoNumber?: string | null | undefined;
+                            cancelledCheque?: string | null | undefined;
+                            brandName?: string | null | undefined;
+                            brandLogo?: string | null | undefined;
+                            brandCertificate?: string | null | undefined;
                         };
                     }>, "many">;
                 }, "strip", z.ZodTypeAny, {
@@ -326,7 +326,6 @@ export declare const adminRouter: {
                         uniqueIdentifier: string | null;
                         profile: {
                             businessName: string;
-                            businessType: string;
                             ownerName: string;
                             address: string;
                             state: string;
@@ -334,26 +333,27 @@ export declare const adminRouter: {
                             pincode: string;
                             phone: string;
                             email: string;
-                            secondaryContactName: string | null;
-                            secondaryContactDesignation: string | null;
-                            secondaryContactNumber: string | null;
-                            panNumber: string;
-                            panCard: string | null;
-                            gstNumber: string;
-                            gstCertificate: string | null;
-                            fssaiNumber: string | null;
-                            fssaiLicense: string | null;
-                            bankAccountNumber: string;
-                            bankIfscCode: string;
                             id: number;
-                            tmcoNumber: string | null;
-                            cancelledCheque: string | null;
-                            brandName: string | null;
-                            brandLogo: string | null;
-                            brandCertificate: string | null;
                             userId: number;
                             createdAt: Date;
                             updatedAt: Date;
+                            businessType?: string | null | undefined;
+                            secondaryContactName?: string | null | undefined;
+                            secondaryContactDesignation?: string | null | undefined;
+                            secondaryContactNumber?: string | null | undefined;
+                            panNumber?: string | null | undefined;
+                            panCard?: string | null | undefined;
+                            gstNumber?: string | null | undefined;
+                            gstCertificate?: string | null | undefined;
+                            fssaiNumber?: string | null | undefined;
+                            fssaiLicense?: string | null | undefined;
+                            bankAccountNumber?: string | null | undefined;
+                            bankIfscCode?: string | null | undefined;
+                            tmcoNumber?: string | null | undefined;
+                            cancelledCheque?: string | null | undefined;
+                            brandName?: string | null | undefined;
+                            brandLogo?: string | null | undefined;
+                            brandCertificate?: string | null | undefined;
                         };
                     }[];
                     role: "SELLER";
@@ -370,7 +370,6 @@ export declare const adminRouter: {
                         uniqueIdentifier: string | null;
                         profile: {
                             businessName: string;
-                            businessType: string;
                             ownerName: string;
                             address: string;
                             state: string;
@@ -378,26 +377,27 @@ export declare const adminRouter: {
                             pincode: string;
                             phone: string;
                             email: string;
-                            secondaryContactName: string | null;
-                            secondaryContactDesignation: string | null;
-                            secondaryContactNumber: string | null;
-                            panNumber: string;
-                            panCard: string | null;
-                            gstNumber: string;
-                            gstCertificate: string | null;
-                            fssaiNumber: string | null;
-                            fssaiLicense: string | null;
-                            bankAccountNumber: string;
-                            bankIfscCode: string;
                             id: number;
-                            tmcoNumber: string | null;
-                            cancelledCheque: string | null;
-                            brandName: string | null;
-                            brandLogo: string | null;
-                            brandCertificate: string | null;
                             userId: number;
                             createdAt: Date;
                             updatedAt: Date;
+                            businessType?: string | null | undefined;
+                            secondaryContactName?: string | null | undefined;
+                            secondaryContactDesignation?: string | null | undefined;
+                            secondaryContactNumber?: string | null | undefined;
+                            panNumber?: string | null | undefined;
+                            panCard?: string | null | undefined;
+                            gstNumber?: string | null | undefined;
+                            gstCertificate?: string | null | undefined;
+                            fssaiNumber?: string | null | undefined;
+                            fssaiLicense?: string | null | undefined;
+                            bankAccountNumber?: string | null | undefined;
+                            bankIfscCode?: string | null | undefined;
+                            tmcoNumber?: string | null | undefined;
+                            cancelledCheque?: string | null | undefined;
+                            brandName?: string | null | undefined;
+                            brandLogo?: string | null | undefined;
+                            brandCertificate?: string | null | undefined;
                         };
                     }[];
                     role: "SELLER";
@@ -416,34 +416,33 @@ export declare const adminRouter: {
                     }, {
                         profile: z.ZodObject<{
                             town: z.ZodString;
-                            transportName: z.ZodNullable<z.ZodString>;
+                            transportName: z.ZodOptional<z.ZodNullable<z.ZodString>>;
                             userId: z.ZodNumber;
                             createdAt: z.ZodDate;
                             updatedAt: z.ZodDate;
-                            bankAccountNumber: z.ZodString;
-                            bankIfscCode: z.ZodString;
-                            panNumber: z.ZodString;
-                            panCard: z.ZodNullable<z.ZodString>;
-                            gstNumber: z.ZodString;
-                            gstCertificate: z.ZodNullable<z.ZodString>;
-                            fssaiNumber: z.ZodNullable<z.ZodString>;
-                            fssaiLicense: z.ZodNullable<z.ZodString>;
+                            bankAccountNumber: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                            bankIfscCode: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                            panNumber: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                            panCard: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                            gstNumber: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                            gstCertificate: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                            fssaiNumber: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                            fssaiLicense: z.ZodOptional<z.ZodNullable<z.ZodString>>;
                             phone: z.ZodString;
                             email: z.ZodString;
-                            secondaryContactName: z.ZodNullable<z.ZodString>;
-                            secondaryContactDesignation: z.ZodNullable<z.ZodString>;
-                            secondaryContactNumber: z.ZodNullable<z.ZodString>;
+                            secondaryContactName: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                            secondaryContactDesignation: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                            secondaryContactNumber: z.ZodOptional<z.ZodNullable<z.ZodString>>;
                             address: z.ZodString;
                             state: z.ZodString;
                             district: z.ZodString;
                             pincode: z.ZodString;
                             businessName: z.ZodString;
-                            businessType: z.ZodString;
+                            businessType: z.ZodOptional<z.ZodNullable<z.ZodString>>;
                             ownerName: z.ZodString;
                             id: z.ZodNumber;
                         }, "strip", z.ZodTypeAny, {
                             businessName: string;
-                            businessType: string;
                             ownerName: string;
                             address: string;
                             state: string;
@@ -451,26 +450,26 @@ export declare const adminRouter: {
                             pincode: string;
                             phone: string;
                             email: string;
-                            secondaryContactName: string | null;
-                            secondaryContactDesignation: string | null;
-                            secondaryContactNumber: string | null;
-                            panNumber: string;
-                            panCard: string | null;
-                            gstNumber: string;
-                            gstCertificate: string | null;
-                            fssaiNumber: string | null;
-                            fssaiLicense: string | null;
-                            bankAccountNumber: string;
-                            bankIfscCode: string;
                             id: number;
                             userId: number;
                             createdAt: Date;
                             updatedAt: Date;
                             town: string;
-                            transportName: string | null;
+                            businessType?: string | null | undefined;
+                            secondaryContactName?: string | null | undefined;
+                            secondaryContactDesignation?: string | null | undefined;
+                            secondaryContactNumber?: string | null | undefined;
+                            panNumber?: string | null | undefined;
+                            panCard?: string | null | undefined;
+                            gstNumber?: string | null | undefined;
+                            gstCertificate?: string | null | undefined;
+                            fssaiNumber?: string | null | undefined;
+                            fssaiLicense?: string | null | undefined;
+                            bankAccountNumber?: string | null | undefined;
+                            bankIfscCode?: string | null | undefined;
+                            transportName?: string | null | undefined;
                         }, {
                             businessName: string;
-                            businessType: string;
                             ownerName: string;
                             address: string;
                             state: string;
@@ -478,23 +477,24 @@ export declare const adminRouter: {
                             pincode: string;
                             phone: string;
                             email: string;
-                            secondaryContactName: string | null;
-                            secondaryContactDesignation: string | null;
-                            secondaryContactNumber: string | null;
-                            panNumber: string;
-                            panCard: string | null;
-                            gstNumber: string;
-                            gstCertificate: string | null;
-                            fssaiNumber: string | null;
-                            fssaiLicense: string | null;
-                            bankAccountNumber: string;
-                            bankIfscCode: string;
                             id: number;
                             userId: number;
                             createdAt: Date;
                             updatedAt: Date;
                             town: string;
-                            transportName: string | null;
+                            businessType?: string | null | undefined;
+                            secondaryContactName?: string | null | undefined;
+                            secondaryContactDesignation?: string | null | undefined;
+                            secondaryContactNumber?: string | null | undefined;
+                            panNumber?: string | null | undefined;
+                            panCard?: string | null | undefined;
+                            gstNumber?: string | null | undefined;
+                            gstCertificate?: string | null | undefined;
+                            fssaiNumber?: string | null | undefined;
+                            fssaiLicense?: string | null | undefined;
+                            bankAccountNumber?: string | null | undefined;
+                            bankIfscCode?: string | null | undefined;
+                            transportName?: string | null | undefined;
                         }>;
                     }>, "strip", z.ZodTypeAny, {
                         email: string;
@@ -508,7 +508,6 @@ export declare const adminRouter: {
                         uniqueIdentifier: string | null;
                         profile: {
                             businessName: string;
-                            businessType: string;
                             ownerName: string;
                             address: string;
                             state: string;
@@ -516,23 +515,24 @@ export declare const adminRouter: {
                             pincode: string;
                             phone: string;
                             email: string;
-                            secondaryContactName: string | null;
-                            secondaryContactDesignation: string | null;
-                            secondaryContactNumber: string | null;
-                            panNumber: string;
-                            panCard: string | null;
-                            gstNumber: string;
-                            gstCertificate: string | null;
-                            fssaiNumber: string | null;
-                            fssaiLicense: string | null;
-                            bankAccountNumber: string;
-                            bankIfscCode: string;
                             id: number;
                             userId: number;
                             createdAt: Date;
                             updatedAt: Date;
                             town: string;
-                            transportName: string | null;
+                            businessType?: string | null | undefined;
+                            secondaryContactName?: string | null | undefined;
+                            secondaryContactDesignation?: string | null | undefined;
+                            secondaryContactNumber?: string | null | undefined;
+                            panNumber?: string | null | undefined;
+                            panCard?: string | null | undefined;
+                            gstNumber?: string | null | undefined;
+                            gstCertificate?: string | null | undefined;
+                            fssaiNumber?: string | null | undefined;
+                            fssaiLicense?: string | null | undefined;
+                            bankAccountNumber?: string | null | undefined;
+                            bankIfscCode?: string | null | undefined;
+                            transportName?: string | null | undefined;
                         };
                     }, {
                         email: string;
@@ -546,7 +546,6 @@ export declare const adminRouter: {
                         uniqueIdentifier: string | null;
                         profile: {
                             businessName: string;
-                            businessType: string;
                             ownerName: string;
                             address: string;
                             state: string;
@@ -554,23 +553,24 @@ export declare const adminRouter: {
                             pincode: string;
                             phone: string;
                             email: string;
-                            secondaryContactName: string | null;
-                            secondaryContactDesignation: string | null;
-                            secondaryContactNumber: string | null;
-                            panNumber: string;
-                            panCard: string | null;
-                            gstNumber: string;
-                            gstCertificate: string | null;
-                            fssaiNumber: string | null;
-                            fssaiLicense: string | null;
-                            bankAccountNumber: string;
-                            bankIfscCode: string;
                             id: number;
                             userId: number;
                             createdAt: Date;
                             updatedAt: Date;
                             town: string;
-                            transportName: string | null;
+                            businessType?: string | null | undefined;
+                            secondaryContactName?: string | null | undefined;
+                            secondaryContactDesignation?: string | null | undefined;
+                            secondaryContactNumber?: string | null | undefined;
+                            panNumber?: string | null | undefined;
+                            panCard?: string | null | undefined;
+                            gstNumber?: string | null | undefined;
+                            gstCertificate?: string | null | undefined;
+                            fssaiNumber?: string | null | undefined;
+                            fssaiLicense?: string | null | undefined;
+                            bankAccountNumber?: string | null | undefined;
+                            bankIfscCode?: string | null | undefined;
+                            transportName?: string | null | undefined;
                         };
                     }>, "many">;
                 }, "strip", z.ZodTypeAny, {
@@ -586,7 +586,6 @@ export declare const adminRouter: {
                         uniqueIdentifier: string | null;
                         profile: {
                             businessName: string;
-                            businessType: string;
                             ownerName: string;
                             address: string;
                             state: string;
@@ -594,23 +593,24 @@ export declare const adminRouter: {
                             pincode: string;
                             phone: string;
                             email: string;
-                            secondaryContactName: string | null;
-                            secondaryContactDesignation: string | null;
-                            secondaryContactNumber: string | null;
-                            panNumber: string;
-                            panCard: string | null;
-                            gstNumber: string;
-                            gstCertificate: string | null;
-                            fssaiNumber: string | null;
-                            fssaiLicense: string | null;
-                            bankAccountNumber: string;
-                            bankIfscCode: string;
                             id: number;
                             userId: number;
                             createdAt: Date;
                             updatedAt: Date;
                             town: string;
-                            transportName: string | null;
+                            businessType?: string | null | undefined;
+                            secondaryContactName?: string | null | undefined;
+                            secondaryContactDesignation?: string | null | undefined;
+                            secondaryContactNumber?: string | null | undefined;
+                            panNumber?: string | null | undefined;
+                            panCard?: string | null | undefined;
+                            gstNumber?: string | null | undefined;
+                            gstCertificate?: string | null | undefined;
+                            fssaiNumber?: string | null | undefined;
+                            fssaiLicense?: string | null | undefined;
+                            bankAccountNumber?: string | null | undefined;
+                            bankIfscCode?: string | null | undefined;
+                            transportName?: string | null | undefined;
                         };
                     }[];
                     role: "BUYER";
@@ -627,7 +627,6 @@ export declare const adminRouter: {
                         uniqueIdentifier: string | null;
                         profile: {
                             businessName: string;
-                            businessType: string;
                             ownerName: string;
                             address: string;
                             state: string;
@@ -635,23 +634,24 @@ export declare const adminRouter: {
                             pincode: string;
                             phone: string;
                             email: string;
-                            secondaryContactName: string | null;
-                            secondaryContactDesignation: string | null;
-                            secondaryContactNumber: string | null;
-                            panNumber: string;
-                            panCard: string | null;
-                            gstNumber: string;
-                            gstCertificate: string | null;
-                            fssaiNumber: string | null;
-                            fssaiLicense: string | null;
-                            bankAccountNumber: string;
-                            bankIfscCode: string;
                             id: number;
                             userId: number;
                             createdAt: Date;
                             updatedAt: Date;
                             town: string;
-                            transportName: string | null;
+                            businessType?: string | null | undefined;
+                            secondaryContactName?: string | null | undefined;
+                            secondaryContactDesignation?: string | null | undefined;
+                            secondaryContactNumber?: string | null | undefined;
+                            panNumber?: string | null | undefined;
+                            panCard?: string | null | undefined;
+                            gstNumber?: string | null | undefined;
+                            gstCertificate?: string | null | undefined;
+                            fssaiNumber?: string | null | undefined;
+                            fssaiLicense?: string | null | undefined;
+                            bankAccountNumber?: string | null | undefined;
+                            bankIfscCode?: string | null | undefined;
+                            transportName?: string | null | undefined;
                         };
                     }[];
                     role: "BUYER";
@@ -676,7 +676,6 @@ export declare const adminRouter: {
                         uniqueIdentifier: string | null;
                         profile: {
                             businessName: string;
-                            businessType: string;
                             ownerName: string;
                             address: string;
                             state: string;
@@ -684,26 +683,27 @@ export declare const adminRouter: {
                             pincode: string;
                             phone: string;
                             email: string;
-                            secondaryContactName: string | null;
-                            secondaryContactDesignation: string | null;
-                            secondaryContactNumber: string | null;
-                            panNumber: string;
-                            panCard: string | null;
-                            gstNumber: string;
-                            gstCertificate: string | null;
-                            fssaiNumber: string | null;
-                            fssaiLicense: string | null;
-                            bankAccountNumber: string;
-                            bankIfscCode: string;
                             id: number;
-                            tmcoNumber: string | null;
-                            cancelledCheque: string | null;
-                            brandName: string | null;
-                            brandLogo: string | null;
-                            brandCertificate: string | null;
                             userId: number;
                             createdAt: Date;
                             updatedAt: Date;
+                            businessType?: string | null | undefined;
+                            secondaryContactName?: string | null | undefined;
+                            secondaryContactDesignation?: string | null | undefined;
+                            secondaryContactNumber?: string | null | undefined;
+                            panNumber?: string | null | undefined;
+                            panCard?: string | null | undefined;
+                            gstNumber?: string | null | undefined;
+                            gstCertificate?: string | null | undefined;
+                            fssaiNumber?: string | null | undefined;
+                            fssaiLicense?: string | null | undefined;
+                            bankAccountNumber?: string | null | undefined;
+                            bankIfscCode?: string | null | undefined;
+                            tmcoNumber?: string | null | undefined;
+                            cancelledCheque?: string | null | undefined;
+                            brandName?: string | null | undefined;
+                            brandLogo?: string | null | undefined;
+                            brandCertificate?: string | null | undefined;
                         };
                     }[];
                     role: "SELLER";
@@ -720,7 +720,6 @@ export declare const adminRouter: {
                         uniqueIdentifier: string | null;
                         profile: {
                             businessName: string;
-                            businessType: string;
                             ownerName: string;
                             address: string;
                             state: string;
@@ -728,23 +727,24 @@ export declare const adminRouter: {
                             pincode: string;
                             phone: string;
                             email: string;
-                            secondaryContactName: string | null;
-                            secondaryContactDesignation: string | null;
-                            secondaryContactNumber: string | null;
-                            panNumber: string;
-                            panCard: string | null;
-                            gstNumber: string;
-                            gstCertificate: string | null;
-                            fssaiNumber: string | null;
-                            fssaiLicense: string | null;
-                            bankAccountNumber: string;
-                            bankIfscCode: string;
                             id: number;
                             userId: number;
                             createdAt: Date;
                             updatedAt: Date;
                             town: string;
-                            transportName: string | null;
+                            businessType?: string | null | undefined;
+                            secondaryContactName?: string | null | undefined;
+                            secondaryContactDesignation?: string | null | undefined;
+                            secondaryContactNumber?: string | null | undefined;
+                            panNumber?: string | null | undefined;
+                            panCard?: string | null | undefined;
+                            gstNumber?: string | null | undefined;
+                            gstCertificate?: string | null | undefined;
+                            fssaiNumber?: string | null | undefined;
+                            fssaiLicense?: string | null | undefined;
+                            bankAccountNumber?: string | null | undefined;
+                            bankIfscCode?: string | null | undefined;
+                            transportName?: string | null | undefined;
                         };
                     }[];
                     role: "BUYER";
@@ -766,7 +766,6 @@ export declare const adminRouter: {
                         uniqueIdentifier: string | null;
                         profile: {
                             businessName: string;
-                            businessType: string;
                             ownerName: string;
                             address: string;
                             state: string;
@@ -774,26 +773,27 @@ export declare const adminRouter: {
                             pincode: string;
                             phone: string;
                             email: string;
-                            secondaryContactName: string | null;
-                            secondaryContactDesignation: string | null;
-                            secondaryContactNumber: string | null;
-                            panNumber: string;
-                            panCard: string | null;
-                            gstNumber: string;
-                            gstCertificate: string | null;
-                            fssaiNumber: string | null;
-                            fssaiLicense: string | null;
-                            bankAccountNumber: string;
-                            bankIfscCode: string;
                             id: number;
-                            tmcoNumber: string | null;
-                            cancelledCheque: string | null;
-                            brandName: string | null;
-                            brandLogo: string | null;
-                            brandCertificate: string | null;
                             userId: number;
                             createdAt: Date;
                             updatedAt: Date;
+                            businessType?: string | null | undefined;
+                            secondaryContactName?: string | null | undefined;
+                            secondaryContactDesignation?: string | null | undefined;
+                            secondaryContactNumber?: string | null | undefined;
+                            panNumber?: string | null | undefined;
+                            panCard?: string | null | undefined;
+                            gstNumber?: string | null | undefined;
+                            gstCertificate?: string | null | undefined;
+                            fssaiNumber?: string | null | undefined;
+                            fssaiLicense?: string | null | undefined;
+                            bankAccountNumber?: string | null | undefined;
+                            bankIfscCode?: string | null | undefined;
+                            tmcoNumber?: string | null | undefined;
+                            cancelledCheque?: string | null | undefined;
+                            brandName?: string | null | undefined;
+                            brandLogo?: string | null | undefined;
+                            brandCertificate?: string | null | undefined;
                         };
                     }[];
                     role: "SELLER";
@@ -810,7 +810,6 @@ export declare const adminRouter: {
                         uniqueIdentifier: string | null;
                         profile: {
                             businessName: string;
-                            businessType: string;
                             ownerName: string;
                             address: string;
                             state: string;
@@ -818,23 +817,24 @@ export declare const adminRouter: {
                             pincode: string;
                             phone: string;
                             email: string;
-                            secondaryContactName: string | null;
-                            secondaryContactDesignation: string | null;
-                            secondaryContactNumber: string | null;
-                            panNumber: string;
-                            panCard: string | null;
-                            gstNumber: string;
-                            gstCertificate: string | null;
-                            fssaiNumber: string | null;
-                            fssaiLicense: string | null;
-                            bankAccountNumber: string;
-                            bankIfscCode: string;
                             id: number;
                             userId: number;
                             createdAt: Date;
                             updatedAt: Date;
                             town: string;
-                            transportName: string | null;
+                            businessType?: string | null | undefined;
+                            secondaryContactName?: string | null | undefined;
+                            secondaryContactDesignation?: string | null | undefined;
+                            secondaryContactNumber?: string | null | undefined;
+                            panNumber?: string | null | undefined;
+                            panCard?: string | null | undefined;
+                            gstNumber?: string | null | undefined;
+                            gstCertificate?: string | null | undefined;
+                            fssaiNumber?: string | null | undefined;
+                            fssaiLicense?: string | null | undefined;
+                            bankAccountNumber?: string | null | undefined;
+                            bankIfscCode?: string | null | undefined;
+                            transportName?: string | null | undefined;
                         };
                     }[];
                     role: "BUYER";
@@ -1064,6 +1064,7 @@ export declare const adminRouter: {
                         sellerId: z.ZodNumber;
                         createdAt: z.ZodDate;
                         updatedAt: z.ZodDate;
+                        origin: z.ZodNullable<z.ZodString>;
                     }, "strip", z.ZodTypeAny, {
                         status: "PENDING" | "APPROVED" | "REJECTED";
                         id: number;
@@ -1075,6 +1076,7 @@ export declare const adminRouter: {
                         isDefault: boolean;
                         verifiedAt: Date | null;
                         sellerId: number;
+                        origin: string | null;
                     }, {
                         status: "PENDING" | "APPROVED" | "REJECTED";
                         id: number;
@@ -1086,6 +1088,7 @@ export declare const adminRouter: {
                         isDefault: boolean;
                         verifiedAt: Date | null;
                         sellerId: number;
+                        origin: string | null;
                     }>;
                     cartItems: z.ZodOptional<z.ZodArray<z.ZodAny, "many">>;
                     orderItems: z.ZodOptional<z.ZodArray<z.ZodAny, "many">>;
@@ -1098,6 +1101,7 @@ export declare const adminRouter: {
                     updatedAt: Date;
                     name: string | null;
                     sellerId: number;
+                    origin: string;
                     description: string | null;
                     imageUrl: string | null;
                     mark: number;
@@ -1107,7 +1111,6 @@ export declare const adminRouter: {
                     sampleWeight: number | null;
                     productionMonth: string;
                     location: string;
-                    origin: string;
                     pricePerUnit: number;
                     mbp: number | null;
                     quantity: number;
@@ -1129,6 +1132,7 @@ export declare const adminRouter: {
                         isDefault: boolean;
                         verifiedAt: Date | null;
                         sellerId: number;
+                        origin: string | null;
                     };
                     cartItems?: any[] | undefined;
                     orderItems?: any[] | undefined;
@@ -1139,6 +1143,7 @@ export declare const adminRouter: {
                     updatedAt: Date;
                     name: string | null;
                     sellerId: number;
+                    origin: string;
                     description: string | null;
                     imageUrl: string | null;
                     mark: number;
@@ -1148,7 +1153,6 @@ export declare const adminRouter: {
                     sampleWeight: number | null;
                     productionMonth: string;
                     location: string;
-                    origin: string;
                     pricePerUnit: number;
                     mbp: number | null;
                     quantity: number;
@@ -1170,6 +1174,7 @@ export declare const adminRouter: {
                         isDefault: boolean;
                         verifiedAt: Date | null;
                         sellerId: number;
+                        origin: string | null;
                     };
                     cartItems?: any[] | undefined;
                     orderItems?: any[] | undefined;
@@ -1188,6 +1193,7 @@ export declare const adminRouter: {
                     updatedAt: Date;
                     name: string | null;
                     sellerId: number;
+                    origin: string;
                     description: string | null;
                     imageUrl: string | null;
                     mark: number;
@@ -1197,7 +1203,6 @@ export declare const adminRouter: {
                     sampleWeight: number | null;
                     productionMonth: string;
                     location: string;
-                    origin: string;
                     pricePerUnit: number;
                     mbp: number | null;
                     quantity: number;
@@ -1219,6 +1224,7 @@ export declare const adminRouter: {
                         isDefault: boolean;
                         verifiedAt: Date | null;
                         sellerId: number;
+                        origin: string | null;
                     };
                     cartItems?: any[] | undefined;
                     orderItems?: any[] | undefined;
@@ -1234,6 +1240,7 @@ export declare const adminRouter: {
                     updatedAt: Date;
                     name: string | null;
                     sellerId: number;
+                    origin: string;
                     description: string | null;
                     imageUrl: string | null;
                     mark: number;
@@ -1243,7 +1250,6 @@ export declare const adminRouter: {
                     sampleWeight: number | null;
                     productionMonth: string;
                     location: string;
-                    origin: string;
                     pricePerUnit: number;
                     mbp: number | null;
                     quantity: number;
@@ -1265,6 +1271,7 @@ export declare const adminRouter: {
                         isDefault: boolean;
                         verifiedAt: Date | null;
                         sellerId: number;
+                        origin: string | null;
                     };
                     cartItems?: any[] | undefined;
                     orderItems?: any[] | undefined;
@@ -1297,6 +1304,7 @@ export declare const adminRouter: {
         body: z.ZodObject<{
             status: z.ZodOptional<z.ZodEnum<["PENDING", "APPROVED", "REJECTED"]>>;
             name: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+            origin: z.ZodOptional<z.ZodString>;
             description: z.ZodOptional<z.ZodNullable<z.ZodString>>;
             imageUrl: z.ZodOptional<z.ZodNullable<z.ZodString>>;
             mark: z.ZodOptional<z.ZodNumber>;
@@ -1306,7 +1314,6 @@ export declare const adminRouter: {
             sampleWeight: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
             productionMonth: z.ZodOptional<z.ZodString>;
             location: z.ZodOptional<z.ZodString>;
-            origin: z.ZodOptional<z.ZodString>;
             pricePerUnit: z.ZodOptional<z.ZodNumber>;
             mbp: z.ZodOptional<z.ZodNullable<z.ZodNumber>>;
             quantity: z.ZodOptional<z.ZodNumber>;
@@ -1328,6 +1335,7 @@ export declare const adminRouter: {
                 sellerId: z.ZodNumber;
                 createdAt: z.ZodDate;
                 updatedAt: z.ZodDate;
+                origin: z.ZodNullable<z.ZodString>;
             }, "strip", z.ZodTypeAny, {
                 status: "PENDING" | "APPROVED" | "REJECTED";
                 id: number;
@@ -1339,6 +1347,7 @@ export declare const adminRouter: {
                 isDefault: boolean;
                 verifiedAt: Date | null;
                 sellerId: number;
+                origin: string | null;
             }, {
                 status: "PENDING" | "APPROVED" | "REJECTED";
                 id: number;
@@ -1350,12 +1359,14 @@ export declare const adminRouter: {
                 isDefault: boolean;
                 verifiedAt: Date | null;
                 sellerId: number;
+                origin: string | null;
             }>>;
             cartItems: z.ZodOptional<z.ZodOptional<z.ZodArray<z.ZodAny, "many">>>;
             orderItems: z.ZodOptional<z.ZodOptional<z.ZodArray<z.ZodAny, "many">>>;
         }, "strip", z.ZodTypeAny, {
             status?: "PENDING" | "APPROVED" | "REJECTED" | undefined;
             name?: string | null | undefined;
+            origin?: string | undefined;
             description?: string | null | undefined;
             imageUrl?: string | null | undefined;
             mark?: number | undefined;
@@ -1365,7 +1376,6 @@ export declare const adminRouter: {
             sampleWeight?: number | null | undefined;
             productionMonth?: string | undefined;
             location?: string | undefined;
-            origin?: string | undefined;
             pricePerUnit?: number | undefined;
             mbp?: number | null | undefined;
             quantity?: number | undefined;
@@ -1387,12 +1397,14 @@ export declare const adminRouter: {
                 isDefault: boolean;
                 verifiedAt: Date | null;
                 sellerId: number;
+                origin: string | null;
             } | undefined;
             cartItems?: any[] | undefined;
             orderItems?: any[] | undefined;
         }, {
             status?: "PENDING" | "APPROVED" | "REJECTED" | undefined;
             name?: string | null | undefined;
+            origin?: string | undefined;
             description?: string | null | undefined;
             imageUrl?: string | null | undefined;
             mark?: number | undefined;
@@ -1402,7 +1414,6 @@ export declare const adminRouter: {
             sampleWeight?: number | null | undefined;
             productionMonth?: string | undefined;
             location?: string | undefined;
-            origin?: string | undefined;
             pricePerUnit?: number | undefined;
             mbp?: number | null | undefined;
             quantity?: number | undefined;
@@ -1424,6 +1435,7 @@ export declare const adminRouter: {
                 isDefault: boolean;
                 verifiedAt: Date | null;
                 sellerId: number;
+                origin: string | null;
             } | undefined;
             cartItems?: any[] | undefined;
             orderItems?: any[] | undefined;
@@ -1466,6 +1478,7 @@ export declare const adminRouter: {
                     sellerId: z.ZodNumber;
                     createdAt: z.ZodDate;
                     updatedAt: z.ZodDate;
+                    origin: z.ZodNullable<z.ZodString>;
                 }, "strip", z.ZodTypeAny, {
                     status: "PENDING" | "APPROVED" | "REJECTED";
                     id: number;
@@ -1477,6 +1490,7 @@ export declare const adminRouter: {
                     isDefault: boolean;
                     verifiedAt: Date | null;
                     sellerId: number;
+                    origin: string | null;
                 }, {
                     status: "PENDING" | "APPROVED" | "REJECTED";
                     id: number;
@@ -1488,6 +1502,7 @@ export declare const adminRouter: {
                     isDefault: boolean;
                     verifiedAt: Date | null;
                     sellerId: number;
+                    origin: string | null;
                 }>;
                 cartItems: z.ZodOptional<z.ZodArray<z.ZodAny, "many">>;
                 orderItems: z.ZodOptional<z.ZodArray<z.ZodAny, "many">>;
@@ -1500,6 +1515,7 @@ export declare const adminRouter: {
                 updatedAt: Date;
                 name: string | null;
                 sellerId: number;
+                origin: string;
                 description: string | null;
                 imageUrl: string | null;
                 mark: number;
@@ -1509,7 +1525,6 @@ export declare const adminRouter: {
                 sampleWeight: number | null;
                 productionMonth: string;
                 location: string;
-                origin: string;
                 pricePerUnit: number;
                 mbp: number | null;
                 quantity: number;
@@ -1531,6 +1546,7 @@ export declare const adminRouter: {
                     isDefault: boolean;
                     verifiedAt: Date | null;
                     sellerId: number;
+                    origin: string | null;
                 };
                 cartItems?: any[] | undefined;
                 orderItems?: any[] | undefined;
@@ -1541,6 +1557,7 @@ export declare const adminRouter: {
                 updatedAt: Date;
                 name: string | null;
                 sellerId: number;
+                origin: string;
                 description: string | null;
                 imageUrl: string | null;
                 mark: number;
@@ -1550,7 +1567,6 @@ export declare const adminRouter: {
                 sampleWeight: number | null;
                 productionMonth: string;
                 location: string;
-                origin: string;
                 pricePerUnit: number;
                 mbp: number | null;
                 quantity: number;
@@ -1572,6 +1588,7 @@ export declare const adminRouter: {
                     isDefault: boolean;
                     verifiedAt: Date | null;
                     sellerId: number;
+                    origin: string | null;
                 };
                 cartItems?: any[] | undefined;
                 orderItems?: any[] | undefined;
@@ -1651,6 +1668,7 @@ export declare const adminRouter: {
                     sellerId: z.ZodNumber;
                     createdAt: z.ZodDate;
                     updatedAt: z.ZodDate;
+                    origin: z.ZodNullable<z.ZodString>;
                 }, "strip", z.ZodTypeAny, {
                     status: "PENDING" | "APPROVED" | "REJECTED";
                     id: number;
@@ -1662,6 +1680,7 @@ export declare const adminRouter: {
                     isDefault: boolean;
                     verifiedAt: Date | null;
                     sellerId: number;
+                    origin: string | null;
                 }, {
                     status: "PENDING" | "APPROVED" | "REJECTED";
                     id: number;
@@ -1673,6 +1692,7 @@ export declare const adminRouter: {
                     isDefault: boolean;
                     verifiedAt: Date | null;
                     sellerId: number;
+                    origin: string | null;
                 }>;
                 cartItems: z.ZodOptional<z.ZodArray<z.ZodAny, "many">>;
                 orderItems: z.ZodOptional<z.ZodArray<z.ZodAny, "many">>;
@@ -1685,6 +1705,7 @@ export declare const adminRouter: {
                 updatedAt: Date;
                 name: string | null;
                 sellerId: number;
+                origin: string;
                 description: string | null;
                 imageUrl: string | null;
                 mark: number;
@@ -1694,7 +1715,6 @@ export declare const adminRouter: {
                 sampleWeight: number | null;
                 productionMonth: string;
                 location: string;
-                origin: string;
                 pricePerUnit: number;
                 mbp: number | null;
                 quantity: number;
@@ -1716,6 +1736,7 @@ export declare const adminRouter: {
                     isDefault: boolean;
                     verifiedAt: Date | null;
                     sellerId: number;
+                    origin: string | null;
                 };
                 cartItems?: any[] | undefined;
                 orderItems?: any[] | undefined;
@@ -1726,6 +1747,7 @@ export declare const adminRouter: {
                 updatedAt: Date;
                 name: string | null;
                 sellerId: number;
+                origin: string;
                 description: string | null;
                 imageUrl: string | null;
                 mark: number;
@@ -1735,7 +1757,6 @@ export declare const adminRouter: {
                 sampleWeight: number | null;
                 productionMonth: string;
                 location: string;
-                origin: string;
                 pricePerUnit: number;
                 mbp: number | null;
                 quantity: number;
@@ -1757,6 +1778,7 @@ export declare const adminRouter: {
                     isDefault: boolean;
                     verifiedAt: Date | null;
                     sellerId: number;
+                    origin: string | null;
                 };
                 cartItems?: any[] | undefined;
                 orderItems?: any[] | undefined;
@@ -1824,41 +1846,41 @@ export declare const adminRouter: {
                     userId: z.ZodNumber;
                     buyer: z.ZodObject<Pick<{
                         town: z.ZodString;
-                        transportName: z.ZodNullable<z.ZodString>;
+                        transportName: z.ZodOptional<z.ZodNullable<z.ZodString>>;
                         userId: z.ZodNumber;
                         createdAt: z.ZodDate;
                         updatedAt: z.ZodDate;
-                        bankAccountNumber: z.ZodString;
-                        bankIfscCode: z.ZodString;
-                        panNumber: z.ZodString;
-                        panCard: z.ZodNullable<z.ZodString>;
-                        gstNumber: z.ZodString;
-                        gstCertificate: z.ZodNullable<z.ZodString>;
-                        fssaiNumber: z.ZodNullable<z.ZodString>;
-                        fssaiLicense: z.ZodNullable<z.ZodString>;
+                        bankAccountNumber: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                        bankIfscCode: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                        panNumber: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                        panCard: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                        gstNumber: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                        gstCertificate: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                        fssaiNumber: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                        fssaiLicense: z.ZodOptional<z.ZodNullable<z.ZodString>>;
                         phone: z.ZodString;
                         email: z.ZodString;
-                        secondaryContactName: z.ZodNullable<z.ZodString>;
-                        secondaryContactDesignation: z.ZodNullable<z.ZodString>;
-                        secondaryContactNumber: z.ZodNullable<z.ZodString>;
+                        secondaryContactName: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                        secondaryContactDesignation: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                        secondaryContactNumber: z.ZodOptional<z.ZodNullable<z.ZodString>>;
                         address: z.ZodString;
                         state: z.ZodString;
                         district: z.ZodString;
                         pincode: z.ZodString;
                         businessName: z.ZodString;
-                        businessType: z.ZodString;
+                        businessType: z.ZodOptional<z.ZodNullable<z.ZodString>>;
                         ownerName: z.ZodString;
                         id: z.ZodNumber;
                     }, "businessName" | "ownerName" | "gstNumber" | "transportName">, "strip", z.ZodTypeAny, {
                         businessName: string;
                         ownerName: string;
-                        gstNumber: string;
-                        transportName: string | null;
+                        gstNumber?: string | null | undefined;
+                        transportName?: string | null | undefined;
                     }, {
                         businessName: string;
                         ownerName: string;
-                        gstNumber: string;
-                        transportName: string | null;
+                        gstNumber?: string | null | undefined;
+                        transportName?: string | null | undefined;
                     }>;
                     status: z.ZodDefault<z.ZodEnum<["PENDING", "ACCEPTED", "DESPATCHED", "ON_WAY", "DELIVERED", "CANCELLED"]>>;
                     subtotal: z.ZodNumber;
@@ -1908,6 +1930,7 @@ export declare const adminRouter: {
                                 sellerId: z.ZodNumber;
                                 createdAt: z.ZodDate;
                                 updatedAt: z.ZodDate;
+                                origin: z.ZodNullable<z.ZodString>;
                             }, "strip", z.ZodTypeAny, {
                                 status: "PENDING" | "APPROVED" | "REJECTED";
                                 id: number;
@@ -1919,6 +1942,7 @@ export declare const adminRouter: {
                                 isDefault: boolean;
                                 verifiedAt: Date | null;
                                 sellerId: number;
+                                origin: string | null;
                             }, {
                                 status: "PENDING" | "APPROVED" | "REJECTED";
                                 id: number;
@@ -1930,6 +1954,7 @@ export declare const adminRouter: {
                                 isDefault: boolean;
                                 verifiedAt: Date | null;
                                 sellerId: number;
+                                origin: string | null;
                             }>;
                             cartItems: z.ZodOptional<z.ZodArray<z.ZodAny, "many">>;
                             orderItems: z.ZodOptional<z.ZodArray<z.ZodAny, "many">>;
@@ -1942,6 +1967,7 @@ export declare const adminRouter: {
                             updatedAt: Date;
                             name: string | null;
                             sellerId: number;
+                            origin: string;
                             description: string | null;
                             imageUrl: string | null;
                             mark: number;
@@ -1951,7 +1977,6 @@ export declare const adminRouter: {
                             sampleWeight: number | null;
                             productionMonth: string;
                             location: string;
-                            origin: string;
                             pricePerUnit: number;
                             mbp: number | null;
                             quantity: number;
@@ -1973,6 +1998,7 @@ export declare const adminRouter: {
                                 isDefault: boolean;
                                 verifiedAt: Date | null;
                                 sellerId: number;
+                                origin: string | null;
                             };
                             cartItems?: any[] | undefined;
                             orderItems?: any[] | undefined;
@@ -1983,6 +2009,7 @@ export declare const adminRouter: {
                             updatedAt: Date;
                             name: string | null;
                             sellerId: number;
+                            origin: string;
                             description: string | null;
                             imageUrl: string | null;
                             mark: number;
@@ -1992,7 +2019,6 @@ export declare const adminRouter: {
                             sampleWeight: number | null;
                             productionMonth: string;
                             location: string;
-                            origin: string;
                             pricePerUnit: number;
                             mbp: number | null;
                             quantity: number;
@@ -2014,6 +2040,7 @@ export declare const adminRouter: {
                                 isDefault: boolean;
                                 verifiedAt: Date | null;
                                 sellerId: number;
+                                origin: string | null;
                             };
                             cartItems?: any[] | undefined;
                             orderItems?: any[] | undefined;
@@ -2038,6 +2065,7 @@ export declare const adminRouter: {
                             updatedAt: Date;
                             name: string | null;
                             sellerId: number;
+                            origin: string;
                             description: string | null;
                             imageUrl: string | null;
                             mark: number;
@@ -2047,7 +2075,6 @@ export declare const adminRouter: {
                             sampleWeight: number | null;
                             productionMonth: string;
                             location: string;
-                            origin: string;
                             pricePerUnit: number;
                             mbp: number | null;
                             quantity: number;
@@ -2069,6 +2096,7 @@ export declare const adminRouter: {
                                 isDefault: boolean;
                                 verifiedAt: Date | null;
                                 sellerId: number;
+                                origin: string | null;
                             };
                             cartItems?: any[] | undefined;
                             orderItems?: any[] | undefined;
@@ -2090,6 +2118,7 @@ export declare const adminRouter: {
                             updatedAt: Date;
                             name: string | null;
                             sellerId: number;
+                            origin: string;
                             description: string | null;
                             imageUrl: string | null;
                             mark: number;
@@ -2099,7 +2128,6 @@ export declare const adminRouter: {
                             sampleWeight: number | null;
                             productionMonth: string;
                             location: string;
-                            origin: string;
                             pricePerUnit: number;
                             mbp: number | null;
                             quantity: number;
@@ -2121,6 +2149,7 @@ export declare const adminRouter: {
                                 isDefault: boolean;
                                 verifiedAt: Date | null;
                                 sellerId: number;
+                                origin: string | null;
                             };
                             cartItems?: any[] | undefined;
                             orderItems?: any[] | undefined;
@@ -2162,6 +2191,7 @@ export declare const adminRouter: {
                             updatedAt: Date;
                             name: string | null;
                             sellerId: number;
+                            origin: string;
                             description: string | null;
                             imageUrl: string | null;
                             mark: number;
@@ -2171,7 +2201,6 @@ export declare const adminRouter: {
                             sampleWeight: number | null;
                             productionMonth: string;
                             location: string;
-                            origin: string;
                             pricePerUnit: number;
                             mbp: number | null;
                             quantity: number;
@@ -2193,6 +2222,7 @@ export declare const adminRouter: {
                                 isDefault: boolean;
                                 verifiedAt: Date | null;
                                 sellerId: number;
+                                origin: string | null;
                             };
                             cartItems?: any[] | undefined;
                             orderItems?: any[] | undefined;
@@ -2204,8 +2234,8 @@ export declare const adminRouter: {
                     buyer: {
                         businessName: string;
                         ownerName: string;
-                        gstNumber: string;
-                        transportName: string | null;
+                        gstNumber?: string | null | undefined;
+                        transportName?: string | null | undefined;
                     };
                     subtotal: number;
                     totalAmount: number;
@@ -2244,6 +2274,7 @@ export declare const adminRouter: {
                             updatedAt: Date;
                             name: string | null;
                             sellerId: number;
+                            origin: string;
                             description: string | null;
                             imageUrl: string | null;
                             mark: number;
@@ -2253,7 +2284,6 @@ export declare const adminRouter: {
                             sampleWeight: number | null;
                             productionMonth: string;
                             location: string;
-                            origin: string;
                             pricePerUnit: number;
                             mbp: number | null;
                             quantity: number;
@@ -2275,6 +2305,7 @@ export declare const adminRouter: {
                                 isDefault: boolean;
                                 verifiedAt: Date | null;
                                 sellerId: number;
+                                origin: string | null;
                             };
                             cartItems?: any[] | undefined;
                             orderItems?: any[] | undefined;
@@ -2286,8 +2317,8 @@ export declare const adminRouter: {
                     buyer: {
                         businessName: string;
                         ownerName: string;
-                        gstNumber: string;
-                        transportName: string | null;
+                        gstNumber?: string | null | undefined;
+                        transportName?: string | null | undefined;
                     };
                     subtotal: number;
                     totalAmount: number;
@@ -2336,6 +2367,7 @@ export declare const adminRouter: {
                             updatedAt: Date;
                             name: string | null;
                             sellerId: number;
+                            origin: string;
                             description: string | null;
                             imageUrl: string | null;
                             mark: number;
@@ -2345,7 +2377,6 @@ export declare const adminRouter: {
                             sampleWeight: number | null;
                             productionMonth: string;
                             location: string;
-                            origin: string;
                             pricePerUnit: number;
                             mbp: number | null;
                             quantity: number;
@@ -2367,6 +2398,7 @@ export declare const adminRouter: {
                                 isDefault: boolean;
                                 verifiedAt: Date | null;
                                 sellerId: number;
+                                origin: string | null;
                             };
                             cartItems?: any[] | undefined;
                             orderItems?: any[] | undefined;
@@ -2378,8 +2410,8 @@ export declare const adminRouter: {
                     buyer: {
                         businessName: string;
                         ownerName: string;
-                        gstNumber: string;
-                        transportName: string | null;
+                        gstNumber?: string | null | undefined;
+                        transportName?: string | null | undefined;
                     };
                     subtotal: number;
                     totalAmount: number;
@@ -2423,6 +2455,7 @@ export declare const adminRouter: {
                             updatedAt: Date;
                             name: string | null;
                             sellerId: number;
+                            origin: string;
                             description: string | null;
                             imageUrl: string | null;
                             mark: number;
@@ -2432,7 +2465,6 @@ export declare const adminRouter: {
                             sampleWeight: number | null;
                             productionMonth: string;
                             location: string;
-                            origin: string;
                             pricePerUnit: number;
                             mbp: number | null;
                             quantity: number;
@@ -2454,6 +2486,7 @@ export declare const adminRouter: {
                                 isDefault: boolean;
                                 verifiedAt: Date | null;
                                 sellerId: number;
+                                origin: string | null;
                             };
                             cartItems?: any[] | undefined;
                             orderItems?: any[] | undefined;
@@ -2465,8 +2498,8 @@ export declare const adminRouter: {
                     buyer: {
                         businessName: string;
                         ownerName: string;
-                        gstNumber: string;
-                        transportName: string | null;
+                        gstNumber?: string | null | undefined;
+                        transportName?: string | null | undefined;
                     };
                     subtotal: number;
                     totalAmount: number;
@@ -2533,41 +2566,41 @@ export declare const adminRouter: {
                 userId: z.ZodNumber;
                 buyer: z.ZodObject<Pick<{
                     town: z.ZodString;
-                    transportName: z.ZodNullable<z.ZodString>;
+                    transportName: z.ZodOptional<z.ZodNullable<z.ZodString>>;
                     userId: z.ZodNumber;
                     createdAt: z.ZodDate;
                     updatedAt: z.ZodDate;
-                    bankAccountNumber: z.ZodString;
-                    bankIfscCode: z.ZodString;
-                    panNumber: z.ZodString;
-                    panCard: z.ZodNullable<z.ZodString>;
-                    gstNumber: z.ZodString;
-                    gstCertificate: z.ZodNullable<z.ZodString>;
-                    fssaiNumber: z.ZodNullable<z.ZodString>;
-                    fssaiLicense: z.ZodNullable<z.ZodString>;
+                    bankAccountNumber: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                    bankIfscCode: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                    panNumber: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                    panCard: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                    gstNumber: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                    gstCertificate: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                    fssaiNumber: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                    fssaiLicense: z.ZodOptional<z.ZodNullable<z.ZodString>>;
                     phone: z.ZodString;
                     email: z.ZodString;
-                    secondaryContactName: z.ZodNullable<z.ZodString>;
-                    secondaryContactDesignation: z.ZodNullable<z.ZodString>;
-                    secondaryContactNumber: z.ZodNullable<z.ZodString>;
+                    secondaryContactName: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                    secondaryContactDesignation: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                    secondaryContactNumber: z.ZodOptional<z.ZodNullable<z.ZodString>>;
                     address: z.ZodString;
                     state: z.ZodString;
                     district: z.ZodString;
                     pincode: z.ZodString;
                     businessName: z.ZodString;
-                    businessType: z.ZodString;
+                    businessType: z.ZodOptional<z.ZodNullable<z.ZodString>>;
                     ownerName: z.ZodString;
                     id: z.ZodNumber;
                 }, "businessName" | "ownerName" | "gstNumber" | "transportName">, "strip", z.ZodTypeAny, {
                     businessName: string;
                     ownerName: string;
-                    gstNumber: string;
-                    transportName: string | null;
+                    gstNumber?: string | null | undefined;
+                    transportName?: string | null | undefined;
                 }, {
                     businessName: string;
                     ownerName: string;
-                    gstNumber: string;
-                    transportName: string | null;
+                    gstNumber?: string | null | undefined;
+                    transportName?: string | null | undefined;
                 }>;
                 status: z.ZodDefault<z.ZodEnum<["PENDING", "ACCEPTED", "DESPATCHED", "ON_WAY", "DELIVERED", "CANCELLED"]>>;
                 subtotal: z.ZodNumber;
@@ -2617,6 +2650,7 @@ export declare const adminRouter: {
                             sellerId: z.ZodNumber;
                             createdAt: z.ZodDate;
                             updatedAt: z.ZodDate;
+                            origin: z.ZodNullable<z.ZodString>;
                         }, "strip", z.ZodTypeAny, {
                             status: "PENDING" | "APPROVED" | "REJECTED";
                             id: number;
@@ -2628,6 +2662,7 @@ export declare const adminRouter: {
                             isDefault: boolean;
                             verifiedAt: Date | null;
                             sellerId: number;
+                            origin: string | null;
                         }, {
                             status: "PENDING" | "APPROVED" | "REJECTED";
                             id: number;
@@ -2639,6 +2674,7 @@ export declare const adminRouter: {
                             isDefault: boolean;
                             verifiedAt: Date | null;
                             sellerId: number;
+                            origin: string | null;
                         }>;
                         cartItems: z.ZodOptional<z.ZodArray<z.ZodAny, "many">>;
                         orderItems: z.ZodOptional<z.ZodArray<z.ZodAny, "many">>;
@@ -2651,6 +2687,7 @@ export declare const adminRouter: {
                         updatedAt: Date;
                         name: string | null;
                         sellerId: number;
+                        origin: string;
                         description: string | null;
                         imageUrl: string | null;
                         mark: number;
@@ -2660,7 +2697,6 @@ export declare const adminRouter: {
                         sampleWeight: number | null;
                         productionMonth: string;
                         location: string;
-                        origin: string;
                         pricePerUnit: number;
                         mbp: number | null;
                         quantity: number;
@@ -2682,6 +2718,7 @@ export declare const adminRouter: {
                             isDefault: boolean;
                             verifiedAt: Date | null;
                             sellerId: number;
+                            origin: string | null;
                         };
                         cartItems?: any[] | undefined;
                         orderItems?: any[] | undefined;
@@ -2692,6 +2729,7 @@ export declare const adminRouter: {
                         updatedAt: Date;
                         name: string | null;
                         sellerId: number;
+                        origin: string;
                         description: string | null;
                         imageUrl: string | null;
                         mark: number;
@@ -2701,7 +2739,6 @@ export declare const adminRouter: {
                         sampleWeight: number | null;
                         productionMonth: string;
                         location: string;
-                        origin: string;
                         pricePerUnit: number;
                         mbp: number | null;
                         quantity: number;
@@ -2723,6 +2760,7 @@ export declare const adminRouter: {
                             isDefault: boolean;
                             verifiedAt: Date | null;
                             sellerId: number;
+                            origin: string | null;
                         };
                         cartItems?: any[] | undefined;
                         orderItems?: any[] | undefined;
@@ -2747,6 +2785,7 @@ export declare const adminRouter: {
                         updatedAt: Date;
                         name: string | null;
                         sellerId: number;
+                        origin: string;
                         description: string | null;
                         imageUrl: string | null;
                         mark: number;
@@ -2756,7 +2795,6 @@ export declare const adminRouter: {
                         sampleWeight: number | null;
                         productionMonth: string;
                         location: string;
-                        origin: string;
                         pricePerUnit: number;
                         mbp: number | null;
                         quantity: number;
@@ -2778,6 +2816,7 @@ export declare const adminRouter: {
                             isDefault: boolean;
                             verifiedAt: Date | null;
                             sellerId: number;
+                            origin: string | null;
                         };
                         cartItems?: any[] | undefined;
                         orderItems?: any[] | undefined;
@@ -2799,6 +2838,7 @@ export declare const adminRouter: {
                         updatedAt: Date;
                         name: string | null;
                         sellerId: number;
+                        origin: string;
                         description: string | null;
                         imageUrl: string | null;
                         mark: number;
@@ -2808,7 +2848,6 @@ export declare const adminRouter: {
                         sampleWeight: number | null;
                         productionMonth: string;
                         location: string;
-                        origin: string;
                         pricePerUnit: number;
                         mbp: number | null;
                         quantity: number;
@@ -2830,6 +2869,7 @@ export declare const adminRouter: {
                             isDefault: boolean;
                             verifiedAt: Date | null;
                             sellerId: number;
+                            origin: string | null;
                         };
                         cartItems?: any[] | undefined;
                         orderItems?: any[] | undefined;
@@ -2871,6 +2911,7 @@ export declare const adminRouter: {
                         updatedAt: Date;
                         name: string | null;
                         sellerId: number;
+                        origin: string;
                         description: string | null;
                         imageUrl: string | null;
                         mark: number;
@@ -2880,7 +2921,6 @@ export declare const adminRouter: {
                         sampleWeight: number | null;
                         productionMonth: string;
                         location: string;
-                        origin: string;
                         pricePerUnit: number;
                         mbp: number | null;
                         quantity: number;
@@ -2902,6 +2942,7 @@ export declare const adminRouter: {
                             isDefault: boolean;
                             verifiedAt: Date | null;
                             sellerId: number;
+                            origin: string | null;
                         };
                         cartItems?: any[] | undefined;
                         orderItems?: any[] | undefined;
@@ -2913,8 +2954,8 @@ export declare const adminRouter: {
                 buyer: {
                     businessName: string;
                     ownerName: string;
-                    gstNumber: string;
-                    transportName: string | null;
+                    gstNumber?: string | null | undefined;
+                    transportName?: string | null | undefined;
                 };
                 subtotal: number;
                 totalAmount: number;
@@ -2953,6 +2994,7 @@ export declare const adminRouter: {
                         updatedAt: Date;
                         name: string | null;
                         sellerId: number;
+                        origin: string;
                         description: string | null;
                         imageUrl: string | null;
                         mark: number;
@@ -2962,7 +3004,6 @@ export declare const adminRouter: {
                         sampleWeight: number | null;
                         productionMonth: string;
                         location: string;
-                        origin: string;
                         pricePerUnit: number;
                         mbp: number | null;
                         quantity: number;
@@ -2984,6 +3025,7 @@ export declare const adminRouter: {
                             isDefault: boolean;
                             verifiedAt: Date | null;
                             sellerId: number;
+                            origin: string | null;
                         };
                         cartItems?: any[] | undefined;
                         orderItems?: any[] | undefined;
@@ -2995,8 +3037,8 @@ export declare const adminRouter: {
                 buyer: {
                     businessName: string;
                     ownerName: string;
-                    gstNumber: string;
-                    transportName: string | null;
+                    gstNumber?: string | null | undefined;
+                    transportName?: string | null | undefined;
                 };
                 subtotal: number;
                 totalAmount: number;
@@ -3087,41 +3129,41 @@ export declare const adminRouter: {
                 userId: z.ZodNumber;
                 buyer: z.ZodObject<Pick<{
                     town: z.ZodString;
-                    transportName: z.ZodNullable<z.ZodString>;
+                    transportName: z.ZodOptional<z.ZodNullable<z.ZodString>>;
                     userId: z.ZodNumber;
                     createdAt: z.ZodDate;
                     updatedAt: z.ZodDate;
-                    bankAccountNumber: z.ZodString;
-                    bankIfscCode: z.ZodString;
-                    panNumber: z.ZodString;
-                    panCard: z.ZodNullable<z.ZodString>;
-                    gstNumber: z.ZodString;
-                    gstCertificate: z.ZodNullable<z.ZodString>;
-                    fssaiNumber: z.ZodNullable<z.ZodString>;
-                    fssaiLicense: z.ZodNullable<z.ZodString>;
+                    bankAccountNumber: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                    bankIfscCode: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                    panNumber: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                    panCard: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                    gstNumber: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                    gstCertificate: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                    fssaiNumber: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                    fssaiLicense: z.ZodOptional<z.ZodNullable<z.ZodString>>;
                     phone: z.ZodString;
                     email: z.ZodString;
-                    secondaryContactName: z.ZodNullable<z.ZodString>;
-                    secondaryContactDesignation: z.ZodNullable<z.ZodString>;
-                    secondaryContactNumber: z.ZodNullable<z.ZodString>;
+                    secondaryContactName: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                    secondaryContactDesignation: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                    secondaryContactNumber: z.ZodOptional<z.ZodNullable<z.ZodString>>;
                     address: z.ZodString;
                     state: z.ZodString;
                     district: z.ZodString;
                     pincode: z.ZodString;
                     businessName: z.ZodString;
-                    businessType: z.ZodString;
+                    businessType: z.ZodOptional<z.ZodNullable<z.ZodString>>;
                     ownerName: z.ZodString;
                     id: z.ZodNumber;
                 }, "businessName" | "ownerName" | "gstNumber" | "transportName">, "strip", z.ZodTypeAny, {
                     businessName: string;
                     ownerName: string;
-                    gstNumber: string;
-                    transportName: string | null;
+                    gstNumber?: string | null | undefined;
+                    transportName?: string | null | undefined;
                 }, {
                     businessName: string;
                     ownerName: string;
-                    gstNumber: string;
-                    transportName: string | null;
+                    gstNumber?: string | null | undefined;
+                    transportName?: string | null | undefined;
                 }>;
                 status: z.ZodDefault<z.ZodEnum<["PENDING", "ACCEPTED", "DESPATCHED", "ON_WAY", "DELIVERED", "CANCELLED"]>>;
                 subtotal: z.ZodNumber;
@@ -3171,6 +3213,7 @@ export declare const adminRouter: {
                             sellerId: z.ZodNumber;
                             createdAt: z.ZodDate;
                             updatedAt: z.ZodDate;
+                            origin: z.ZodNullable<z.ZodString>;
                         }, "strip", z.ZodTypeAny, {
                             status: "PENDING" | "APPROVED" | "REJECTED";
                             id: number;
@@ -3182,6 +3225,7 @@ export declare const adminRouter: {
                             isDefault: boolean;
                             verifiedAt: Date | null;
                             sellerId: number;
+                            origin: string | null;
                         }, {
                             status: "PENDING" | "APPROVED" | "REJECTED";
                             id: number;
@@ -3193,6 +3237,7 @@ export declare const adminRouter: {
                             isDefault: boolean;
                             verifiedAt: Date | null;
                             sellerId: number;
+                            origin: string | null;
                         }>;
                         cartItems: z.ZodOptional<z.ZodArray<z.ZodAny, "many">>;
                         orderItems: z.ZodOptional<z.ZodArray<z.ZodAny, "many">>;
@@ -3205,6 +3250,7 @@ export declare const adminRouter: {
                         updatedAt: Date;
                         name: string | null;
                         sellerId: number;
+                        origin: string;
                         description: string | null;
                         imageUrl: string | null;
                         mark: number;
@@ -3214,7 +3260,6 @@ export declare const adminRouter: {
                         sampleWeight: number | null;
                         productionMonth: string;
                         location: string;
-                        origin: string;
                         pricePerUnit: number;
                         mbp: number | null;
                         quantity: number;
@@ -3236,6 +3281,7 @@ export declare const adminRouter: {
                             isDefault: boolean;
                             verifiedAt: Date | null;
                             sellerId: number;
+                            origin: string | null;
                         };
                         cartItems?: any[] | undefined;
                         orderItems?: any[] | undefined;
@@ -3246,6 +3292,7 @@ export declare const adminRouter: {
                         updatedAt: Date;
                         name: string | null;
                         sellerId: number;
+                        origin: string;
                         description: string | null;
                         imageUrl: string | null;
                         mark: number;
@@ -3255,7 +3302,6 @@ export declare const adminRouter: {
                         sampleWeight: number | null;
                         productionMonth: string;
                         location: string;
-                        origin: string;
                         pricePerUnit: number;
                         mbp: number | null;
                         quantity: number;
@@ -3277,6 +3323,7 @@ export declare const adminRouter: {
                             isDefault: boolean;
                             verifiedAt: Date | null;
                             sellerId: number;
+                            origin: string | null;
                         };
                         cartItems?: any[] | undefined;
                         orderItems?: any[] | undefined;
@@ -3301,6 +3348,7 @@ export declare const adminRouter: {
                         updatedAt: Date;
                         name: string | null;
                         sellerId: number;
+                        origin: string;
                         description: string | null;
                         imageUrl: string | null;
                         mark: number;
@@ -3310,7 +3358,6 @@ export declare const adminRouter: {
                         sampleWeight: number | null;
                         productionMonth: string;
                         location: string;
-                        origin: string;
                         pricePerUnit: number;
                         mbp: number | null;
                         quantity: number;
@@ -3332,6 +3379,7 @@ export declare const adminRouter: {
                             isDefault: boolean;
                             verifiedAt: Date | null;
                             sellerId: number;
+                            origin: string | null;
                         };
                         cartItems?: any[] | undefined;
                         orderItems?: any[] | undefined;
@@ -3353,6 +3401,7 @@ export declare const adminRouter: {
                         updatedAt: Date;
                         name: string | null;
                         sellerId: number;
+                        origin: string;
                         description: string | null;
                         imageUrl: string | null;
                         mark: number;
@@ -3362,7 +3411,6 @@ export declare const adminRouter: {
                         sampleWeight: number | null;
                         productionMonth: string;
                         location: string;
-                        origin: string;
                         pricePerUnit: number;
                         mbp: number | null;
                         quantity: number;
@@ -3384,6 +3432,7 @@ export declare const adminRouter: {
                             isDefault: boolean;
                             verifiedAt: Date | null;
                             sellerId: number;
+                            origin: string | null;
                         };
                         cartItems?: any[] | undefined;
                         orderItems?: any[] | undefined;
@@ -3425,6 +3474,7 @@ export declare const adminRouter: {
                         updatedAt: Date;
                         name: string | null;
                         sellerId: number;
+                        origin: string;
                         description: string | null;
                         imageUrl: string | null;
                         mark: number;
@@ -3434,7 +3484,6 @@ export declare const adminRouter: {
                         sampleWeight: number | null;
                         productionMonth: string;
                         location: string;
-                        origin: string;
                         pricePerUnit: number;
                         mbp: number | null;
                         quantity: number;
@@ -3456,6 +3505,7 @@ export declare const adminRouter: {
                             isDefault: boolean;
                             verifiedAt: Date | null;
                             sellerId: number;
+                            origin: string | null;
                         };
                         cartItems?: any[] | undefined;
                         orderItems?: any[] | undefined;
@@ -3467,8 +3517,8 @@ export declare const adminRouter: {
                 buyer: {
                     businessName: string;
                     ownerName: string;
-                    gstNumber: string;
-                    transportName: string | null;
+                    gstNumber?: string | null | undefined;
+                    transportName?: string | null | undefined;
                 };
                 subtotal: number;
                 totalAmount: number;
@@ -3507,6 +3557,7 @@ export declare const adminRouter: {
                         updatedAt: Date;
                         name: string | null;
                         sellerId: number;
+                        origin: string;
                         description: string | null;
                         imageUrl: string | null;
                         mark: number;
@@ -3516,7 +3567,6 @@ export declare const adminRouter: {
                         sampleWeight: number | null;
                         productionMonth: string;
                         location: string;
-                        origin: string;
                         pricePerUnit: number;
                         mbp: number | null;
                         quantity: number;
@@ -3538,6 +3588,7 @@ export declare const adminRouter: {
                             isDefault: boolean;
                             verifiedAt: Date | null;
                             sellerId: number;
+                            origin: string | null;
                         };
                         cartItems?: any[] | undefined;
                         orderItems?: any[] | undefined;
@@ -3549,8 +3600,8 @@ export declare const adminRouter: {
                 buyer: {
                     businessName: string;
                     ownerName: string;
-                    gstNumber: string;
-                    transportName: string | null;
+                    gstNumber?: string | null | undefined;
+                    transportName?: string | null | undefined;
                 };
                 subtotal: number;
                 totalAmount: number;
@@ -3631,41 +3682,41 @@ export declare const adminRouter: {
                 userId: z.ZodNumber;
                 buyer: z.ZodObject<Pick<{
                     town: z.ZodString;
-                    transportName: z.ZodNullable<z.ZodString>;
+                    transportName: z.ZodOptional<z.ZodNullable<z.ZodString>>;
                     userId: z.ZodNumber;
                     createdAt: z.ZodDate;
                     updatedAt: z.ZodDate;
-                    bankAccountNumber: z.ZodString;
-                    bankIfscCode: z.ZodString;
-                    panNumber: z.ZodString;
-                    panCard: z.ZodNullable<z.ZodString>;
-                    gstNumber: z.ZodString;
-                    gstCertificate: z.ZodNullable<z.ZodString>;
-                    fssaiNumber: z.ZodNullable<z.ZodString>;
-                    fssaiLicense: z.ZodNullable<z.ZodString>;
+                    bankAccountNumber: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                    bankIfscCode: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                    panNumber: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                    panCard: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                    gstNumber: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                    gstCertificate: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                    fssaiNumber: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                    fssaiLicense: z.ZodOptional<z.ZodNullable<z.ZodString>>;
                     phone: z.ZodString;
                     email: z.ZodString;
-                    secondaryContactName: z.ZodNullable<z.ZodString>;
-                    secondaryContactDesignation: z.ZodNullable<z.ZodString>;
-                    secondaryContactNumber: z.ZodNullable<z.ZodString>;
+                    secondaryContactName: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                    secondaryContactDesignation: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                    secondaryContactNumber: z.ZodOptional<z.ZodNullable<z.ZodString>>;
                     address: z.ZodString;
                     state: z.ZodString;
                     district: z.ZodString;
                     pincode: z.ZodString;
                     businessName: z.ZodString;
-                    businessType: z.ZodString;
+                    businessType: z.ZodOptional<z.ZodNullable<z.ZodString>>;
                     ownerName: z.ZodString;
                     id: z.ZodNumber;
                 }, "businessName" | "ownerName" | "gstNumber" | "transportName">, "strip", z.ZodTypeAny, {
                     businessName: string;
                     ownerName: string;
-                    gstNumber: string;
-                    transportName: string | null;
+                    gstNumber?: string | null | undefined;
+                    transportName?: string | null | undefined;
                 }, {
                     businessName: string;
                     ownerName: string;
-                    gstNumber: string;
-                    transportName: string | null;
+                    gstNumber?: string | null | undefined;
+                    transportName?: string | null | undefined;
                 }>;
                 status: z.ZodDefault<z.ZodEnum<["PENDING", "ACCEPTED", "DESPATCHED", "ON_WAY", "DELIVERED", "CANCELLED"]>>;
                 subtotal: z.ZodNumber;
@@ -3715,6 +3766,7 @@ export declare const adminRouter: {
                             sellerId: z.ZodNumber;
                             createdAt: z.ZodDate;
                             updatedAt: z.ZodDate;
+                            origin: z.ZodNullable<z.ZodString>;
                         }, "strip", z.ZodTypeAny, {
                             status: "PENDING" | "APPROVED" | "REJECTED";
                             id: number;
@@ -3726,6 +3778,7 @@ export declare const adminRouter: {
                             isDefault: boolean;
                             verifiedAt: Date | null;
                             sellerId: number;
+                            origin: string | null;
                         }, {
                             status: "PENDING" | "APPROVED" | "REJECTED";
                             id: number;
@@ -3737,6 +3790,7 @@ export declare const adminRouter: {
                             isDefault: boolean;
                             verifiedAt: Date | null;
                             sellerId: number;
+                            origin: string | null;
                         }>;
                         cartItems: z.ZodOptional<z.ZodArray<z.ZodAny, "many">>;
                         orderItems: z.ZodOptional<z.ZodArray<z.ZodAny, "many">>;
@@ -3749,6 +3803,7 @@ export declare const adminRouter: {
                         updatedAt: Date;
                         name: string | null;
                         sellerId: number;
+                        origin: string;
                         description: string | null;
                         imageUrl: string | null;
                         mark: number;
@@ -3758,7 +3813,6 @@ export declare const adminRouter: {
                         sampleWeight: number | null;
                         productionMonth: string;
                         location: string;
-                        origin: string;
                         pricePerUnit: number;
                         mbp: number | null;
                         quantity: number;
@@ -3780,6 +3834,7 @@ export declare const adminRouter: {
                             isDefault: boolean;
                             verifiedAt: Date | null;
                             sellerId: number;
+                            origin: string | null;
                         };
                         cartItems?: any[] | undefined;
                         orderItems?: any[] | undefined;
@@ -3790,6 +3845,7 @@ export declare const adminRouter: {
                         updatedAt: Date;
                         name: string | null;
                         sellerId: number;
+                        origin: string;
                         description: string | null;
                         imageUrl: string | null;
                         mark: number;
@@ -3799,7 +3855,6 @@ export declare const adminRouter: {
                         sampleWeight: number | null;
                         productionMonth: string;
                         location: string;
-                        origin: string;
                         pricePerUnit: number;
                         mbp: number | null;
                         quantity: number;
@@ -3821,6 +3876,7 @@ export declare const adminRouter: {
                             isDefault: boolean;
                             verifiedAt: Date | null;
                             sellerId: number;
+                            origin: string | null;
                         };
                         cartItems?: any[] | undefined;
                         orderItems?: any[] | undefined;
@@ -3845,6 +3901,7 @@ export declare const adminRouter: {
                         updatedAt: Date;
                         name: string | null;
                         sellerId: number;
+                        origin: string;
                         description: string | null;
                         imageUrl: string | null;
                         mark: number;
@@ -3854,7 +3911,6 @@ export declare const adminRouter: {
                         sampleWeight: number | null;
                         productionMonth: string;
                         location: string;
-                        origin: string;
                         pricePerUnit: number;
                         mbp: number | null;
                         quantity: number;
@@ -3876,6 +3932,7 @@ export declare const adminRouter: {
                             isDefault: boolean;
                             verifiedAt: Date | null;
                             sellerId: number;
+                            origin: string | null;
                         };
                         cartItems?: any[] | undefined;
                         orderItems?: any[] | undefined;
@@ -3897,6 +3954,7 @@ export declare const adminRouter: {
                         updatedAt: Date;
                         name: string | null;
                         sellerId: number;
+                        origin: string;
                         description: string | null;
                         imageUrl: string | null;
                         mark: number;
@@ -3906,7 +3964,6 @@ export declare const adminRouter: {
                         sampleWeight: number | null;
                         productionMonth: string;
                         location: string;
-                        origin: string;
                         pricePerUnit: number;
                         mbp: number | null;
                         quantity: number;
@@ -3928,6 +3985,7 @@ export declare const adminRouter: {
                             isDefault: boolean;
                             verifiedAt: Date | null;
                             sellerId: number;
+                            origin: string | null;
                         };
                         cartItems?: any[] | undefined;
                         orderItems?: any[] | undefined;
@@ -3969,6 +4027,7 @@ export declare const adminRouter: {
                         updatedAt: Date;
                         name: string | null;
                         sellerId: number;
+                        origin: string;
                         description: string | null;
                         imageUrl: string | null;
                         mark: number;
@@ -3978,7 +4037,6 @@ export declare const adminRouter: {
                         sampleWeight: number | null;
                         productionMonth: string;
                         location: string;
-                        origin: string;
                         pricePerUnit: number;
                         mbp: number | null;
                         quantity: number;
@@ -4000,6 +4058,7 @@ export declare const adminRouter: {
                             isDefault: boolean;
                             verifiedAt: Date | null;
                             sellerId: number;
+                            origin: string | null;
                         };
                         cartItems?: any[] | undefined;
                         orderItems?: any[] | undefined;
@@ -4011,8 +4070,8 @@ export declare const adminRouter: {
                 buyer: {
                     businessName: string;
                     ownerName: string;
-                    gstNumber: string;
-                    transportName: string | null;
+                    gstNumber?: string | null | undefined;
+                    transportName?: string | null | undefined;
                 };
                 subtotal: number;
                 totalAmount: number;
@@ -4051,6 +4110,7 @@ export declare const adminRouter: {
                         updatedAt: Date;
                         name: string | null;
                         sellerId: number;
+                        origin: string;
                         description: string | null;
                         imageUrl: string | null;
                         mark: number;
@@ -4060,7 +4120,6 @@ export declare const adminRouter: {
                         sampleWeight: number | null;
                         productionMonth: string;
                         location: string;
-                        origin: string;
                         pricePerUnit: number;
                         mbp: number | null;
                         quantity: number;
@@ -4082,6 +4141,7 @@ export declare const adminRouter: {
                             isDefault: boolean;
                             verifiedAt: Date | null;
                             sellerId: number;
+                            origin: string | null;
                         };
                         cartItems?: any[] | undefined;
                         orderItems?: any[] | undefined;
@@ -4093,8 +4153,8 @@ export declare const adminRouter: {
                 buyer: {
                     businessName: string;
                     ownerName: string;
-                    gstNumber: string;
-                    transportName: string | null;
+                    gstNumber?: string | null | undefined;
+                    transportName?: string | null | undefined;
                 };
                 subtotal: number;
                 totalAmount: number;
@@ -4175,41 +4235,41 @@ export declare const adminRouter: {
                 userId: z.ZodNumber;
                 buyer: z.ZodObject<Pick<{
                     town: z.ZodString;
-                    transportName: z.ZodNullable<z.ZodString>;
+                    transportName: z.ZodOptional<z.ZodNullable<z.ZodString>>;
                     userId: z.ZodNumber;
                     createdAt: z.ZodDate;
                     updatedAt: z.ZodDate;
-                    bankAccountNumber: z.ZodString;
-                    bankIfscCode: z.ZodString;
-                    panNumber: z.ZodString;
-                    panCard: z.ZodNullable<z.ZodString>;
-                    gstNumber: z.ZodString;
-                    gstCertificate: z.ZodNullable<z.ZodString>;
-                    fssaiNumber: z.ZodNullable<z.ZodString>;
-                    fssaiLicense: z.ZodNullable<z.ZodString>;
+                    bankAccountNumber: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                    bankIfscCode: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                    panNumber: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                    panCard: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                    gstNumber: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                    gstCertificate: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                    fssaiNumber: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                    fssaiLicense: z.ZodOptional<z.ZodNullable<z.ZodString>>;
                     phone: z.ZodString;
                     email: z.ZodString;
-                    secondaryContactName: z.ZodNullable<z.ZodString>;
-                    secondaryContactDesignation: z.ZodNullable<z.ZodString>;
-                    secondaryContactNumber: z.ZodNullable<z.ZodString>;
+                    secondaryContactName: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                    secondaryContactDesignation: z.ZodOptional<z.ZodNullable<z.ZodString>>;
+                    secondaryContactNumber: z.ZodOptional<z.ZodNullable<z.ZodString>>;
                     address: z.ZodString;
                     state: z.ZodString;
                     district: z.ZodString;
                     pincode: z.ZodString;
                     businessName: z.ZodString;
-                    businessType: z.ZodString;
+                    businessType: z.ZodOptional<z.ZodNullable<z.ZodString>>;
                     ownerName: z.ZodString;
                     id: z.ZodNumber;
                 }, "businessName" | "ownerName" | "gstNumber" | "transportName">, "strip", z.ZodTypeAny, {
                     businessName: string;
                     ownerName: string;
-                    gstNumber: string;
-                    transportName: string | null;
+                    gstNumber?: string | null | undefined;
+                    transportName?: string | null | undefined;
                 }, {
                     businessName: string;
                     ownerName: string;
-                    gstNumber: string;
-                    transportName: string | null;
+                    gstNumber?: string | null | undefined;
+                    transportName?: string | null | undefined;
                 }>;
                 status: z.ZodDefault<z.ZodEnum<["PENDING", "ACCEPTED", "DESPATCHED", "ON_WAY", "DELIVERED", "CANCELLED"]>>;
                 subtotal: z.ZodNumber;
@@ -4259,6 +4319,7 @@ export declare const adminRouter: {
                             sellerId: z.ZodNumber;
                             createdAt: z.ZodDate;
                             updatedAt: z.ZodDate;
+                            origin: z.ZodNullable<z.ZodString>;
                         }, "strip", z.ZodTypeAny, {
                             status: "PENDING" | "APPROVED" | "REJECTED";
                             id: number;
@@ -4270,6 +4331,7 @@ export declare const adminRouter: {
                             isDefault: boolean;
                             verifiedAt: Date | null;
                             sellerId: number;
+                            origin: string | null;
                         }, {
                             status: "PENDING" | "APPROVED" | "REJECTED";
                             id: number;
@@ -4281,6 +4343,7 @@ export declare const adminRouter: {
                             isDefault: boolean;
                             verifiedAt: Date | null;
                             sellerId: number;
+                            origin: string | null;
                         }>;
                         cartItems: z.ZodOptional<z.ZodArray<z.ZodAny, "many">>;
                         orderItems: z.ZodOptional<z.ZodArray<z.ZodAny, "many">>;
@@ -4293,6 +4356,7 @@ export declare const adminRouter: {
                         updatedAt: Date;
                         name: string | null;
                         sellerId: number;
+                        origin: string;
                         description: string | null;
                         imageUrl: string | null;
                         mark: number;
@@ -4302,7 +4366,6 @@ export declare const adminRouter: {
                         sampleWeight: number | null;
                         productionMonth: string;
                         location: string;
-                        origin: string;
                         pricePerUnit: number;
                         mbp: number | null;
                         quantity: number;
@@ -4324,6 +4387,7 @@ export declare const adminRouter: {
                             isDefault: boolean;
                             verifiedAt: Date | null;
                             sellerId: number;
+                            origin: string | null;
                         };
                         cartItems?: any[] | undefined;
                         orderItems?: any[] | undefined;
@@ -4334,6 +4398,7 @@ export declare const adminRouter: {
                         updatedAt: Date;
                         name: string | null;
                         sellerId: number;
+                        origin: string;
                         description: string | null;
                         imageUrl: string | null;
                         mark: number;
@@ -4343,7 +4408,6 @@ export declare const adminRouter: {
                         sampleWeight: number | null;
                         productionMonth: string;
                         location: string;
-                        origin: string;
                         pricePerUnit: number;
                         mbp: number | null;
                         quantity: number;
@@ -4365,6 +4429,7 @@ export declare const adminRouter: {
                             isDefault: boolean;
                             verifiedAt: Date | null;
                             sellerId: number;
+                            origin: string | null;
                         };
                         cartItems?: any[] | undefined;
                         orderItems?: any[] | undefined;
@@ -4389,6 +4454,7 @@ export declare const adminRouter: {
                         updatedAt: Date;
                         name: string | null;
                         sellerId: number;
+                        origin: string;
                         description: string | null;
                         imageUrl: string | null;
                         mark: number;
@@ -4398,7 +4464,6 @@ export declare const adminRouter: {
                         sampleWeight: number | null;
                         productionMonth: string;
                         location: string;
-                        origin: string;
                         pricePerUnit: number;
                         mbp: number | null;
                         quantity: number;
@@ -4420,6 +4485,7 @@ export declare const adminRouter: {
                             isDefault: boolean;
                             verifiedAt: Date | null;
                             sellerId: number;
+                            origin: string | null;
                         };
                         cartItems?: any[] | undefined;
                         orderItems?: any[] | undefined;
@@ -4441,6 +4507,7 @@ export declare const adminRouter: {
                         updatedAt: Date;
                         name: string | null;
                         sellerId: number;
+                        origin: string;
                         description: string | null;
                         imageUrl: string | null;
                         mark: number;
@@ -4450,7 +4517,6 @@ export declare const adminRouter: {
                         sampleWeight: number | null;
                         productionMonth: string;
                         location: string;
-                        origin: string;
                         pricePerUnit: number;
                         mbp: number | null;
                         quantity: number;
@@ -4472,6 +4538,7 @@ export declare const adminRouter: {
                             isDefault: boolean;
                             verifiedAt: Date | null;
                             sellerId: number;
+                            origin: string | null;
                         };
                         cartItems?: any[] | undefined;
                         orderItems?: any[] | undefined;
@@ -4513,6 +4580,7 @@ export declare const adminRouter: {
                         updatedAt: Date;
                         name: string | null;
                         sellerId: number;
+                        origin: string;
                         description: string | null;
                         imageUrl: string | null;
                         mark: number;
@@ -4522,7 +4590,6 @@ export declare const adminRouter: {
                         sampleWeight: number | null;
                         productionMonth: string;
                         location: string;
-                        origin: string;
                         pricePerUnit: number;
                         mbp: number | null;
                         quantity: number;
@@ -4544,6 +4611,7 @@ export declare const adminRouter: {
                             isDefault: boolean;
                             verifiedAt: Date | null;
                             sellerId: number;
+                            origin: string | null;
                         };
                         cartItems?: any[] | undefined;
                         orderItems?: any[] | undefined;
@@ -4555,8 +4623,8 @@ export declare const adminRouter: {
                 buyer: {
                     businessName: string;
                     ownerName: string;
-                    gstNumber: string;
-                    transportName: string | null;
+                    gstNumber?: string | null | undefined;
+                    transportName?: string | null | undefined;
                 };
                 subtotal: number;
                 totalAmount: number;
@@ -4595,6 +4663,7 @@ export declare const adminRouter: {
                         updatedAt: Date;
                         name: string | null;
                         sellerId: number;
+                        origin: string;
                         description: string | null;
                         imageUrl: string | null;
                         mark: number;
@@ -4604,7 +4673,6 @@ export declare const adminRouter: {
                         sampleWeight: number | null;
                         productionMonth: string;
                         location: string;
-                        origin: string;
                         pricePerUnit: number;
                         mbp: number | null;
                         quantity: number;
@@ -4626,6 +4694,7 @@ export declare const adminRouter: {
                             isDefault: boolean;
                             verifiedAt: Date | null;
                             sellerId: number;
+                            origin: string | null;
                         };
                         cartItems?: any[] | undefined;
                         orderItems?: any[] | undefined;
@@ -4637,8 +4706,8 @@ export declare const adminRouter: {
                 buyer: {
                     businessName: string;
                     ownerName: string;
-                    gstNumber: string;
-                    transportName: string | null;
+                    gstNumber?: string | null | undefined;
+                    transportName?: string | null | undefined;
                 };
                 subtotal: number;
                 totalAmount: number;

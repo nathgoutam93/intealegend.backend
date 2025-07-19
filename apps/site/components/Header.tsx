@@ -50,7 +50,8 @@ export function Header({
             href={"/app/explore"}
             className={cn(
               "text-sm",
-              pathname === "/app/explore" && "border-b-2 border-red-500"
+              pathname === "/app/explore" && "border-b-2 border-red-500",
+              "hidden md:inline-block"
             )}
           >
             Live Now
@@ -59,7 +60,8 @@ export function Header({
             href={"/app/orders"}
             className={cn(
               "text-sm",
-              pathname === "/app/orders" && "border-b-2 border-red-500"
+              pathname === "/app/orders" && "border-b-2 border-red-500",
+              "hidden md:inline-block"
             )}
           >
             My Orders
@@ -90,6 +92,28 @@ export function Header({
             <span className="text-sm">Account</span>
           </Link>
         </div>
+      </div>
+      <div className="border-t md:border-none p-2 flex items-center justify-center gap-4">
+        <Link
+          href={"/app/explore"}
+          className={cn(
+            "text-xs p-1 rounded-xl",
+            pathname === "/app/explore" && "bg-blue-200",
+            "inline-block md:hidden"
+          )}
+        >
+          Live Now
+        </Link>
+        <Link
+          href={"/app/orders"}
+          className={cn(
+            "text-xs p-1 rounded-xl",
+            pathname === "/app/orders" && "bg-blue-200",
+            "inline-block md:hidden"
+          )}
+        >
+          My Orders
+        </Link>
       </div>
     </header>
   );

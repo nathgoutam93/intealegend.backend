@@ -14,8 +14,12 @@ import { Button } from "@/components/ui/button";
 import { useCartStore } from "@/store/cartStore";
 import { ChevronDown } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { Tooltip, TooltipProvider } from "@/components/ui/tooltip";
-import { TooltipContent, TooltipTrigger } from "@radix-ui/react-tooltip";
+import {
+  Tooltip,
+  TooltipProvider,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { CartSummary } from "@/components/CartSummary";
 import { formatProductId } from "@/lib/utils";
 
@@ -145,7 +149,7 @@ function ProductList({}: Props) {
 
   return (
     <>
-      <div className="p-8">
+      <div className="p-2 md:p-8">
         {/* Filters and Search */}
         <div className="flex gap-4 mb-6">
           <Input
@@ -162,12 +166,138 @@ function ProductList({}: Props) {
           />
         </div>
 
+        {/* Mobile Card List View */}
+        {/* <div className="block md:hidden"> */}
+        <div className="hidden">
+          <div className="space-y-4">
+            {data.body.data.map((product) => (
+              <div
+                key={product.id}
+                className="rounded-lg border shadow-sm p-4 flex flex-col gap-2 bg-white"
+              >
+                <div className="flex justify-between items-center">
+                  <span className="font-semibold text-lg">
+                    {formatProductId(
+                      product.id.toString(),
+                      product.productionMonth
+                    )}
+                  </span>
+                  <span className="text-xs text-gray-500">
+                    {new Date(product.productionMonth).toLocaleString("en-IN", {
+                      month: "short",
+                      year: "numeric",
+                    })}
+                  </span>
+                </div>
+                <div className="flex flex-wrap gap-2 text-sm">
+                  <span className="font-medium text-gray-400">Mark:</span>
+                  <span className="font-bold text-gray-900">
+                    {product.brandMark.name}
+                  </span>
+                  <span className="font-medium text-gray-400 ml-4">Grade:</span>
+                  <span className="font-bold text-gray-900">
+                    {product.grade}
+                  </span>
+                </div>
+                <div className="flex flex-wrap gap-2 text-sm">
+                  <span className="font-medium text-gray-400">Invoice:</span>
+                  <span className="font-bold text-gray-900">
+                    {product.invoiceNo}
+                  </span>
+                </div>
+                <div className="flex flex-wrap gap-2 text-sm">
+                  <span className="font-medium text-gray-400">Pkgs:</span>
+                  <span className="font-bold text-gray-900">
+                    {product.quantity}
+                  </span>
+                  <span className="font-medium text-gray-400 ml-4">
+                    Wt/Pkg:
+                  </span>
+                  <span className="font-bold text-gray-900">
+                    {product.weightPerUnit} kg
+                  </span>
+                  <span className="font-medium text-gray-400 ml-4">
+                    Sample:
+                  </span>
+                  <span className="font-bold text-gray-900">
+                    {product.sampleWeight} kg
+                  </span>
+                </div>
+                <div className="flex flex-wrap gap-2 text-sm">
+                  <span className="font-medium text-gray-400">Total Wt:</span>
+                  <span className="font-bold text-gray-900">
+                    {product.quantity * product.weightPerUnit -
+                      Number(product.sampleWeight)}{" "}
+                    kg
+                  </span>
+                  <span className="font-medium text-gray-400 ml-4">
+                    Price/Kg:
+                  </span>
+                  <span className="font-bold text-gray-900">
+                    ₹{product.pricePerUnit.toLocaleString("en-IN")}
+                  </span>
+                  <span className="font-medium text-gray-400 ml-4">MBP:</span>
+                  <span className="font-bold text-gray-900">{product.mbp}</span>
+                </div>
+                <div className="flex flex-wrap gap-2 text-xs text-gray-500">
+                  <span className="font-medium text-gray-400">Location:</span>
+                  <span className="font-bold text-gray-900">
+                    {product.location}
+                  </span>
+                  <span className="font-medium text-gray-400 ml-4">
+                    Origin:
+                  </span>
+                  <span className="font-bold text-gray-900">
+                    {product.origin}
+                  </span>
+                </div>
+                <div className="flex items-center gap-2 mt-2">
+                  <TooltipProvider delayDuration={200}>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <span className="text-sm font-semibold cursor-pointer underline decoration-dotted">
+                          Score:{" "}
+                          {product.tasteScore +
+                            product.liquorScore +
+                            product.infusionScore +
+                            product.gradingScore +
+                            product.volumeScore +
+                            product.appearanceScore}
+                        </span>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <div className="p-1 bg-black text-white text-xs">
+                          <p>Taste: {product.tasteScore}</p>
+                          <p>Liquor: {product.liquorScore}</p>
+                          <p>Infusion: {product.infusionScore}</p>
+                          <p>Grading: {product.gradingScore}</p>
+                          <p>Volume: {product.volumeScore}</p>
+                          <p>Appearance: {product.appearanceScore}</p>
+                        </div>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleAddToCart(product)}
+                  >
+                    Add to Cart
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Desktop Table View */}
+        {/* <div className="h-[40vh] overflow-y-scroll shadow-sm hidden md:block"> */}
         <div className="h-[40vh] overflow-y-scroll shadow-sm">
           <div className="border rounded-lg">
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="text-left">ID</TableHead>
+                  {/* <TableHead className="text-left">ID</TableHead> */}
                   <TableHead className="text-center">Mark</TableHead>
                   <TableHead className="whitespace-nowrap text-center">
                     Invoice No.
@@ -211,7 +341,7 @@ function ProductList({}: Props) {
                       />
                     </Button>
                   </TableHead>
-                  <TableHead className="text-center">MBP</TableHead>
+                  {/* <TableHead className="text-center">MBP</TableHead> */}
                   <TableHead className="text-center"></TableHead>
                   <TableHead className="text-center">Location</TableHead>
                   <TableHead className="text-center">Origin</TableHead>
@@ -224,14 +354,14 @@ function ProductList({}: Props) {
                     key={product.id}
                     className="cursor-pointer hover:bg-muted/50"
                   >
-                    <TableCell className="font-medium text-left">
+                    {/* <TableCell className="font-medium text-left">
                       <span>
                         {formatProductId(
                           product.id.toString(),
                           product.productionMonth
                         )}
                       </span>
-                    </TableCell>
+                    </TableCell> */}
 
                     <TableCell className="text-center">
                       {product.brandMark.name}
@@ -257,18 +387,32 @@ function ProductList({}: Props) {
                       kg
                     </TableCell>
                     <TableCell className="text-center">
-                      <TooltipProvider delayDuration={200}>
+                      <TooltipProvider delayDuration={0}>
                         <Tooltip>
                           <TooltipTrigger>
-                            {product.tasteScore +
-                              product.liquorScore +
-                              product.infusionScore +
-                              product.gradingScore +
-                              product.volumeScore +
-                              product.appearanceScore}
+                            <button
+                              className="cursor-pointer underline decoration-dotted"
+                              tabIndex={0}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                // Manually focus to trigger tooltip
+                                (e.currentTarget as HTMLElement).focus();
+                              }}
+                              onBlur={(e) => {
+                                // On mobile, blur closes tooltip
+                                (e.currentTarget as HTMLElement).blur();
+                              }}
+                            >
+                              {product.tasteScore +
+                                product.liquorScore +
+                                product.infusionScore +
+                                product.gradingScore +
+                                product.volumeScore +
+                                product.appearanceScore}
+                            </button>
                           </TooltipTrigger>
                           <TooltipContent>
-                            <div className="p-1 bg-black text-white text-xs">
+                            <div className="p-1 text-gray-900 text-xs">
                               <p>Taste: {product.tasteScore}</p>
                               <p>Liquor: {product.liquorScore}</p>
                               <p>Infusion: {product.infusionScore}</p>
@@ -280,10 +424,10 @@ function ProductList({}: Props) {
                         </Tooltip>
                       </TooltipProvider>
                     </TableCell>
-                    <TableCell className="text-center">
+                    <TableCell>
                       {product.pricePerUnit.toLocaleString("en-IN")}
                     </TableCell>
-                    <TableCell className="text-center">{product.mbp}</TableCell>
+                    {/* <TableCell className="text-center">{product.mbp}</TableCell> */}
                     <TableCell className="text-center">
                       <Button
                         variant="outline"
@@ -343,8 +487,9 @@ function ProductList({}: Props) {
           </div>
         </div>
       </div>
-      <div className="p-8">
-        <div className="h-[40vh] overflow-y-scroll shadow-sm">
+
+      <div className="hidden md:block w-full p-2 md:p-8">
+        <div className="h-[40vh] overflow-y-scroll shadow-sm w-full">
           <CartSummary />
         </div>
       </div>

@@ -35,6 +35,7 @@ export declare const ProductSchema: z.ZodObject<{
         sellerId: z.ZodNumber;
         createdAt: z.ZodDate;
         updatedAt: z.ZodDate;
+        origin: z.ZodNullable<z.ZodString>;
     }, "strip", z.ZodTypeAny, {
         status: "PENDING" | "APPROVED" | "REJECTED";
         id: number;
@@ -46,6 +47,7 @@ export declare const ProductSchema: z.ZodObject<{
         isDefault: boolean;
         verifiedAt: Date | null;
         sellerId: number;
+        origin: string | null;
     }, {
         status: "PENDING" | "APPROVED" | "REJECTED";
         id: number;
@@ -57,6 +59,7 @@ export declare const ProductSchema: z.ZodObject<{
         isDefault: boolean;
         verifiedAt: Date | null;
         sellerId: number;
+        origin: string | null;
     }>;
     cartItems: z.ZodOptional<z.ZodArray<z.ZodAny, "many">>;
     orderItems: z.ZodOptional<z.ZodArray<z.ZodAny, "many">>;
@@ -69,6 +72,7 @@ export declare const ProductSchema: z.ZodObject<{
     updatedAt: Date;
     name: string | null;
     sellerId: number;
+    origin: string;
     description: string | null;
     imageUrl: string | null;
     mark: number;
@@ -78,7 +82,6 @@ export declare const ProductSchema: z.ZodObject<{
     sampleWeight: number | null;
     productionMonth: string;
     location: string;
-    origin: string;
     pricePerUnit: number;
     mbp: number | null;
     quantity: number;
@@ -100,6 +103,7 @@ export declare const ProductSchema: z.ZodObject<{
         isDefault: boolean;
         verifiedAt: Date | null;
         sellerId: number;
+        origin: string | null;
     };
     cartItems?: any[] | undefined;
     orderItems?: any[] | undefined;
@@ -110,6 +114,7 @@ export declare const ProductSchema: z.ZodObject<{
     updatedAt: Date;
     name: string | null;
     sellerId: number;
+    origin: string;
     description: string | null;
     imageUrl: string | null;
     mark: number;
@@ -119,7 +124,6 @@ export declare const ProductSchema: z.ZodObject<{
     sampleWeight: number | null;
     productionMonth: string;
     location: string;
-    origin: string;
     pricePerUnit: number;
     mbp: number | null;
     quantity: number;
@@ -141,6 +145,7 @@ export declare const ProductSchema: z.ZodObject<{
         isDefault: boolean;
         verifiedAt: Date | null;
         sellerId: number;
+        origin: string | null;
     };
     cartItems?: any[] | undefined;
     orderItems?: any[] | undefined;

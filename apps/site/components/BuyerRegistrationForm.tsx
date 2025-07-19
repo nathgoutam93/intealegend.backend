@@ -64,30 +64,30 @@ const REGISTRATION_STEPS = [
       "secondaryContactNumber",
     ],
   },
+  // {
+  //   id: 4,
+  //   title: "Business Documents",
+  //   fields: [
+  //     "panNumber",
+  //     "panCard",
+  //     "gstNumber",
+  //     "gstCertificate",
+  //     "fssaiNumber",
+  //     "fssaiLicense",
+  //   ],
+  // },
+  // {
+  //   id: 5,
+  //   title: "Banking Information",
+  //   fields: ["bankAccountNumber", "bankIfscCode", "cancelledCheque"],
+  // },
   {
     id: 4,
-    title: "Business Documents",
-    fields: [
-      "panNumber",
-      "panCard",
-      "gstNumber",
-      "gstCertificate",
-      "fssaiNumber",
-      "fssaiLicense",
-    ],
-  },
-  {
-    id: 5,
-    title: "Banking Information",
-    fields: ["bankAccountNumber", "bankIfscCode", "cancelledCheque"],
-  },
-  {
-    id: 6,
     title: "Logistics",
     fields: ["transportName"],
   },
   {
-    id: 7,
+    id: 5,
     title: "Set Password",
     fields: ["password", "confirmPassword"],
   },
@@ -156,25 +156,7 @@ export default function BuyerRegistrationForm() {
   });
 
   const goNextStep = async () => {
-    const excludeFields = [
-      "secondaryContactName",
-      "secondaryContactDesignation",
-      "secondaryContactNumber",
-    ];
-    const currentStepFields = (
-      REGISTRATION_STEPS[step - 1]?.fields || []
-    ).filter((field) => !excludeFields.includes(field));
-    const missingField = currentStepFields.find(
-      (field) =>
-        !formData[field] ||
-        (typeof formData[field] === "string" &&
-          formData[field]?.toString().trim() === "")
-    );
-    if (missingField) {
-      toast.error("Please fill all required fields.");
-      return;
-    }
-
+    // Remove validation for now
     if (step < REGISTRATION_STEPS.length) {
       setStep(step + 1);
     } else {
@@ -261,7 +243,7 @@ export default function BuyerRegistrationForm() {
               </div>
 
               {/* Business Type (Dropdown) */}
-              <div>
+              {/* <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Business Type
                 </label>
@@ -279,7 +261,7 @@ export default function BuyerRegistrationForm() {
                   <option value="Partnership">Partnership</option>
                   <option value="Proprietorship">Proprietorship</option>
                 </select>
-              </div>
+              </div> */}
 
               {/* Owner Name */}
               <div>
@@ -393,7 +375,7 @@ export default function BuyerRegistrationForm() {
               </div>
 
               {/* Secondary Contact Name */}
-              <div>
+              {/* <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Secondary Contact Name
                 </label>
@@ -405,10 +387,10 @@ export default function BuyerRegistrationForm() {
                     handleInputChange("secondaryContactName", e.target.value)
                   }
                 />
-              </div>
+              </div> */}
 
               {/* Secondary Contact Designation */}
-              <div>
+              {/* <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Secondary Contact Designation
                 </label>
@@ -423,10 +405,10 @@ export default function BuyerRegistrationForm() {
                     )
                   }
                 />
-              </div>
+              </div> */}
 
               {/* Secondary Contact Number */}
-              <div>
+              {/* <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Secondary Contact Number
                 </label>
@@ -438,12 +420,12 @@ export default function BuyerRegistrationForm() {
                     handleInputChange("secondaryContactNumber", e.target.value)
                   }
                 />
-              </div>
+              </div> */}
             </>
           )}
 
           {/* STEP 4: Business Documents */}
-          {step === 4 && (
+          {/* {step === 4 && (
             <>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
@@ -532,10 +514,10 @@ export default function BuyerRegistrationForm() {
                 </div>
               </div>
             </>
-          )}
+          )} */}
 
           {/* STEP 5: Banking Information */}
-          {step === 5 && (
+          {/* {step === 5 && (
             <>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
@@ -566,9 +548,9 @@ export default function BuyerRegistrationForm() {
                 </div>
               </div>
             </>
-          )}
+          )} */}
 
-          {step === 6 && (
+          {step === 4 && (
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Transport Partner Name
@@ -585,7 +567,7 @@ export default function BuyerRegistrationForm() {
           )}
 
           {/* STEP 7: Set Password */}
-          {step === 7 && (
+          {step === 5 && (
             <>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">

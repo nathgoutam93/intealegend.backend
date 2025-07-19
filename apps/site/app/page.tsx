@@ -218,7 +218,7 @@ export default function Home() {
 
       <main className="min-h-screen pt-16">
         {/* Hero Section */}
-        <section className="relative h-[100vh] md:min-h-[90vh] bg-white overflow-hidden">
+        <section className="relative min-h-[100vh] bg-white overflow-hidden">
           {/* Background Carousel */}
           {mounted && (
             <div className="absolute inset-0 z-0">

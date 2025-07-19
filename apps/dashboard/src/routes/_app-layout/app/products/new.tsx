@@ -75,6 +75,10 @@ function NewProductPage() {
     },
   });
 
+  // Track selected mark
+  const selectedMark = marks?.body.find((m) => m.id === form.watch("mark"));
+  const selectedMarkOrigin = selectedMark?.origin ?? null;
+
   const onSubmit = async (data: ProductInput) => {
     try {
       const response = await createProduct.mutateAsync({
@@ -163,6 +167,11 @@ function NewProductPage() {
                         field.onChange(selectedMark.id);
                         form.setValue("brandMark", selectedMark);
                         form.setValue("mark", selectedMark.id);
+                        if (selectedMark.origin) {
+                          form.setValue("origin", selectedMark.origin);
+                        } else {
+                          form.setValue("origin", "");
+                        }
                       }
                     }}
                     value={field.value?.toString()}
@@ -299,7 +308,12 @@ function NewProductPage() {
                 <FormItem>
                   <FormLabel>Origin</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input
+                      {...field}
+                      value={field.value ?? ""}
+                      disabled={!!selectedMarkOrigin}
+                      placeholder={selectedMarkOrigin || "Enter origin"}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
