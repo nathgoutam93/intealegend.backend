@@ -27,6 +27,7 @@ import {
 } from "@/components/ui/form";
 import { Switch } from "@/components/ui/switch";
 import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import type { BrandMark } from "@intealegend/api-contract";
 import client from "@/api-client";
 
@@ -36,6 +37,7 @@ export const Route = createFileRoute("/_app-layout/app/brands")({
 
 function BrandsPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const queryClient = useQueryClient();
 
   const { data: brandMarks, isLoading } = client.sellers.getBrandMarks.useQuery(
     ["brand-marks"]
@@ -57,6 +59,7 @@ function BrandsPage() {
     onSuccess: () => {
       setIsModalOpen(false);
       form.reset();
+      queryClient.invalidateQueries({ queryKey: ["brand-marks"] });
     },
   });
 
