@@ -4,7 +4,7 @@ import * as bcrypt from 'bcrypt';
 import { PRISMA_TOKEN } from 'src/database/constants';
 import { PrismaClient, UserRole } from '@intealegend/database';
 import { ConfigService } from '@nestjs/config';
-import { profile } from 'console';
+import { MailService } from '../mail/mail.service';
 
 @Injectable()
 export class AuthService {
@@ -12,7 +12,8 @@ export class AuthService {
     @Inject(PRISMA_TOKEN) private db: PrismaClient,
     private jwtService: JwtService,
     private configService: ConfigService,
-  ) {}
+    private mailService: MailService,
+  ) { }
 
   private generateTokens(user: any) {
     const payload = {
@@ -203,5 +204,87 @@ export class AuthService {
 
       return user;
     });
+  }
+
+  async forgotPassword(identifier: string) {
+    // 1. Find user by email or uniqueIdentifier
+    const user = await this.db.user.findFirst({
+      where: {
+        OR: [
+          { email: identifier },
+          { uniqueIdentifier: identifier },
+        ],
+      },
+    });
+    if (!user) {
+      throw new UnauthorizedException('No user found with that identifier');
+    }
+
+    // 2. Generate secure token and expiry (1 hour)
+    const token = [...Array(48)].map(() => Math.random().toString(36)[2]).join('');
+    const expiresAt = new Date(Date.now() + 60 * 60 * 1000); // 1 hour from now
+
+    // 3. Store in PasswordResetToken table (invalidate previous tokens)
+    await this.db.passwordResetToken.updateMany({
+      where: { identifier, used: false, expiresAt: { gt: new Date() } },
+      data: { used: true },
+    });
+    await this.db.passwordResetToken.create({
+      data: {
+        token,
+        identifier,
+        expiresAt,
+      },
+    });
+
+    // 4. Send email with reset link
+    const resetUrl = `${this.configService.get<string>('FRONTEND_URL') || 'http://localhost:3000'}/auth/reset-password?token=${token}`;
+    await this.mailService.sendPasswordResetLink(user.email, resetUrl);
+    return { message: 'Password reset link sent to your email if it exists in our system.' };
+  }
+
+  async resetPassword(newPassword: string, resetToken: string) {
+    // 1. Find token record
+    const tokenRecord = await this.db.passwordResetToken.findFirst({
+      where: {
+        token: resetToken,
+        used: false,
+        expiresAt: { gt: new Date() },
+      },
+    });
+    if (!tokenRecord) {
+      throw new UnauthorizedException('Invalid or expired reset token');
+    }
+
+    // 2. Find user
+    const user = await this.db.user.findFirst({
+      where: {
+        OR: [
+          { email: tokenRecord.identifier },
+          { uniqueIdentifier: tokenRecord.identifier },
+        ],
+      },
+    });
+    if (!user) {
+      throw new UnauthorizedException('No user found with that identifier');
+    }
+
+    // 3. Hash and update password
+    const hashed = await bcrypt.hash(newPassword, 10);
+    await this.db.user.update({
+      where: { id: user.id },
+      data: { password: hashed },
+    });
+
+    // 4. Mark token as used
+    await this.db.passwordResetToken.update({
+      where: { id: tokenRecord.id },
+      data: { used: true },
+    });
+
+    // 5. Send password reset success email
+    await this.mailService.sendPasswordResetSuccess(user.email);
+
+    return { message: 'Password has been reset successfully.' };
   }
 }

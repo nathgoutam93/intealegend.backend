@@ -3,17 +3,99 @@ import z from "zod";
 import { BrandMarkSchema } from "./schemas/brandMark";
 export declare const contract: {
     auth: {
+        forgotPassword: {
+            method: "POST";
+            body: z.ZodObject<{
+                identifier: z.ZodString;
+            }, "strip", z.ZodTypeAny, {
+                identifier: string;
+            }, {
+                identifier: string;
+            }>;
+            path: "/api/auth/forgot-password";
+            responses: {
+                200: z.ZodObject<{
+                    message: z.ZodString;
+                }, "strip", z.ZodTypeAny, {
+                    message: string;
+                }, {
+                    message: string;
+                }>;
+                400: z.ZodObject<{
+                    message: z.ZodString;
+                    code: z.ZodString;
+                    timestamp: z.ZodString;
+                }, "strip", z.ZodTypeAny, {
+                    code: string;
+                    message: string;
+                    timestamp: string;
+                }, {
+                    code: string;
+                    message: string;
+                    timestamp: string;
+                }>;
+            };
+        };
+        resetPassword: {
+            method: "POST";
+            body: z.ZodObject<{
+                newPassword: z.ZodString;
+                resetToken: z.ZodString;
+            }, "strip", z.ZodTypeAny, {
+                newPassword: string;
+                resetToken: string;
+            }, {
+                newPassword: string;
+                resetToken: string;
+            }>;
+            path: "/api/auth/reset-password";
+            responses: {
+                200: z.ZodObject<{
+                    message: z.ZodString;
+                }, "strip", z.ZodTypeAny, {
+                    message: string;
+                }, {
+                    message: string;
+                }>;
+                400: z.ZodObject<{
+                    message: z.ZodString;
+                    code: z.ZodString;
+                    timestamp: z.ZodString;
+                }, "strip", z.ZodTypeAny, {
+                    code: string;
+                    message: string;
+                    timestamp: string;
+                }, {
+                    code: string;
+                    message: string;
+                    timestamp: string;
+                }>;
+                401: z.ZodObject<{
+                    message: z.ZodString;
+                    code: z.ZodString;
+                    timestamp: z.ZodString;
+                }, "strip", z.ZodTypeAny, {
+                    code: string;
+                    message: string;
+                    timestamp: string;
+                }, {
+                    code: string;
+                    message: string;
+                    timestamp: string;
+                }>;
+            };
+        };
         login: {
             method: "POST";
             body: z.ZodObject<{
                 identifier: z.ZodString;
                 password: z.ZodString;
             }, "strip", z.ZodTypeAny, {
-                password: string;
                 identifier: string;
+                password: string;
             }, {
-                password: string;
                 identifier: string;
+                password: string;
             }>;
             path: "/api/auth/login";
             responses: {

@@ -75,3 +75,34 @@ export declare const LoginResponseSchema: z.ZodObject<{
         uniqueIdentifier: string | null;
     };
 }>;
+export declare const ForgotPasswordRequestSchema: z.ZodObject<{
+    identifier: z.ZodString;
+}, "strip", z.ZodTypeAny, {
+    identifier: string;
+}, {
+    identifier: string;
+}>;
+export declare const ForgotPasswordResponseSchema: z.ZodObject<{
+    message: z.ZodString;
+}, "strip", z.ZodTypeAny, {
+    message: string;
+}, {
+    message: string;
+}>;
+export declare const ResetPasswordRequestSchema: z.ZodObject<{
+    newPassword: z.ZodString;
+    resetToken: z.ZodString;
+}, "strip", z.ZodTypeAny, {
+    newPassword: string;
+    resetToken: string;
+}, {
+    newPassword: string;
+    resetToken: string;
+}>;
+export declare const ResetPasswordResponseSchema: z.ZodObject<{
+    message: z.ZodString;
+}, "strip", z.ZodTypeAny, {
+    message: string;
+}, {
+    message: string;
+}>;

@@ -26,7 +26,7 @@ import { formatProductId } from "@/lib/utils";
 export function CartSummary() {
   const { items, removeItem, updateQuantity, calculateTotals, clearCart } =
     useCartStore();
-  const { subtotal, totalWeight, totalAmount, gstOnSubtotal, gstOnShipping } =
+  const { subtotal, shipping, totalQuantity, totalAmount, gstOnSubtotal, gstOnShipping } =
     calculateTotals();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const router = useRouter();
@@ -36,12 +36,6 @@ export function CartSummary() {
       updateQuantity(item.id, newQuantity);
     }
   };
-
-  // Calculate shipping based on weight (20 INR per kg, min 200 INR, max 600 INR)
-  const shipping = Math.min(Math.max(totalWeight * 20, 200), 600);
-
-  // Calculate total amount
-  const finalTotal = subtotal + shipping + gstOnSubtotal + gstOnShipping;
 
   const placeOrderMutation = client.buyers.placeOrder.useMutation({
     onSuccess: () => {
@@ -144,20 +138,20 @@ export function CartSummary() {
           <h2 className="text-lg font-semibold mb-4">Cart Summary</h2>
           <div className="flex justify-between">
             <span>Total Packages</span>
-            <span>{items.reduce((sum, item) => sum + item.quantity, 0)}</span>
+            <span>{totalQuantity}</span>
           </div>
-          <div className="flex justify-between">
+          {/* <div className="flex justify-between">
             <span>Net Weight</span>
             <span>{totalWeight}kg</span>
-          </div>
+          </div> */}
           <div className="flex justify-between">
             <span>Subtotal</span>
             <span>₹{subtotal.toFixed(2)}</span>
           </div>
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-1">
-              <span>Shipping (₹20/kg)</span>
-              <TooltipProvider delayDuration={200}>
+              <span>Shipping (₹50/pkg)</span>
+              {/* <TooltipProvider delayDuration={200}>
                 <Tooltip>
                   <TooltipTrigger>
                     <Info className="h-4 w-4 text-gray-400" />
@@ -166,7 +160,7 @@ export function CartSummary() {
                     <p>Minimum ₹200, Maximum ₹600</p>
                   </TooltipContent>
                 </Tooltip>
-              </TooltipProvider>
+              </TooltipProvider> */}
             </div>
             <span>₹{shipping.toFixed(2)}</span>
           </div>
@@ -181,7 +175,7 @@ export function CartSummary() {
           <div className="border-t pt-2 mt-2 font-semibold">
             <div className="flex justify-between">
               <span>Total Amount</span>
-              <span>₹{finalTotal.toFixed(2)}</span>
+              <span>₹{totalAmount.toFixed(2)}</span>
             </div>
           </div>
           <div className="pt-4">
@@ -207,13 +201,13 @@ export function CartSummary() {
               <span>Total Items</span>
               <span>{items.length}</span>
             </div>
-            <div className="flex justify-between text-sm">
+            {/* <div className="flex justify-between text-sm">
               <span>Net Weight</span>
               <span>{totalWeight}kg</span>
-            </div>
+            </div> */}
             <div className="flex justify-between text-sm font-semibold">
               <span>Final Amount</span>
-              <span>₹{finalTotal.toFixed(2)}</span>
+              <span>₹{totalAmount.toFixed(2)}</span>
             </div>
           </div>
 

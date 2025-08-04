@@ -9,6 +9,25 @@ var schemas_1 = require("../schemas");
 var zod_1 = __importDefault(require("zod"));
 var c = (0, core_1.initContract)();
 exports.authRouter = c.router({
+    forgotPassword: {
+        method: "POST",
+        path: "/auth/forgot-password",
+        body: schemas_1.ForgotPasswordRequestSchema,
+        responses: {
+            200: schemas_1.ForgotPasswordResponseSchema,
+            400: schemas_1.ErrorSchema,
+        },
+    },
+    resetPassword: {
+        method: "POST",
+        path: "/auth/reset-password",
+        body: schemas_1.ResetPasswordRequestSchema,
+        responses: {
+            200: schemas_1.ResetPasswordResponseSchema,
+            400: schemas_1.ErrorSchema,
+            401: schemas_1.ErrorSchema,
+        },
+    },
     login: {
         method: "POST",
         path: "/auth/login",

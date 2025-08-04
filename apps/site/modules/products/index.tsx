@@ -21,11 +21,13 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { CartSummary } from "@/components/CartSummary";
-import { formatProductId } from "@/lib/utils";
+import { cn, formatProductId } from "@/lib/utils";
+import { Product } from "@intealegend/api-contract";
+import { toast } from "sonner";
 
 type Props = {};
 
-function ProductList({}: Props) {
+function ProductList({ }: Props) {
   const [searchText, setSearchText] = useState("");
   const [gradeText, setGradeText] = useState("");
   const [debouncedSearchText, setDebouncedSearchText] = useState(searchText);
@@ -116,18 +118,11 @@ function ProductList({}: Props) {
 
   const addToCart = useCartStore((state) => state.addItem);
 
-  const handleAddToCart = (product: any) => {
+  const handleAddToCart = (product: Product) => {
     const mbp = product.mbp || 1;
-    const maxAvailableWeight =
-      product.quantity * product.weightPerUnit - Number(product.sampleWeight);
 
-    const existingCartItem = useCartStore
-      .getState()
-      .items.find((item) => item.id === product.id.toString());
-    const currentCartWeight = existingCartItem?.totalWeight || 0;
-
-    if (currentCartWeight >= maxAvailableWeight) {
-      alert("Cannot add more of this item - maximum available weight reached");
+    if (product.quantity < mbp) {
+      toast.error("Item is out of stock")
       return;
     }
 
@@ -140,7 +135,6 @@ function ProductList({}: Props) {
       weightPerPkg: product.weightPerUnit,
       quantity: mbp,
       mbp: mbp,
-      maxAvailableWeight: maxAvailableWeight,
     });
   };
 
@@ -352,7 +346,10 @@ function ProductList({}: Props) {
                 {data.body.data.map((product) => (
                   <TableRow
                     key={product.id}
-                    className="cursor-pointer hover:bg-muted/50"
+                    className={cn("cursor-pointer hover:bg-muted/50")}
+                    style={{
+                      background: product.quantity < (product.mbp || 0) ? "red" : ""
+                    }}
                   >
                     {/* <TableCell className="font-medium text-left">
                       <span>

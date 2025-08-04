@@ -26,7 +26,7 @@ export class AuthController {
   constructor(
     private readonly authService: AuthService,
     private readonly storageService: StorageService,
-  ) {}
+  ) { }
 
   @TsRestHandler(contract.auth.login)
   async login() {
@@ -71,7 +71,7 @@ export class AuthController {
         // Build profile object from form fields
         const profile = {
           ...(typeof formData['profile'] === 'object' &&
-          formData['profile'] !== null
+            formData['profile'] !== null
             ? formData['profile']
             : {}),
         };
@@ -121,6 +121,53 @@ export class AuthController {
           const result = await this.authService.adminLogin(
             body.email,
             body.password,
+          );
+          return { status: 200, body: result };
+        } catch (error) {
+          return {
+            status: 401,
+            body: {
+              message: error.message,
+              code: 'UNAUTHORIZED',
+              timestamp: new Date().toISOString(),
+            },
+          };
+        }
+      },
+    );
+  }
+
+  @TsRestHandler(contract.auth.forgotPassword)
+  async forgotPassword() {
+    return tsRestHandler(
+      contract.auth.forgotPassword,
+      async ({ body }: { body: { identifier: string } }) => {
+        try {
+          const result = await this.authService.forgotPassword(body.identifier);
+          return { status: 200, body: result };
+        } catch (error) {
+          return {
+            status: 401,
+            body: {
+              message: error.message,
+              code: 'UNAUTHORIZED',
+              timestamp: new Date().toISOString(),
+            },
+          };
+        }
+      },
+    );
+  }
+
+  @TsRestHandler(contract.auth.resetPassword)
+  async resetPassword() {
+    return tsRestHandler(
+      contract.auth.resetPassword,
+      async ({ body }: { body: { newPassword: string, resetToken: string } }) => {
+        try {
+          const result = await this.authService.resetPassword(
+            body.newPassword,
+            body.resetToken
           );
           return { status: 200, body: result };
         } catch (error) {

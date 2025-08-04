@@ -27,10 +27,11 @@ interface CartState {
   updateQuantity: (id: string, quantity: number) => void;
   calculateTotals: () => {
     subtotal: number;
-    totalWeight: number;
-    totalAmount: number;
+    totalQuantity: number;
+    shipping: number;
     gstOnSubtotal: number;
     gstOnShipping: number;
+    totalAmount: number;
   };
 }
 
@@ -66,11 +67,11 @@ export const useCartStore = create<CartState>()(
               items: state.items.map((i) =>
                 i.id === item.id
                   ? {
-                      ...i,
-                      quantity: newQuantity,
-                      totalWeight,
-                      totalPrice,
-                    }
+                    ...i,
+                    quantity: newQuantity,
+                    totalWeight,
+                    totalPrice,
+                  }
                   : i
               ),
             };
@@ -148,13 +149,13 @@ export const useCartStore = create<CartState>()(
           (sum, item) => sum + item.totalPrice,
           0
         );
-        const totalWeight = state.items.reduce(
-          (sum, item) => sum + item.totalWeight,
+        const totalQuantity = state.items.reduce(
+          (sum, item) => sum + item.quantity,
           0
         );
 
-        // Calculate shipping based on weight (20 INR per kg, min 200 INR, max 600 INR)
-        const shipping = Math.min(Math.max(totalWeight * 20, 200), 600);
+        // Calculate shipping based on quantity (50 INR per package)
+        const shipping = totalQuantity * 50;
 
         // Calculate GST separately for subtotal and shipping (5% each)
         const gstOnSubtotal = subtotal * 0.05;
@@ -176,10 +177,11 @@ export const useCartStore = create<CartState>()(
 
         return {
           subtotal,
-          totalWeight,
-          totalAmount,
+          totalQuantity,
+          shipping,
           gstOnSubtotal,
           gstOnShipping,
+          totalAmount,
         };
       },
     }),

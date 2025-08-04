@@ -31,6 +31,32 @@ export class MailService {
     });
   }
 
+  async sendPasswordResetLink(email: string, resetUrl: string) {
+    await this.transporter.sendMail({
+      from: this.configService.get<string>('MAIL_FROM'),
+      to: email,
+      subject: 'Reset Your Password',
+      html: `
+        <h1>Password Reset Request</h1>
+        <p>We received a request to reset your password. Click the link below to set a new password:</p>
+        <p><a href="${resetUrl}">${resetUrl}</a></p>
+        <p>If you did not request this, you can safely ignore this email.</p>
+      `,
+    });
+  }
+
+  async sendPasswordResetSuccess(email: string) {
+    await this.transporter.sendMail({
+      from: this.configService.get<string>('MAIL_FROM'),
+      to: email,
+      subject: 'Your Password Has Been Reset',
+      html: `
+        <h1>Password Reset Successful</h1>
+        <p>Your password has been successfully reset. If you did not perform this action, please contact support immediately.</p>
+      `,
+    });
+  }
+
   // Helper method to verify smtp connection
   async testConnection() {
     try {

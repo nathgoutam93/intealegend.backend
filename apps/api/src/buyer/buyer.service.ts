@@ -4,7 +4,7 @@ import { PRISMA_TOKEN } from 'src/database/constants';
 
 @Injectable()
 export class BuyerService {
-  constructor(@Inject(PRISMA_TOKEN) private db: PrismaClient) {}
+  constructor(@Inject(PRISMA_TOKEN) private db: PrismaClient) { }
 
   async getProfile(user: any) {
     const profile = await this.db.buyerProfile.findFirst({
@@ -51,6 +51,7 @@ export class BuyerService {
       }),
       status: { not: 'REJECTED' },
       isLive: true,
+      quantity: { gt: 0 },
       seller: {
         user: {
           isSuspended: false,
@@ -226,13 +227,19 @@ export class BuyerService {
       (sum, item) => sum + item.totalPrice,
       0,
     );
+    const totalQuantity = itemsWithProductData.reduce(
+      (sum, item) => sum + item.quantity,
+      0
+    );
     const estimatedWeight = itemsWithProductData.reduce(
       (sum, item) => sum + item.totalWeight,
       0,
     );
 
     // Calculate shipping based on weight (20 INR per kg, min 200 INR, max 600 INR)
-    const deliveryCharges = Math.min(Math.max(estimatedWeight * 20, 200), 600);
+    // const deliveryCharges = Math.min(Math.max(estimatedWeight * 20, 200), 600);
+
+    const deliveryCharges = totalQuantity * 50;
 
     const otherCharges = 0;
 

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.OrderSchema = exports.OrderItemSchema = exports.ProductSchema = exports.SellerStatsSchema = exports.AdminStatsSchema = exports.StaffProfileSchema = exports.AdminProfileSchema = exports.SellerProfileSchema = exports.BuyerProfileSchema = exports.LoginResponseSchema = exports.ErrorSchema = exports.PendingUserSchema = exports.UserSchema = void 0;
+exports.ResetPasswordResponseSchema = exports.ResetPasswordRequestSchema = exports.ForgotPasswordResponseSchema = exports.ForgotPasswordRequestSchema = exports.OrderSchema = exports.OrderItemSchema = exports.ProductSchema = exports.SellerStatsSchema = exports.AdminStatsSchema = exports.StaffProfileSchema = exports.AdminProfileSchema = exports.SellerProfileSchema = exports.BuyerProfileSchema = exports.LoginResponseSchema = exports.ErrorSchema = exports.PendingUserSchema = exports.UserSchema = void 0;
 var user_1 = require("./user");
 Object.defineProperty(exports, "UserSchema", { enumerable: true, get: function () { return user_1.UserSchema; } });
 Object.defineProperty(exports, "PendingUserSchema", { enumerable: true, get: function () { return user_1.PendingUserSchema; } });
@@ -21,3 +21,8 @@ Object.defineProperty(exports, "SellerStatsSchema", { enumerable: true, get: fun
 var common_1 = require("./common");
 Object.defineProperty(exports, "ErrorSchema", { enumerable: true, get: function () { return common_1.ErrorSchema; } });
 Object.defineProperty(exports, "LoginResponseSchema", { enumerable: true, get: function () { return common_1.LoginResponseSchema; } });
+var common_2 = require("./common");
+Object.defineProperty(exports, "ForgotPasswordRequestSchema", { enumerable: true, get: function () { return common_2.ForgotPasswordRequestSchema; } });
+Object.defineProperty(exports, "ForgotPasswordResponseSchema", { enumerable: true, get: function () { return common_2.ForgotPasswordResponseSchema; } });
+Object.defineProperty(exports, "ResetPasswordRequestSchema", { enumerable: true, get: function () { return common_2.ResetPasswordRequestSchema; } });
+Object.defineProperty(exports, "ResetPasswordResponseSchema", { enumerable: true, get: function () { return common_2.ResetPasswordResponseSchema; } });
