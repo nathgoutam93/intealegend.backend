@@ -20,6 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useEffect } from "react";
 
 export const Route = createFileRoute("/_app-layout/app/products/new")({
   component: NewProductPage,
@@ -52,7 +53,7 @@ function NewProductPage() {
     defaultValues: {
       name: "",
       grade: "",
-      mark: marks?.body.find((m) => m.isDefault)?.id,
+      mark: undefined,
       invoiceNo: "",
       description: null,
       productionMonth: "",
@@ -75,9 +76,13 @@ function NewProductPage() {
     },
   });
 
-  // Track selected mark
   const selectedMark = marks?.body.find((m) => m.id === form.watch("mark"));
   const selectedMarkOrigin = selectedMark?.origin ?? null;
+
+  useEffect(() => {
+    const defaultMark = marks?.body.find((m) => m.isDefault);
+    defaultMark && form.setValue("mark", defaultMark.id);
+  }, [marks]);
 
   const onSubmit = async (data: ProductInput) => {
     try {
@@ -93,10 +98,6 @@ function NewProductPage() {
       console.error(error);
     }
   };
-
-  // const handleCreateNewMark = () => {
-  //   navigate({ to: "/app/brands" });
-  // };
 
   if (marks?.status !== 200) {
     return <div>Loading...</div>;

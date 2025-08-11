@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { client } from "@/lib/api-client";
 import {
   Table,
@@ -20,6 +20,14 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/ui/dialog";
 import { CartSummary } from "@/components/CartSummary";
 import { cn, formatProductId } from "@/lib/utils";
 import { Product } from "@intealegend/api-contract";
@@ -27,7 +35,7 @@ import { toast } from "sonner";
 
 type Props = {};
 
-function ProductList({ }: Props) {
+function ProductList({}: Props) {
   const [searchText, setSearchText] = useState("");
   const [gradeText, setGradeText] = useState("");
   const [debouncedSearchText, setDebouncedSearchText] = useState(searchText);
@@ -38,57 +46,47 @@ function ProductList({ }: Props) {
   const [offset, setOffset] = useState(0);
   const limit = 10;
 
+  // Dialog state
+  const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState<Product | null>(null);
+
+  const openDialog = (p: Product) => {
+    setSelected(p);
+    setOpen(true);
+  };
+
+  const closeDialog = () => {
+    setOpen(false);
+    setSelected(null);
+  };
+
   // Debounce the search input
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedSearchText(searchText);
-      // Update URL params only after debounce
       const params = new URLSearchParams(window.location.search);
-      if (searchText) {
-        params.set("search", searchText);
-      } else {
-        params.delete("search");
-      }
+      searchText ? params.set("search", searchText) : params.delete("search");
       window.history.replaceState({}, "", `?${params.toString()}`);
     }, 500);
-
-    return () => {
-      clearTimeout(handler);
-    };
+    return () => clearTimeout(handler);
   }, [searchText]);
 
   // Debounce the grade input
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedGradeText(gradeText);
-      // Update URL params only after debounce
       const params = new URLSearchParams(window.location.search);
-      if (gradeText) {
-        params.set("grade", gradeText);
-      } else {
-        params.delete("grade");
-      }
+      gradeText ? params.set("grade", gradeText) : params.delete("grade");
       window.history.replaceState({}, "", `?${params.toString()}`);
     }, 500);
-
-    return () => {
-      clearTimeout(handler);
-    };
+    return () => clearTimeout(handler);
   }, [gradeText]);
 
   // Handle sort and pagination URL updates
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    if (sortOrder) {
-      params.set("sortOrder", sortOrder);
-    } else {
-      params.delete("sortOrder");
-    }
-    if (offset) {
-      params.set("offset", offset.toString());
-    } else {
-      params.delete("offset");
-    }
+    sortOrder ? params.set("sortOrder", sortOrder) : params.delete("sortOrder");
+    offset ? params.set("offset", offset.toString()) : params.delete("offset");
     window.history.replaceState({}, "", `?${params.toString()}`);
   }, [sortOrder, offset]);
 
@@ -120,12 +118,10 @@ function ProductList({ }: Props) {
 
   const handleAddToCart = (product: Product) => {
     const mbp = product.mbp || 1;
-
     if (product.quantity < mbp) {
-      toast.error("Item is out of stock")
+      toast.error("Item is out of stock");
       return;
     }
-
     addToCart({
       id: product.id.toString(),
       mark: product.brandMark.name,
@@ -136,6 +132,7 @@ function ProductList({ }: Props) {
       quantity: mbp,
       mbp: mbp,
     });
+    toast.success("Added to cart");
   };
 
   if (isLoading) return <div>Loading...</div>;
@@ -144,7 +141,7 @@ function ProductList({ }: Props) {
   return (
     <>
       <div className="p-2 md:p-8">
-        {/* Filters and Search */}
+        {/* Filters */}
         <div className="flex gap-4 mb-6">
           <Input
             placeholder="Search Mark..."
@@ -160,155 +157,41 @@ function ProductList({ }: Props) {
           />
         </div>
 
-        {/* Mobile Card List View */}
-        {/* <div className="block md:hidden"> */}
-        <div className="hidden">
-          <div className="space-y-4">
-            {data.body.data.map((product) => (
-              <div
-                key={product.id}
-                className="rounded-lg border shadow-sm p-4 flex flex-col gap-2 bg-white"
-              >
-                <div className="flex justify-between items-center">
-                  <span className="font-semibold text-lg">
-                    {formatProductId(
-                      product.id.toString(),
-                      product.productionMonth
-                    )}
-                  </span>
-                  <span className="text-xs text-gray-500">
-                    {new Date(product.productionMonth).toLocaleString("en-IN", {
-                      month: "short",
-                      year: "numeric",
-                    })}
-                  </span>
-                </div>
-                <div className="flex flex-wrap gap-2 text-sm">
-                  <span className="font-medium text-gray-400">Mark:</span>
-                  <span className="font-bold text-gray-900">
-                    {product.brandMark.name}
-                  </span>
-                  <span className="font-medium text-gray-400 ml-4">Grade:</span>
-                  <span className="font-bold text-gray-900">
-                    {product.grade}
-                  </span>
-                </div>
-                <div className="flex flex-wrap gap-2 text-sm">
-                  <span className="font-medium text-gray-400">Invoice:</span>
-                  <span className="font-bold text-gray-900">
-                    {product.invoiceNo}
-                  </span>
-                </div>
-                <div className="flex flex-wrap gap-2 text-sm">
-                  <span className="font-medium text-gray-400">Pkgs:</span>
-                  <span className="font-bold text-gray-900">
-                    {product.quantity}
-                  </span>
-                  <span className="font-medium text-gray-400 ml-4">
-                    Wt/Pkg:
-                  </span>
-                  <span className="font-bold text-gray-900">
-                    {product.weightPerUnit} kg
-                  </span>
-                  <span className="font-medium text-gray-400 ml-4">
-                    Sample:
-                  </span>
-                  <span className="font-bold text-gray-900">
-                    {product.sampleWeight} kg
-                  </span>
-                </div>
-                <div className="flex flex-wrap gap-2 text-sm">
-                  <span className="font-medium text-gray-400">Total Wt:</span>
-                  <span className="font-bold text-gray-900">
-                    {product.quantity * product.weightPerUnit -
-                      Number(product.sampleWeight)}{" "}
-                    kg
-                  </span>
-                  <span className="font-medium text-gray-400 ml-4">
-                    Price/Kg:
-                  </span>
-                  <span className="font-bold text-gray-900">
-                    ₹{product.pricePerUnit.toLocaleString("en-IN")}
-                  </span>
-                  <span className="font-medium text-gray-400 ml-4">MBP:</span>
-                  <span className="font-bold text-gray-900">{product.mbp}</span>
-                </div>
-                <div className="flex flex-wrap gap-2 text-xs text-gray-500">
-                  <span className="font-medium text-gray-400">Location:</span>
-                  <span className="font-bold text-gray-900">
-                    {product.location}
-                  </span>
-                  <span className="font-medium text-gray-400 ml-4">
-                    Origin:
-                  </span>
-                  <span className="font-bold text-gray-900">
-                    {product.origin}
-                  </span>
-                </div>
-                <div className="flex items-center gap-2 mt-2">
-                  <TooltipProvider delayDuration={200}>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <span className="text-sm font-semibold cursor-pointer underline decoration-dotted">
-                          Score:{" "}
-                          {product.tasteScore +
-                            product.liquorScore +
-                            product.infusionScore +
-                            product.gradingScore +
-                            product.volumeScore +
-                            product.appearanceScore}
-                        </span>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <div className="p-1 bg-black text-white text-xs">
-                          <p>Taste: {product.tasteScore}</p>
-                          <p>Liquor: {product.liquorScore}</p>
-                          <p>Infusion: {product.infusionScore}</p>
-                          <p>Grading: {product.gradingScore}</p>
-                          <p>Volume: {product.volumeScore}</p>
-                          <p>Appearance: {product.appearanceScore}</p>
-                        </div>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => handleAddToCart(product)}
-                  >
-                    Add to Cart
-                  </Button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Desktop Table View */}
-        {/* <div className="h-[40vh] overflow-y-scroll shadow-sm hidden md:block"> */}
+        {/* Unified Table (responsive columns) */}
         <div className="h-[40vh] overflow-y-scroll shadow-sm">
           <div className="border rounded-lg">
             <Table>
               <TableHeader>
                 <TableRow>
-                  {/* <TableHead className="text-left">ID</TableHead> */}
+                  {/* Visible on all screens */}
                   <TableHead className="text-center">Mark</TableHead>
-                  <TableHead className="whitespace-nowrap text-center">
+                  <TableHead className="text-center">Grade</TableHead>
+
+                  {/* Small-screen action (View) */}
+
+                  {/* Extra columns — hidden on small, visible md+ */}
+                  <TableHead className="hidden md:table-cell text-center">
                     Invoice No.
                   </TableHead>
-                  <TableHead className="text-center">Grade</TableHead>
-                  <TableHead className="text-center">Pkgs</TableHead>
-                  <TableHead className="text-center">Wt/Pkg</TableHead>
-                  <TableHead className="text-center">Sample</TableHead>
-                  <TableHead className="whitespace-nowrap text-center">
+                  <TableHead className="hidden md:table-cell text-center">
+                    Pkgs
+                  </TableHead>
+                  <TableHead className="hidden md:table-cell text-center">
+                    Wt/Pkg
+                  </TableHead>
+                  <TableHead className="hidden md:table-cell text-center">
+                    Sample
+                  </TableHead>
+                  <TableHead className="hidden md:table-cell text-center">
                     Total Wt.
                   </TableHead>
-                  <TableHead className="text-center">Score</TableHead>
+                  <TableHead className="hidden md:table-cell text-center">
+                    Score
+                  </TableHead>
                   <TableHead className="text-center">
                     <Button
                       variant="ghost"
                       onClick={() => {
-                        // cycle undefined → asc → desc → undefined
                         setSortOrder(
                           sortOrder === undefined
                             ? "asc"
@@ -317,12 +200,11 @@ function ProductList({ }: Props) {
                               : undefined
                         );
                       }}
-                      className="flex items-center gap-1"
+                      className="flex items-center gap-1 mx-auto"
                     >
                       Price/Kg (₹)
                       <ChevronDown
                         className="h-4 w-4"
-                        // visually indicate state
                         style={{
                           opacity: sortOrder ? 1 : 0.5,
                           transform:
@@ -335,126 +217,142 @@ function ProductList({ }: Props) {
                       />
                     </Button>
                   </TableHead>
-                  {/* <TableHead className="text-center">MBP</TableHead> */}
                   <TableHead className="text-center"></TableHead>
-                  <TableHead className="text-center">Location</TableHead>
-                  <TableHead className="text-center">Origin</TableHead>
-                  <TableHead className="text-right">Production</TableHead>
+                  <TableHead className="hidden md:table-cell text-center">
+                    Location
+                  </TableHead>
+                  <TableHead className="hidden md:table-cell text-center">
+                    Origin
+                  </TableHead>
+                  <TableHead className="hidden md:table-cell text-right">
+                    Production
+                  </TableHead>
                 </TableRow>
               </TableHeader>
+
               <TableBody>
-                {data.body.data.map((product) => (
-                  <TableRow
-                    key={product.id}
-                    className={cn("cursor-pointer hover:bg-muted/50")}
-                    style={{
-                      background: product.quantity < (product.mbp || 0) ? "red" : ""
-                    }}
-                  >
-                    {/* <TableCell className="font-medium text-left">
-                      <span>
-                        {formatProductId(
-                          product.id.toString(),
-                          product.productionMonth
-                        )}
-                      </span>
-                    </TableCell> */}
+                {data.body.data.map((product) => {
+                  const totalWt =
+                    product.quantity * product.weightPerUnit -
+                    Number(product.sampleWeight || 0);
+                  const score =
+                    product.tasteScore +
+                    product.liquorScore +
+                    product.infusionScore +
+                    product.gradingScore +
+                    product.volumeScore +
+                    product.appearanceScore;
 
-                    <TableCell className="text-center">
-                      {product.brandMark.name}
-                    </TableCell>
-                    <TableCell className="text-center">
-                      {product.invoiceNo}
-                    </TableCell>
-                    <TableCell className="text-center">
-                      {product.grade}
-                    </TableCell>
-                    <TableCell className="text-center">
-                      {product.quantity}
-                    </TableCell>
-                    <TableCell className="text-center">
-                      {product.weightPerUnit} kg
-                    </TableCell>
-                    <TableCell className="text-center">
-                      {product.sampleWeight} kg
-                    </TableCell>
-                    <TableCell className="text-center">
-                      {product.quantity * product.weightPerUnit -
-                        Number(product.sampleWeight)}{" "}
-                      kg
-                    </TableCell>
-                    <TableCell className="text-center">
-                      <TooltipProvider delayDuration={0}>
-                        <Tooltip>
-                          <TooltipTrigger>
-                            <button
-                              className="cursor-pointer underline decoration-dotted"
-                              tabIndex={0}
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                // Manually focus to trigger tooltip
-                                (e.currentTarget as HTMLElement).focus();
-                              }}
-                              onBlur={(e) => {
-                                // On mobile, blur closes tooltip
-                                (e.currentTarget as HTMLElement).blur();
-                              }}
-                            >
-                              {product.tasteScore +
-                                product.liquorScore +
-                                product.infusionScore +
-                                product.gradingScore +
-                                product.volumeScore +
-                                product.appearanceScore}
-                            </button>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <div className="p-1 text-gray-900 text-xs">
-                              <p>Taste: {product.tasteScore}</p>
-                              <p>Liquor: {product.liquorScore}</p>
-                              <p>Infusion: {product.infusionScore}</p>
-                              <p>Grading: {product.gradingScore}</p>
-                              <p>Volume: {product.volumeScore}</p>
-                              <p>Appearance: {product.appearanceScore}</p>
-                            </div>
-                          </TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
-                    </TableCell>
-                    <TableCell>
-                      {product.pricePerUnit.toLocaleString("en-IN")}
-                    </TableCell>
-                    {/* <TableCell className="text-center">{product.mbp}</TableCell> */}
-                    <TableCell className="text-center">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleAddToCart(product);
-                        }}
-                      >
-                        Add to Cart
-                      </Button>
-                    </TableCell>
-
-                    <TableCell className="text-xs text-center">
-                      {product.location}
-                    </TableCell>
-                    <TableCell className="text-xs text-center">
-                      {product.origin}
-                    </TableCell>
-                    <TableCell className="text-xs text-right">
-                      {new Date(product.productionMonth).toLocaleString(
-                        "en-IN",
-                        {
-                          month: "short",
-                          year: "numeric",
-                        }
+                  return (
+                    <TableRow
+                      key={product.id}
+                      className={cn(
+                        "cursor-pointer hover:bg-muted/50",
+                        product.quantity < (product.mbp || 0) && "bg-red-50"
                       )}
-                    </TableCell>
-                  </TableRow>
-                ))}
+                      onClick={() => {
+                        // on md+ we keep row click passive to avoid accidental opens; only buttons act.
+                      }}
+                    >
+                      {/* Always-visible cells (mobile-friendly) */}
+                      <TableCell className="text-center">
+                        {product.brandMark.name}
+                      </TableCell>
+                      <TableCell className="text-center">
+                        {product.grade}
+                      </TableCell>
+
+                      {/* md+ only cells */}
+                      <TableCell className="hidden md:table-cell text-center">
+                        {product.invoiceNo}
+                      </TableCell>
+                      <TableCell className="hidden md:table-cell text-center">
+                        {product.quantity}
+                      </TableCell>
+                      <TableCell className="hidden md:table-cell text-center">
+                        {product.weightPerUnit} kg
+                      </TableCell>
+                      <TableCell className="hidden md:table-cell text-center">
+                        {product.sampleWeight} kg
+                      </TableCell>
+                      <TableCell className="hidden md:table-cell text-center">
+                        {totalWt} kg
+                      </TableCell>
+                      <TableCell className="hidden md:table-cell text-center">
+                        <TooltipProvider delayDuration={0}>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <button
+                                className="cursor-pointer underline decoration-dotted"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  (e.currentTarget as HTMLElement).focus();
+                                }}
+                                onBlur={(e) =>
+                                  (e.currentTarget as HTMLElement).blur()
+                                }
+                              >
+                                {score}
+                              </button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <div className="p-1 text-gray-900 text-xs">
+                                <p>Taste: {product.tasteScore}</p>
+                                <p>Liquor: {product.liquorScore}</p>
+                                <p>Infusion: {product.infusionScore}</p>
+                                <p>Grading: {product.gradingScore}</p>
+                                <p>Volume: {product.volumeScore}</p>
+                                <p>Appearance: {product.appearanceScore}</p>
+                              </div>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                      </TableCell>
+                      <TableCell className="text-center">
+                        {product.pricePerUnit.toLocaleString("en-IN")}
+                      </TableCell>
+                      <TableCell className="text-center md:hidden">
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            openDialog(product);
+                          }}
+                        >
+                          View
+                        </Button>
+                      </TableCell>
+                      <TableCell className="hidden md:table-cell text-center">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleAddToCart(product);
+                          }}
+                        >
+                          Add to Cart
+                        </Button>
+                      </TableCell>
+                      <TableCell className="hidden md:table-cell text-xs text-center">
+                        {product.location}
+                      </TableCell>
+                      <TableCell className="hidden md:table-cell text-xs text-center">
+                        {product.origin}
+                      </TableCell>
+                      <TableCell className="hidden md:table-cell text-xs text-right">
+                        {new Date(product.productionMonth).toLocaleString(
+                          "en-IN",
+                          {
+                            month: "short",
+                            year: "numeric",
+                          }
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
               </TableBody>
             </Table>
           </div>
@@ -485,11 +383,105 @@ function ProductList({ }: Props) {
         </div>
       </div>
 
+      {/* Cart summary on md+ */}
       <div className="hidden md:block w-full p-2 md:p-8">
         <div className="h-[40vh] overflow-y-scroll shadow-sm w-full">
           <CartSummary />
         </div>
       </div>
+
+      {/* Detail Dialog for small screens (works on all breakpoints if you want to open it) */}
+      <Dialog
+        open={open}
+        onOpenChange={(v) => (v ? setOpen(true) : closeDialog())}
+      >
+        <DialogContent className="max-w-lg">
+          {selected && (
+            <>
+              <DialogHeader>
+                <DialogTitle>Product Details</DialogTitle>
+              </DialogHeader>
+
+              <div className="w-full grid grid-cols-4 gap-4 text-sm">
+                <div className="text-center">
+                  <p className="text-muted-foreground">Mark</p>
+                  <p className="font-medium">{selected.brandMark.name}</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-muted-foreground">Invoice</p>
+                  <p className="font-medium">{selected.invoiceNo}</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-muted-foreground">Grade</p>
+                  <p className="font-medium">{selected.grade}</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-muted-foreground">Pro Month</p>
+                  <p className="font-medium">{selected.productionMonth}</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-muted-foreground">Pkgs</p>
+                  <p className="font-medium">{selected.quantity}</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-muted-foreground">Wt/Pkg</p>
+                  <p className="font-medium">{selected.weightPerUnit} kg</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-muted-foreground">Total Wt.</p>
+                  <p className="font-medium">
+                    {selected.quantity * selected.weightPerUnit -
+                      Number(selected.sampleWeight || 0)}{" "}
+                    kg
+                  </p>
+                </div>
+                <div className="text-center">
+                  <p className="text-muted-foreground">Price/kg</p>
+                  <p className="font-medium">
+                    ₹{selected.pricePerUnit.toLocaleString("en-IN")}
+                  </p>
+                </div>
+                <div className="text-center">
+                  <p className="text-muted-foreground">Origin</p>
+                  <p className="font-medium">{selected.origin || "n/a"}</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-muted-foreground">Location</p>
+                  <p className="font-medium">{selected.location || "/na"}</p>
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-1 p-2">
+                <span className="text-muted-foreground">Score breakdown:</span>
+                <div className="grid grid-cols-3 gap-x-6 gap-y-1 text-xs">
+                  <span>Taste: {selected.tasteScore}</span>
+                  <span>Liquor: {selected.liquorScore}</span>
+                  <span>Infusion: {selected.infusionScore}</span>
+                  <span>Grading: {selected.gradingScore}</span>
+                  <span>Volume: {selected.volumeScore}</span>
+                  <span>Appearance: {selected.appearanceScore}</span>
+                </div>
+              </div>
+
+              <DialogFooter className="grid grid-cols-2 gap-2">
+                <Button variant="outline" onClick={closeDialog}>
+                  Close
+                </Button>
+                <Button
+                  onClick={() => {
+                    handleAddToCart(selected);
+                    // keep dialog open or close — choose close for snappier UX on mobile
+                    closeDialog();
+                  }}
+                  disabled={(selected?.quantity ?? 0) < (selected?.mbp || 1)}
+                >
+                  Add to Cart
+                </Button>
+              </DialogFooter>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
     </>
   );
 }

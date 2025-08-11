@@ -1,4 +1,9 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { OrderStatus, Prisma, PrismaClient } from '@intealegend/database';
 import { PRISMA_TOKEN } from 'src/database/constants';
 
@@ -156,6 +161,10 @@ export class SellerService {
   }
 
   async createProduct(sellerId: number, data: any) {
+    if (data.quantity < 1) {
+      throw new BadRequestException('Quantity must be greater than 0');
+    }
+
     const product = await this.db.product.create({
       data: {
         sellerId,
