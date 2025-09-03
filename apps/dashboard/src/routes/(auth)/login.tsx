@@ -147,7 +147,7 @@ export default function RouteComponent() {
               </form>
             </div>
 
-            <div className="text-center mt-6">
+            {/* <div className="text-center mt-6">
               <p className="text-gray-600 mt-2">
                 don't have seller account?{" "}
                 <Link
@@ -157,7 +157,7 @@ export default function RouteComponent() {
                   Become a seller
                 </Link>
               </p>
-            </div>
+            </div> */}
           </div>
         </div>
       </main>

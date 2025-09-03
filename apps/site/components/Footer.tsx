@@ -51,11 +51,11 @@ const Footer = () => {
                   Register
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link href="/account/seller" className="hover:text-white">
                   Become a Seller
                 </Link>
-              </li>
+              </li> */}
             </ul>
           </div>
           <div>
@@ -93,11 +93,11 @@ const Footer = () => {
             <h4 className="text-lg font-semibold mb-4">Contact Us</h4>
             <ul className="space-y-2">
               <li>Email: support@intealegend.com</li>
-              <li>Phone: +1 (555) 123-4567</li>
+              {/* <li>Phone: +1 (555) 123-4567</li> */}
             </ul>
           </div>
         </div>
-        <div className="flex justify-between border-t border-gray-800 mt-8 pt-8 text-center">
+        <div className="flex flex-col md:flex-row justify-between border-t border-gray-800 mt-8 pt-8 text-center">
           <p>
             &copy; {new Date().getFullYear()} InteaLegend. All rights reserved.
           </p>

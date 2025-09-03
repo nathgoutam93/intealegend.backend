@@ -1,7 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { Building2, Users, Mail, Phone, Lock, ArrowRight } from "lucide-react";
+import {
+  Building2,
+  Users,
+  Mail,
+  Phone,
+  Lock,
+  ArrowRight,
+  Check,
+  X,
+} from "lucide-react";
 import StateDistrictSelector from "./state-distrcit-selector";
 import { client } from "@/lib/api-client";
 import { useRouter } from "next/navigation";
@@ -93,9 +102,31 @@ const REGISTRATION_STEPS = [
   },
 ];
 
+// Password validation functions
+const validatePassword = (password: string) => {
+  const minLength = password.length >= 8;
+  const hasUpperCase = /[A-Z]/.test(password);
+  const hasLowerCase = /[a-z]/.test(password);
+  const hasNumbers = /\d/.test(password);
+  const hasSpecialChar = /[!@#$%^_&*(),.?":{}|<>]/.test(password);
+
+  return {
+    minLength,
+    hasUpperCase,
+    hasLowerCase,
+    hasNumbers,
+    hasSpecialChar,
+    isValid:
+      minLength && hasUpperCase && hasLowerCase && hasNumbers && hasSpecialChar,
+  };
+};
+
 export default function BuyerRegistrationForm() {
   const router = useRouter();
   const [step, setStep] = useState(1);
+  const [passwordValidation, setPasswordValidation] = useState(
+    validatePassword("")
+  );
 
   const [formData, setFormData] = useState<FormData>({
     // Step 1: Business Info
@@ -579,11 +610,64 @@ export default function BuyerRegistrationForm() {
                     type="password"
                     className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md"
                     value={formData.password}
-                    onChange={(e) =>
-                      handleInputChange("password", e.target.value)
-                    }
+                    onChange={(e) => {
+                      handleInputChange("password", e.target.value);
+                      setPasswordValidation(validatePassword(e.target.value));
+                    }}
                   />
                 </div>
+                <ul className="text-xs text-gray-500 mt-1 space-y-1">
+                  <li
+                    className={`flex items-center gap-2 ${passwordValidation.minLength ? "text-green-600" : "text-gray-500"}`}
+                  >
+                    {passwordValidation.minLength ? (
+                      <Check className="w-3 h-3" />
+                    ) : (
+                      <X className="w-3 h-3" />
+                    )}
+                    At least 8 characters
+                  </li>
+                  <li
+                    className={`flex items-center gap-2 ${passwordValidation.hasUpperCase ? "text-green-600" : "text-gray-500"}`}
+                  >
+                    {passwordValidation.hasUpperCase ? (
+                      <Check className="w-3 h-3" />
+                    ) : (
+                      <X className="w-3 h-3" />
+                    )}
+                    At least one uppercase letter (A-Z)
+                  </li>
+                  <li
+                    className={`flex items-center gap-2 ${passwordValidation.hasLowerCase ? "text-green-600" : "text-gray-500"}`}
+                  >
+                    {passwordValidation.hasLowerCase ? (
+                      <Check className="w-3 h-3" />
+                    ) : (
+                      <X className="w-3 h-3" />
+                    )}
+                    At least one lowercase letter (a-z)
+                  </li>
+                  <li
+                    className={`flex items-center gap-2 ${passwordValidation.hasNumbers ? "text-green-600" : "text-gray-500"}`}
+                  >
+                    {passwordValidation.hasNumbers ? (
+                      <Check className="w-3 h-3" />
+                    ) : (
+                      <X className="w-3 h-3" />
+                    )}
+                    At least one number (0-9)
+                  </li>
+                  <li
+                    className={`flex items-center gap-2 ${passwordValidation.hasSpecialChar ? "text-green-600" : "text-gray-500"}`}
+                  >
+                    {passwordValidation.hasSpecialChar ? (
+                      <Check className="w-3 h-3" />
+                    ) : (
+                      <X className="w-3 h-3" />
+                    )}
+                    At least one special character (!@#$%^&*)
+                  </li>
+                </ul>
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -599,6 +683,15 @@ export default function BuyerRegistrationForm() {
                       handleInputChange("confirmPassword", e.target.value)
                     }
                   />
+                  {formData.confirmPassword && (
+                    <p
+                      className={`text-xs mt-1 ${formData.password === formData.confirmPassword ? "text-green-600" : "text-red-600"}`}
+                    >
+                      {formData.password === formData.confirmPassword
+                        ? "✓ Passwords match"
+                        : "✗ Passwords do not match"}
+                    </p>
+                  )}
                 </div>
               </div>
             </>

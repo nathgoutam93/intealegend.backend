@@ -100,13 +100,13 @@ export default function LoginPage() {
               </Link>
             </div>
           </div>
-          <Link
+          {/* <Link
             href={`${SELLER_BASE_URL}/register`}
             className="bg-green-700 text-white px-4 py-2 rounded-lg hover:bg-green-800 transition flex items-center gap-2"
           >
             <Store className="w-4 h-4" />
             Become a Seller
-          </Link>
+          </Link> */}
         </nav>
 
         <button
@@ -221,7 +221,7 @@ export default function LoginPage() {
                   Register Now
                 </Link>
               </p>
-              <p className="text-gray-600 mt-2">
+              {/* <p className="text-gray-600 mt-2">
                 Want to sell on InteaLegend?{" "}
                 <Link
                   href={`${SELLER_BASE_URL}/register`}
@@ -229,7 +229,7 @@ export default function LoginPage() {
                 >
                   Become a seller
                 </Link>
-              </p>
+              </p> */}
             </div>
           </div>
         </div>
