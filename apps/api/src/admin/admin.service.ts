@@ -553,15 +553,15 @@ export class AdminService {
         },
       });
 
-      // If status is being updated to ACCEPTED, deduct quantities from products
-      if (data.status === 'ACCEPTED') {
+      // If status is being updated to CANCELLED, restock the quantities
+      if (data.status === 'CANCELLED') {
         await Promise.all(
           updatedOrder.orderItems.map((item) =>
             tx.product.update({
               where: { id: item.productId },
               data: {
                 quantity: {
-                  decrement: item.quantity,
+                  increment: item.quantity,
                 },
               },
             }),

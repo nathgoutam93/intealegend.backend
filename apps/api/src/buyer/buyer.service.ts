@@ -1,10 +1,10 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { OrderStatus, Prisma, PrismaClient } from '@intealegend/database';
+import { Prisma, PrismaClient } from '@intealegend/database';
 import { PRISMA_TOKEN } from 'src/database/constants';
 
 @Injectable()
 export class BuyerService {
-  constructor(@Inject(PRISMA_TOKEN) private db: PrismaClient) { }
+  constructor(@Inject(PRISMA_TOKEN) private db: PrismaClient) {}
 
   async getProfile(user: any) {
     const profile = await this.db.buyerProfile.findFirst({
@@ -209,6 +209,12 @@ export class BuyerService {
           );
         }
 
+        if (product.quantity < item.quantity) {
+          throw new Error(
+            `Insufficient quantity for product ${item.productId}. Available: ${product.quantity}, Requested: ${item.quantity}`,
+          );
+        }
+
         const unitPrice = product.pricePerUnit.toNumber();
         const totalWeight = item.quantity * product.weightPerUnit;
         const totalPrice = unitPrice * totalWeight;
@@ -229,7 +235,7 @@ export class BuyerService {
     );
     const totalQuantity = itemsWithProductData.reduce(
       (sum, item) => sum + item.quantity,
-      0
+      0,
     );
     const estimatedWeight = itemsWithProductData.reduce(
       (sum, item) => sum + item.totalWeight,
@@ -270,45 +276,60 @@ export class BuyerService {
       },
     });
 
-    // Create order and items
-    const order = await this.db.order.create({
-      data: {
-        userId: user.id,
-        status: 'PENDING',
-        estimatedWeight,
-        gstAmount,
-        deliveryCharges,
-        otherCharges,
-        roundOff,
-        subtotal,
-        totalAmount,
-        orderItems: {
-          create: itemsWithProductData.map((item) => ({
-            productId: item.productId,
-            quantity: item.quantity,
-            unitPrice: item.unitPrice,
-            totalWeight: item.totalWeight,
-            totalPrice: item.totalPrice,
-          })),
+    // Create order and items and update product quantities in a transaction
+    const order = await this.db.$transaction(async (tx) => {
+      // Update product quantities
+      for (const item of itemsWithProductData) {
+        await tx.product.update({
+          where: { id: item.productId },
+          data: {
+            quantity: {
+              decrement: item.quantity,
+            },
+          },
+        });
+      }
+
+      // Create the order
+      return tx.order.create({
+        data: {
+          userId: user.id,
+          status: 'PENDING',
+          estimatedWeight,
+          gstAmount,
+          deliveryCharges,
+          otherCharges,
+          roundOff,
+          subtotal,
+          totalAmount,
+          orderItems: {
+            create: itemsWithProductData.map((item) => ({
+              productId: item.productId,
+              quantity: item.quantity,
+              unitPrice: item.unitPrice,
+              totalWeight: item.totalWeight,
+              totalPrice: item.totalPrice,
+            })),
+          },
+          shippingAddress: buyer?.address ?? '',
+          shippingDistrict: buyer?.district ?? '',
+          shippingState: buyer?.state ?? '',
+          shippingPincode: buyer?.pincode ?? '',
+          shippingPhone: buyer?.phone ?? '',
+          shippingEmail: buyer?.email ?? '',
         },
-        shippingAddress: buyer?.address ?? '',
-        shippingDistrict: buyer?.district ?? '',
-        shippingState: buyer?.state ?? '',
-        shippingPincode: buyer?.pincode ?? '',
-        shippingPhone: buyer?.phone ?? '',
-        shippingEmail: buyer?.email ?? '',
-      },
-      include: {
-        orderItems: {
-          include: {
-            product: {
-              include: {
-                brandMark: true,
+        include: {
+          orderItems: {
+            include: {
+              product: {
+                include: {
+                  brandMark: true,
+                },
               },
             },
           },
         },
-      },
+      });
     });
 
     // Clear cart
