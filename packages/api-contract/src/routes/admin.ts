@@ -84,6 +84,21 @@ export const adminRouter = c.router({
       403: ErrorSchema,
     },
   },
+  deleteRegistration: {
+    method: "POST",
+    path: "/admin/users/delete",
+    body: z.object({
+      userIds: z.number().array(),
+    }),
+    responses: {
+      200: z.object({
+        message: z.string(),
+        deletedUsers: z.number(),
+      }),
+      401: ErrorSchema,
+      403: ErrorSchema,
+    },
+  },
   toggleUserBan: {
     method: "POST",
     path: "/admin/users/:id/ban",

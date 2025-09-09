@@ -199,10 +199,11 @@ export default function SellerRegistrationForm() {
       try {
         const formDataToSend = new FormData();
 
-        const { password, ...profileFields } = formData;
+        const { password, confirmPassword, ...profileFields } = formData;
         formDataToSend.append("email", formData.email);
         formDataToSend.append("role", "SELLER");
         formDataToSend.append("password", password);
+        formDataToSend.append("confirmPassword", confirmPassword);
 
         // Add all fields to form data
         Object.entries(profileFields).forEach(([key, value]) => {

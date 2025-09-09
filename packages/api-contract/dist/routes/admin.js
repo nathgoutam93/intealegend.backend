@@ -80,6 +80,21 @@ exports.adminRouter = c.router({
             403: schemas_1.ErrorSchema,
         },
     },
+    deleteRegistration: {
+        method: "POST",
+        path: "/admin/users/delete",
+        body: zod_1.default.object({
+            userIds: zod_1.default.number().array(),
+        }),
+        responses: {
+            200: zod_1.default.object({
+                message: zod_1.default.string(),
+                deletedUsers: zod_1.default.number(),
+            }),
+            401: schemas_1.ErrorSchema,
+            403: schemas_1.ErrorSchema,
+        },
+    },
     toggleUserBan: {
         method: "POST",
         path: "/admin/users/:id/ban",

@@ -229,6 +229,30 @@ export class AdminService {
     };
   }
 
+  async deleteRegistrations(userIds: number[]) {
+    await this.db.$transaction([
+      this.db.buyerProfile.deleteMany({
+        where: {
+          userId: {
+            in: userIds,
+          },
+        },
+      }),
+      this.db.user.deleteMany({
+        where: {
+          id: {
+            in: userIds,
+          },
+        },
+      }),
+    ]);
+
+    return {
+      message: 'Users deleted successfully',
+      deletedUsers: userIds.length,
+    };
+  }
+
   async updateProduct(id: number, data: any) {
     const product = await this.db.product.update({
       where: { id },

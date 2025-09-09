@@ -66,6 +66,14 @@ export class AdminController {
           body: res,
         };
       },
+      deleteRegistration: async ({ body }) => {
+        const res = await this.adminService.deleteRegistrations(body.userIds);
+
+        return {
+          status: 200,
+          body: res,
+        };
+      },
       toggleUserBan: async ({ body, params: { id } }) => {
         const res = await this.adminService.toggleUserBan(parseInt(id));
 

@@ -90,8 +90,6 @@ export class AuthController {
           }
         }
 
-        console.log('');
-
         const user = await this.authService.register({
           email,
           password,

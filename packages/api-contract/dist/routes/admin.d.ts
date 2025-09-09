@@ -930,6 +930,55 @@ export declare const adminRouter: {
             }>;
         };
     };
+    deleteRegistration: {
+        method: "POST";
+        body: z.ZodObject<{
+            userIds: z.ZodArray<z.ZodNumber, "many">;
+        }, "strip", z.ZodTypeAny, {
+            userIds: number[];
+        }, {
+            userIds: number[];
+        }>;
+        path: "/admin/users/delete";
+        responses: {
+            200: z.ZodObject<{
+                message: z.ZodString;
+                deletedUsers: z.ZodNumber;
+            }, "strip", z.ZodTypeAny, {
+                message: string;
+                deletedUsers: number;
+            }, {
+                message: string;
+                deletedUsers: number;
+            }>;
+            401: z.ZodObject<{
+                message: z.ZodString;
+                code: z.ZodString;
+                timestamp: z.ZodString;
+            }, "strip", z.ZodTypeAny, {
+                code: string;
+                message: string;
+                timestamp: string;
+            }, {
+                code: string;
+                message: string;
+                timestamp: string;
+            }>;
+            403: z.ZodObject<{
+                message: z.ZodString;
+                code: z.ZodString;
+                timestamp: z.ZodString;
+            }, "strip", z.ZodTypeAny, {
+                code: string;
+                message: string;
+                timestamp: string;
+            }, {
+                code: string;
+                message: string;
+                timestamp: string;
+            }>;
+        };
+    };
     toggleUserBan: {
         pathParams: z.ZodObject<{
             id: z.ZodString;

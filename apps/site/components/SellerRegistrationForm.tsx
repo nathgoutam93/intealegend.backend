@@ -167,12 +167,19 @@ export default function SellerRegistrationForm() {
       try {
         const formDataToSend = new FormData();
 
+        const { password, confirmPassword, ...profileFields } = formData;
+        formDataToSend.append("email", formData.email);
+        formDataToSend.append("role", "SELLER");
+        formDataToSend.append("password", password);
+        formDataToSend.append("confirmPassword", confirmPassword);
+
         // Add all fields to form data
-        Object.entries(formData).forEach(([key, value]) => {
+        Object.entries(profileFields).forEach(([key, value]) => {
           if (value instanceof File) {
-            formDataToSend.append(key, value);
+            formDataToSend.append(`${key}`, value);
+            formDataToSend.append(`profile[${key}]`, "");
           } else if (value !== null && value !== undefined) {
-            formDataToSend.append(key, value.toString());
+            formDataToSend.append(`profile[${key}]`, value.toString());
           }
         });
 

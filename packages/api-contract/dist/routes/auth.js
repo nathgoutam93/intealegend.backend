@@ -56,13 +56,13 @@ exports.authRouter = c.router({
                     userId: true,
                     createdAt: true,
                     updatedAt: true,
-                }),
+                }).passthrough(),
                 schemas_1.BuyerProfileSchema.omit({
                     id: true,
                     userId: true,
                     createdAt: true,
                     updatedAt: true,
-                }),
+                }).passthrough(),
             ]),
         })
             .passthrough(), // Allow additional file fields

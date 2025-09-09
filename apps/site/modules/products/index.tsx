@@ -452,14 +452,14 @@ function ProductList({}: Props) {
               </div>
 
               <div className="flex flex-col gap-1 p-2">
-                <span className="text-muted-foreground">Score breakdown:</span>
+                <span className="text-muted-foreground">Test Results:</span>
                 <div className="grid grid-cols-3 gap-x-6 gap-y-1 text-xs">
-                  <span>Taste: {selected.tasteScore}</span>
-                  <span>Liquor: {selected.liquorScore}</span>
-                  <span>Infusion: {selected.infusionScore}</span>
-                  <span>Grading: {selected.gradingScore}</span>
-                  <span>Volume: {selected.volumeScore}</span>
-                  <span>Appearance: {selected.appearanceScore}</span>
+                  <span>Taste: {selected.tasteScore}/10</span>
+                  <span>Liquor: {selected.liquorScore}/10</span>
+                  <span>Infusion: {selected.infusionScore}/10</span>
+                  <span>Grading: {selected.gradingScore}/10</span>
+                  <span>Volume: {selected.volumeScore}/10</span>
+                  <span>Appearance: {selected.appearanceScore}/10</span>
                 </div>
               </div>
 
