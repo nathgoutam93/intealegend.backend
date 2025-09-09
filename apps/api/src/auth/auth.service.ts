@@ -13,7 +13,7 @@ export class AuthService {
     private jwtService: JwtService,
     private configService: ConfigService,
     private mailService: MailService,
-  ) { }
+  ) {}
 
   private generateTokens(user: any) {
     const payload = {
@@ -210,10 +210,7 @@ export class AuthService {
     // 1. Find user by email or uniqueIdentifier
     const user = await this.db.user.findFirst({
       where: {
-        OR: [
-          { email: identifier },
-          { uniqueIdentifier: identifier },
-        ],
+        OR: [{ email: identifier }, { uniqueIdentifier: identifier }],
       },
     });
     if (!user) {
@@ -221,7 +218,9 @@ export class AuthService {
     }
 
     // 2. Generate secure token and expiry (1 hour)
-    const token = [...Array(48)].map(() => Math.random().toString(36)[2]).join('');
+    const token = [...Array(48)]
+      .map(() => Math.random().toString(36)[2])
+      .join('');
     const expiresAt = new Date(Date.now() + 60 * 60 * 1000); // 1 hour from now
 
     // 3. Store in PasswordResetToken table (invalidate previous tokens)
@@ -240,7 +239,10 @@ export class AuthService {
     // 4. Send email with reset link
     const resetUrl = `${this.configService.get<string>('FRONTEND_URL') || 'http://localhost:3000'}/auth/reset-password?token=${token}`;
     await this.mailService.sendPasswordResetLink(user.email, resetUrl);
-    return { message: 'Password reset link sent to your email if it exists in our system.' };
+    return {
+      message:
+        'Password reset link sent to your email if it exists in our system.',
+    };
   }
 
   async resetPassword(newPassword: string, resetToken: string) {

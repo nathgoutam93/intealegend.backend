@@ -26,7 +26,7 @@ export class AuthController {
   constructor(
     private readonly authService: AuthService,
     private readonly storageService: StorageService,
-  ) { }
+  ) {}
 
   @TsRestHandler(contract.auth.login)
   async login() {
@@ -71,7 +71,7 @@ export class AuthController {
         // Build profile object from form fields
         const profile = {
           ...(typeof formData['profile'] === 'object' &&
-            formData['profile'] !== null
+          formData['profile'] !== null
             ? formData['profile']
             : {}),
         };
@@ -89,6 +89,8 @@ export class AuthController {
             }
           }
         }
+
+        console.log('');
 
         const user = await this.authService.register({
           email,
@@ -163,11 +165,15 @@ export class AuthController {
   async resetPassword() {
     return tsRestHandler(
       contract.auth.resetPassword,
-      async ({ body }: { body: { newPassword: string, resetToken: string } }) => {
+      async ({
+        body,
+      }: {
+        body: { newPassword: string; resetToken: string };
+      }) => {
         try {
           const result = await this.authService.resetPassword(
             body.newPassword,
-            body.resetToken
+            body.resetToken,
           );
           return { status: 200, body: result };
         } catch (error) {

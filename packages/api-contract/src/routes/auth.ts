@@ -63,13 +63,13 @@ export const authRouter = c.router({
             userId: true,
             createdAt: true,
             updatedAt: true,
-          }),
+          }).passthrough(),
           BuyerProfileSchema.omit({
             id: true,
             userId: true,
             createdAt: true,
             updatedAt: true,
-          }),
+          }).passthrough(),
         ]),
       })
       .passthrough(), // Allow additional file fields
