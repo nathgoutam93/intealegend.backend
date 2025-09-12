@@ -231,6 +231,15 @@ export class AdminService {
 
   async deleteRegistrations(userIds: number[]) {
     await this.db.$transaction([
+      // Delete seller profiles for seller users
+      this.db.sellerProfile.deleteMany({
+        where: {
+          userId: {
+            in: userIds,
+          },
+        },
+      }),
+      // Delete buyer profiles for buyer users
       this.db.buyerProfile.deleteMany({
         where: {
           userId: {
@@ -238,6 +247,7 @@ export class AdminService {
           },
         },
       }),
+      // Delete the users themselves
       this.db.user.deleteMany({
         where: {
           id: {
