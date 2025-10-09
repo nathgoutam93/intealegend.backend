@@ -200,9 +200,32 @@ export class AdminService {
   async verifyRegistrations(userIds: number[]) {
     const verifiedUsers = await Promise.all(
       userIds.map(async (userId) => {
-        const uniqueIdentifier = await generateUniqueIdentifier();
+        const user = await this.db.user.findUnique({
+          where: {
+            id: userId,
+          },
+          include: {
+            buyerProfile: true,
+            sellerProfile: true,
+          },
+        });
 
-        const user = await this.db.user.update({
+        if (user == null) return;
+
+        let state = user.buyerProfile?.state ?? user.sellerProfile?.state;
+        let businessName =
+          user.buyerProfile?.businessName ?? user.sellerProfile?.businessName;
+        let district =
+          user.buyerProfile?.district ?? user.sellerProfile?.district;
+
+        const uniqueIdentifier = await generateUniqueIdentifier(
+          state!,
+          district!,
+          businessName!,
+          user.id,
+        );
+
+        await this.db.user.update({
           where: { id: userId },
           data: {
             verified: true,

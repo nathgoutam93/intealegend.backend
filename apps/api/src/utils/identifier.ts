@@ -1,7 +1,47 @@
-import { customAlphabet } from 'nanoid';
+const indianStates: Record<string, string> = {
+  'Andhra Pradesh': 'AP',
+  'Arunachal Pradesh': 'AR',
+  Assam: 'AS',
+  Bihar: 'BR',
+  Chhattisgarh: 'CG',
+  Goa: 'GA',
+  Gujarat: 'GJ',
+  Haryana: 'HR',
+  'Himachal Pradesh': 'HP',
+  Jharkhand: 'JH',
+  Karnataka: 'KA',
+  Kerala: 'KL',
+  'Madhya Pradesh': 'MP',
+  Maharashtra: 'MH',
+  Manipur: 'MN',
+  Meghalaya: 'ML',
+  Mizoram: 'MZ',
+  Nagaland: 'NL',
+  Odisha: 'OD',
+  Punjab: 'PB',
+  Rajasthan: 'RJ',
+  Sikkim: 'SK',
+  'Tamil Nadu': 'TN',
+  Telangana: 'TG',
+  Tripura: 'TR',
+  'Uttar Pradesh': 'UP',
+  Uttarakhand: 'UK',
+  'West Bengal': 'WB',
+  'Andaman and Nicobar': 'AN',
+  Chandigarh: 'CH',
+  'Dadra and Nagar Haveli and Daman and Diu': 'DH',
+  'Jammu and Kashmir': 'JK',
+  Ladakh: 'LA',
+  Lakshadweep: 'LD',
+  'New Delhi': 'DL',
+  Puducherry: 'PY',
+};
 
-const nanoid = customAlphabet('1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ', 10);
-
-export async function generateUniqueIdentifier(): Promise<string> {
-  return nanoid();
+export async function generateUniqueIdentifier(
+  state: string,
+  district: string,
+  businessName: string,
+  serial: number,
+): Promise<string> {
+  return `${indianStates[state]}${district.slice(0, 2)}${businessName.slice(0, 2)}${serial.toString().padStart(4, '0')}`;
 }
