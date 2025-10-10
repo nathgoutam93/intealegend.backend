@@ -21,7 +21,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Printer } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 
 export default function OrderDetailsPage() {
@@ -32,6 +32,10 @@ export default function OrderDetailsPage() {
     ["order", orderId],
     { params: { orderId } }
   );
+
+  const handlePrint = () => {
+    window.print();
+  };
 
   if (isPending) {
     return (
@@ -74,10 +78,24 @@ export default function OrderDetailsPage() {
   return (
     <div className="min-h-screen flex flex-col">
       <Header showBackButton backUrl="/app/orders" />
-      <div className="py-8 max-w-7xl mx-auto">
-        <div className="grid grid-cols-5">
+
+      <div className="py-8 max-w-7xl mx-auto px-4">
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-lg md:text-2xl font-semibold">Order Details</h2>
+          <Button
+            variant="outline"
+            size="sm"
+            className="print:hidden"
+            onClick={handlePrint}
+          >
+            <Printer className="h-4 w-4 mr-2" />
+            Print
+          </Button>
+        </div>
+
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-4 pl-2">
           <div className="w-max">
-            <h3 className="font-semibold mb-2">Status</h3>
+            <h3 className="text-sm md:text-base font-semibold mb-2">Status</h3>
             <div
               className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
               ${
@@ -92,106 +110,245 @@ export default function OrderDetailsPage() {
             </div>
           </div>
           <div className="w-max">
-            <h3 className="font-semibold mb-2">Invoice</h3>
-            {order.invoice ? (
-              <div className="bg-gray-100 p-2 rounded-sm">
-                <a
-                  href={order.invoice}
-                  target="_blank"
-                  className="text-blue-400"
-                >
-                  View Invoice
-                </a>
-              </div>
-            ) : (
-              <span>N/A</span>
-            )}
+            <h3 className="text-sm md:text-base font-semibold mb-2">
+              Bill No.
+            </h3>
+            <span className="">{order.invoice}</span>
+            <Button
+              variant="link"
+              className="ml-1 text-blue-400 p-0 h-auto print:hidden"
+              onClick={() => {
+                const element = document.getElementById("documents");
+                element?.scrollIntoView({ behavior: "smooth" });
+              }}
+            >
+              View
+            </Button>
           </div>
           <div className="w-max">
-            <h3 className="font-semibold mb-2">CN No.</h3>
-            <span>{order.cn ?? "n/a"}</span>
+            <h3 className="text-sm md:text-base font-semibold mb-2">CN No.</h3>
+            <span>{order.cn}</span>
+            <Button
+              variant="link"
+              className="ml-1 text-blue-400 p-0 h-auto print:hidden"
+              onClick={() => {
+                const element = document.getElementById("documents");
+                element?.scrollIntoView({ behavior: "smooth" });
+              }}
+            >
+              View
+            </Button>
           </div>
           <div className="w-max">
-            <h3 className="font-semibold mb-2">Transport</h3>
+            <h3 className="text-sm md:text-base font-semibold mb-2">
+              Transport
+            </h3>
             <span>{order.transport ?? "n/a"}</span>
           </div>
         </div>
 
-        <div className="mt-4 border rounded-lg">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Order No.</TableHead>
-                <TableHead>Total Pkgs</TableHead>
-                <TableHead>Total Weight</TableHead>
-                <TableHead>Tea Value</TableHead>
-                <TableHead>Shipping</TableHead>
-                <TableHead>GST</TableHead>
-                <TableHead>Total Amount</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              <TableRow>
-                <TableCell>{order.id}</TableCell>
-                <TableCell>
+        <div className="mt-4 md:border rounded-lg">
+          {/* Table for desktop, cards for mobile */}
+          {/* <div className="hidden md:block"> */}
+          <div className="">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="text-left">Order No.</TableHead>
+                  <TableHead className="text-center">Total Pkgs</TableHead>
+                  <TableHead className="text-center">Total Weight</TableHead>
+                  <TableHead className="text-center">Tea Value</TableHead>
+                  <TableHead className="text-center">Shipping</TableHead>
+                  <TableHead className="text-center">GST</TableHead>
+                  <TableHead className="text-right">Total Amount</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                <TableRow>
+                  <TableCell className="text-left">{order.id}</TableCell>
+                  <TableCell className="text-center">
+                    {order.orderItems.reduce(
+                      (prv, cur) => prv + cur.quantity,
+                      0
+                    )}
+                  </TableCell>
+                  <TableCell className="text-center">
+                    {order.estimatedWeight}
+                  </TableCell>
+                  <TableCell className="text-center">
+                    {order.subtotal}
+                  </TableCell>
+                  <TableCell className="text-center">
+                    {order.deliveryCharges}
+                  </TableCell>
+                  <TableCell className="text-center">
+                    {order.gstAmount}
+                  </TableCell>
+                  <TableCell className="text-right">
+                    {order.totalAmount}
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </div>
+          {/* Card view for mobile */}
+          {/* <div className="md:hidden"> */}
+          <div className="hidden">
+            <div className="bg-white rounded-lg shadow border p-4 mb-2">
+              <div className="mb-2 flex justify-between">
+                <span className="font-semibold">Order No.</span>
+                <span>{order.id}</span>
+              </div>
+              <div className="mb-2 flex justify-between">
+                <span className="font-semibold">Total Pkgs</span>
+                <span>
                   {order.orderItems.reduce((prv, cur) => prv + cur.quantity, 0)}
-                </TableCell>
-                <TableCell>{order.estimatedWeight}</TableCell>
-                <TableCell>{order.subtotal}</TableCell>
-                <TableCell>{order.deliveryCharges}</TableCell>
-                <TableCell>{order.gstAmount}</TableCell>
-                <TableCell>{order.totalAmount}</TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
+                </span>
+              </div>
+              <div className="mb-2 flex justify-between">
+                <span className="font-semibold">Total Weight</span>
+                <span>{order.estimatedWeight}</span>
+              </div>
+              <div className="mb-2 flex justify-between">
+                <span className="font-semibold">Tea Value</span>
+                <span>{order.subtotal}</span>
+              </div>
+              <div className="mb-2 flex justify-between">
+                <span className="font-semibold">Shipping</span>
+                <span>{order.deliveryCharges}</span>
+              </div>
+              <div className="mb-2 flex justify-between">
+                <span className="font-semibold">GST</span>
+                <span>{order.gstAmount}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="font-semibold">Total Amount</span>
+                <span>{order.totalAmount}</span>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="mt-6">
           <h3 className="font-semibold mb-6">Order Items</h3>
-          <div className="border rounded-lg">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Product Id</TableHead>
-                  <TableHead>Mark</TableHead>
-                  <TableHead>Grade</TableHead>
-                  <TableHead>Price/Kg</TableHead>
-                  <TableHead>Weight/pkg</TableHead>
-                  <TableHead>Sample Weight</TableHead>
-                  <TableHead>Total Pkgs</TableHead>
-                  <TableHead>Total Weight</TableHead>
-                  <TableHead>Total Price</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {order.orderItems.map((item) => (
+          <div className="md:border rounded-lg">
+            {/* Table for desktop, cards for mobile */}
+            <div className="">
+              {/* <div className="hidden md:block"> */}
+              <Table>
+                <TableHeader>
                   <TableRow>
-                    <TableCell>
-                      <span>
-                        IIL{new Date(item.product.createdAt).getFullYear()}
-                        {new Date(item.product.createdAt)
-                          .getMonth()
-                          .toString()
-                          .padStart(2, "0")}
-                        {item.product.id.toString().padStart(6, "0")}
-                      </span>
-                    </TableCell>
-                    <TableCell>{item.product.brandMark.name}</TableCell>
-                    <TableCell>{item.product.grade}</TableCell>
-                    <TableCell>{item.product.pricePerUnit}</TableCell>
-                    <TableCell>{item.product.weightPerUnit}</TableCell>
-                    <TableCell>{item.product.sampleWeight}</TableCell>
-                    <TableCell>{item.quantity}</TableCell>
-                    <TableCell>{item.totalWeight}</TableCell>
-                    <TableCell>{item.totalPrice}</TableCell>
+                    <TableHead>Product Id</TableHead>
+                    <TableHead className="text-center">Mark</TableHead>
+                    <TableHead className="text-center">Grade</TableHead>
+                    <TableHead className="text-center">Total Pkgs</TableHead>
+                    <TableHead className="text-center">Weight/pkg</TableHead>
+                    <TableHead className="text-center">Sample Weight</TableHead>
+                    <TableHead className="text-center">Total Weight</TableHead>
+                    <TableHead className="text-center">Price/Kg</TableHead>
+                    <TableHead className="text-right">Tea Value</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHeader>
+                <TableBody>
+                  {order.orderItems.map((item) => (
+                    <TableRow key={item.product.id}>
+                      <TableCell>
+                        <span>
+                          IIL{new Date(item.product.createdAt).getFullYear()}
+                          {new Date(item.product.createdAt)
+                            .getMonth()
+                            .toString()
+                            .padStart(2, "0")}
+                          {item.product.id.toString().padStart(6, "0")}
+                        </span>
+                      </TableCell>
+                      <TableCell className="text-center">
+                        {item.product.brandMark.name}
+                      </TableCell>
+                      <TableCell className="text-center">
+                        {item.product.grade}
+                      </TableCell>
+                      <TableCell className="text-center">
+                        {item.quantity}
+                      </TableCell>
+                      <TableCell className="text-center">
+                        {item.product.weightPerUnit}
+                      </TableCell>
+                      <TableCell className="text-center">
+                        {item.product.sampleWeight}
+                      </TableCell>
+                      <TableCell className="text-center">
+                        {item.totalWeight}
+                      </TableCell>
+                      <TableCell className="text-center">
+                        {item.product.pricePerUnit}
+                      </TableCell>
+                      <TableCell className="text-right">
+                        {item.totalPrice}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+            {/* Card view for mobile */}
+            {/* <div className="md:hidden"> */}
+            <div className="hidden">
+              {order.orderItems.map((item) => (
+                <div
+                  key={item.product.id}
+                  className="bg-white rounded-lg border p-4 mb-4"
+                >
+                  <div className="mb-2 flex justify-between">
+                    <span className="font-semibold">Product Id</span>
+                    <span>
+                      IIL{new Date(item.product.createdAt).getFullYear()}
+                      {new Date(item.product.createdAt)
+                        .getMonth()
+                        .toString()
+                        .padStart(2, "0")}
+                      {item.product.id.toString().padStart(6, "0")}
+                    </span>
+                  </div>
+                  <div className="mb-2 flex justify-between">
+                    <span className="font-semibold">Mark</span>
+                    <span>{item.product.brandMark.name}</span>
+                  </div>
+                  <div className="mb-2 flex justify-between">
+                    <span className="font-semibold">Grade</span>
+                    <span>{item.product.grade}</span>
+                  </div>
+                  <div className="mb-2 flex justify-between">
+                    <span className="font-semibold">Total Pkgs</span>
+                    <span>{item.quantity}</span>
+                  </div>
+                  <div className="mb-2 flex justify-between">
+                    <span className="font-semibold">Weight/pkg</span>
+                    <span>{item.product.weightPerUnit}</span>
+                  </div>
+                  <div className="mb-2 flex justify-between">
+                    <span className="font-semibold">Sample Weight</span>
+                    <span>{item.product.sampleWeight}</span>
+                  </div>
+                  <div className="mb-2 flex justify-between">
+                    <span className="font-semibold">Total Weight</span>
+                    <span>{item.totalWeight}</span>
+                  </div>
+                  <div className="mb-2 flex justify-between">
+                    <span className="font-semibold">Price/Kg</span>
+                    <span>{item.product.pricePerUnit}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="font-semibold">Tea Value</span>
+                    <span>{item.totalPrice}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
-        <div className="mt-10 grid grid-cols-3">
+        <div className="mt-10 grid md:grid-cols-3 gap-6">
           <div className="">
             <p className="mb-4 font-semibold">Buyer Details</p>
             <p className="text-sm">Business Name: {order.buyer.businessName}</p>
@@ -213,7 +370,118 @@ export default function OrderDetailsPage() {
             </p>
           </div>
         </div>
+
+        {/* Documents Section */}
+        <div id="documents" className="mt-10 print:mt-4">
+          <h3 className="font-semibold mb-6">Documents</h3>
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="border p-4 rounded-lg">
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <h4 className="font-medium">Bill</h4>
+                  <p className="text-sm text-gray-500">
+                    {order.invoice || "Not available"}
+                  </p>
+                </div>
+                {order.invoice_url && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="print:hidden"
+                    asChild
+                  >
+                    <a
+                      href={order.invoice_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Open in New Tab
+                    </a>
+                  </Button>
+                )}
+              </div>
+              <div className="bg-gray-50 rounded-lg overflow-hidden min-h-[200px] flex items-center justify-center">
+                {order.invoice_url ? (
+                  <img
+                    src={order.invoice_url}
+                    alt="Invoice Document"
+                    className="w-full h-auto object-contain"
+                  />
+                ) : (
+                  <div className="text-gray-400 text-center">
+                    <p>No invoice document available</p>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="border p-4 rounded-lg">
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <h4 className="font-medium">CN Document</h4>
+                  <p className="text-sm text-gray-500">
+                    {order.cn || "Not available"}
+                  </p>
+                </div>
+                {order.cn_url && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="print:hidden"
+                    asChild
+                  >
+                    <a
+                      href={order.cn_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Open in New Tab
+                    </a>
+                  </Button>
+                )}
+              </div>
+              <div className="bg-gray-50 rounded-lg overflow-hidden min-h-[200px] flex items-center justify-center">
+                {order.cn_url ? (
+                  <img
+                    src={order.cn_url}
+                    alt="CN Document"
+                    className="w-full h-auto object-contain"
+                  />
+                ) : (
+                  <div className="text-gray-400 text-center">
+                    <p>No CN document available</p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
+
+      <style jsx global>{`
+        @media print {
+          .print\\:hidden {
+            display: none !important;
+          }
+          .print\\:inline {
+            display: inline !important;
+          }
+          .print\\:mt-4 {
+            margin-top: 1rem !important;
+          }
+          @page {
+            margin: 20mm;
+          }
+          body {
+            print-color-adjust: exact;
+            -webkit-print-color-adjust: exact;
+          }
+          img {
+            max-height: 100vh;
+            page-break-inside: avoid;
+          }
+        }
+      `}</style>
     </div>
   );
 }

@@ -26,7 +26,7 @@ import { formatProductId } from "@/lib/utils";
 export function CartSummary() {
   const { items, removeItem, updateQuantity, calculateTotals, clearCart } =
     useCartStore();
-  const { subtotal, totalWeight, totalAmount, gstOnSubtotal, gstOnShipping } =
+  const { subtotal, shipping, totalQuantity, totalAmount, gstOnSubtotal, gstOnShipping } =
     calculateTotals();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const router = useRouter();
@@ -36,12 +36,6 @@ export function CartSummary() {
       updateQuantity(item.id, newQuantity);
     }
   };
-
-  // Calculate shipping based on weight (20 INR per kg, min 200 INR, max 600 INR)
-  const shipping = Math.min(Math.max(totalWeight * 20, 200), 600);
-
-  // Calculate total amount
-  const finalTotal = subtotal + shipping + gstOnSubtotal + gstOnShipping;
 
   const placeOrderMutation = client.buyers.placeOrder.useMutation({
     onSuccess: () => {
@@ -71,9 +65,9 @@ export function CartSummary() {
   };
 
   return (
-    <div className="flex gap-6">
+    <div className="flex flex-col md:flex-row gap-6">
       {/* Cart Items */}
-      <div className="flex-1 grid grid-cols-3 gap-4">
+      <div className="flex-1 w-full max-w-full flex md:grid md:grid-cols-3 gap-4 overflow-x-scroll">
         {items.map((item) => (
           <div key={item.id} className="border rounded-lg p-4 min-w-[200px]">
             <div className="flex justify-between items-start">
@@ -139,25 +133,25 @@ export function CartSummary() {
       </div>
 
       {/* Summary Totals */}
-      <div className="w-80">
+      <div className="w-full md:w-80">
         <div className="bg-gray-50 rounded-lg p-4 space-y-2 text-sm sticky top-4">
           <h2 className="text-lg font-semibold mb-4">Cart Summary</h2>
           <div className="flex justify-between">
             <span>Total Packages</span>
-            <span>{items.reduce((sum, item) => sum + item.quantity, 0)}</span>
+            <span>{totalQuantity}</span>
           </div>
-          <div className="flex justify-between">
+          {/* <div className="flex justify-between">
             <span>Net Weight</span>
             <span>{totalWeight}kg</span>
-          </div>
+          </div> */}
           <div className="flex justify-between">
             <span>Subtotal</span>
             <span>₹{subtotal.toFixed(2)}</span>
           </div>
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-1">
-              <span>Shipping (₹20/kg)</span>
-              <TooltipProvider delayDuration={200}>
+              <span>Shipping (₹50/pkg)</span>
+              {/* <TooltipProvider delayDuration={200}>
                 <Tooltip>
                   <TooltipTrigger>
                     <Info className="h-4 w-4 text-gray-400" />
@@ -166,7 +160,7 @@ export function CartSummary() {
                     <p>Minimum ₹200, Maximum ₹600</p>
                   </TooltipContent>
                 </Tooltip>
-              </TooltipProvider>
+              </TooltipProvider> */}
             </div>
             <span>₹{shipping.toFixed(2)}</span>
           </div>
@@ -181,7 +175,7 @@ export function CartSummary() {
           <div className="border-t pt-2 mt-2 font-semibold">
             <div className="flex justify-between">
               <span>Total Amount</span>
-              <span>₹{finalTotal.toFixed(2)}</span>
+              <span>₹{totalAmount.toFixed(2)}</span>
             </div>
           </div>
           <div className="pt-4">
@@ -207,27 +201,40 @@ export function CartSummary() {
               <span>Total Items</span>
               <span>{items.length}</span>
             </div>
-            <div className="flex justify-between text-sm">
+            {/* <div className="flex justify-between text-sm">
               <span>Net Weight</span>
               <span>{totalWeight}kg</span>
-            </div>
+            </div> */}
             <div className="flex justify-between text-sm font-semibold">
               <span>Final Amount</span>
-              <span>₹{finalTotal.toFixed(2)}</span>
+              <span>₹{totalAmount.toFixed(2)}</span>
             </div>
           </div>
 
           <DialogFooter>
-            <Button variant="outline" onClick={() => setIsDialogOpen(false)}>
-              Cancel
-            </Button>
-            <Button
-              onClick={handlePlaceOrder}
-              disabled={placeOrderMutation.isPending}
-            >
-              Confirm Order
-            </Button>
+            <div className="space-x-2">
+              <Button variant="outline" onClick={() => setIsDialogOpen(false)}>
+                Cancel
+              </Button>
+              <Button
+                onClick={handlePlaceOrder}
+                disabled={placeOrderMutation.isPending}
+              >
+                Confirm Order
+              </Button>
+            </div>
           </DialogFooter>
+
+          <div className="grid grid-cols-2 gap-4 place-items-center bg-gray-100 rounded-sm">
+            <div className="p-4 text-sm">
+              <p className="font-semibold">Bank Details</p>
+              <p>Real Essence Trade private limited </p>
+              <p>A/C: 5545990007 </p>
+              <p>IFSC: KKBK0009529 </p>
+              <p>Bank: Kotak Mahindra Bank</p>
+            </div>
+            <img src="/assets/images/gpay.jpeg" className="w-40" />
+          </div>
         </DialogContent>
       </Dialog>
     </div>

@@ -13,8 +13,8 @@ export default function CartPage() {
     <div className="min-h-screen flex flex-col">
       <Header showBackButton />
       <div className="flex-1 pt-4">
-        <div className="max-w-6xlmx-auto px-4">
-          <div className="p-6">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="p-2 md:p-6">
             <h1 className="text-2xl font-semibold mb-6">My Cart</h1>
             {items.length === 0 ? (
               <div className="text-center py-8">

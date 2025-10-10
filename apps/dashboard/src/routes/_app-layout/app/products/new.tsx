@@ -20,6 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useEffect } from "react";
 
 export const Route = createFileRoute("/_app-layout/app/products/new")({
   component: NewProductPage,
@@ -52,7 +53,7 @@ function NewProductPage() {
     defaultValues: {
       name: "",
       grade: "",
-      mark: marks?.body.find((m) => m.isDefault)?.id,
+      mark: undefined,
       invoiceNo: "",
       description: null,
       productionMonth: "",
@@ -75,6 +76,14 @@ function NewProductPage() {
     },
   });
 
+  const selectedMark = marks?.body.find((m) => m.id === form.watch("mark"));
+  const selectedMarkOrigin = selectedMark?.origin ?? null;
+
+  useEffect(() => {
+    const defaultMark = marks?.body.find((m) => m.isDefault);
+    defaultMark && form.setValue("mark", defaultMark.id);
+  }, [marks]);
+
   const onSubmit = async (data: ProductInput) => {
     try {
       const response = await createProduct.mutateAsync({
@@ -89,10 +98,6 @@ function NewProductPage() {
       console.error(error);
     }
   };
-
-  // const handleCreateNewMark = () => {
-  //   navigate({ to: "/app/brands" });
-  // };
 
   if (marks?.status !== 200) {
     return <div>Loading...</div>;
@@ -152,17 +157,22 @@ function NewProductPage() {
                 <FormItem>
                   <FormLabel>Brand Mark</FormLabel>
                   <Select
+                    defaultValue={
+                      marks?.body.find((m) => m.isDefault)?.id.toString() ?? ""
+                    }
                     onValueChange={(value: string) => {
-                      // if (value === "new") {
-                      //   handleCreateNewMark();
-                      //   return;
-                      // }
                       const selectedMark = marks?.body.find(
                         (m) => m.id.toString() === value
                       );
                       if (selectedMark) {
                         field.onChange(selectedMark.id);
                         form.setValue("brandMark", selectedMark);
+                        form.setValue("mark", selectedMark.id);
+                        if (selectedMark.origin) {
+                          form.setValue("origin", selectedMark.origin);
+                        } else {
+                          form.setValue("origin", "");
+                        }
                       }
                     }}
                     value={field.value?.toString()}
@@ -174,15 +184,12 @@ function NewProductPage() {
                     </FormControl>
                     <SelectContent>
                       {marks?.body.map((mark) => {
-                        if (!mark.isDefault) return null;
-
                         return (
                           <SelectItem key={mark.id} value={mark.id.toString()}>
                             {mark.name}
                           </SelectItem>
                         );
                       })}
-                      {/* <SelectItem value="new">Create New Mark</SelectItem> */}
                     </SelectContent>
                   </Select>
                   <FormMessage />
@@ -302,7 +309,12 @@ function NewProductPage() {
                 <FormItem>
                   <FormLabel>Origin</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input
+                      {...field}
+                      value={field.value ?? ""}
+                      disabled={!!selectedMarkOrigin}
+                      placeholder={selectedMarkOrigin || "Enter origin"}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

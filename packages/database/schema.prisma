@@ -36,19 +36,24 @@ enum BrandMarkStatus {
 }
 
 model User {
-    id               Int      @id @default(autoincrement())
-    email            String
-    password         String
-    role             UserRole
-    verified         Boolean  @default(false)
+    id       Int      @id @default(autoincrement())
+    email    String
+    password String
+    role     UserRole
+
+    verified    Boolean @default(false)
+    isSuspended Boolean @default(false)
+
     // Unique identifier for sellers and buyers, generated at verification time
-    uniqueIdentifier String?  @unique
+    uniqueIdentifier String? @unique
 
     // Optional one-to-one relations to role-specific profiles
     adminProfile  AdminProfile?
     staffProfile  StaffProfile?
     sellerProfile SellerProfile?
     buyerProfile  BuyerProfile?
+
+    superSeller Boolean @default(false)
 
     // User's cart and orders
     cartItems CartItem[]
@@ -163,6 +168,7 @@ model BuyerProfile {
 
     // Step 2: Address Info
     address  String
+    town     String?
     state    String
     district String
     pincode  String
@@ -198,13 +204,15 @@ model BuyerProfile {
 }
 
 model BrandMark {
-    id          Int             @id @default(autoincrement())
-    name        String          @unique
+    id   Int    @id @default(autoincrement())
+    name String @unique
+
     logo        String? // File path or URL
     certificate String? // File path or URL
     isDefault   Boolean         @default(false) // New field to mark default brand
     status      BrandMarkStatus @default(PENDING) // New enum for approval status
     verifiedAt  DateTime? // Renamed from 'verified'
+    origin      String? // New optional field for brand origin
 
     sellerId Int
     seller   SellerProfile @relation(fields: [sellerId], references: [id])
@@ -288,9 +296,11 @@ model Order {
     totalAmount     Decimal
     roundOff        Decimal?
 
-    invoice   String?
-    cn        String?
-    transport String?
+    invoice     String?
+    invoice_url String?
+    cn          String?
+    cn_url      String?
+    transport   String?
 
     // Shipping address fields
     shippingAddress  String
@@ -321,4 +331,14 @@ model OrderItem {
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+}
+
+model PasswordResetToken {
+  id         Int      @id @default(autoincrement())
+  token      String   @unique
+  identifier     String
+  expiresAt  DateTime
+  used       Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }

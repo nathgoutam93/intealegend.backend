@@ -6,13 +6,13 @@ import {
 } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+// import {
+//   Dialog,
+//   DialogContent,
+//   DialogHeader,
+//   DialogTitle,
+//   DialogTrigger,
+// } from "@/components/ui/dialog";
 import client from "@/api-client";
 import { useQueryClient } from "@tanstack/react-query";
 import { useAuthStore } from "@/stores/auth.store";
@@ -39,12 +39,12 @@ function ProductDetailPage() {
   const navigate = useNavigate();
   const user = useAuthStore((state) => state.user);
   const queryClient = useQueryClient();
-  const [inventoryDialogOpen, setInventoryDialogOpen] = useState(false);
+  // const [inventoryDialogOpen, setInventoryDialogOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const [inventoryAction, setInventoryAction] = useState<"add" | "remove">(
-    "add"
-  );
-  const [inventoryAmount, setInventoryAmount] = useState(0);
+  // const [inventoryAction, setInventoryAction] = useState<"add" | "remove">(
+  //   "add"
+  // );
+  // const [inventoryAmount, setInventoryAmount] = useState(0);
 
   // Rating state for admin
   const [ratings, setRatings] = useState({
@@ -138,33 +138,33 @@ function ProductDetailPage() {
     }
   };
 
-  const handleInventoryUpdate = async () => {
-    if (!data?.body || user?.role !== "ADMIN") return;
+  // const handleInventoryUpdate = async () => {
+  //   if (!data?.body || user?.role !== "ADMIN") return;
 
-    const currentQuantity = data.body.quantity;
-    const newQuantity =
-      inventoryAction === "add"
-        ? currentQuantity + inventoryAmount
-        : currentQuantity - inventoryAmount;
+  //   const currentQuantity = data.body.quantity;
+  //   const newQuantity =
+  //     inventoryAction === "add"
+  //       ? currentQuantity + inventoryAmount
+  //       : currentQuantity - inventoryAmount;
 
-    if (newQuantity < 0) {
-      alert("Cannot have negative inventory");
-      return;
-    }
+  //   if (newQuantity < 0) {
+  //     alert("Cannot have negative inventory");
+  //     return;
+  //   }
 
-    try {
-      await updateProductMutation.mutateAsync({
-        params: { id: productId },
-        body: {
-          quantity: newQuantity,
-        },
-      });
-      setInventoryDialogOpen(false);
-      setInventoryAmount(0);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  //   try {
+  //     await updateProductMutation.mutateAsync({
+  //       params: { id: productId },
+  //       body: {
+  //         quantity: newQuantity,
+  //       },
+  //     });
+  //     setInventoryDialogOpen(false);
+  //     setInventoryAmount(0);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   const handleLiveStatusToggle = async () => {
     if (!data?.body || user?.role !== "ADMIN") return;
@@ -451,7 +451,7 @@ function ProductDetailPage() {
               </AlertDialogContent>
             </AlertDialog>
 
-            <div className="border rounded-lg p-4">
+            {/* <div className="border rounded-lg p-4">
               <div className="flex justify-between items-center mb-4">
                 <div>
                   <h3 className="font-semibold">Current Inventory</h3>
@@ -521,7 +521,7 @@ function ProductDetailPage() {
                   </DialogContent>
                 </Dialog>
               </div>
-            </div>
+            </div> */}
 
             <div className="border rounded-lg p-4">
               <form

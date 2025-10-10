@@ -27,12 +27,15 @@ export const Route = createFileRoute("/_app-layout/app/")({
 });
 
 const SellerDash = () => {
+  const user = useAuthStore((state) => state.user);
   const { data, isLoading } = client.sellers.stats.useQuery(["dash-stats"]);
   if (isLoading) return <div>loading...</div>;
   if (!data || data.status !== 200) return <div>something went wrong</div>;
 
   return (
     <div className="p-8 space-y-8">
+      <p>Welcome {user?.profile.businessName},</p>
+
       {/* Sales Section */}
       <div>
         <h2 className="text-xl font-semibold mb-4">Orders</h2>
@@ -72,7 +75,11 @@ const SellerDash = () => {
       <div>
         <h2 className="text-xl font-semibold mb-4">Products</h2>
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          <Link to="/app/products" className="block">
+          <Link
+            to="/app/products"
+            search={{ status: "published" }}
+            className="block"
+          >
             <Card className="hover:bg-muted/50 transition-colors">
               <CardContent className="flex items-center gap-4 p-6">
                 <div className="p-4 bg-primary/10 rounded-full">
@@ -87,7 +94,11 @@ const SellerDash = () => {
               </CardContent>
             </Card>
           </Link>
-          <Link to="/app/products" className="block">
+          <Link
+            to="/app/products"
+            search={{ status: "draft" }}
+            className="block"
+          >
             <Card className="hover:bg-muted/50 transition-colors">
               <CardContent className="flex items-center gap-4 p-6">
                 <div className="p-4 bg-primary/10 rounded-full">
@@ -128,7 +139,11 @@ const AdminDash = () => {
       <div>
         <h2 className="text-xl font-semibold mb-4">Products</h2>
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          <Link to="/app/products" className="block">
+          <Link
+            to="/app/products"
+            search={{ status: "published" }}
+            className="block"
+          >
             <Card className="hover:bg-muted/50 transition-colors">
               <CardContent className="flex items-center gap-4 p-6">
                 <div className="p-4 bg-primary/10 rounded-full">
@@ -143,7 +158,11 @@ const AdminDash = () => {
               </CardContent>
             </Card>
           </Link>
-          <Link to="/app/products" className="block">
+          <Link
+            to="/app/products"
+            search={{ status: "draft" }}
+            className="block"
+          >
             <Card className="hover:bg-muted/50 transition-colors">
               <CardContent className="flex items-center gap-4 p-6">
                 <div className="p-4 bg-primary/10 rounded-full">

@@ -5,12 +5,36 @@ import {
   SellerProfileSchema,
   LoginResponseSchema,
   BuyerProfileSchema,
+  ForgotPasswordRequestSchema,
+  ForgotPasswordResponseSchema,
+  ResetPasswordRequestSchema,
+  ResetPasswordResponseSchema,
 } from "../schemas";
 import z from "zod";
 
 const c = initContract();
 
 export const authRouter = c.router({
+  forgotPassword: {
+    method: "POST",
+    path: "/auth/forgot-password",
+    body: ForgotPasswordRequestSchema,
+    responses: {
+      200: ForgotPasswordResponseSchema,
+      400: ErrorSchema,
+    },
+  },
+  resetPassword: {
+    method: "POST",
+    path: "/auth/reset-password",
+    body: ResetPasswordRequestSchema,
+    responses: {
+      200: ResetPasswordResponseSchema,
+      400: ErrorSchema,
+      401: ErrorSchema,
+    },
+  },
+
   login: {
     method: "POST",
     path: "/auth/login",
@@ -39,13 +63,13 @@ export const authRouter = c.router({
             userId: true,
             createdAt: true,
             updatedAt: true,
-          }),
+          }).passthrough(),
           BuyerProfileSchema.omit({
             id: true,
             userId: true,
             createdAt: true,
             updatedAt: true,
-          }),
+          }).passthrough(),
         ]),
       })
       .passthrough(), // Allow additional file fields

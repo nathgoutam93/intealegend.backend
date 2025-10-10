@@ -11,6 +11,13 @@ import { AdminStatsSchema } from "./admin";
 import { SellerStatsSchema } from "./seller";
 import { ErrorSchema, LoginResponseSchema } from "./common";
 
+import {
+  ForgotPasswordRequestSchema,
+  ForgotPasswordResponseSchema,
+  ResetPasswordRequestSchema,
+  ResetPasswordResponseSchema,
+} from "./common";
+
 export {
   UserSchema,
   PendingUserSchema,
@@ -25,4 +32,8 @@ export {
   ProductSchema,
   OrderItemSchema,
   OrderSchema,
+  ForgotPasswordRequestSchema,
+  ForgotPasswordResponseSchema,
+  ResetPasswordRequestSchema,
+  ResetPasswordResponseSchema,
 };

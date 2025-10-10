@@ -28,15 +28,33 @@ export const Route = createFileRoute("/_app-layout/app/products/")({
 function ProductsPage() {
   const navigate = useNavigate();
   const user = useAuthStore((state) => state.user);
-  const [searchText, setSearchText] = useState("");
+
+  // Get initial values from URL params
+  const params = new URLSearchParams(window.location.search);
+  const initialStatus =
+    params.get("status") === "published"
+      ? "published"
+      : params.get("status") === "draft"
+        ? "draft"
+        : "all";
+  const initialSortOrder = params.get("sortOrder") as
+    | "asc"
+    | "desc"
+    | undefined;
+  const initialSearch = params.get("search") || "";
+  const initialOffset = Number(params.get("offset")) || 0;
+
+  const [searchText, setSearchText] = useState(initialSearch);
   const [debouncedSearchText, setDebouncedSearchText] = useState(searchText);
   const [statusFilter, setStatusFilter] = useState<
     "all" | "published" | "draft"
-  >("all");
+  >(initialStatus);
   const [sortOrder, setSortOrder] = useState<"asc" | "desc" | undefined>(
-    undefined
+    initialSortOrder === "asc" || initialSortOrder === "desc"
+      ? initialSortOrder
+      : undefined
   );
-  const [offset, setOffset] = useState(0);
+  const [offset, setOffset] = useState(initialOffset);
   const limit = 10;
 
   // Debounce the search input
@@ -59,28 +77,15 @@ function ProductsPage() {
     if (offset) params.set("offset", offset.toString());
     window.history.replaceState({}, "", `?${params.toString()}`);
   }, [debouncedSearchText, statusFilter, sortOrder, offset]);
-
-  // on mount, read params
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    setSearchText(params.get("search") || "");
-    setStatusFilter(
-      params.get("status") === "published"
-        ? "published"
-        : params.get("status") === "draft"
-          ? "draft"
-          : "all"
-    );
-    const so = params.get("sortOrder");
-    setSortOrder(
-      so === "asc" || so === "desc" ? (so as "asc" | "desc") : undefined
-    );
-    setOffset(Number(params.get("offset")) || 0);
-  }, []);
-
   useEffect(() => {
     updateSearchParams();
-  }, [debouncedSearchText, sortOrder, offset, updateSearchParams]);
+  }, [
+    debouncedSearchText,
+    statusFilter,
+    sortOrder,
+    offset,
+    updateSearchParams,
+  ]);
 
   const queryParams = {
     search: debouncedSearchText,
@@ -143,16 +148,16 @@ function ProductsPage() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>ID</TableHead>
-              <TableHead>Mark</TableHead>
-              <TableHead>Invoice No.</TableHead>
-              <TableHead>Grade</TableHead>
-              <TableHead>Pkgs</TableHead>
-              <TableHead>Wt/Pkg</TableHead>
-              <TableHead>Sample Wt.</TableHead>
-              <TableHead>Total Wt.</TableHead>
-              <TableHead>Score</TableHead>
-              <TableHead className="text-right">
+              <TableHead className="text-left">ID</TableHead>
+              <TableHead className="text-center">Mark</TableHead>
+              <TableHead className="text-center">Invoice No.</TableHead>
+              <TableHead className="text-center">Grade</TableHead>
+              <TableHead className="text-center">Pkgs</TableHead>
+              <TableHead className="text-center">Wt/Pkg</TableHead>
+              <TableHead className="text-center">Sample Wt.</TableHead>
+              <TableHead className="text-center">Total Wt.</TableHead>
+              <TableHead className="text-center">Score</TableHead>
+              <TableHead className="text-center">
                 <Button
                   variant="ghost"
                   onClick={() => {
@@ -181,7 +186,7 @@ function ProductsPage() {
                   />
                 </Button>
               </TableHead>
-              <TableHead>
+              <TableHead className="text-center">
                 <TooltipProvider delayDuration={200}>
                   <Tooltip>
                     <TooltipTrigger>
@@ -192,10 +197,10 @@ function ProductsPage() {
                   </Tooltip>
                 </TooltipProvider>
               </TableHead>
-              <TableHead className="text-right">Status</TableHead>
-              <TableHead>Location</TableHead>
-              <TableHead>Origin</TableHead>
-              <TableHead>Production</TableHead>
+              <TableHead className="text-center">Status</TableHead>
+              <TableHead className="text-center">Location</TableHead>
+              <TableHead className="text-center">Origin</TableHead>
+              <TableHead className="text-center">Production</TableHead>
               {user?.role === "ADMIN" && <TableHead></TableHead>}
             </TableRow>
           </TableHeader>
@@ -211,7 +216,7 @@ function ProductsPage() {
                   });
                 }}
               >
-                <TableCell className="font-medium">
+                <TableCell className="font-medium text-left">
                   <span>
                     IIL{new Date(product.createdAt).getFullYear()}
                     {new Date(product.createdAt)
@@ -221,18 +226,28 @@ function ProductsPage() {
                     {product.id.toString().padStart(6, "0")}
                   </span>
                 </TableCell>
-                <TableCell>{product.brandMark.name}</TableCell>
-                <TableCell>{product.invoiceNo}</TableCell>
+                <TableCell className="text-center">
+                  {product.brandMark.name}
+                </TableCell>
+                <TableCell className="text-center">
+                  {product.invoiceNo}
+                </TableCell>
                 <TableCell className="text-center">{product.grade}</TableCell>
-                <TableCell>{product.quantity}</TableCell>
-                <TableCell>{product.weightPerUnit} kg</TableCell>
-                <TableCell>{product.sampleWeight} kg</TableCell>
-                <TableCell>
+                <TableCell className="text-center">
+                  {product.quantity}
+                </TableCell>
+                <TableCell className="text-center">
+                  {product.weightPerUnit} kg
+                </TableCell>
+                <TableCell className="text-center">
+                  {product.sampleWeight} kg
+                </TableCell>
+                <TableCell className="text-center">
                   {product.quantity * product.weightPerUnit -
                     Number(product.sampleWeight)}{" "}
                   kg
                 </TableCell>
-                <TableCell>
+                <TableCell className="text-center">
                   <TooltipProvider delayDuration={200}>
                     <Tooltip>
                       <TooltipTrigger>
@@ -260,7 +275,7 @@ function ProductsPage() {
                   {product.pricePerUnit.toLocaleString("en-IN")}
                 </TableCell>
                 <TableCell className="text-center">{product.mbp}</TableCell>
-                <TableCell className="text-right">
+                <TableCell className="text-center">
                   <span
                     className={`px-2 py-1 rounded-full text-xs ${
                       product.isLive
@@ -271,9 +286,11 @@ function ProductsPage() {
                     {product.isLive ? "Published" : "Draft"}
                   </span>
                 </TableCell>
-                <TableCell>{product.location}</TableCell>
-                <TableCell>{product.origin}</TableCell>
-                <TableCell>
+                <TableCell className="text-center">
+                  {product.location}
+                </TableCell>
+                <TableCell className="text-center">{product.origin}</TableCell>
+                <TableCell className="text-center">
                   {new Date(product.productionMonth).toLocaleString("en-IN", {
                     month: "short",
                     year: "numeric",

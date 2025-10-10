@@ -4,6 +4,7 @@ import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { DatabaseModule } from '../database/database.module';
 import { StorageService } from '../storage/storage.service';
+import { MailService } from 'src/mail/mail.service';
 
 @Module({
   imports: [
@@ -15,7 +16,7 @@ import { StorageService } from '../storage/storage.service';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, StorageService],
+  providers: [AuthService, MailService, StorageService],
   exports: [AuthService],
 })
-export class AuthModule {}
+export class AuthModule { }

@@ -48,6 +48,35 @@ export function RegistrationApprovalView() {
     },
   });
 
+  const deleteMutation = client.admin.deleteRegistration.useMutation({
+    onSuccess: () => {
+      toast.success("Users deleted successfully");
+      setSelectedUsers([]);
+
+      queryClient.invalidateQueries({
+        queryKey: ["pending-registrations-buyers"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["pending-registrations-sellers"],
+      });
+    },
+    onError: (error) => {
+      toast.error("Failed to delete users", {
+        description: error.body as string,
+      });
+    },
+  });
+
+  const handleDelete = async () => {
+    if (!selectedUsers.length) return;
+    const count = selectedUsers.length;
+    const confirmed = window.confirm(
+      `Are you sure you want to delete ${count} selected user${count > 1 ? "s" : ""}? This action cannot be undone.`
+    );
+    if (!confirmed) return;
+    await deleteMutation.mutateAsync({ body: { userIds: selectedUsers } });
+  };
+
   const handleVerify = async () => {
     if (!selectedUsers.length) return;
     await verifyMutation.mutateAsync({ body: { userIds: selectedUsers } });
@@ -205,12 +234,21 @@ export function RegistrationApprovalView() {
     <div className="p-6">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Pending Registrations</h1>
-        <Button
-          onClick={handleVerify}
-          disabled={!selectedUsers.length || verifyMutation.isPending}
-        >
-          {verifyMutation.isPending ? "Verifying..." : "Verify Selected"}
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button
+            variant="destructive"
+            onClick={handleDelete}
+            disabled={!selectedUsers.length || deleteMutation.isPending}
+          >
+            {deleteMutation.isPending ? "Deleting..." : "Delete Selected"}
+          </Button>
+          <Button
+            onClick={handleVerify}
+            disabled={!selectedUsers.length || verifyMutation.isPending}
+          >
+            {verifyMutation.isPending ? "Verifying..." : "Verify Selected"}
+          </Button>
+        </div>
       </div>
 
       <div className="grid grid-cols-2 gap-8">

@@ -21,7 +21,7 @@ export class BuyerController {
         const profile = await this.buyerService.getProfile(req.user);
         return {
           status: 200,
-          body: profile,
+          body: profile as any,
         };
       },
 
@@ -29,7 +29,7 @@ export class BuyerController {
         const profile = await this.buyerService.updateProfile(req.user, body);
         return {
           status: 200,
-          body: profile,
+          body: profile as any,
         };
       },
 

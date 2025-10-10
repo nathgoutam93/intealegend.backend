@@ -3,8 +3,11 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
-import { Printer } from "lucide-react";
+import { Printer, Ban } from "lucide-react";
 import { PendingUser } from "@intealegend/api-contract";
+import client from "@/api-client";
+import { QueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 interface UserDetailsModalProps {
   user: PendingUser;
@@ -20,6 +23,34 @@ export function UserDetailsModal({
   if (!user) return null;
 
   const isSeller = user.role === "SELLER";
+
+  const queryClient = new QueryClient();
+
+  const toggleBanMutation = client.admin.toggleUserBan.useMutation({
+    onSuccess: (res) => {
+      toast.success(
+        `User ${res.body.isSuspended ? "Banned" : "Unbanned"}  successfully`
+      );
+
+      queryClient.invalidateQueries({
+        queryKey: ["verified-buyers"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["verified-sellers"],
+      });
+
+      toast;
+    },
+    onError: (error) => {
+      toast.error("Failed", {
+        description: error.body as string,
+      });
+    },
+  });
+
+  const handleToggleBan = async () => {
+    await toggleBanMutation.mutateAsync({ params: { id: user.id }, body: {} });
+  };
 
   const handlePrint = () => {
     const printWindow = window.open("", "", "width=800,height=600");
@@ -101,9 +132,19 @@ export function UserDetailsModal({
       <DialogContent className="max-w-4xl max-h-[80vh] overflow-hidden flex flex-col">
         <DialogHeader className="flex flex-row justify-between items-center">
           <DialogTitle>User Details</DialogTitle>
-          <Button variant="outline" size="icon" onClick={handlePrint}>
-            <Printer className="h-4 w-4" />
-          </Button>
+          <div className="flex space-x-1">
+            <Button
+              variant="outline"
+              onClick={handleToggleBan}
+              className="space-x-2"
+            >
+              <Ban className="h-4 w-4" />
+              <span>{user.isSuspended ? "Unban" : "Ban"}</span>
+            </Button>
+            <Button variant="outline" size="icon" onClick={handlePrint}>
+              <Printer className="h-4 w-4" />
+            </Button>
+          </div>
         </DialogHeader>
 
         <div className="space-y-4 overflow-y-auto pr-6" data-print-content>

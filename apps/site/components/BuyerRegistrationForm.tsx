@@ -1,11 +1,55 @@
 "use client";
 
 import { useState } from "react";
-import { Building2, Users, Mail, Phone, Lock, ArrowRight } from "lucide-react";
+import {
+  Building2,
+  Users,
+  Mail,
+  Phone,
+  Lock,
+  ArrowRight,
+  Check,
+  X,
+} from "lucide-react";
 import StateDistrictSelector from "./state-distrcit-selector";
 import { client } from "@/lib/api-client";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+
+type FormData = {
+  businessName: string;
+  businessType: string;
+  ownerName: string;
+  address: string;
+  state: string;
+  district: string;
+  town: string;
+  pincode: string;
+  phone: string;
+  email: string;
+
+  secondaryContactName: string;
+  secondaryContactDesignation: string;
+  secondaryContactNumber: string;
+
+  panNumber: string;
+  panCard: File | null;
+  gstNumber: string;
+  gstCertificate: File | null;
+
+  fssaiNumber: string;
+  fssaiLicense: File | null;
+
+  bankAccountNumber: string;
+  bankIfscCode: string;
+
+  transportName: string;
+
+  password: string;
+  confirmPassword: string;
+
+  [key: string]: string | File | null; // Index signature
+};
 
 const REGISTRATION_STEPS = [
   {
@@ -16,7 +60,7 @@ const REGISTRATION_STEPS = [
   {
     id: 2,
     title: "Address Information",
-    fields: ["address", "state", "district", "pincode"],
+    fields: ["address", "town", "state", "district", "pincode"],
   },
   {
     id: 3,
@@ -29,40 +73,62 @@ const REGISTRATION_STEPS = [
       "secondaryContactNumber",
     ],
   },
+  // {
+  //   id: 4,
+  //   title: "Business Documents",
+  //   fields: [
+  //     "panNumber",
+  //     "panCard",
+  //     "gstNumber",
+  //     "gstCertificate",
+  //     "fssaiNumber",
+  //     "fssaiLicense",
+  //   ],
+  // },
+  // {
+  //   id: 5,
+  //   title: "Banking Information",
+  //   fields: ["bankAccountNumber", "bankIfscCode", "cancelledCheque"],
+  // },
   {
     id: 4,
-    title: "Business Documents",
-    fields: [
-      "panNumber",
-      "panCard",
-      "gstNumber",
-      "gstCertificate",
-      "fssaiNumber",
-      "fssaiLicense",
-    ],
-  },
-  {
-    id: 5,
-    title: "Banking Information",
-    fields: ["bankAccountNumber", "bankIfscCode", "cancelledCheque"],
-  },
-  {
-    id: 6,
     title: "Logistics",
     fields: ["transportName"],
   },
   {
-    id: 7,
+    id: 5,
     title: "Set Password",
     fields: ["password", "confirmPassword"],
   },
 ];
 
+// Password validation functions
+const validatePassword = (password: string) => {
+  const minLength = password.length >= 8;
+  const hasUpperCase = /[A-Z]/.test(password);
+  const hasLowerCase = /[a-z]/.test(password);
+  const hasNumbers = /\d/.test(password);
+  const hasSpecialChar = /[!@#$%^_&*(),.?":{}|<>]/.test(password);
+
+  return {
+    minLength,
+    hasUpperCase,
+    hasLowerCase,
+    hasNumbers,
+    hasSpecialChar,
+    isValid:
+      minLength && hasUpperCase && hasLowerCase && hasNumbers && hasSpecialChar,
+  };
+};
+
 export default function BuyerRegistrationForm() {
   const router = useRouter();
   const [step, setStep] = useState(1);
+  const [passwordValidation, setPasswordValidation] = useState(
+    validatePassword("")
+  );
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     // Step 1: Business Info
     businessName: "",
     businessType: "",
@@ -70,6 +136,7 @@ export default function BuyerRegistrationForm() {
 
     // Step 2: Address Info
     address: "",
+    town: "",
     state: "",
     district: "",
     pincode: "",
@@ -120,6 +187,7 @@ export default function BuyerRegistrationForm() {
   });
 
   const goNextStep = async () => {
+    // Remove validation for now
     if (step < REGISTRATION_STEPS.length) {
       setStep(step + 1);
     } else {
@@ -131,10 +199,11 @@ export default function BuyerRegistrationForm() {
       try {
         const formDataToSend = new FormData();
 
-        const { password, ...profileFields } = formData;
+        const { password, confirmPassword, ...profileFields } = formData;
         formDataToSend.append("email", formData.email);
         formDataToSend.append("role", "BUYER");
         formDataToSend.append("password", password);
+        formDataToSend.append("confirmPassword", confirmPassword);
 
         // Add all fields to form data
         Object.entries(profileFields).forEach(([key, value]) => {
@@ -206,7 +275,7 @@ export default function BuyerRegistrationForm() {
               </div>
 
               {/* Business Type (Dropdown) */}
-              <div>
+              {/* <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Business Type
                 </label>
@@ -224,7 +293,7 @@ export default function BuyerRegistrationForm() {
                   <option value="Partnership">Partnership</option>
                   <option value="Proprietorship">Proprietorship</option>
                 </select>
-              </div>
+              </div> */}
 
               {/* Owner Name */}
               <div>
@@ -275,16 +344,31 @@ export default function BuyerRegistrationForm() {
               />
 
               {/* Pincode */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Pincode
-                </label>
-                <input
-                  type="text"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                  value={formData.pincode}
-                  onChange={(e) => handleInputChange("pincode", e.target.value)}
-                />
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Town
+                  </label>
+                  <input
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                    value={formData.town}
+                    onChange={(e) => handleInputChange("town", e.target.value)}
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Pincode
+                  </label>
+                  <input
+                    type="text"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                    value={formData.pincode}
+                    onChange={(e) =>
+                      handleInputChange("pincode", e.target.value)
+                    }
+                  />
+                </div>
               </div>
             </>
           )}
@@ -323,7 +407,7 @@ export default function BuyerRegistrationForm() {
               </div>
 
               {/* Secondary Contact Name */}
-              <div>
+              {/* <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Secondary Contact Name
                 </label>
@@ -335,10 +419,10 @@ export default function BuyerRegistrationForm() {
                     handleInputChange("secondaryContactName", e.target.value)
                   }
                 />
-              </div>
+              </div> */}
 
               {/* Secondary Contact Designation */}
-              <div>
+              {/* <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Secondary Contact Designation
                 </label>
@@ -353,10 +437,10 @@ export default function BuyerRegistrationForm() {
                     )
                   }
                 />
-              </div>
+              </div> */}
 
               {/* Secondary Contact Number */}
-              <div>
+              {/* <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Secondary Contact Number
                 </label>
@@ -368,12 +452,12 @@ export default function BuyerRegistrationForm() {
                     handleInputChange("secondaryContactNumber", e.target.value)
                   }
                 />
-              </div>
+              </div> */}
             </>
           )}
 
           {/* STEP 4: Business Documents */}
-          {step === 4 && (
+          {/* {step === 4 && (
             <>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
@@ -462,10 +546,10 @@ export default function BuyerRegistrationForm() {
                 </div>
               </div>
             </>
-          )}
+          )} */}
 
           {/* STEP 5: Banking Information */}
-          {step === 5 && (
+          {/* {step === 5 && (
             <>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
@@ -496,9 +580,9 @@ export default function BuyerRegistrationForm() {
                 </div>
               </div>
             </>
-          )}
+          )} */}
 
-          {step === 6 && (
+          {step === 4 && (
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Transport Partner Name
@@ -515,7 +599,7 @@ export default function BuyerRegistrationForm() {
           )}
 
           {/* STEP 7: Set Password */}
-          {step === 7 && (
+          {step === 5 && (
             <>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -527,11 +611,64 @@ export default function BuyerRegistrationForm() {
                     type="password"
                     className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md"
                     value={formData.password}
-                    onChange={(e) =>
-                      handleInputChange("password", e.target.value)
-                    }
+                    onChange={(e) => {
+                      handleInputChange("password", e.target.value);
+                      setPasswordValidation(validatePassword(e.target.value));
+                    }}
                   />
                 </div>
+                <ul className="text-xs text-gray-500 mt-1 space-y-1">
+                  <li
+                    className={`flex items-center gap-2 ${passwordValidation.minLength ? "text-green-600" : "text-gray-500"}`}
+                  >
+                    {passwordValidation.minLength ? (
+                      <Check className="w-3 h-3" />
+                    ) : (
+                      <X className="w-3 h-3" />
+                    )}
+                    At least 8 characters
+                  </li>
+                  <li
+                    className={`flex items-center gap-2 ${passwordValidation.hasUpperCase ? "text-green-600" : "text-gray-500"}`}
+                  >
+                    {passwordValidation.hasUpperCase ? (
+                      <Check className="w-3 h-3" />
+                    ) : (
+                      <X className="w-3 h-3" />
+                    )}
+                    At least one uppercase letter (A-Z)
+                  </li>
+                  <li
+                    className={`flex items-center gap-2 ${passwordValidation.hasLowerCase ? "text-green-600" : "text-gray-500"}`}
+                  >
+                    {passwordValidation.hasLowerCase ? (
+                      <Check className="w-3 h-3" />
+                    ) : (
+                      <X className="w-3 h-3" />
+                    )}
+                    At least one lowercase letter (a-z)
+                  </li>
+                  <li
+                    className={`flex items-center gap-2 ${passwordValidation.hasNumbers ? "text-green-600" : "text-gray-500"}`}
+                  >
+                    {passwordValidation.hasNumbers ? (
+                      <Check className="w-3 h-3" />
+                    ) : (
+                      <X className="w-3 h-3" />
+                    )}
+                    At least one number (0-9)
+                  </li>
+                  <li
+                    className={`flex items-center gap-2 ${passwordValidation.hasSpecialChar ? "text-green-600" : "text-gray-500"}`}
+                  >
+                    {passwordValidation.hasSpecialChar ? (
+                      <Check className="w-3 h-3" />
+                    ) : (
+                      <X className="w-3 h-3" />
+                    )}
+                    At least one special character (!@#$%^&*)
+                  </li>
+                </ul>
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -547,6 +684,15 @@ export default function BuyerRegistrationForm() {
                       handleInputChange("confirmPassword", e.target.value)
                     }
                   />
+                  {formData.confirmPassword && (
+                    <p
+                      className={`text-xs mt-1 ${formData.password === formData.confirmPassword ? "text-green-600" : "text-red-600"}`}
+                    >
+                      {formData.password === formData.confirmPassword
+                        ? "✓ Passwords match"
+                        : "✗ Passwords do not match"}
+                    </p>
+                  )}
                 </div>
               </div>
             </>

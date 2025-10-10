@@ -13,6 +13,12 @@ import {
 import { Button } from "@/components/ui/button";
 import { Filter } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@radix-ui/react-tooltip";
 
 export const Route = createFileRoute("/_app-layout/app/orders/")({
   component: OrdersPage,
@@ -109,10 +115,11 @@ function OrdersPage() {
               <TableHead>Order ID</TableHead>
               <TableHead>Date</TableHead>
               <TableHead>Status</TableHead>
-              <TableHead>Tea Value</TableHead>
-              <TableHead>Total Amount</TableHead>
+              <TableHead>Buyer</TableHead>
               <TableHead>Total Pkgs</TableHead>
               <TableHead>Total Weight</TableHead>
+              <TableHead>Tea Value</TableHead>
+              <TableHead>Total Amount</TableHead>
               <TableHead>Actions</TableHead>
               <TableHead>Inv No.</TableHead>
               <TableHead>CN No.</TableHead>
@@ -123,11 +130,6 @@ function OrdersPage() {
               <TableRow
                 key={order.id}
                 className="cursor-pointer hover:bg-muted/50"
-                onClick={() => {
-                  if (user?.role !== "ADMIN") {
-                    window.location.href = `/app/orders/${order.id}`;
-                  }
-                }}
               >
                 <TableCell>#{order.id}</TableCell>
                 <TableCell>
@@ -148,12 +150,29 @@ function OrdersPage() {
                     {order.status}
                   </span>
                 </TableCell>
-                <TableCell>₹{order.subtotal.toFixed(2)}</TableCell>
-                <TableCell>₹{order.totalAmount.toFixed(2)}</TableCell>
+                <TableCell>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger>
+                        {order.buyer.businessName}
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <div className="p-1 bg-black text-white">
+                          <p>Owner: {order.buyer.ownerName}</p>
+                          <p>Transport: {order.buyer.transportName}</p>
+                          <p>GST: {order.buyer.gstNumber}</p>
+                        </div>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </TableCell>
+
                 <TableCell>
                   {order.orderItems.reduce((prv, cur) => prv + cur.quantity, 0)}
                 </TableCell>
                 <TableCell>{order.estimatedWeight} kg</TableCell>
+                <TableCell>₹{order.subtotal.toFixed(2)}</TableCell>
+                <TableCell>₹{order.totalAmount.toFixed(2)}</TableCell>
 
                 <TableCell>
                   <Button asChild>
@@ -165,16 +184,7 @@ function OrdersPage() {
                     </Link>
                   </Button>
                 </TableCell>
-
-                <TableCell>
-                  {order.invoice ? (
-                    <a href={order.invoice} className="text-blue-400">
-                      view invoice
-                    </a>
-                  ) : (
-                    <span>N/A</span>
-                  )}
-                </TableCell>
+                <TableCell>{order.invoice ?? "N/A"}</TableCell>
                 <TableCell>{order.cn ?? "N/A"}</TableCell>
               </TableRow>
             ))}

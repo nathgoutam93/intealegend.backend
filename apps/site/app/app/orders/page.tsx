@@ -82,15 +82,17 @@ export default function OrdersPage() {
   return (
     <div className="min-h-screen flex flex-col">
       <Header showBackButton backUrl="/explore" />
-      <div className="flex-1 pt-4">
+      <div className="flex-1 pt-4 overflow-y-auto">
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center mb-6">
-            <h1 className="text-2xl font-bold">My Orders</h1>
+            <h1 className="hidden md:inline-block text-2xl font-bold">
+              My Orders
+            </h1>
             <div className="flex gap-4 items-center">
               <div className="flex items-center gap-2">
                 <Input
                   placeholder="Search by Order ID"
-                  className="w-[200px]"
+                  className="md:w-[200px]"
                   value={filters.search}
                   onChange={(e) =>
                     setFilters((prev) => ({ ...prev, search: e.target.value }))
@@ -103,7 +105,7 @@ export default function OrdersPage() {
                   setFilters((prev) => ({ ...prev, status: value }))
                 }
               >
-                <SelectTrigger className="w-[150px]">
+                <SelectTrigger className="w-[100px] md:w-[150px]">
                   <SelectValue placeholder="Filter by status" />
                 </SelectTrigger>
                 <SelectContent>
@@ -122,16 +124,16 @@ export default function OrdersPage() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Order ID</TableHead>
-                  <TableHead>Date</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Tea Value</TableHead>
-                  <TableHead>Total Amount</TableHead>
-                  <TableHead>Total Pkgs</TableHead>
-                  <TableHead>Total Weight</TableHead>
-                  <TableHead>Actions</TableHead>
-                  <TableHead>Invoice</TableHead>
-                  <TableHead>CN No.</TableHead>
+                  <TableHead className="text-left">Order ID</TableHead>
+                  <TableHead className="text-center">Date</TableHead>
+                  <TableHead className="text-center">Status</TableHead>
+                  <TableHead className="text-center">Total Pkgs</TableHead>
+                  <TableHead className="text-center">Total Weight</TableHead>
+                  <TableHead className="text-center">Tea Value</TableHead>
+                  <TableHead className="text-center">Total Amount</TableHead>
+                  <TableHead className="text-center">Actions</TableHead>
+                  <TableHead className="text-center">Bill No.</TableHead>
+                  <TableHead className="text-right">CN No.</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -140,11 +142,11 @@ export default function OrdersPage() {
                     key={order.id}
                     className="cursor-pointer hover:bg-muted/50"
                   >
-                    <TableCell>#{order.id}</TableCell>
-                    <TableCell>
+                    <TableCell className="text-left">#{order.id}</TableCell>
+                    <TableCell className="text-center">
                       {new Date(order.createdAt).toLocaleDateString()}
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="text-center">
                       <span
                         className={`px-2 py-1 rounded-full text-xs ${
                           order.status === "DELIVERED"
@@ -159,17 +161,23 @@ export default function OrdersPage() {
                         {order.status}
                       </span>
                     </TableCell>
-                    <TableCell>₹{order.subtotal.toFixed(2)}</TableCell>
-                    <TableCell>₹{order.totalAmount.toFixed(2)}</TableCell>
-                    <TableCell>
+
+                    <TableCell className="text-center">
                       {order.orderItems.reduce(
                         (prv, cur) => prv + cur.quantity,
                         0
                       )}
                     </TableCell>
-                    <TableCell>{order.estimatedWeight} kg</TableCell>
-
-                    <TableCell>
+                    <TableCell className="text-center">
+                      {order.estimatedWeight} kg
+                    </TableCell>
+                    <TableCell className="text-center">
+                      ₹{order.subtotal.toFixed(2)}
+                    </TableCell>
+                    <TableCell className="text-center">
+                      ₹{order.totalAmount.toFixed(2)}
+                    </TableCell>
+                    <TableCell className="text-center">
                       <Button asChild>
                         <Link href={`/app/orders/${order.id}`}>
                           View Details
@@ -177,7 +185,7 @@ export default function OrdersPage() {
                       </Button>
                     </TableCell>
 
-                    <TableCell>
+                    <TableCell className="text-center">
                       {order.invoice ? (
                         <a href={order.invoice} className="text-blue-400">
                           view invoice
@@ -186,13 +194,25 @@ export default function OrdersPage() {
                         <span>N/A</span>
                       )}
                     </TableCell>
-                    <TableCell>{order.cn ?? "N/A"}</TableCell>
+                    <TableCell className="text-right">
+                      {order.cn ?? "N/A"}
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
             </Table>
           </div>
         </div>
+      </div>
+      <div className="sticky bottom-0 left-0 w-full z-10 bg-gray-100 rounded-sm grid grid-cols-2 gap-4 place-items-center">
+        <div className="p-4 text-sm">
+          <p className="font-semibold">Bank Details</p>
+          <p>Real Essence Trade private limited </p>
+          <p>A/C: 5545990007 </p>
+          <p>IFSC: KKBK0009529 </p>
+          <p>Bank: Kotak Mahindra Bank</p>
+        </div>
+        <img src="/assets/images/gpay.jpeg" className="w-40" />
       </div>
     </div>
   );

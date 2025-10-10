@@ -1,11 +1,15 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { User } from "@intealegend/api-contract";
+import { BuyerProfile, User } from "@intealegend/api-contract";
+
+interface Buyer extends User {
+  profile: BuyerProfile;
+}
 
 interface AuthState {
   accessToken: string | null;
-  user: User | null;
-  setAuth: (accessToken: string, user: User) => void;
+  user: Buyer | null;
+  setAuth: (accessToken: string, user: Buyer) => void;
   clearAuth: () => void;
 }
 

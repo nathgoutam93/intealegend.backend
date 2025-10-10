@@ -1,4 +1,9 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { OrderStatus, Prisma, PrismaClient } from '@intealegend/database';
 import { PRISMA_TOKEN } from 'src/database/constants';
 
@@ -156,6 +161,10 @@ export class SellerService {
   }
 
   async createProduct(sellerId: number, data: any) {
+    if (data.quantity < 1) {
+      throw new BadRequestException('Quantity must be greater than 0');
+    }
+
     const product = await this.db.product.create({
       data: {
         sellerId,
@@ -262,6 +271,7 @@ export class SellerService {
           businessName: o.user.buyerProfile?.businessName ?? '',
           ownerName: o.user.buyerProfile?.ownerName ?? '',
           transportName: o.user.buyerProfile?.transportName ?? '',
+          gstNumber: o.user.buyerProfile?.gstNumber ?? '',
         },
         orderItems: o.orderItems.map((oi) => ({
           ...oi,
@@ -325,6 +335,7 @@ export class SellerService {
         businessName: order.user.buyerProfile?.businessName ?? '',
         ownerName: order.user.buyerProfile?.ownerName ?? '',
         transportName: order.user.buyerProfile?.transportName ?? '',
+        gstNumber: order.user.buyerProfile?.gstNumber ?? '',
       },
       orderItems: order.orderItems.map((oi) => ({
         ...oi,
@@ -383,6 +394,7 @@ export class SellerService {
         businessName: order.user.buyerProfile?.businessName ?? '',
         ownerName: order.user.buyerProfile?.ownerName ?? '',
         transportName: order.user.buyerProfile?.transportName ?? '',
+        gstNumber: order.user.buyerProfile?.gstNumber ?? '',
       },
       orderItems: order.orderItems.map((oi) => ({
         ...oi,

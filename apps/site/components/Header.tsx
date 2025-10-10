@@ -7,23 +7,27 @@ import { useCartStore } from "@/store/cartStore";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { useAuthStore } from "@/store/auth.store";
 
 interface HeaderProps {
   showBackButton?: boolean;
   backUrl?: string;
+  children?: React.ReactNode;
 }
 
 export function Header({
   showBackButton = false,
   backUrl = "/app/explore",
+  children,
 }: HeaderProps) {
   const router = useRouter();
   const pathname = usePathname();
   const { items } = useCartStore();
+  const { user } = useAuthStore();
   const cartItemCount = items.length;
 
   return (
-    <header className="sticky top-0 z-50 bg-white shadow">
+    <header className="sticky top-0 z-50 bg-white shadow print:hidden">
       <div className="max-w-7xl mx-auto px-4 py-2 flex items-center justify-between">
         <div className="flex items-center space-x-4">
           {showBackButton && (
@@ -38,13 +42,16 @@ export function Header({
               className="h-8 w-auto"
             />
           </Link>
+
+          {children}
         </div>
         <div className="flex items-center space-x-4">
           <Link
             href={"/app/explore"}
             className={cn(
               "text-sm",
-              pathname === "/app/explore" && "border-b-2 border-red-500"
+              pathname === "/app/explore" && "border-b-2 border-red-500",
+              "hidden md:inline-block"
             )}
           >
             Live Now
@@ -53,7 +60,8 @@ export function Header({
             href={"/app/orders"}
             className={cn(
               "text-sm",
-              pathname === "/app/orders" && "border-b-2 border-red-500"
+              pathname === "/app/orders" && "border-b-2 border-red-500",
+              "hidden md:inline-block"
             )}
           >
             My Orders
@@ -84,6 +92,28 @@ export function Header({
             <span className="text-sm">Account</span>
           </Link>
         </div>
+      </div>
+      <div className="border-t md:border-none p-2 flex items-center justify-center gap-4">
+        <Link
+          href={"/app/explore"}
+          className={cn(
+            "text-xs p-1 rounded-xl",
+            pathname === "/app/explore" && "bg-blue-200",
+            "inline-block md:hidden"
+          )}
+        >
+          Live Now
+        </Link>
+        <Link
+          href={"/app/orders"}
+          className={cn(
+            "text-xs p-1 rounded-xl",
+            pathname === "/app/orders" && "bg-blue-200",
+            "inline-block md:hidden"
+          )}
+        >
+          My Orders
+        </Link>
       </div>
     </header>
   );

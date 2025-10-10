@@ -1,13 +1,26 @@
+"use client";
+
 import React from "react";
 import ProductList from "@/modules/products";
 import { Header } from "@/components/Header";
-import { CartSummary } from "@/components/CartSummary";
+import { useAuthStore } from "@/store/auth.store";
 
 function ExplorePage() {
+  const { user } = useAuthStore();
+
   return (
     <div className="min-h-screen flex flex-col">
-      <Header />
+      <Header>
+        <p className="hidden md:inline-block">
+          Welcome {user?.profile.businessName}
+        </p>
+      </Header>
+
       <div className="flex-1 pt-4">
+        <p className="md:hidden inline-block pl-4">
+          Welcome {user?.profile.businessName}
+        </p>
+
         <div className="mx-auto">
           <ProductList />
         </div>

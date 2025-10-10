@@ -145,13 +145,13 @@ export default function Home() {
               </Link>
             </div>
           </div>
-          <Link
+          {/* <Link
             href={SELLER_BASE_URL}
             className="bg-green-700 text-white px-4 py-2 rounded-lg hover:bg-green-800 transition flex items-center gap-2"
           >
             <Store className="w-4 h-4" />
             Become a Seller
-          </Link>
+          </Link> */}
         </nav>
 
         <button
@@ -202,15 +202,15 @@ export default function Home() {
                   <p className="text-blue-500 font-semibold">Sign up</p>
                 </div>
               </Link>
-              <div className="border-t my-4"></div>
-              <Link
+              {/* <div className="border-t my-4"></div> */}
+              {/* <Link
                 href={SELLER_BASE_URL}
                 className="flex items-center gap-3 p-3 bg-green-700 text-white rounded-lg hover:bg-green-800"
                 onClick={() => setIsMenuOpen(false)}
               >
                 <Store className="w-5 h-5" />
                 <span>Become a Seller</span>
-              </Link>
+              </Link> */}
             </div>
           </div>
         </div>
@@ -218,7 +218,7 @@ export default function Home() {
 
       <main className="min-h-screen pt-16">
         {/* Hero Section */}
-        <section className="relative h-[100vh] md:min-h-[90vh] bg-white overflow-hidden">
+        <section className="relative h-[100vh] bg-white overflow-hidden">
           {/* Background Carousel */}
           {mounted && (
             <div className="absolute inset-0 z-0">
@@ -282,9 +282,9 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-1 gap-8">
               {/* Seller Card */}
-              <Card className="overflow-hidden border border-green-100/50 shadow-lg hover:shadow-xl transition-all duration-300 bg-transparent">
+              {/* <Card className="overflow-hidden border border-green-100/50 shadow-lg hover:shadow-xl transition-all duration-300 bg-transparent">
                 <div className="h-40 bg-gradient-to-r from-green-600/20 to-green-800/20 relative">
                   <div className="absolute inset-0 opacity-20 bg-[url('/placeholder.svg?height=400&width=600')] bg-cover bg-center"></div>
                   <div className="absolute bottom-4 left-4 bg-white/90 rounded-full p-3">
@@ -310,19 +310,14 @@ export default function Home() {
                     </Button>
                   </Link>
                 </CardFooter>
-              </Card>
+              </Card> */}
 
               {/* Buyer Card */}
               <Card className="overflow-hidden border border-amber-100/50 shadow-lg hover:shadow-xl transition-all duration-300 bg-transparent">
-                <div className="h-40 bg-gradient-to-r from-amber-600/10 to-amber-800/10 relative">
-                  <div className="absolute inset-0 opacity-20 bg-[url('/placeholder.svg?height=400&width=600')] bg-cover bg-center"></div>
-                  <div className="absolute bottom-4 left-4 bg-white/90 rounded-full p-3">
-                    <ShoppingBag className="h-8 w-8 text-amber-700" />
-                  </div>
-                </div>
                 <CardHeader className="bg-white/70">
                   <CardTitle className="text-2xl text-amber-800">
-                    Start Buying
+                    <ShoppingBag className="mr-2 h-8 w-8 text-amber-700 inline" />
+                    <span>Start Buying</span>
                   </CardTitle>
                   <CardDescription>
                     Discover exceptional teas from around the world

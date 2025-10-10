@@ -1,5 +1,5 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { OrderStatus, Prisma, PrismaClient } from '@intealegend/database';
+import { Prisma, PrismaClient } from '@intealegend/database';
 import { PRISMA_TOKEN } from 'src/database/constants';
 
 @Injectable()
@@ -49,7 +49,14 @@ export class BuyerService {
       ...(grade && {
         grade: { contains: grade, mode: Prisma.QueryMode.insensitive },
       }),
+      status: { not: 'REJECTED' },
       isLive: true,
+      quantity: { gt: 0 },
+      seller: {
+        user: {
+          isSuspended: false,
+        },
+      },
     };
 
     let orderBy = sortBy ? { price: 'pricePerUnit' }[sortBy] : undefined;
@@ -202,6 +209,12 @@ export class BuyerService {
           );
         }
 
+        if (product.quantity < item.quantity) {
+          throw new Error(
+            `Insufficient quantity for product ${item.productId}. Available: ${product.quantity}, Requested: ${item.quantity}`,
+          );
+        }
+
         const unitPrice = product.pricePerUnit.toNumber();
         const totalWeight = item.quantity * product.weightPerUnit;
         const totalPrice = unitPrice * totalWeight;
@@ -220,13 +233,19 @@ export class BuyerService {
       (sum, item) => sum + item.totalPrice,
       0,
     );
+    const totalQuantity = itemsWithProductData.reduce(
+      (sum, item) => sum + item.quantity,
+      0,
+    );
     const estimatedWeight = itemsWithProductData.reduce(
       (sum, item) => sum + item.totalWeight,
       0,
     );
 
     // Calculate shipping based on weight (20 INR per kg, min 200 INR, max 600 INR)
-    const deliveryCharges = Math.min(Math.max(estimatedWeight * 20, 200), 600);
+    // const deliveryCharges = Math.min(Math.max(estimatedWeight * 20, 200), 600);
+
+    const deliveryCharges = totalQuantity * 50;
 
     const otherCharges = 0;
 
@@ -257,45 +276,60 @@ export class BuyerService {
       },
     });
 
-    // Create order and items
-    const order = await this.db.order.create({
-      data: {
-        userId: user.id,
-        status: 'PENDING',
-        estimatedWeight,
-        gstAmount,
-        deliveryCharges,
-        otherCharges,
-        roundOff,
-        subtotal,
-        totalAmount,
-        orderItems: {
-          create: itemsWithProductData.map((item) => ({
-            productId: item.productId,
-            quantity: item.quantity,
-            unitPrice: item.unitPrice,
-            totalWeight: item.totalWeight,
-            totalPrice: item.totalPrice,
-          })),
+    // Create order and items and update product quantities in a transaction
+    const order = await this.db.$transaction(async (tx) => {
+      // Update product quantities
+      for (const item of itemsWithProductData) {
+        await tx.product.update({
+          where: { id: item.productId },
+          data: {
+            quantity: {
+              decrement: item.quantity,
+            },
+          },
+        });
+      }
+
+      // Create the order
+      return tx.order.create({
+        data: {
+          userId: user.id,
+          status: 'PENDING',
+          estimatedWeight,
+          gstAmount,
+          deliveryCharges,
+          otherCharges,
+          roundOff,
+          subtotal,
+          totalAmount,
+          orderItems: {
+            create: itemsWithProductData.map((item) => ({
+              productId: item.productId,
+              quantity: item.quantity,
+              unitPrice: item.unitPrice,
+              totalWeight: item.totalWeight,
+              totalPrice: item.totalPrice,
+            })),
+          },
+          shippingAddress: buyer?.address ?? '',
+          shippingDistrict: buyer?.district ?? '',
+          shippingState: buyer?.state ?? '',
+          shippingPincode: buyer?.pincode ?? '',
+          shippingPhone: buyer?.phone ?? '',
+          shippingEmail: buyer?.email ?? '',
         },
-        shippingAddress: buyer?.address ?? '',
-        shippingDistrict: buyer?.district ?? '',
-        shippingState: buyer?.state ?? '',
-        shippingPincode: buyer?.pincode ?? '',
-        shippingPhone: buyer?.phone ?? '',
-        shippingEmail: buyer?.email ?? '',
-      },
-      include: {
-        orderItems: {
-          include: {
-            product: {
-              include: {
-                brandMark: true,
+        include: {
+          orderItems: {
+            include: {
+              product: {
+                include: {
+                  brandMark: true,
+                },
               },
             },
           },
         },
-      },
+      });
     });
 
     // Clear cart
@@ -309,6 +343,7 @@ export class BuyerService {
         businessName: buyer?.businessName ?? '',
         ownerName: buyer?.ownerName ?? '',
         transportName: buyer?.transportName ?? '',
+        gstNumber: buyer?.gstNumber ?? '',
       },
       orderItems: order.orderItems.map((oi) => ({
         ...oi,
@@ -362,6 +397,7 @@ export class BuyerService {
         businessName: order.user.buyerProfile?.businessName ?? '',
         ownerName: order.user.buyerProfile?.ownerName ?? '',
         transportName: order.user.buyerProfile?.transportName ?? '',
+        gstNumber: order.user.buyerProfile?.gstNumber ?? '',
       },
       orderItems: order.orderItems.map((oi) => ({
         ...oi,
@@ -415,6 +451,7 @@ export class BuyerService {
         businessName: order.user.buyerProfile?.businessName ?? '',
         ownerName: order.user.buyerProfile?.ownerName ?? '',
         transportName: order.user.buyerProfile?.transportName ?? '',
+        gstNumber: order.user.buyerProfile?.gstNumber ?? '',
       },
       orderItems: order.orderItems.map((oi) => ({
         ...oi,

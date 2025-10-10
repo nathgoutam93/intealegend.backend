@@ -10,6 +10,7 @@ export declare const BrandMarkSchema: z.ZodObject<{
     sellerId: z.ZodNumber;
     createdAt: z.ZodDate;
     updatedAt: z.ZodDate;
+    origin: z.ZodNullable<z.ZodString>;
 }, "strip", z.ZodTypeAny, {
     status: "PENDING" | "APPROVED" | "REJECTED";
     id: number;
@@ -21,6 +22,7 @@ export declare const BrandMarkSchema: z.ZodObject<{
     isDefault: boolean;
     verifiedAt: Date | null;
     sellerId: number;
+    origin: string | null;
 }, {
     status: "PENDING" | "APPROVED" | "REJECTED";
     id: number;
@@ -32,5 +34,6 @@ export declare const BrandMarkSchema: z.ZodObject<{
     isDefault: boolean;
     verifiedAt: Date | null;
     sellerId: number;
+    origin: string | null;
 }>;
 export type BrandMark = z.infer<typeof BrandMarkSchema>;

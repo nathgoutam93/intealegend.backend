@@ -26,6 +26,7 @@ exports.OrderSchema = zod_1.default.object({
         businessName: true,
         ownerName: true,
         transportName: true,
+        gstNumber: true,
     }),
     status: zod_1.default
         .enum([
@@ -46,7 +47,9 @@ exports.OrderSchema = zod_1.default.object({
     roundOff: zod_1.default.number().nullable(),
     orderItems: zod_1.default.array(exports.OrderItemSchema),
     invoice: zod_1.default.string().nullable(),
+    invoice_url: zod_1.default.string().nullable(),
     cn: zod_1.default.string().nullable(),
+    cn_url: zod_1.default.string().nullable(),
     transport: zod_1.default.string().nullable(),
     shippingAddress: zod_1.default.string(),
     shippingState: zod_1.default.string(),

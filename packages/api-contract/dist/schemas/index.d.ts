@@ -5,4 +5,5 @@ import { OrderItemSchema, OrderSchema } from "./order";
 import { AdminStatsSchema } from "./admin";
 import { SellerStatsSchema } from "./seller";
 import { ErrorSchema, LoginResponseSchema } from "./common";
-export { UserSchema, PendingUserSchema, ErrorSchema, LoginResponseSchema, BuyerProfileSchema, SellerProfileSchema, AdminProfileSchema, StaffProfileSchema, AdminStatsSchema, SellerStatsSchema, ProductSchema, OrderItemSchema, OrderSchema, };
+import { ForgotPasswordRequestSchema, ForgotPasswordResponseSchema, ResetPasswordRequestSchema, ResetPasswordResponseSchema } from "./common";
+export { UserSchema, PendingUserSchema, ErrorSchema, LoginResponseSchema, BuyerProfileSchema, SellerProfileSchema, AdminProfileSchema, StaffProfileSchema, AdminStatsSchema, SellerStatsSchema, ProductSchema, OrderItemSchema, OrderSchema, ForgotPasswordRequestSchema, ForgotPasswordResponseSchema, ResetPasswordRequestSchema, ResetPasswordResponseSchema, };

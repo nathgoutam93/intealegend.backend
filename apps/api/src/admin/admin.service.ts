@@ -1,4 +1,9 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { PrismaClient, Prisma } from '@intealegend/database';
 import { PRISMA_TOKEN } from 'src/database/constants';
 import { generateUniqueIdentifier } from 'src/utils/identifier';
@@ -127,7 +132,9 @@ export class AdminService {
           id: true,
           email: true,
           role: true,
+          superSeller: true,
           verified: true,
+          isSuspended: true,
           createdAt: true,
           uniqueIdentifier: true,
           updatedAt: true,
@@ -193,9 +200,32 @@ export class AdminService {
   async verifyRegistrations(userIds: number[]) {
     const verifiedUsers = await Promise.all(
       userIds.map(async (userId) => {
-        const uniqueIdentifier = await generateUniqueIdentifier();
+        const user = await this.db.user.findUnique({
+          where: {
+            id: userId,
+          },
+          include: {
+            buyerProfile: true,
+            sellerProfile: true,
+          },
+        });
 
-        const user = await this.db.user.update({
+        if (user == null) return;
+
+        let state = user.buyerProfile?.state ?? user.sellerProfile?.state;
+        let businessName =
+          user.buyerProfile?.businessName ?? user.sellerProfile?.businessName;
+        let district =
+          user.buyerProfile?.district ?? user.sellerProfile?.district;
+
+        const uniqueIdentifier = await generateUniqueIdentifier(
+          state!,
+          district!,
+          businessName!,
+          user.id,
+        );
+
+        await this.db.user.update({
           where: { id: userId },
           data: {
             verified: true,
@@ -222,10 +252,48 @@ export class AdminService {
     };
   }
 
+  async deleteRegistrations(userIds: number[]) {
+    await this.db.$transaction([
+      // Delete seller profiles for seller users
+      this.db.sellerProfile.deleteMany({
+        where: {
+          userId: {
+            in: userIds,
+          },
+        },
+      }),
+      // Delete buyer profiles for buyer users
+      this.db.buyerProfile.deleteMany({
+        where: {
+          userId: {
+            in: userIds,
+          },
+        },
+      }),
+      // Delete the users themselves
+      this.db.user.deleteMany({
+        where: {
+          id: {
+            in: userIds,
+          },
+        },
+      }),
+    ]);
+
+    return {
+      message: 'Users deleted successfully',
+      deletedUsers: userIds.length,
+    };
+  }
+
   async updateProduct(id: number, data: any) {
     const product = await this.db.product.update({
       where: { id },
-      data,
+      data: {
+        ...data,
+        isLive:
+          data?.status === 'REJECTED' ? false : (data?.isLive ?? undefined),
+      },
       include: {
         brandMark: true,
       },
@@ -235,6 +303,41 @@ export class AdminService {
       ...product,
       pricePerUnit: product.pricePerUnit.toNumber(),
     };
+  }
+
+  async toggleUserBan(userId: number) {
+    const user = await this.db.user.findFirst({
+      where: {
+        id: userId,
+      },
+      select: {
+        isSuspended: true,
+      },
+    });
+
+    if (!user) {
+      throw new BadRequestException('invalid user id');
+    }
+
+    const updatedUser = await this.db.user.update({
+      where: { id: userId },
+      data: {
+        isSuspended: !user?.isSuspended,
+      },
+      select: {
+        id: true,
+        email: true,
+        role: true,
+        superSeller: true,
+        verified: true,
+        isSuspended: true,
+        uniqueIdentifier: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+
+    return updatedUser;
   }
 
   async getProduct(id: number) {
@@ -385,6 +488,7 @@ export class AdminService {
           businessName: order.user.buyerProfile?.businessName ?? '',
           ownerName: order.user.buyerProfile?.ownerName ?? '',
           transportName: order.user.buyerProfile?.transportName ?? '',
+          gstNumber: order.user.buyerProfile?.gstNumber ?? '',
         },
       })),
       total,
@@ -426,6 +530,7 @@ export class AdminService {
         businessName: order.user.buyerProfile?.businessName ?? '',
         ownerName: order.user.buyerProfile?.ownerName ?? '',
         transportName: order.user.buyerProfile?.transportName ?? '',
+        gstNumber: order.user.buyerProfile?.gstNumber ?? '',
       },
       orderItems: order.orderItems.map((oi) => ({
         ...oi,
@@ -455,6 +560,7 @@ export class AdminService {
         | 'ON_WAY'
         | 'DELIVERED'
         | 'CANCELLED';
+      invoice?: string | null;
       cn?: string | null;
       transport?: string | null;
       deliveryCharges?: number | null;
@@ -469,6 +575,9 @@ export class AdminService {
       }),
       ...(data.otherCharges !== undefined && {
         otherCharges: new Prisma.Decimal(data.otherCharges || 0),
+      }),
+      ...(data.invoice !== undefined && {
+        invoice: data.invoice || '',
       }),
       ...(data.cn !== undefined && {
         cn: data.cn || '',
@@ -501,15 +610,15 @@ export class AdminService {
         },
       });
 
-      // If status is being updated to ACCEPTED, deduct quantities from products
-      if (data.status === 'ACCEPTED') {
+      // If status is being updated to CANCELLED, restock the quantities
+      if (data.status === 'CANCELLED') {
         await Promise.all(
           updatedOrder.orderItems.map((item) =>
             tx.product.update({
               where: { id: item.productId },
               data: {
                 quantity: {
-                  decrement: item.quantity,
+                  increment: item.quantity,
                 },
               },
             }),
@@ -537,11 +646,12 @@ export class AdminService {
         businessName: order.user.buyerProfile?.businessName ?? '',
         ownerName: order.user.buyerProfile?.ownerName ?? '',
         transportName: order.user.buyerProfile?.transportName ?? '',
+        gstNumber: order.user.buyerProfile?.gstNumber ?? '',
       },
     };
   }
 
-  async uploadInvoice(orderId: number, invoice: string) {
+  async uploadInvoice(orderId: number, invoice_url: string) {
     const order = await this.db.order.findUnique({
       where: { id: orderId },
     });
@@ -553,7 +663,7 @@ export class AdminService {
     const updated_order = await this.db.order.update({
       where: { id: orderId },
       data: {
-        invoice,
+        invoice_url,
       },
       include: {
         user: {
@@ -588,6 +698,65 @@ export class AdminService {
         businessName: updated_order.user.buyerProfile?.businessName ?? '',
         ownerName: updated_order.user.buyerProfile?.ownerName ?? '',
         transportName: updated_order.user.buyerProfile?.transportName ?? '',
+        gstNumber: updated_order.user.buyerProfile?.gstNumber ?? '',
+      },
+      subtotal: order.subtotal.toNumber(),
+      totalAmount: order.totalAmount.toNumber(),
+      deliveryCharges: order.deliveryCharges?.toNumber() ?? null,
+      gstAmount: order.gstAmount.toNumber(),
+      otherCharges: order.otherCharges?.toNumber() ?? null,
+      roundOff: order.roundOff?.toNumber() ?? null,
+    };
+  }
+
+  async uploadCn(orderId: number, cn_url: string) {
+    const order = await this.db.order.findUnique({
+      where: { id: orderId },
+    });
+
+    if (!order) {
+      throw new NotFoundException('Order not found');
+    }
+    // Update order with invoice URL
+    const updated_order = await this.db.order.update({
+      where: { id: orderId },
+      data: {
+        cn_url,
+      },
+      include: {
+        user: {
+          include: {
+            buyerProfile: true,
+          },
+        },
+        orderItems: {
+          include: {
+            product: {
+              include: {
+                brandMark: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    return {
+      ...updated_order,
+      orderItems: updated_order.orderItems.map((i) => ({
+        ...i,
+        product: {
+          ...i.product,
+          pricePerUnit: i.product.pricePerUnit.toNumber(),
+        },
+        unitPrice: i.unitPrice.toNumber(),
+        totalPrice: i.totalPrice.toNumber(),
+      })),
+      buyer: {
+        businessName: updated_order.user.buyerProfile?.businessName ?? '',
+        ownerName: updated_order.user.buyerProfile?.ownerName ?? '',
+        transportName: updated_order.user.buyerProfile?.transportName ?? '',
+        gstNumber: updated_order.user.buyerProfile?.gstNumber ?? '',
       },
       subtotal: order.subtotal.toNumber(),
       totalAmount: order.totalAmount.toNumber(),

@@ -12,6 +12,7 @@ export const BrandMarkSchema = z.object({
   sellerId: z.number(),
   createdAt: z.date(),
   updatedAt: z.date(),
+  origin: z.string().nullable(),
 });
 
 export type BrandMark = z.infer<typeof BrandMarkSchema>;

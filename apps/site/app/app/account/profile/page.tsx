@@ -28,7 +28,7 @@ export default function ProfilePage() {
         <div className="space-y-4">
           <div className="grid gap-2">
             <h3 className="text-lg font-medium">Business Information</h3>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid md:grid-cols-2 gap-4">
               <div>
                 <p className="text-sm text-muted-foreground">Owner</p>
                 <p>{data.body.ownerName}</p>
