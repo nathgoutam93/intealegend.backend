@@ -31,7 +31,11 @@ export default function RouteComponent() {
   const loginMutation = client.auth.login.useMutation({
     onSuccess: (response) => {
       // Update Zustand store instead of localStorage
-      setAuth(response.body.accessToken, response.body.user as any);
+      setAuth(
+        response.body.accessToken,
+        response.body.refreshToken,
+        response.body.user as any
+      );
 
       toast.success("Login successful");
       navigate({ to: "/app" });

@@ -34,7 +34,20 @@ export const authRouter = c.router({
       401: ErrorSchema,
     },
   },
-
+  refreshToken: {
+    method: "POST",
+    path: "/auth/refresh",
+    body: z.object({
+      refresh: z.string(),
+    }),
+    responses: {
+      200: LoginResponseSchema.omit({
+        user: true,
+      }),
+      400: ErrorSchema,
+      401: ErrorSchema,
+    },
+  },
   login: {
     method: "POST",
     path: "/auth/login",

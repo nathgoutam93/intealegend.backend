@@ -82,6 +82,86 @@ export declare const authRouter: {
             }>;
         };
     };
+    refreshToken: {
+        method: "POST";
+        body: z.ZodObject<{
+            refresh: z.ZodString;
+        }, "strip", z.ZodTypeAny, {
+            refresh: string;
+        }, {
+            refresh: string;
+        }>;
+        path: "/auth/refresh";
+        responses: {
+            200: z.ZodObject<Omit<{
+                accessToken: z.ZodString;
+                refreshToken: z.ZodString;
+                user: z.ZodObject<{
+                    id: z.ZodNumber;
+                    email: z.ZodString;
+                    role: z.ZodEnum<["SELLER", "BUYER", "ADMIN", "STAFF"]>;
+                    superSeller: z.ZodBoolean;
+                    verified: z.ZodBoolean;
+                    isSuspended: z.ZodBoolean;
+                    uniqueIdentifier: z.ZodNullable<z.ZodString>;
+                    createdAt: z.ZodDate;
+                    updatedAt: z.ZodDate;
+                }, "strip", z.ZodTypeAny, {
+                    email: string;
+                    id: number;
+                    createdAt: Date;
+                    updatedAt: Date;
+                    role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                    superSeller: boolean;
+                    verified: boolean;
+                    isSuspended: boolean;
+                    uniqueIdentifier: string | null;
+                }, {
+                    email: string;
+                    id: number;
+                    createdAt: Date;
+                    updatedAt: Date;
+                    role: "SELLER" | "BUYER" | "ADMIN" | "STAFF";
+                    superSeller: boolean;
+                    verified: boolean;
+                    isSuspended: boolean;
+                    uniqueIdentifier: string | null;
+                }>;
+            }, "user">, "strip", z.ZodTypeAny, {
+                accessToken: string;
+                refreshToken: string;
+            }, {
+                accessToken: string;
+                refreshToken: string;
+            }>;
+            400: z.ZodObject<{
+                message: z.ZodString;
+                code: z.ZodString;
+                timestamp: z.ZodString;
+            }, "strip", z.ZodTypeAny, {
+                code: string;
+                message: string;
+                timestamp: string;
+            }, {
+                code: string;
+                message: string;
+                timestamp: string;
+            }>;
+            401: z.ZodObject<{
+                message: z.ZodString;
+                code: z.ZodString;
+                timestamp: z.ZodString;
+            }, "strip", z.ZodTypeAny, {
+                code: string;
+                message: string;
+                timestamp: string;
+            }, {
+                code: string;
+                message: string;
+                timestamp: string;
+            }>;
+        };
+    };
     login: {
         method: "POST";
         body: z.ZodObject<{

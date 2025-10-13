@@ -28,6 +28,20 @@ exports.authRouter = c.router({
             401: schemas_1.ErrorSchema,
         },
     },
+    refreshToken: {
+        method: "POST",
+        path: "/auth/refresh",
+        body: zod_1.default.object({
+            refresh: zod_1.default.string(),
+        }),
+        responses: {
+            200: schemas_1.LoginResponseSchema.omit({
+                user: true,
+            }),
+            400: schemas_1.ErrorSchema,
+            401: schemas_1.ErrorSchema,
+        },
+    },
     login: {
         method: "POST",
         path: "/auth/login",

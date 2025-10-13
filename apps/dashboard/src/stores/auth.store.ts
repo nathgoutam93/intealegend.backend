@@ -8,8 +8,9 @@ interface Buyer extends User {
 
 interface AuthState {
   accessToken: string | null;
+  refreshToken: string | null;
   user: Buyer | null;
-  setAuth: (accessToken: string, user: Buyer) => void;
+  setAuth: (accessToken: string, refreshToken: string, user: Buyer) => void;
   clearAuth: () => void;
 }
 
@@ -17,8 +18,10 @@ export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
       accessToken: null,
+      refreshToken: null,
       user: null,
-      setAuth: (accessToken, user) => set({ accessToken, user }),
+      setAuth: (accessToken, refreshToken, user) =>
+        set({ accessToken, refreshToken, user }),
       clearAuth: () => set({ accessToken: null, user: null }),
     }),
     {

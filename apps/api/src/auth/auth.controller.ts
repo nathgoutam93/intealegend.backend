@@ -53,6 +53,28 @@ export class AuthController {
     );
   }
 
+  @TsRestHandler(contract.auth.refreshToken)
+  async refresh() {
+    return tsRestHandler(
+      contract.auth.refreshToken,
+      async ({ body }: { body: { refresh: string } }) => {
+        try {
+          const result = await this.authService.refreshTokens(body.refresh);
+          return { status: 200, body: result };
+        } catch (error) {
+          return {
+            status: 401,
+            body: {
+              message: error.message,
+              code: 'UNAUTHORIZED',
+              timestamp: new Date().toISOString(),
+            },
+          };
+        }
+      },
+    );
+  }
+
   @TsRestHandler(contract.auth.register)
   @UseInterceptors(FileFieldsInterceptor(FILE_FIELDS))
   async register(
