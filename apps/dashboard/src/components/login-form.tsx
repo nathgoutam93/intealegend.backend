@@ -23,7 +23,11 @@ export function LoginForm() {
 
   const loginMutation = client.auth.adminLogin.useMutation({
     onSuccess: (response) => {
-      setAuth(response.body.accessToken, response.body.user as any);
+      setAuth(
+        response.body.accessToken,
+        response.body.refreshToken,
+        response.body.user as any
+      );
 
       toast.success("Login successful");
       navigate({ to: "/app" });

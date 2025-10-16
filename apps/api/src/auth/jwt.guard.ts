@@ -63,8 +63,8 @@ export class JwtGuard implements CanActivate {
       console.log('user', user);
 
       request['user'] = user;
-    } catch {
-      throw new UnauthorizedException();
+    } catch (e) {
+      throw new UnauthorizedException(e.message);
     }
 
     return true;
