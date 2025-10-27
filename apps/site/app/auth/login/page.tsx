@@ -28,7 +28,11 @@ export default function LoginPage() {
 
   const loginMutation = client.auth.login.useMutation({
     onSuccess: (response) => {
-      setAuth(response.body.accessToken, response.body.user as any);
+      setAuth(
+        response.body.accessToken,
+        response.body.refreshToken,
+        response.body.user as any
+      );
       toast.success("Login successful");
       router.push("/app/explore");
     },

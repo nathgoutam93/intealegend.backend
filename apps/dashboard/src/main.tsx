@@ -64,7 +64,7 @@ const queryClient = new QueryClient({
     mutations: {
       onError: async (error: any) => {
         console.error("Global query error:", error);
-        if (error?.message === "invalid token") {
+        if (["invalid token", "jwt expired"].includes(error?.message)) {
           await refreshToken();
         }
       },
@@ -86,7 +86,7 @@ queryClient.getQueryCache().subscribe(() => {
     if (
       error &&
       (error as any).body &&
-      (error as any).body.message === "invalid token"
+      ["invalid token", "jwt expired"].includes(error?.message)
     ) {
       refreshToken().catch((e) => console.error(e));
     }
